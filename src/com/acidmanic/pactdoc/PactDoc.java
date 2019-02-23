@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc;
 
 import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
@@ -23,15 +24,30 @@ public class PactDoc {
         // TODO code application logic here
 
         
-        String path = "data/dotnetdesktop-posts_api_-_posts.json";
+        ContractIndexer indexer = new ContractIndexer();
         
-        ObjectMapper objectMapper = new ObjectMapper();
-    
-        Contract contract = Contract.load(path);
-    
-        String json = objectMapper.writeValueAsString(contract);
+        indexer.index("data/");
         
-        System.out.println(json);
+        System.out.println("Services:");
+        
+        for(String service : indexer.getServices()){
+            
+            System.out.println("Service:");
+            
+            for(Contract contract:indexer.getContracts(service)){
+                System.out.println("\tAPI:"+contract.getConsumer().getName());
+                System.out.println("\t"+contract.getInteractions().get(0).getDescription());
+                System.out.println("\tRequest:" );
+                System.out.println(contract.getInteractions().get(0).getRequest());
+                System.out.println("\tResponse:" );
+                System.out.println(contract.getInteractions().get(0).getResponse());
+                
+                
+            }
+        }
+        
+        
+        
          
          
     }

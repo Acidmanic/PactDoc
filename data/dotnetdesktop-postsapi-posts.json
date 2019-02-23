@@ -3,7 +3,7 @@
     "name": "DotNetDesktop"
   },
   "provider": {
-    "name": "Posts API - Posts"
+    "name": "PostsAPI-Posts"
   },
   "interactions": [
     {
