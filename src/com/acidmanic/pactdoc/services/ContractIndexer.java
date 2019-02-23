@@ -21,8 +21,12 @@ public class ContractIndexer {
     
     private final HashMap<String,List<Contract>> contracts;
 
+    private ContractContentIndexer contentIndexer;
+    
     public ContractIndexer() {
         this.contracts = new HashMap<>();
+        
+        this.contentIndexer = new NullContractContentIndexer();
     }
     
     public void index(String directory){
@@ -61,7 +65,7 @@ public class ContractIndexer {
                 this.contracts.put(serviceName, list);
             }
             
-            
+            this.contentIndexer.index(serviceName, conventionedContract);
             
         }
     }
@@ -84,4 +88,15 @@ public class ContractIndexer {
         
         return new ArrayList<>();
     }
+
+    public ContractContentIndexer getContentIndexer() {
+        return contentIndexer;
+    }
+
+    public void setContentIndexer(ContractContentIndexer contentIndexer) {
+        this.contentIndexer = contentIndexer;
+    }
+    
+    
+    
 }
