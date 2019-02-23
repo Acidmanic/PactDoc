@@ -6,12 +6,16 @@
 package com.acidmanic.pactdoc;
 
 import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.models.ConventionedContract;
 import com.acidmanic.pactdoc.models.Request;
 import com.acidmanic.pactdoc.models.Response;
+import com.acidmanic.pactdoc.services.ContractContentIndexer;
 import com.acidmanic.pactdoc.services.ContractIndexer;
+import com.acidmanic.pactdoc.services.HashContractContentIndexer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -27,6 +31,10 @@ public class PactDoc {
 
         
         ContractIndexer indexer = new ContractIndexer();
+        
+        ContractContentIndexer contentIndexer = new HashContractContentIndexer();
+        
+        indexer.setContentIndexer(contentIndexer);
         
         indexer.index("data/");
         
@@ -58,6 +66,21 @@ public class PactDoc {
             }
         }
         
+        
+        List<ConventionedContract> result = indexer.getContentIndexer().searchForWord("DB");
+        
+        System.out.println("*******             Search result               **********");
+        
+        for(ConventionedContract contract:result){
+            
+            System.out.println("Contract: " + contract.getServiceName()
+             + " - " + contract.getApiName());
+            System.out.println("\t"+ contract.getInteractions().get(0).getRequest().getMethod()
+                +   "\t"+contract.getInteractions().get(0).getRequest().getPath());
+            System.out.println("\tResponse Code: "+ contract.getInteractions().get(0).getResponse().getStatus());
+            System.out.println("");
+            
+        }
         
         
          
