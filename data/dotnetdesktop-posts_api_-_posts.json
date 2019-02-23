@@ -1,0 +1,44 @@
+{
+  "consumer": {
+    "name": "DotNetDesktop"
+  },
+  "provider": {
+    "name": "Posts API - Posts"
+  },
+  "interactions": [
+    {
+      "description": "A GET Request to /Posts",
+      "providerState": "We have two posts in DB",
+      "request": {
+        "method": "get",
+        "path": "/Posts",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "Id": 1004,
+            "Title": "Title-First",
+            "Description": "This is first mocked Post."
+          },
+          {
+            "Id": 1005,
+            "Title": "Title-Second",
+            "Description": "This is second mocked Post."
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "1.0.0"
+    }
+  }
+}

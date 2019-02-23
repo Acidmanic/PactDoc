@@ -1,0 +1,35 @@
+{
+  "consumer": {
+    "name": "DotNetDesktop"
+  },
+  "provider": {
+    "name": "Posts API - PostById"
+  },
+  "interactions": [
+    {
+      "description": "A GET Request to /Posts/10024",
+      "providerState": "We have a post in DB with id 10024",
+      "request": {
+        "method": "get",
+        "path": "/Posts/10024",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "Id": 10024
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "1.0.0"
+    }
+  }
+}
