@@ -11,10 +11,14 @@ import com.acidmanic.pactdoc.models.Request;
 import com.acidmanic.pactdoc.models.Response;
 import com.acidmanic.pactdoc.services.ContractContentIndexer;
 import com.acidmanic.pactdoc.services.ContractIndexer;
+import com.acidmanic.pactdoc.services.ContractMarkDown;
 import com.acidmanic.pactdoc.services.HashContractContentIndexer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 /**
@@ -38,7 +42,12 @@ public class PactDoc {
         
         indexer.index("data/");
         
+        ContractMarkDown markDown = new ContractMarkDown();
+        
+        
         System.out.println("Services:");
+        
+        
         
         for(String service : indexer.getServices()){
             
@@ -62,7 +71,9 @@ public class PactDoc {
                 System.out.println("\t\tHeaders:"+res.getHeaders());
                 System.out.println("\t\tBody:"+res.getBody());
                                 
+                String md = markDown.getMarkDown(contract);
                 
+                write(md,"build/"+contract.getProvider().getName()+".md");
             }
         }
         
@@ -70,6 +81,8 @@ public class PactDoc {
         List<ConventionedContract> result = indexer.getContentIndexer().searchForWord("DB");
         
         System.out.println("*******             Search result               **********");
+        
+        
         
         for(ConventionedContract contract:result){
             
@@ -80,11 +93,27 @@ public class PactDoc {
             System.out.println("\tResponse Code: "+ contract.getInteractions().get(0).getResponse().getStatus());
             System.out.println("");
             
+            
         }
         
         
          
          
+    }
+
+    private static void write(String md, String path) {
+        try {
+            
+            File f = new File(path);
+            
+            if(f.exists()){
+                f.delete();
+            }
+            
+            Files.write(Paths.get(path),md.getBytes() , StandardOpenOption.CREATE_NEW);
+            
+        } catch (Exception e) {
+        }
     }
     
 }
