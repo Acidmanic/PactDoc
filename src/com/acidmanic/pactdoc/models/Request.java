@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc.models;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.util.HashMap;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Request {
     private String method;
     private String path;
     
-    private Object headers;
+    private HashMap<String,String> headers;
 
     public Request() {
     }
@@ -40,11 +41,11 @@ public class Request {
     }
 
     @JsonRawValue
-    public String getHeaders() {
-        return headers==null?null:this.headers.toString();
+    public HashMap<String,String> getHeaders() {
+        return headers;
     }
 
-    public void setHeaders(JsonNode headers) {
+    public void setHeaders(HashMap<String,String> headers) {
         this.headers = headers;
     }
     
