@@ -20,7 +20,7 @@ public class Interaction {
     
     private String providerState;
     
-    private Object request;
+    private Request request;
     
     private Object response;
 
@@ -43,19 +43,19 @@ public class Interaction {
         this.providerState = providerState;
     }
 
-    @JsonRawValue
-    public String getRequest() {
-        return request==null?null:request.toString();
+    
+    public Request getRequest() {
+        return request;
     }
 
     
-    public void setRequest(JsonNode request) {
+    public void setRequest(Request request) {
         this.request = request;
     }
 
     @JsonRawValue
     public String getResponse() {
-        return response==null?null:response.toString();
+        return response==null?null:request.toString();
     }
 
     public void setResponse(JsonNode response) {
