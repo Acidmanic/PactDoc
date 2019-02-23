@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.Request;
+import com.acidmanic.pactdoc.models.Response;
 import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -37,15 +38,22 @@ public class PactDoc {
             
             for(Contract contract:indexer.getContracts(service)){
                 System.out.println("\tAPI:"+contract.getConsumer().getName());
+                
                 System.out.println("\t"+contract.getInteractions().get(0).getDescription());
                 System.out.println("\tRequest:" );
                 Request req = contract.getInteractions().get(0).getRequest();
+                
                 System.out.println("\t\tMethod:"+req.getMethod());
                 System.out.println("\t\tPath:"+req.getPath());
                 System.out.println("\t\tHeaders:"+req.getHeaders());
-                System.out.println("\tResponse:" );
-                System.out.println(contract.getInteractions().get(0).getResponse());
                 
+                System.out.println("\tResponse:" );
+                Response res = contract.getInteractions().get(0).getResponse();
+                
+                System.out.println("\t\tStatus:"+res.getStatus());
+                System.out.println("\t\tHeaders:"+res.getHeaders());
+                System.out.println("\t\tBody:"+res.getBody());
+                                
                 
             }
         }

@@ -22,7 +22,7 @@ public class Interaction {
     
     private Request request;
     
-    private Object response;
+    private Response response;
 
     public Interaction() {
     }
@@ -53,12 +53,12 @@ public class Interaction {
         this.request = request;
     }
 
-    @JsonRawValue
-    public String getResponse() {
-        return response==null?null:request.toString();
+
+    public Response getResponse() {
+        return response;
     }
 
-    public void setResponse(JsonNode response) {
+    public void setResponse(Response response) {
         this.response = response;
     }
 
