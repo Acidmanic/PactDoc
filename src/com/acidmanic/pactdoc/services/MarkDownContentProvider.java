@@ -56,6 +56,10 @@ public class MarkDownContentProvider implements ContentProvider{
             sb.append("\n");
         }
         
+        sb.append("\n\n").append("_______\n\n")
+                .append("[Back to **Index**](")
+                .append(glossary.link("")).append(")\n");
+        
         return sb.toString();
     }
     
