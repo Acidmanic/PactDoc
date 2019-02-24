@@ -36,7 +36,7 @@ public class MarkDownContentProvider implements ContentProvider{
             return contentFor((String) contentKey, glossary);
         }
         if(contentKey instanceof ConventionedContract){
-            return contentFor((ConventionedContract) contentKey);
+            return contentFor((ConventionedContract) contentKey,glossary);
         }
         return CONTENT_NOT_FOUND;
     }
@@ -59,10 +59,21 @@ public class MarkDownContentProvider implements ContentProvider{
         return sb.toString();
     }
     
-    private String contentFor(ConventionedContract contract) {
+    private String contentFor(ConventionedContract contract,Glossary glossary) {
         ContractMarkDown markDown = new ContractMarkDown();
         
-        return markDown.getMarkDown(contract);
+        String ret = markDown.getMarkDown(contract);
+        
+        
+        String service = contractIndexer.getParentService(contract);
+        
+        if(service!=null){
+            ret += "\n\n_____\n\n"
+                    + "[Back to **"+service+"**]("
+                    + glossary.link(service)+")\n\n";
+        }
+        
+        return ret;
     }
 
     private String homeContent(Glossary glossary) {

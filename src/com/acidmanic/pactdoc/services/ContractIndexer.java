@@ -20,13 +20,16 @@ public class ContractIndexer {
     
     
     private final HashMap<String,List<Contract>> contracts;
-
+    private final HashMap<String,String> services;
+    
     private ContractContentIndexer contentIndexer;
     
     public ContractIndexer() {
         this.contracts = new HashMap<>();
         
         this.contentIndexer = new NullContractContentIndexer();
+        
+        this.services = new HashMap<>();
     }
     
     public void indexDirectory(String directory){
@@ -80,6 +83,7 @@ public class ContractIndexer {
             
             this.contentIndexer.index(serviceName, conventionedContract);
             
+            this.services.put(getContractKey(contract), serviceName);
         }
     }
     
@@ -110,6 +114,19 @@ public class ContractIndexer {
         this.contentIndexer = contentIndexer;
     }
     
+    public String getParentService(Contract contract){
+        String key = getContractKey(contract);
+        if(this.services.containsKey(key)){
+            return this.services.get(key);
+        }
+        return null;
+    }
+
+    private String getContractKey(Contract contract) {
+        return contract.getProvider().getName().toLowerCase() + ":" +
+                contract.getMetadata().getPactSpecification()
+                .getVersion().toLowerCase();
+    }
     
     
 }
