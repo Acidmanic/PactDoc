@@ -12,6 +12,7 @@ import com.acidmanic.pactdoc.models.Response;
 import com.acidmanic.pactdoc.services.ContractContentIndexer;
 import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.ContractMarkDown;
+import com.acidmanic.pactdoc.services.GitLabWikiGenerator;
 import com.acidmanic.pactdoc.services.HashContractContentIndexer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -42,78 +43,9 @@ public class PactDoc {
         
         indexer.index("data/");
         
-        ContractMarkDown markDown = new ContractMarkDown();
         
+        GitLabWikiGenerator wikiGenerator = new GitLabWikiGenerator(indexer, "Api");
         
-        System.out.println("Services:");
-        
-        
-        
-        for(String service : indexer.getServices()){
-            
-            System.out.println("Service:");
-            
-            for(Contract contract:indexer.getContracts(service)){
-                System.out.println("\tAPI:"+contract.getConsumer().getName());
-                
-                System.out.println("\t"+contract.getInteractions().get(0).getDescription());
-                System.out.println("\tRequest:" );
-                Request req = contract.getInteractions().get(0).getRequest();
-                
-                System.out.println("\t\tMethod:"+req.getMethod());
-                System.out.println("\t\tPath:"+req.getPath());
-                System.out.println("\t\tHeaders:"+req.getHeaders());
-                
-                System.out.println("\tResponse:" );
-                Response res = contract.getInteractions().get(0).getResponse();
-                
-                System.out.println("\t\tStatus:"+res.getStatus());
-                System.out.println("\t\tHeaders:"+res.getHeaders());
-                System.out.println("\t\tBody:"+res.getBody());
-                                
-                String md = markDown.getMarkDown(contract);
-                
-                write(md,"build/"+contract.getProvider().getName()+".md");
-            }
-        }
-        
-        
-        List<ConventionedContract> result = indexer.getContentIndexer().searchForWord("DB");
-        
-        System.out.println("*******             Search result               **********");
-        
-        
-        
-        for(ConventionedContract contract:result){
-            
-            System.out.println("Contract: " + contract.getServiceName()
-             + " - " + contract.getApiName());
-            System.out.println("\t"+ contract.getInteractions().get(0).getRequest().getMethod()
-                +   "\t"+contract.getInteractions().get(0).getRequest().getPath());
-            System.out.println("\tResponse Code: "+ contract.getInteractions().get(0).getResponse().getStatus());
-            System.out.println("");
-            
-            
-        }
-        
-        
-         
-         
+        wikiGenerator.generate("build");
     }
-
-    private static void write(String md, String path) {
-        try {
-            
-            File f = new File(path);
-            
-            if(f.exists()){
-                f.delete();
-            }
-            
-            Files.write(Paths.get(path),md.getBytes() , StandardOpenOption.CREATE_NEW);
-            
-        } catch (Exception e) {
-        }
-    }
-    
 }
