@@ -18,6 +18,7 @@ public class Request {
     
     private String method;
     private String path;
+    private Object body;
     
     private HashMap<String,String> headers;
 
@@ -47,6 +48,15 @@ public class Request {
 
     public void setHeaders(HashMap<String,String> headers) {
         this.headers = headers;
+    }
+
+    @JsonRawValue
+    public String getBody() {
+        return body==null?null:body.toString();
+    }
+
+    public void setBody(JsonNode body) {
+        this.body = body;
     }
     
     

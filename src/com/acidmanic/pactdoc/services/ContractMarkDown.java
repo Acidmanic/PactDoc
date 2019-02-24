@@ -31,14 +31,21 @@ public class ContractMarkDown {
             sb.append("If ").append(inter.getProviderState())
                 .append(", an http __").append(inter.getRequest().getMethod().toUpperCase())
                 .append("__ Request to _").append(inter.getRequest().getPath()).append("_");
+            
             if(!inter.getRequest().getHeaders().isEmpty()){
                 sb.append(", with headers: \n");
-                appendTable(sb,inter.getRequest().getHeaders());
+                appendTable(sb,inter.getRequest().getHeaders()).append("\n");
+            }
+            
+            if(inter.getRequest().getBody()!=null){
+               sb.append("\n").append("with body:\n```json\n")
+                       .append(pritifyJson(inter.getRequest().getBody()))
+                       .append("\n```").append("\n");
             }
 
             sb.append("\nWill receive a response with status code: __")
                     .append(inter.getResponse().getStatus())
-                    .append("__");
+                    .append("__").append("\n");
 
             if(!inter.getResponse().getHeaders().isEmpty()){
                 sb.append(", with headers: \n");
@@ -48,7 +55,7 @@ public class ContractMarkDown {
             if(inter.getResponse().getBody()!=null){
                sb.append("\n").append("with body:\n```json\n")
                        .append(pritifyJson(inter.getResponse().getBody()))
-                       .append("\n```");
+                       .append("\n```").append("\n");
             }
         }
                 
@@ -78,14 +85,14 @@ public class ContractMarkDown {
             if(ch=='{' || ch == '[' ){
                 sb.append(ch);
                 indent+=1;
-                postIndent(sb,indent);
+                appendIndentedLine(sb,indent);
             }else if(ch=='}' || ch ==']'){
                 indent -=1;
-                postIndent(sb,indent);
+                appendIndentedLine(sb,indent);
                 sb.append(ch);
             }else if ( ch == ','){
                 sb.append(ch);
-                postIndent(sb,indent);
+                appendIndentedLine(sb,indent);
             }else{
                 sb.append(ch);
             }
@@ -95,7 +102,7 @@ public class ContractMarkDown {
     }
 
    
-    private StringBuilder postIndent(StringBuilder sb,int indent) {
+    private StringBuilder appendIndentedLine(StringBuilder sb,int indent) {
         
         sb.append("\n");
         

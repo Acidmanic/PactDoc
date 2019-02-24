@@ -25,6 +25,22 @@
           "Id": 10024
         }
       }
+    },
+    {
+      "description": "A GET Request to /Posts/10024",
+      "providerState": "No Such as requested post in database",
+      "request": {
+        "method": "get",
+        "path": "/Posts/10024",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
     }
   ],
   "metadata": {
