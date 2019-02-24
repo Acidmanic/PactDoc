@@ -29,13 +29,26 @@ public class ContractIndexer {
         this.contentIndexer = new NullContractContentIndexer();
     }
     
-    public void index(String directory){
+    public void indexDirectory(String directory){
         File dir = new File(directory);
         
         File[] files = dir.listFiles();
         
         for(File file : files){
-            if(file.getName().endsWith(".json")){
+            index(file);
+        }
+    }
+    
+    public void index(String filePath){
+        File file = new File(filePath);
+        
+        if(file.exists()){
+            index(file);
+        }
+    }
+    
+    public void index(File file){
+        if(file.getName().endsWith(".json")){
                 try {
                     Contract contract = Contract.load(file.getAbsolutePath());
                     
@@ -44,8 +57,8 @@ public class ContractIndexer {
                 } catch (Exception e) {
                 }
             }
-        }
     }
+    
     public void index(Contract contract){
         
         ConventionedContract conventionedContract = new ConventionedContract(contract);

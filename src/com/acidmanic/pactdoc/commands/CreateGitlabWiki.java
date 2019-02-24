@@ -63,7 +63,10 @@ public class CreateGitlabWiki extends CommandBase{
             Files.walkFileTree(root.toPath(), new SimpleFileVisitor() {
                 @Override
                 public void onFile(Path path) {
-                    indexer.index(path.toAbsolutePath().toString());
+                    if(path.toString().endsWith(".json")){
+                        System.out.println(path.toAbsolutePath().toString());
+                        indexer.index(path.toAbsolutePath().toString());
+                    }
                 }
             });
         } catch (IOException ex) {}
