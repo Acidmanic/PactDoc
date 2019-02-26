@@ -11,33 +11,28 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class PactsRoot extends MarkdownWikiArgBase{
+public class DocumentsSubDirectory extends MarkdownWikiArgBase {
 
     
     @Override
     protected String getUsageString() {
-        return "Sets the root directory for pact file search. any pact file "
-                + " within this directory or its sub directories will be added"
-                + " to wiki.";
+        return "This will set a sub directory, to put documents in it. its usefull, "
+                + "for when the API documents are just a sub section of the whole"
+                + " wiki.";
     }
+
+  
 
     @Override
     protected void update(MarkdownWikiParameters params) {
-        if(noArguments()){
-            params.setPactsRoot(".");
-        }else{
-            params.setPactsRoot(args[0]);
-        }
+        params.setDocumentsSubDirectory(args[0]);
     }
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        if(noArguments()){
-            return new ArgumentValidationResult(0);
-        }else{
-            return new ArgumentValidationResult(1);
-        }
+        return new ArgumentValidationResult(1);
     }
-
+    
+    
     
 }

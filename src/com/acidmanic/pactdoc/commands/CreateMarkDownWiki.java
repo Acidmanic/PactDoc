@@ -5,7 +5,12 @@
  */
 package com.acidmanic.pactdoc.commands;
 
+
+import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
+import acidmanic.commandline.utility.ArgumentValidationResult;
+import com.acidmanic.pactdoc.commands.createmarkdownwiki.CMDTypeRegistery;
+import com.acidmanic.pactdoc.commands.createmarkdownwiki.MarkdownWikiParameters;
 import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.MarkDownWikiGenerator;
 import com.acidmanic.pactdoc.utility.SimpleFileVisitor;
@@ -19,38 +24,36 @@ import java.nio.file.Path;
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class CreateMarkDownWiki extends CommandBase{
+    
+    private MarkdownWikiParameters parameters = new MarkdownWikiParameters();
 
+    private ExecutionEnvironment environment = new ExecutionEnvironment(new CMDTypeRegistery());
+    
     @Override
     protected String getUsageString() {
         return "This command will scan recursively all files inside "
-                + "<pacts-root-directory> to find any pact json available. then"
-                + "will create a static md-based wiki in the <docs-directory>"
+                + "pacts directory to find any pact json available. then"
+                + "will create a static md-based wiki in the documents directory"
                 + " <sub-wiki-directory> is an optional argument, if provided, all "
                 + "documents generated will be placed and linked regarding this base"
                 + " directory.";
-    }
-
-    @Override
-    protected String declareArguments() {
-        return "<pacts-root-directory> <docs-directory> [<sub-wiki-directory>]";
     }
     
     
 
     @Override
     public void execute() {
-        if(noArguments(2)){
-            argumentError();
-            return;
+        
+        if (!environment.isHelpExecuted()){
+        
+            ContractIndexer indexer = scanForAllContracts(parameters.getPactsRoot());
+
+            MarkDownWikiGenerator generator = new MarkDownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
+
+            generator.setGenerateFilesWithExtension(parameters.isExtensionForMarkDownFiles());
+
+            generator.generate(parameters.getOutputDirectory());
         }
-        
-        String linkBase = args.length>2?args[2]:"";
-        
-        ContractIndexer indexer = scanForAllContracts(args[0]);
-        
-        MarkDownWikiGenerator generator = new MarkDownWikiGenerator(indexer, linkBase);
-        
-        generator.generate(args[1]);
     }
 
     private ContractIndexer scanForAllContracts(String rootDirectory) {
@@ -73,5 +76,18 @@ public class CreateMarkDownWiki extends CommandBase{
         
         return indexer;
     }
+
+    @Override
+    public ArgumentValidationResult validateArguments() {
+        
+        
+        environment.getDataRepository().set("params", parameters);
+        
+        environment.execute(args);
+        
+        return new ArgumentValidationResult(environment.getNumberOfExecutedCommands());
+    }
+
+    
     
 }

@@ -11,22 +11,21 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class PactsRoot extends MarkdownWikiArgBase{
+public class OutputDirectory extends MarkdownWikiArgBase {
 
-    
+
     @Override
     protected String getUsageString() {
-        return "Sets the root directory for pact file search. any pact file "
-                + " within this directory or its sub directories will be added"
-                + " to wiki.";
+        return "Selects a directory to put all generated docs in it.";
     }
 
     @Override
     protected void update(MarkdownWikiParameters params) {
         if(noArguments()){
-            params.setPactsRoot(".");
+            log("Output directory has been defaulted to <out>");
+            params.setOutputDirectory("out");
         }else{
-            params.setPactsRoot(args[0]);
+            params.setOutputDirectory(args[0]);
         }
     }
 
@@ -38,6 +37,7 @@ public class PactsRoot extends MarkdownWikiArgBase{
             return new ArgumentValidationResult(1);
         }
     }
-
+    
+    
     
 }

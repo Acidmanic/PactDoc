@@ -5,9 +5,8 @@
  */
 package com.acidmanic.pactdoc;
 
-import acidmanic.commandline.commands.ApplicationWideCommandFactory;
+import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.ApplicationWideTypeRegistery;
-import acidmanic.commandline.commands.ICommand;
 import com.acidmanic.pactdoc.commands.CreateMarkDownWiki;
 
 /**
@@ -24,10 +23,9 @@ public class PactDoc {
 
         ApplicationWideTypeRegistery.makeInstance().registerClass(CreateMarkDownWiki.class);
         
+        ExecutionEnvironment environment = new ExecutionEnvironment();
         
-        ICommand command = ApplicationWideCommandFactory.makeInstance().makeCommand(args);
-        
-        command.execute();
+        environment.execute(args);
     }
     
 }
