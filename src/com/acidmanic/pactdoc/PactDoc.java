@@ -8,7 +8,7 @@ package com.acidmanic.pactdoc;
 import acidmanic.commandline.commands.ApplicationWideCommandFactory;
 import acidmanic.commandline.commands.ApplicationWideTypeRegistery;
 import acidmanic.commandline.commands.ICommand;
-import com.acidmanic.pactdoc.commands.CreateGitlabWiki;
+import com.acidmanic.pactdoc.commands.CreateMarkDownWiki;
 
 /**
  *
@@ -22,7 +22,7 @@ public class PactDoc {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        ApplicationWideTypeRegistery.makeInstance().registerClass(CreateGitlabWiki.class);
+        ApplicationWideTypeRegistery.makeInstance().registerClass(CreateMarkDownWiki.class);
         
         
         ICommand command = ApplicationWideCommandFactory.makeInstance().makeCommand(args);

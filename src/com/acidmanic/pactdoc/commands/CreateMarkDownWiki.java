@@ -7,7 +7,7 @@ package com.acidmanic.pactdoc.commands;
 
 import acidmanic.commandline.commands.CommandBase;
 import com.acidmanic.pactdoc.services.ContractIndexer;
-import com.acidmanic.pactdoc.services.GitLabWikiGenerator;
+import com.acidmanic.pactdoc.services.MarkDownWikiGenerator;
 import com.acidmanic.pactdoc.utility.SimpleFileVisitor;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.nio.file.Path;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class CreateGitlabWiki extends CommandBase{
+public class CreateMarkDownWiki extends CommandBase{
 
     @Override
     protected String getUsageString() {
@@ -48,7 +48,7 @@ public class CreateGitlabWiki extends CommandBase{
         
         ContractIndexer indexer = scanForAllContracts(args[0]);
         
-        GitLabWikiGenerator generator = new GitLabWikiGenerator(indexer, linkBase);
+        MarkDownWikiGenerator generator = new MarkDownWikiGenerator(indexer, linkBase);
         
         generator.generate(args[1]);
     }

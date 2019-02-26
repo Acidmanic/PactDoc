@@ -13,17 +13,25 @@ import java.nio.file.Paths;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class GitLabWikiGenerator extends WikiGeneratorBase{
+public class MarkDownWikiGenerator extends WikiGeneratorBase{
     
     
     private final ContractIndexer indexer;
     private final String linksBase;
-
-    public GitLabWikiGenerator(ContractIndexer indexer, String linkBase) {
-        this.indexer = indexer;
-        this.linksBase = linkBase;
-    }
     
+    private boolean generateFilesWithExtension;
+
+    public MarkDownWikiGenerator(ContractIndexer indexer, String linksBase, boolean generateFilesWithExtension) {
+        this.indexer = indexer;
+        this.linksBase = linksBase;
+        this.generateFilesWithExtension = generateFilesWithExtension;
+    }
+
+    public MarkDownWikiGenerator(ContractIndexer indexer, String linksBase) {
+        this.indexer = indexer;
+        this.linksBase = linksBase;
+        this.generateFilesWithExtension=false;
+    }
     
 
 
@@ -61,12 +69,20 @@ public class GitLabWikiGenerator extends WikiGeneratorBase{
 
     @Override
     protected boolean linksContainFileExtensions() {
-        return false;
+        return generateFilesWithExtension;
     }
 
     @Override
     protected ContentProvider getContentProvider() {
         return new MarkDownContentProvider(indexer);
+    }
+
+    public boolean isGenerateFilesWithExtension() {
+        return generateFilesWithExtension;
+    }
+
+    public void setGenerateFilesWithExtension(boolean generateFilesWithExtension) {
+        this.generateFilesWithExtension = generateFilesWithExtension;
     }
     
     
