@@ -3,9 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services;
+package com.acidmanic.pactdoc.services.wikigenerators;
 
+import com.acidmanic.pactdoc.services.wikigenerators.WikiGeneratorBase;
+import com.acidmanic.pactdoc.services.contentproviders.MarkDownContentProvider;
+import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
 import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.services.ContractIndexer;
+import com.acidmanic.pactdoc.services.Glossary;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

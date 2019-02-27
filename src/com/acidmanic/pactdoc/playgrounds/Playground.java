@@ -7,7 +7,7 @@ package com.acidmanic.pactdoc.playgrounds;
 
 import com.acidmanic.pactdoc.services.ContractContentIndexer;
 import com.acidmanic.pactdoc.services.ContractIndexer;
-import com.acidmanic.pactdoc.services.MarkDownWikiGenerator;
+import com.acidmanic.pactdoc.services.wikigenerators.MarkDownWikiGenerator;
 import com.acidmanic.pactdoc.services.HashContractContentIndexer;
 import java.io.IOException;
 

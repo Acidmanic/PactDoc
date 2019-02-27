@@ -12,7 +12,7 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.createmarkdownwiki.CMDTypeRegistery;
 import com.acidmanic.pactdoc.commands.createmarkdownwiki.MarkdownWikiParameters;
 import com.acidmanic.pactdoc.services.ContractIndexer;
-import com.acidmanic.pactdoc.services.MarkDownWikiGenerator;
+import com.acidmanic.pactdoc.services.wikigenerators.MarkDownWikiGenerator;
 import com.acidmanic.pactdoc.utility.SimpleFileVisitor;
 import java.io.File;
 import java.io.IOException;
