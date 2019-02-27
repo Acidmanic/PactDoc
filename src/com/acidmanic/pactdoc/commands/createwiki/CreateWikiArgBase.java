@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.createmarkdownwiki;
+package com.acidmanic.pactdoc.commands.createwiki;
 
 import acidmanic.commandline.commandnames.DoubleDashedSnakeCaseNameGenerator;
 import acidmanic.commandline.commands.CommandBase;
@@ -12,29 +12,29 @@ import acidmanic.commandline.commands.CommandBase;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public  abstract class MarkdownWikiArgBase extends CommandBase{
+public  abstract class CreateWikiArgBase extends CommandBase{
 
-    public MarkdownWikiArgBase() {
+    public CreateWikiArgBase() {
         setNameGenerator(new DoubleDashedSnakeCaseNameGenerator(this.getClass()));
     }
 
     
     @Override
     protected String getUsageString() {
-        return "This will set the '" + this.getName() + "' Parameter for Markdown"
+        return "This will set the '" + this.getClass().getSimpleName()+ "' Parameter for Markdown"
                 + " wiki generation.";
     }
 
     @Override
     public void execute() {
-        MarkdownWikiParameters params = this.getExecutionEnvironment()
+        CreateWikiParameters params = this.getExecutionEnvironment()
                 .getDataRepository().get("params");
         
         update(params);
         
     }
     
-    protected abstract void update(MarkdownWikiParameters params);
+    protected abstract void update(CreateWikiParameters params);
     
     
 }

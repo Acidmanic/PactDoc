@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.createmarkdownwiki;
+package com.acidmanic.pactdoc.commands.createwiki;
 
 import acidmanic.commandline.utility.ArgumentValidationResult;
 
@@ -11,7 +11,7 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class APIsSubDir extends MarkdownWikiArgBase {
+public class APIsSubDir extends CreateWikiArgBase {
 
     
     @Override
@@ -24,7 +24,7 @@ public class APIsSubDir extends MarkdownWikiArgBase {
   
 
     @Override
-    protected void update(MarkdownWikiParameters params) {
+    protected void update(CreateWikiParameters params) {
         if(!noArguments()){
             params.setDocumentsSubDirectory(args[0]);
         }

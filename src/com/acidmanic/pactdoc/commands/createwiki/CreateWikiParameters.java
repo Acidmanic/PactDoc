@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.createmarkdownwiki;
+package com.acidmanic.pactdoc.commands.createwiki;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class MarkdownWikiParameters {
+public class CreateWikiParameters {
 
     
     private String pactsRoot;
@@ -18,14 +18,21 @@ public class MarkdownWikiParameters {
     
     private String documentsSubDirectory;
     
+    private String httpRepo;
+    
+    private String userName;
+    
+    private String password;
+    
     private boolean extensionForMarkDownFiles;
 
-    public MarkdownWikiParameters() {
+    public CreateWikiParameters() {
         this.pactsRoot=".";
         this.outputDirectory="wiki";
         this.documentsSubDirectory="Api";
         this.extensionForMarkDownFiles=false;
     
+        
     }
     
     
@@ -60,6 +67,30 @@ public class MarkdownWikiParameters {
 
     public void setExtensionForMarkDownFiles(boolean extensionForMarkDownFiles) {
         this.extensionForMarkDownFiles = extensionForMarkDownFiles;
+    }
+
+    public String getHttpRepo() {
+        return httpRepo;
+    }
+
+    public void setHttpRepo(String httpRepo) {
+        this.httpRepo = httpRepo;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     

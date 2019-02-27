@@ -9,8 +9,8 @@ package com.acidmanic.pactdoc.commands;
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pactdoc.commands.createmarkdownwiki.CMDTypeRegistery;
-import com.acidmanic.pactdoc.commands.createmarkdownwiki.MarkdownWikiParameters;
+import com.acidmanic.pactdoc.commands.createwiki.CreateMarkdownWikiTypeRegistery;
+import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
 import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
 import com.acidmanic.pactdoc.utility.SimpleFileVisitor;
@@ -25,9 +25,9 @@ import java.nio.file.Path;
  */
 public class CreateMarkdownWiki extends CommandBase{
     
-    private final MarkdownWikiParameters parameters = new MarkdownWikiParameters();
+    private final CreateWikiParameters parameters = new CreateWikiParameters();
 
-    private final ExecutionEnvironment environment = new ExecutionEnvironment(new CMDTypeRegistery());
+    private final ExecutionEnvironment environment = new ExecutionEnvironment(new CreateMarkdownWikiTypeRegistery());
     
     @Override
     protected String getUsageString() {

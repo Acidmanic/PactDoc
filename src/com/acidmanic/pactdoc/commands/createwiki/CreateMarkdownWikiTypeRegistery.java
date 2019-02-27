@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.createmarkdownwiki;
+package com.acidmanic.pactdoc.commands.createwiki;
 
 import acidmanic.commandline.commands.TypeRegistery;
 
@@ -11,9 +11,9 @@ import acidmanic.commandline.commands.TypeRegistery;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class CMDTypeRegistery extends TypeRegistery{
+public class CreateMarkdownWikiTypeRegistery extends TypeRegistery{
 
-        public CMDTypeRegistery() {
+        public CreateMarkdownWikiTypeRegistery() {
             registerClass(AddExtensions.class);
             registerClass(Output.class);
             registerClass(APIsSubDir.class);
