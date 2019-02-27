@@ -67,7 +67,6 @@ public class CreateMarkDownWiki extends CommandBase{
                 @Override
                 public void onFile(Path path) {
                     if(path.toString().endsWith(".json")){
-                        System.out.println(path.toAbsolutePath().toString());
                         indexer.index(path.toAbsolutePath().toString());
                     }
                 }
