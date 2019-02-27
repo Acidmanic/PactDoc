@@ -15,8 +15,8 @@ public class CMDTypeRegistery extends TypeRegistery{
 
         public CMDTypeRegistery() {
             registerClass(AddExtensions.class);
-            registerClass(OutputDirectory.class);
-            registerClass(DocumentsSubDirectory.class);
+            registerClass(Output.class);
+            registerClass(APIsSubDir.class);
             registerClass(PactsRoot.class);
         }
         

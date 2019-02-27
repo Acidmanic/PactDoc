@@ -11,7 +11,7 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class OutputDirectory extends MarkdownWikiArgBase {
+public class Output extends MarkdownWikiArgBase {
 
 
     @Override
