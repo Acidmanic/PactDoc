@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.createmarkdownwiki;
 
+import acidmanic.commandline.commandnames.DoubleDashedSnakeCaseNameGenerator;
 import acidmanic.commandline.commands.CommandBase;
 
 /**
@@ -13,7 +14,10 @@ import acidmanic.commandline.commands.CommandBase;
  */
 public  abstract class MarkdownWikiArgBase extends CommandBase{
 
-    
+    public MarkdownWikiArgBase() {
+        setNameGenerator(new DoubleDashedSnakeCaseNameGenerator(this.getClass()));
+    }
+
     
     @Override
     protected String getUsageString() {
@@ -27,9 +31,6 @@ public  abstract class MarkdownWikiArgBase extends CommandBase{
                 .getDataRepository().get("params");
         
         update(params);
-        
-        this.getExecutionEnvironment()
-                .getDataRepository().set("params", params);
         
     }
     

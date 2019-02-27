@@ -19,6 +19,14 @@ public class MarkdownWikiParameters {
     private String documentsSubDirectory;
     
     private boolean extensionForMarkDownFiles;
+
+    public MarkdownWikiParameters() {
+        this.pactsRoot=".";
+        this.outputDirectory="wiki";
+        this.documentsSubDirectory="Api";
+        this.extensionForMarkDownFiles=false;
+    
+    }
     
     
     

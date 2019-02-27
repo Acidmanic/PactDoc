@@ -22,8 +22,7 @@ public class OutputDirectory extends MarkdownWikiArgBase {
     @Override
     protected void update(MarkdownWikiParameters params) {
         if(noArguments()){
-            log("Output directory has been defaulted to <out>");
-            params.setOutputDirectory("out");
+            log("Output directory has been defaulted to " + params.getOutputDirectory());
         }else{
             params.setOutputDirectory(args[0]);
         }

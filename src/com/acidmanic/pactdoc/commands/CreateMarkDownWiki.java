@@ -25,18 +25,15 @@ import java.nio.file.Path;
  */
 public class CreateMarkDownWiki extends CommandBase{
     
-    private MarkdownWikiParameters parameters = new MarkdownWikiParameters();
+    private final MarkdownWikiParameters parameters = new MarkdownWikiParameters();
 
-    private ExecutionEnvironment environment = new ExecutionEnvironment(new CMDTypeRegistery());
+    private final ExecutionEnvironment environment = new ExecutionEnvironment(new CMDTypeRegistery());
     
     @Override
     protected String getUsageString() {
         return "This command will scan recursively all files inside "
                 + "pacts directory to find any pact json available. then"
-                + "will create a static md-based wiki in the documents directory"
-                + " <sub-wiki-directory> is an optional argument, if provided, all "
-                + "documents generated will be placed and linked regarding this base"
-                + " directory.";
+                + "will create a static md-based wiki in the documents directory";
     }
     
     

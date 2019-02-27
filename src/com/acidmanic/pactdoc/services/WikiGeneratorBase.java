@@ -29,7 +29,7 @@ public abstract class WikiGeneratorBase {
     public void generate(String destinationDirectory) {
         Glossary glossary = createGlossary();
         
-        final String extension = this.linksContainFileExtensions()?"":".md";
+        final String extension = this.linksContainFileExtensions()?".md":"";
         
         final Path baseDirectory = Paths.get(destinationDirectory);
         

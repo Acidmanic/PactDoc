@@ -24,7 +24,8 @@ public class PactsRoot extends MarkdownWikiArgBase{
     @Override
     protected void update(MarkdownWikiParameters params) {
         if(noArguments()){
-            params.setPactsRoot(".");
+            warning("Pacts root for search has been defaulted to " +
+                    params.getPactsRoot());
         }else{
             params.setPactsRoot(args[0]);
         }

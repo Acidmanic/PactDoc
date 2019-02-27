@@ -25,12 +25,17 @@ public class DocumentsSubDirectory extends MarkdownWikiArgBase {
 
     @Override
     protected void update(MarkdownWikiParameters params) {
-        params.setDocumentsSubDirectory(args[0]);
+        if(!noArguments()){
+            params.setDocumentsSubDirectory(args[0]);
+        }
     }
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        return new ArgumentValidationResult(1);
+        if(!noArguments()){
+            return new ArgumentValidationResult(1);    
+        }
+        return new ArgumentValidationResult(0);
     }
     
     

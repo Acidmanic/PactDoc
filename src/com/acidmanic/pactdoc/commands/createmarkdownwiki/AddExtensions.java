@@ -5,6 +5,8 @@
  */
 package com.acidmanic.pactdoc.commands.createmarkdownwiki;
 
+import acidmanic.commandline.utility.ArgumentValidationResult;
+
 
 
 /**
@@ -18,6 +20,20 @@ public class AddExtensions extends MarkdownWikiArgBase{
         params.setExtensionForMarkDownFiles(true);
     }
 
+    @Override
+    protected String getUsageString() {
+        return "By providing this argument, generated Markdown files will have "
+                + ".md extrnsion.";
+    }
 
+    @Override
+    public ArgumentValidationResult validateArguments() {
+        return new ArgumentValidationResult(0);
+    }
+
+    
+
+    
+    
     
 }
