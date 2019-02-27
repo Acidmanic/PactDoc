@@ -18,12 +18,12 @@ import java.util.List;
  * 
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class MarkDownContentProvider implements ContentProvider{
+public class MarkdownContentProvider implements ContentProvider{
     
     
     private final ContractIndexer contractIndexer;
 
-    public MarkDownContentProvider(ContractIndexer contractIndexer) {
+    public MarkdownContentProvider(ContractIndexer contractIndexer) {
         this.contractIndexer = contractIndexer;
     }
     

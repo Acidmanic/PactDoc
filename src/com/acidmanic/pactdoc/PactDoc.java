@@ -7,7 +7,7 @@ package com.acidmanic.pactdoc;
 
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.ApplicationWideTypeRegistery;
-import com.acidmanic.pactdoc.commands.CreateMarkDownWiki;
+import com.acidmanic.pactdoc.commands.CreateMarkdownWiki;
 
 /**
  *
@@ -21,7 +21,7 @@ public class PactDoc {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        ApplicationWideTypeRegistery.makeInstance().registerClass(CreateMarkDownWiki.class);
+        ApplicationWideTypeRegistery.makeInstance().registerClass(CreateMarkdownWiki.class);
         
         ExecutionEnvironment environment = new ExecutionEnvironment();
         

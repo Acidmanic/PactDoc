@@ -6,7 +6,7 @@
 package com.acidmanic.pactdoc.services.wikigenerators;
 
 import com.acidmanic.pactdoc.services.wikigenerators.WikiGeneratorBase;
-import com.acidmanic.pactdoc.services.contentproviders.MarkDownContentProvider;
+import com.acidmanic.pactdoc.services.contentproviders.MarkdownContentProvider;
 import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.ContractIndexer;
@@ -18,7 +18,7 @@ import java.nio.file.Paths;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class MarkDownWikiGenerator extends WikiGeneratorBase{
+public class MarkdownWikiGenerator extends WikiGeneratorBase{
     
     
     private final ContractIndexer indexer;
@@ -26,13 +26,13 @@ public class MarkDownWikiGenerator extends WikiGeneratorBase{
     
     private boolean generateFilesWithExtension;
 
-    public MarkDownWikiGenerator(ContractIndexer indexer, String linksBase, boolean generateFilesWithExtension) {
+    public MarkdownWikiGenerator(ContractIndexer indexer, String linksBase, boolean generateFilesWithExtension) {
         this.indexer = indexer;
         this.linksBase = linksBase;
         this.generateFilesWithExtension = generateFilesWithExtension;
     }
 
-    public MarkDownWikiGenerator(ContractIndexer indexer, String linksBase) {
+    public MarkdownWikiGenerator(ContractIndexer indexer, String linksBase) {
         this.indexer = indexer;
         this.linksBase = linksBase;
         this.generateFilesWithExtension=false;
@@ -79,7 +79,7 @@ public class MarkDownWikiGenerator extends WikiGeneratorBase{
 
     @Override
     protected ContentProvider getContentProvider() {
-        return new MarkDownContentProvider(indexer);
+        return new MarkdownContentProvider(indexer);
     }
 
     public boolean isGenerateFilesWithExtension() {

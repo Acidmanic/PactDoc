@@ -12,7 +12,7 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.createmarkdownwiki.CMDTypeRegistery;
 import com.acidmanic.pactdoc.commands.createmarkdownwiki.MarkdownWikiParameters;
 import com.acidmanic.pactdoc.services.ContractIndexer;
-import com.acidmanic.pactdoc.services.wikigenerators.MarkDownWikiGenerator;
+import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
 import com.acidmanic.pactdoc.utility.SimpleFileVisitor;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.nio.file.Path;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class CreateMarkDownWiki extends CommandBase{
+public class CreateMarkdownWiki extends CommandBase{
     
     private final MarkdownWikiParameters parameters = new MarkdownWikiParameters();
 
@@ -45,7 +45,7 @@ public class CreateMarkDownWiki extends CommandBase{
         
             ContractIndexer indexer = scanForAllContracts(parameters.getPactsRoot());
 
-            MarkDownWikiGenerator generator = new MarkDownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
+            MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
 
             generator.setGenerateFilesWithExtension(parameters.isExtensionForMarkDownFiles());
 

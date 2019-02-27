@@ -7,7 +7,7 @@ package com.acidmanic.pactdoc.playgrounds;
 
 import com.acidmanic.pactdoc.services.ContractContentIndexer;
 import com.acidmanic.pactdoc.services.ContractIndexer;
-import com.acidmanic.pactdoc.services.wikigenerators.MarkDownWikiGenerator;
+import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
 import com.acidmanic.pactdoc.services.HashContractContentIndexer;
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ public class Playground {
         indexer.index("data/");
         
         
-        MarkDownWikiGenerator wikiGenerator = new MarkDownWikiGenerator(indexer, "Api");
+        MarkdownWikiGenerator wikiGenerator = new MarkdownWikiGenerator(indexer, "Api");
         
         wikiGenerator.generate("build");
     }
