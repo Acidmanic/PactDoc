@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services;
 
+import com.acidmanic.io.file.FileIOHelper;
 import com.acidmanic.io.file.FileSystemHelper;
 import com.acidmanic.utilities.Bash;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -26,9 +28,17 @@ public class JGitTest {
     String privateRepo ="git@gitlab.com:Acidmanic/podpodekhamir.git";
     String directory = "container";
     Path directoryPath = Paths.get(directory);
+    
+    private final String username;
+    private final String password;
+    
+    
     public JGitTest() {
         new FileSystemHelper().clearDirectory(directory);
-    
+        
+        List<String> cred = new FileIOHelper().tryReadAllLines("cred");
+        username = cred.get(0);
+        password = cred.get(1);
     }
 
     @Ignore
@@ -47,7 +57,7 @@ public class JGitTest {
     public void testCloneUsernamePassword() {
         JGit git  = new JGit();
         
-        git.clone(privateRepo,"Acidmanic","neverLABagain", directory);
+        git.clone(privateRepo,username,password, directory);
         
         Assert.assertTrue(directoryPath.resolve(".git").toFile().exists());
         
@@ -79,7 +89,7 @@ public class JGitTest {
         
         JGit git = new JGit();
         
-        git.clone(privateRepo,"Acidmanic","neverLABagain", directory);
+        git.clone(privateRepo,username,password, directory);
         
         makeDummyFile(directory);
         
@@ -87,7 +97,7 @@ public class JGitTest {
         
         git.acceptLocalChanges(directory,commit);
         
-        boolean res = git.push("origin","Acidmanic","neverLABagain", directory);
+        boolean res = git.push("origin",username,password, directory);
         
         Assert.assertTrue(res);
         
