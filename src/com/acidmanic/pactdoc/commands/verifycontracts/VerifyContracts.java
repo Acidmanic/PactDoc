@@ -10,6 +10,9 @@ import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
+import com.acidmanic.pactdoc.logging.Log;
+import com.acidmanic.pactdoc.logging.LogRecord;
+import com.acidmanic.pactdoc.logging.LogTypes;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.utility.PactFiles;
@@ -65,23 +68,35 @@ public class VerifyContracts extends CommandBase {
                 
                 List<Contract> contracts = indexer.getAllContracts();
                 
-                ValidationResult<List<Contract>> validation = 
+                Log verificationResults = 
                         parameters.getContractVerifier()
                         .verify(contracts);
                 
                 
-                validation.getInfos().forEach((String v)-> log(v));
-                validation.getWarnings().forEach((String v)-> warning(v));
-                validation.getErrors().forEach((String v)-> error(v));
+                log(verificationResults);
                 
                 
-                int exitCode = validation.isValid()?0:128;
+                int exitCode = verificationResults.isValid()?0:128;
                 
                 getExecutionEnvironment().setExitCode(exitCode);
             }
         }
     }
 
+    private void log(Log log){
+        for(LogRecord record:log.getRecords()){
+            if (record.getLogType()==LogTypes.Error){
+                error(record.getMessage());
+            }else if (record.getLogType()==LogTypes.Warning){
+                warning(record.getMessage());
+            }else if (record.getLogType()==LogTypes.Info){
+                info(record.getMessage());
+            }else{
+                log(record.getMessage());
+            }
+        }
+    }
+    
     @Override
     public ArgumentValidationResult validateArguments() {
         this.paramsEnvironment.execute(args);

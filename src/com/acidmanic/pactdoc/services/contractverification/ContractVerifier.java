@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.contractverification;
 
-import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
+import com.acidmanic.pactdoc.logging.Log;
 import com.acidmanic.pactdoc.models.Contract;
 import java.util.List;
 
@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface ContractVerifier {
     
-    ValidationResult<List<Contract>> verify(List<Contract> contracts);
+    Log verify(List<Contract> contracts);
     
 }

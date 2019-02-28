@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.contractverification;
 
-import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
+import com.acidmanic.pactdoc.logging.Log;
 import com.acidmanic.pactdoc.models.Contract;
 import java.util.List;
 
@@ -16,12 +16,11 @@ import java.util.List;
 public class DefaulContractVerifier implements ContractVerifier{
 
     @Override
-    public ValidationResult<List<Contract>> verify(List<Contract> contracts) {
-        
-        ValidationResult<List<Contract>> result = new ValidationResult<>();
+    public Log verify(List<Contract> contracts) {
+        Log result = new Log();
         
         for(Contract contract:contracts){
-            result.info("Contract " + contract.getProvider().getName()
+            result.log("Contract " + contract.getProvider().getName()
                     + " with version "
                     + contract.getMetadata().getPactSpecification().getVersion()
                     + " verified.");
@@ -29,9 +28,8 @@ public class DefaulContractVerifier implements ContractVerifier{
         
         result.setValid(true);
         
-        result.setValidatedValue(contracts);
-        
         return result;
     }
+
     
 }
