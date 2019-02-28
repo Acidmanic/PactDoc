@@ -23,7 +23,7 @@ import org.junit.Test;
 public class JGitTest {
     
     String repo ="git@127.0.0.1:/repos/test.git";
-    String privateRepo ="https://gitlab.com/Acidmanic/podpodekhamir.git";
+    String privateRepo ="git@gitlab.com:Acidmanic/podpodekhamir.git";
     String directory = "container";
     Path directoryPath = Paths.get(directory);
     public JGitTest() {

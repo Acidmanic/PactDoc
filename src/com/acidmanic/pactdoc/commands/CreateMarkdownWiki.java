@@ -43,7 +43,7 @@ public class CreateMarkdownWiki extends CommandBase{
 
             MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
 
-            generator.setGenerateFilesWithExtension(parameters.isExtensionForMarkDownFiles());
+            generator.setLinksEndWithFileExtionsion(parameters.isExtensionForMarkDownFiles());
 
             generator.generate(parameters.getOutputDirectory());
         }

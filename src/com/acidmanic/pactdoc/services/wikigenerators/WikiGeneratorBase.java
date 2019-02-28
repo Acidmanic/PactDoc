@@ -25,14 +25,14 @@ public abstract class WikiGeneratorBase {
     
     protected abstract Glossary createGlossary();
     
-    protected abstract boolean linksContainFileExtensions();
+    protected abstract boolean isLinksEndWithFileExtionsion();
     
     protected abstract ContentProvider getContentProvider();
     
     public void generate(String destinationDirectory) {
         Glossary glossary = createGlossary();
         
-        final String extension = this.linksContainFileExtensions()?".md":"";
+        final String extension = this.isLinksEndWithFileExtionsion()?"":".md";
         
         final Path baseDirectory = Paths.get(destinationDirectory);
         

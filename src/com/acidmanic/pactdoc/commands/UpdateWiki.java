@@ -17,6 +17,8 @@ import com.acidmanic.pactdoc.services.JGit;
 import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
 import static com.acidmanic.pactdoc.utility.PactFiles.*;
 import java.util.Date;
+import java.util.function.Predicate;
+import com.acidmanic.pactdoc.utility.Func;
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -31,7 +33,9 @@ public class UpdateWiki extends CommandBase{
         this.parameters = new CreateWikiParameters();
         
         this.parametersEnvironment = new ExecutionEnvironment(new UpdateWikiTypesRegistery());
-            
+        
+        this.parametersEnvironment.getDataRepository()
+                .set("params", this.parameters);
     }
     
     @Override
@@ -51,18 +55,34 @@ public class UpdateWiki extends CommandBase{
             
             JGit git = new JGit();
             
-            if (result.isValid()){
-                
-                cloneGitRepo(parameters);
-                generateWiki(parameters);
-                git.acceptLocalChanges(parameters.getOutputDirectory(), makeCommit());
-                push(parameters);
-                
-            }
-            
             result.getInfos().forEach((String v)-> log(v));
             result.getWarnings().forEach((String v)-> warning(v));
             result.getErrors().forEach((String v)-> error(v));
+            
+            if (result.isValid()){
+                
+                boolean res = logPerformTask("Cloning Wiki Repo",()->cloneGitRepo(parameters)) && 
+                
+                logPerformTask("Updating Wiki Files",()->generateWiki(parameters)) && 
+                
+                logPerformTask("Commiting Changes",()-> 
+                        git.acceptLocalChanges(parameters.getOutputDirectory(), makeCommit())) &&
+                
+                logPerformTask("Updating Remote Wiki",()->push(parameters));
+               
+            }
+            
+            
+        }
+    }
+    
+    private boolean logPerformTask(String titleing, Func<Boolean> task){
+        if(task.perform()){
+            log(titleing+" : OK");
+            return true;
+        }else{
+            error("There was a problem " + titleing);
+            return false;
         }
     }
 
@@ -75,26 +95,27 @@ public class UpdateWiki extends CommandBase{
         
     }
 
-    private void cloneGitRepo(CreateWikiParameters parameters) {
+    private boolean cloneGitRepo(CreateWikiParameters parameters) {
         JGit git = new JGit();
         
         if(parameters.hasValidUserPass()){
-            git.clone(parameters.getRepository(), parameters.getOutputDirectory()
-            ,parameters.getUsername(),parameters.getPassword());
+            return git.clone(parameters.getRepository(), parameters.getUsername()
+                    ,parameters.getPassword(),parameters.getOutputDirectory());
         }else{
-            git.clone(parameters.getRepository(), parameters.getOutputDirectory());
+            return git.clone(parameters.getRepository(), parameters.getOutputDirectory());
         }
         
     }
 
-    private void generateWiki(CreateWikiParameters parameters) {
+    private boolean generateWiki(CreateWikiParameters parameters) {
         ContractIndexer indexer = scanForAllContracts(parameters.getPactsRoot());
 
         MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
 
-        generator.setGenerateFilesWithExtension(parameters.isExtensionForMarkDownFiles());
+        generator.setLinksEndWithFileExtionsion(parameters.isExtensionForMarkDownFiles());
 
         generator.generate(parameters.getOutputDirectory());
+        return true;
     }
 
     private String makeCommit() {
@@ -102,19 +123,18 @@ public class UpdateWiki extends CommandBase{
                 + new Date().toString();
     }
 
-    private void push(CreateWikiParameters parameters) {
+    private boolean push(CreateWikiParameters parameters) {
         JGit git = new JGit();
         
         if(parameters.hasValidUserPass()){
             
-            git.push(parameters.getRemote(), parameters.getUsername(),
+            return git.push(parameters.getRemote(), parameters.getUsername(),
                     parameters.getPassword(), parameters.getOutputDirectory());
             
         }else{
-            git.push(parameters.getRemote(), parameters.getOutputDirectory());
+            return git.push(parameters.getRemote(), parameters.getOutputDirectory());
         }
     }
-    
     
     
     

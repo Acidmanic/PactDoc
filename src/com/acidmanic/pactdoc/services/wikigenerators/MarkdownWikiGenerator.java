@@ -22,19 +22,18 @@ public class MarkdownWikiGenerator extends WikiGeneratorBase{
     
     private final ContractIndexer indexer;
     private final String linksBase;
-    
-    private boolean generateFilesWithExtension;
+    private boolean  linksEndWithFileExtionsion;
 
     public MarkdownWikiGenerator(ContractIndexer indexer, String linksBase, boolean generateFilesWithExtension) {
         this.indexer = indexer;
         this.linksBase = linksBase;
-        this.generateFilesWithExtension = generateFilesWithExtension;
+        this.linksEndWithFileExtionsion = generateFilesWithExtension;
     }
 
     public MarkdownWikiGenerator(ContractIndexer indexer, String linksBase) {
         this.indexer = indexer;
         this.linksBase = linksBase;
-        this.generateFilesWithExtension=false;
+        this.linksEndWithFileExtionsion=false;
     }
     
 
@@ -45,13 +44,15 @@ public class MarkdownWikiGenerator extends WikiGeneratorBase{
         
         Path base = Paths.get(linksBase);
         
+        String extension=linksEndWithFileExtionsion?".md":"";
+        
         /*      Add home        */
         
-        glossary.put(base.resolve("Index").toString(), "");
+        glossary.put(base.resolve("Index"+extension).toString(), "");
         
         /*  Add services links  */
         for(String service:indexer.getServices()){
-            glossary.put( base.resolve(service).toString()
+            glossary.put( base.resolve(service+extension).toString()
                     , service);
         }
         
@@ -59,7 +60,7 @@ public class MarkdownWikiGenerator extends WikiGeneratorBase{
         for(String service:indexer.getServices()){
             for(Contract contract:indexer.getContracts(service)){
                 glossary.put(base.resolve(contract.getProvider()
-                        .getName()).toString(), contract);
+                        .getName()+extension).toString(), contract);
             }
         }
         
@@ -72,8 +73,8 @@ public class MarkdownWikiGenerator extends WikiGeneratorBase{
     }
 
     @Override
-    protected boolean linksContainFileExtensions() {
-        return generateFilesWithExtension;
+    protected boolean isLinksEndWithFileExtionsion() {
+        return linksEndWithFileExtionsion;
     }
 
     @Override
@@ -81,12 +82,9 @@ public class MarkdownWikiGenerator extends WikiGeneratorBase{
         return new MarkdownContentProvider(indexer);
     }
 
-    public boolean isGenerateFilesWithExtension() {
-        return generateFilesWithExtension;
-    }
 
-    public void setGenerateFilesWithExtension(boolean generateFilesWithExtension) {
-        this.generateFilesWithExtension = generateFilesWithExtension;
+    public void setLinksEndWithFileExtionsion(boolean linksEndWithFileExtionsion) {
+        this.linksEndWithFileExtionsion = linksEndWithFileExtionsion;
     }
     
     

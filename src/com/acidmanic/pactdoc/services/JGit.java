@@ -17,19 +17,21 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 public class JGit {
     
     
-    public void acceptLocalChanges(File directory, String commitMessage) {
+    public boolean acceptLocalChanges(File directory, String commitMessage) {
         Git git = tryGetGit(directory);
         if (git != null) {
             try {
                 git.add().addFilepattern(".").call();
                 git.commit().setMessage(commitMessage).call();
+                return true;
             } catch (Exception ex) {
             }
         }
+        return false;
     }
 
-     public void acceptLocalChanges(String directory, String commitMessage) {
-         acceptLocalChanges(new File(directory), commitMessage);
+     public boolean acceptLocalChanges(String directory, String commitMessage) {
+         return acceptLocalChanges(new File(directory), commitMessage);
      }
     
 
@@ -74,8 +76,7 @@ public class JGit {
                 )
                 .call();
             return true;
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { }
        return false;
     }
     
