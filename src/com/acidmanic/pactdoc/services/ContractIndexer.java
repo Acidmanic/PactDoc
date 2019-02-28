@@ -21,7 +21,7 @@ public class ContractIndexer {
     
     private final HashMap<String,List<Contract>> contracts;
     private final HashMap<String,String> services;
-    
+    private final ArrayList<Contract> allContracts;
     private ContractContentIndexer contentIndexer;
     
     public ContractIndexer() {
@@ -30,6 +30,8 @@ public class ContractIndexer {
         this.contentIndexer = new NullContractContentIndexer();
         
         this.services = new HashMap<>();
+        
+        this.allContracts = new ArrayList<>();
     }
     
     public void indexDirectory(String directory){
@@ -85,6 +87,11 @@ public class ContractIndexer {
             
             this.services.put(getContractKey(contract), serviceName);
         }
+        
+        if(!this.allContracts.contains(contract)){
+            this.allContracts.add(contract);    
+        }
+        
     }
     
     
@@ -126,6 +133,10 @@ public class ContractIndexer {
         return contract.getProvider().getName().toLowerCase() + ":" +
                 contract.getMetadata().getPactSpecification()
                 .getVersion().toLowerCase();
+    }
+
+    public List<Contract> getAllContracts() {
+        return (List<Contract>) this.allContracts.clone();
     }
     
     

@@ -10,6 +10,10 @@ import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
+import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.services.ContractIndexer;
+import com.acidmanic.pactdoc.utility.PactFiles;
+import java.util.List;
 
 /**
  *
@@ -56,7 +60,24 @@ public class VerifyContracts extends CommandBase {
             
             if( result.isValid()){
                 
-                getExecutionEnvironment().setExitCode(-1);
+                ContractIndexer indexer = 
+                        PactFiles.scanForAllContracts(parameters.getPactsRoot());
+                
+                List<Contract> contracts = indexer.getAllContracts();
+                
+                ValidationResult<List<Contract>> validation = 
+                        parameters.getContractVerifier()
+                        .verify(contracts);
+                
+                
+                validation.getInfos().forEach((String v)-> log(v));
+                validation.getWarnings().forEach((String v)-> warning(v));
+                validation.getErrors().forEach((String v)-> error(v));
+                
+                
+                int exitCode = validation.isValid()?0:128;
+                
+                getExecutionEnvironment().setExitCode(exitCode);
             }
         }
     }
