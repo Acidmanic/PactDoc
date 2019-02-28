@@ -37,6 +37,10 @@ public class VerifyContractParameterValidator extends ParameterValidator<Verifyi
                     + "contracts will be accepted.");
         }
         
+        result.info("Verfier: " + params.getContractVerifier().getClass()
+            .getSimpleName() + ", is being used for verifications.");
+        
+        
         result.setValidatedValue(params);
         
         return result;

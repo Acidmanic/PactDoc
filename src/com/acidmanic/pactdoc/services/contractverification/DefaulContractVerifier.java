@@ -20,6 +20,13 @@ public class DefaulContractVerifier implements ContractVerifier{
         
         ValidationResult<List<Contract>> result = new ValidationResult<>();
         
+        for(Contract contract:contracts){
+            result.info("Contract " + contract.getProvider().getName()
+                    + " with version "
+                    + contract.getMetadata().getPactSpecification().getVersion()
+                    + " verified.");
+        }
+        
         result.setValid(true);
         
         result.setValidatedValue(contracts);
