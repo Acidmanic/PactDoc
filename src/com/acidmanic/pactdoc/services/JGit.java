@@ -7,13 +7,39 @@ package com.acidmanic.pactdoc.services;
 
 import com.acidmanic.utilities.Bash;
 import java.io.File;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class BashGit {
+public class JGit {
     
+    
+    public void acceptLocalChanges(File directory, String commitMessage) {
+        Git git = tryGetGit(directory);
+        if (git != null) {
+            try {
+                git.add().addFilepattern(".").call();
+                git.commit().setMessage(commitMessage).call();
+            } catch (Exception ex) {
+            }
+        }
+    }
+
+     public void acceptLocalChanges(String directory, String commitMessage) {
+         acceptLocalChanges(new File(directory), commitMessage);
+     }
+    
+
+    private Git tryGetGit(File directory) {
+        try {
+            return Git.open(directory);
+        } catch (Exception e) {
+        }
+        return null;
+    }
     
     private String getDotGitDirectory(String directory){
         return new File(directory).toPath().resolve(".git")
@@ -27,26 +53,55 @@ public class BashGit {
     }
     
     public boolean clone(String repo, String directory){
-        String command = "git clone " + repo + " "+ directory;
-        String res = new Bash().syncRun(command);
-        return (res !=null && res.toLowerCase().endsWith("done."));
+        try {
+            Git.cloneRepository()
+                .setDirectory(new File(directory))
+                .setURI(repo)
+                .call();
+            return true;
+        } catch (Exception e) {
+        }
+       return false;
     }
     
-    public void addAdd(String directory){
-        String command = "git " + forwardGit(directory)+ " add -A --git-directory";
-        new Bash().syncRun(command);
+    public boolean clone(String repo,String username,String password, String directory){
+        try {
+            Git.cloneRepository()
+                .setDirectory(new File(directory))
+                .setURI(repo)
+                .setCredentialsProvider(
+                        new UsernamePasswordCredentialsProvider(username, password)
+                )
+                .call();
+            return true;
+        } catch (Exception e) {
+        }
+       return false;
     }
     
-    public void commit(String message,String directory){
-        String command = "git " + forwardGit(directory)+" commit -m\""
-                + message + "\"";
-        new Bash().asyncRun(command);
-    }
+    
     
     public boolean push(String repo,String directory,String branch){
         String command = "git " + forwardGit(directory)+" push "
                 + repo + " " + branch;
         String res = new Bash().syncRun(command);
         return (res!=null && res.endsWith(" -> "+branch));
+    }
+    
+    public boolean push(String remote,String username,String password, String directory){
+        
+        Git git = tryGetGit(new File(directory));
+        
+        try {
+            git.push().setPushAll()
+                .setRemote(remote)
+                .setCredentialsProvider(
+                        new UsernamePasswordCredentialsProvider(username, password)
+                ).call();
+            return true;
+        } catch (Exception e) {
+            e=e;
+        }
+        return false;
     }
 }
