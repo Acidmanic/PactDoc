@@ -41,7 +41,6 @@ public class JGitTest {
         password = cred.get(1);
     }
 
-    @Ignore
     @Test
     public void testCloneLocal() {
         JGit git  = new JGit();
@@ -52,7 +51,6 @@ public class JGitTest {
         
     }
     
-    @Ignore
     @Test
     public void testCloneUsernamePassword() {
         JGit git  = new JGit();
@@ -64,7 +62,6 @@ public class JGitTest {
     }
 
     
-    @Ignore
     @Test
     public void testAcceptLocalChanges() throws IOException {
         
