@@ -12,7 +12,11 @@ import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
 import com.acidmanic.pactdoc.commands.createwiki.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
-
+import com.acidmanic.pactdoc.services.ContractIndexer;
+import com.acidmanic.pactdoc.services.JGit;
+import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
+import static com.acidmanic.pactdoc.utility.PactFiles.*;
+import java.util.Date;
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -45,8 +49,15 @@ public class UpdateWiki extends CommandBase{
             ValidationResult<CreateWikiParameters> result 
                     = new UpdateWikiAutoValidator().validate(parameters);
             
+            JGit git = new JGit();
+            
             if (result.isValid()){
-                // do the shit
+                
+                cloneGitRepo(parameters);
+                generateWiki(parameters);
+                git.acceptLocalChanges(parameters.getOutputDirectory(), makeCommit());
+                push(parameters);
+                
             }
             
             result.getInfos().forEach((String v)-> log(v));
@@ -62,6 +73,46 @@ public class UpdateWiki extends CommandBase{
         
         return anyAvailable();
         
+    }
+
+    private void cloneGitRepo(CreateWikiParameters parameters) {
+        JGit git = new JGit();
+        
+        if(parameters.hasValidUserPass()){
+            git.clone(parameters.getRepository(), parameters.getOutputDirectory()
+            ,parameters.getUsername(),parameters.getPassword());
+        }else{
+            git.clone(parameters.getRepository(), parameters.getOutputDirectory());
+        }
+        
+    }
+
+    private void generateWiki(CreateWikiParameters parameters) {
+        ContractIndexer indexer = scanForAllContracts(parameters.getPactsRoot());
+
+        MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
+
+        generator.setGenerateFilesWithExtension(parameters.isExtensionForMarkDownFiles());
+
+        generator.generate(parameters.getOutputDirectory());
+    }
+
+    private String makeCommit() {
+        return "Wiki Has been updated via PactDoc application at " 
+                + new Date().toString();
+    }
+
+    private void push(CreateWikiParameters parameters) {
+        JGit git = new JGit();
+        
+        if(parameters.hasValidUserPass()){
+            
+            git.push(parameters.getRemote(), parameters.getUsername(),
+                    parameters.getPassword(), parameters.getOutputDirectory());
+            
+        }else{
+            git.push(parameters.getRemote(), parameters.getOutputDirectory());
+        }
     }
     
     

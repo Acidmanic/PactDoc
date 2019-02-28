@@ -13,11 +13,7 @@ import com.acidmanic.pactdoc.commands.createwiki.CreateMarkdownWikiTypeRegistery
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
 import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
-import com.acidmanic.pactdoc.utility.SimpleFileVisitor;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import static com.acidmanic.pactdoc.utility.PactFiles.*;
 
 /**
  *
@@ -53,25 +49,6 @@ public class CreateMarkdownWiki extends CommandBase{
         }
     }
 
-    private ContractIndexer scanForAllContracts(String rootDirectory) {
-        
-        final ContractIndexer indexer = new ContractIndexer();
-        
-        try {
-            File root = new File(rootDirectory);
-            
-            Files.walkFileTree(root.toPath(), new SimpleFileVisitor() {
-                @Override
-                public void onFile(Path path) {
-                    if(path.toString().endsWith(".json")){
-                        indexer.index(path.toAbsolutePath().toString());
-                    }
-                }
-            });
-        } catch (IOException ex) {}
-        
-        return indexer;
-    }
 
     @Override
     public ArgumentValidationResult validateArguments() {

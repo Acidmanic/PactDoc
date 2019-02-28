@@ -16,7 +16,7 @@ public class User extends CreateWikiArgBase {
     @Override
     protected void update(CreateWikiParameters params) {
         if(!noArguments()){
-            params.setUserName(args[0]);
+            params.setUsername(args[0]);
         }
     }
 

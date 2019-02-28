@@ -18,11 +18,14 @@ public class CreateWikiParameters {
     
     private String documentsSubDirectory;
     
-    private String httpRepo;
+    private String repository;
     
-    private String userName;
+    private String username;
     
     private String password;
+    
+    private String remote;
+    
     
     private boolean extensionForMarkDownFiles;
 
@@ -31,7 +34,7 @@ public class CreateWikiParameters {
         this.outputDirectory="wiki";
         this.documentsSubDirectory="Api";
         this.extensionForMarkDownFiles=false;
-    
+        this.remote = "origin";
         
     }
     
@@ -69,20 +72,20 @@ public class CreateWikiParameters {
         this.extensionForMarkDownFiles = extensionForMarkDownFiles;
     }
 
-    public String getHttpRepo() {
-        return httpRepo;
+    public String getRepository() {
+        return repository;
     }
 
-    public void setHttpRepo(String httpRepo) {
-        this.httpRepo = httpRepo;
+    public void setRepository(String repository) {
+        this.repository = repository;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -93,6 +96,24 @@ public class CreateWikiParameters {
         this.password = password;
     }
     
+    
+    public boolean hasValidUserPass(){
+        if(this.username==null|| this.username.length()==0){
+            return false;
+        }
+        if(this.password==null||this.password.length()==0){
+            return false;
+        }
+        return true;
+    }
+
+    public String getRemote() {
+        return remote;
+    }
+
+    public void setRemote(String remote) {
+        this.remote = remote;
+    }
     
     
     

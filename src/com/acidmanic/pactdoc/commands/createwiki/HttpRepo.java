@@ -16,7 +16,7 @@ public class HttpRepo extends CreateWikiArgBase{
     @Override
     protected void update(CreateWikiParameters params) {
         if(!noArguments()){
-            params.setHttpRepo(args[0]);
+            params.setRepository(args[0]);
         }
     }
 

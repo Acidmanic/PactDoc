@@ -81,12 +81,24 @@ public class JGit {
     
     
     
-    public boolean push(String repo,String directory,String branch){
+    public boolean pushUsingBash(String repo,String directory){
         String command = "git " + forwardGit(directory)+" push "
-                + repo + " " + branch;
+                + repo + " --all";
         String res = new Bash().syncRun(command);
-        return (res!=null && res.endsWith(" -> "+branch));
+        return res!=null;
     }
+    public boolean push(String remote,String directory){
+        Git git = tryGetGit(new File(directory));
+
+            try {
+                git.push().setPushAll()
+                    .setRemote(remote)
+                    .call();
+                return true;
+            } catch (Exception e) {            }
+            return false;
+    }
+    
     
     public boolean push(String remote,String username,String password, String directory){
         
@@ -99,9 +111,7 @@ public class JGit {
                         new UsernamePasswordCredentialsProvider(username, password)
                 ).call();
             return true;
-        } catch (Exception e) {
-            e=e;
-        }
+        } catch (Exception e) {        }
         return false;
     }
 }
