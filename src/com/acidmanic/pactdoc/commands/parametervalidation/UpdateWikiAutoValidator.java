@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
+import java.io.File;
 
 /**
  *
@@ -18,11 +19,46 @@ public class UpdateWikiAutoValidator {
         
         ValidationResult<CreateWikiParameters> ret = new ValidationResult<>();
         
-        // validation logic
-        ret.setValidatedValue(params);
         
+        ret.setValidatedValue(params);
         ret.setValid(true);
         
+        
+        if(empty(params.getPactsRoot())){
+            params.setPactsRoot(new File(".").toPath().normalize().toString());
+            ret.warning("Pact contract files search directory has been defaulted to: "
+                    + params.getPactsRoot());
+        }
+        
+        if(empty(params.getOutputDirectory())){
+            params.setOutputDirectory(new File(".").toPath().normalize().toString());
+            ret.warning("The work directory has been defaulted to: "
+                    + params.getOutputDirectory());
+        }
+        
+        if(empty(params.getRepository())){
+            ret.setValid(false);
+            ret.error("You should provide the repository address for your wiki repo.");
+        }
+        
+        if(!params.hasValidUserPass()){
+            ret.warning("A valid set of Username and password is not provided, "
+                    + "so your wiki repository must not need any authentication.");
+        }
+        
+        if(empty(params.getRemote())){
+            params.setRemote("origin");
+            ret.info("default remote, origin, will be used.");
+        }else{
+            ret.warning("You changed the default remote, origin to "+
+                    params.getRemote()+ ".");
+        }
+        
+        
         return ret;
+    }
+
+    private boolean empty(String value) {
+        return value==null || value.length()==0;
     }
 }
