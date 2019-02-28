@@ -9,6 +9,7 @@ import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.ApplicationWideTypeRegistery;
 import com.acidmanic.pactdoc.commands.CreateMarkdownWiki;
 import com.acidmanic.pactdoc.commands.UpdateWiki;
+import com.acidmanic.pactdoc.commands.verifycontracts.VerifyPactContracts;
 
 /**
  *
@@ -24,6 +25,7 @@ public class PactDoc {
 
         ApplicationWideTypeRegistery.makeInstance().registerClass(CreateMarkdownWiki.class);
         ApplicationWideTypeRegistery.makeInstance().registerClass(UpdateWiki.class);
+        ApplicationWideTypeRegistery.makeInstance().registerClass(VerifyPactContracts.class);
         
         ExecutionEnvironment environment = new ExecutionEnvironment();
         

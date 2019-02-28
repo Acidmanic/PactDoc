@@ -5,7 +5,9 @@
  */
 package com.acidmanic.pactdoc.commands.verifycontracts;
 
+import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
+import acidmanic.commandline.utility.ArgumentValidationResult;
 
 /**
  *
@@ -13,14 +15,43 @@ import acidmanic.commandline.commands.CommandBase;
  */
 public class VerifyPactContracts extends CommandBase {
 
+    private final VerifyingParameters parameters;
+    
+    private final ExecutionEnvironment paramsEnvironment;
+
+    public VerifyPactContracts() {
+        this.parameters = new VerifyingParameters();
+        
+        this.paramsEnvironment = new ExecutionEnvironment(new VerificationTypeRegistery());
+        
+        this.paramsEnvironment.getDataRepository().set("params", parameters);
+    
+    }
+    
+    
+    
     @Override
     protected String getUsageString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "This command will search for all pact contracts available,"
+                + " then will check all of them to confirm with aproprate "
+                + "conventions. you can write your own contract verifier class"
+                + " and plug the jar file into this command and run it on your "
+                + "pipe line.";
     }
 
     @Override
     public void execute() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
     }
+
+    @Override
+    public ArgumentValidationResult validateArguments() {
+        this.paramsEnvironment.execute(args);
+        
+        return anyAvailable();
+    }
+    
+    
     
 }
