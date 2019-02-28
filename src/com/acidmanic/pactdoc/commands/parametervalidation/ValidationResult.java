@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,15 +16,18 @@ import java.util.List;
 public class ValidationResult<T> {
     
     
-    private List<String> warnings;
-    private List<String> errors;
-    private List<String> infos;
+    private final List<String> warnings;
+    private final List<String> errors;
+    private final List<String> infos;
     
     private T validatedValue;
 
     private boolean valid;
     
     public ValidationResult() {
+        this.warnings = new ArrayList<>();
+        this.errors = new ArrayList<>();
+        this.infos = new ArrayList<>();
     }
 
     public T getValidatedValue() {

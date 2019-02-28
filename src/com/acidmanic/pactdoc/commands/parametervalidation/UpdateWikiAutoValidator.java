@@ -46,7 +46,7 @@ public class UpdateWikiAutoValidator {
                     + "so your wiki repository must not need any authentication.");
         }
         
-        if(empty(params.getRemote())){
+        if(empty(params.getRemote())||params.getRemote().compareTo("origin")==0){
             params.setRemote("origin");
             ret.info("default remote, origin, will be used.");
         }else{
