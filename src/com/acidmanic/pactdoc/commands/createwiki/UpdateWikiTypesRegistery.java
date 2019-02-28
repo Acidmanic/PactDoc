@@ -17,7 +17,10 @@ public class UpdateWikiTypesRegistery extends CreateMarkdownWikiTypeRegistery{
         
         registerClass(Pass.class);
         
-        registerClass(HttpRepo.class);
+        registerClass(Repository.class);
+        
+        registerClass(Remote.class);
+        
     
     }
 }

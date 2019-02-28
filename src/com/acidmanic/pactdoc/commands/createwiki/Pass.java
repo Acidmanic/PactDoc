@@ -25,6 +25,12 @@ public class Pass extends CreateWikiArgBase{
         return enoughOrNothing(1);
     }
     
-    
+    @Override
+    protected String getUsageString() {
+        return "If an authentication with username and password is needed to "
+                + "work with the wiki repository, with this argument you can "
+                + " set the password. you should use " + new User().getName() 
+                + " argument to set the password.";
+    }
     
 }

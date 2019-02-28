@@ -11,21 +11,25 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class HttpRepo extends CreateWikiArgBase{
+public class Remote extends CreateWikiArgBase{
 
     @Override
     protected void update(CreateWikiParameters params) {
         if(!noArguments()){
-            params.setRepository(args[0]);
+            params.setRemote(args[0]);
         }
     }
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        if (noArguments()){
-            return new ArgumentValidationResult(0);
-        }
-        return new ArgumentValidationResult(1);
+        return enoughOrNothing(1);
+    }
+
+    @Override
+    protected String getUsageString() {
+        return "If for any reason, your remote name in wiki git repo would change"
+                + " from origin to something else, with this argument, you can "
+                + "set this other remote name.";
     }
     
     

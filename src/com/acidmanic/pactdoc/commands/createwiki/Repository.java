@@ -11,29 +11,28 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class User extends CreateWikiArgBase {
+public class Repository extends CreateWikiArgBase{
 
     @Override
     protected void update(CreateWikiParameters params) {
         if(!noArguments()){
-            params.setUsername(args[0]);
+            params.setRepository(args[0]);
         }
     }
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        return enoughOrNothing(1);
+        if (noArguments()){
+            return new ArgumentValidationResult(0);
+        }
+        return new ArgumentValidationResult(1);
     }
 
     @Override
     protected String getUsageString() {
-        return "If an authentication with username and password is needed to "
-                + "work with the wiki repository, with this argument you can "
-                + " set the username. you should use " + new Pass().getName() 
-                + " argument to set the password.";
+        return "This will set repository address of your wiki repo.";
     }
-    
-    
+
     
     
 }
