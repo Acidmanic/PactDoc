@@ -23,6 +23,6 @@ public abstract class ParameterValidator<T> {
     
     
     protected String getCurrentDirectory() {
-        return new File(".").toPath().normalize().toString();
+        return new File(".").toPath().normalize().toAbsolutePath().toString();
     }
 }
