@@ -56,6 +56,7 @@ public class VerifyContracts extends CommandBase {
             
             if( result.isValid()){
                 
+                getExecutionEnvironment().setExitCode(-1);
             }
         }
     }

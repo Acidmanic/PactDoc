@@ -30,6 +30,8 @@ public class PactDoc {
         ExecutionEnvironment environment = new ExecutionEnvironment();
         
         environment.execute(args);
+        
+        System.exit(environment.getExitCode());
     }
     
 }
