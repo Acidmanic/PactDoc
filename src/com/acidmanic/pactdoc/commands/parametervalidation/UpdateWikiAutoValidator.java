@@ -54,6 +54,7 @@ public class UpdateWikiAutoValidator {
                     params.getRemote()+ ".");
         }
         
+        ret.setValidatedValue(params);
         
         return ret;
     }
