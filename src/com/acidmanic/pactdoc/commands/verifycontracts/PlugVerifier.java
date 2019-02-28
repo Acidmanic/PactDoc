@@ -33,7 +33,7 @@ public class PlugVerifier extends VerifyingArgumentBase{
     @Override
     protected String getUsageString() {
         return "With this command, you can plug your own pact contract verifier,"
-                + " into the " + new  VerifyPactContracts().getName() + " command."
+                + " into the " + new  VerifyContracts().getName() + " command."
                 + "this way, your verifier class will be used for verifications. "
                 + "this argument should be followed with <path-of-jar-lib> and then "
                 + " <full-class-name> of your verifier class. the verifier class "

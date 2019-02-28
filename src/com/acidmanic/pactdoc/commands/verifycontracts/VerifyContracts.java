@@ -13,13 +13,13 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class VerifyPactContracts extends CommandBase {
+public class VerifyContracts extends CommandBase {
 
     private final VerifyingParameters parameters;
     
     private final ExecutionEnvironment paramsEnvironment;
 
-    public VerifyPactContracts() {
+    public VerifyContracts() {
         this.parameters = new VerifyingParameters();
         
         this.paramsEnvironment = new ExecutionEnvironment(new VerificationTypeRegistery());
