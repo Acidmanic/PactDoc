@@ -17,7 +17,6 @@ import com.acidmanic.pactdoc.services.JGit;
 import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
 import static com.acidmanic.pactdoc.utility.PactFiles.*;
 import java.util.Date;
-import java.util.function.Predicate;
 import com.acidmanic.pactdoc.utility.Func;
 /**
  *

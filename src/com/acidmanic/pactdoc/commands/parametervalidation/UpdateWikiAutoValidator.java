@@ -12,9 +12,10 @@ import java.io.File;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class UpdateWikiAutoValidator {
+public class UpdateWikiAutoValidator extends ParameterValidator<CreateWikiParameters> {
     
     
+    @Override
     public ValidationResult<CreateWikiParameters> validate(CreateWikiParameters params){
         
         ValidationResult<CreateWikiParameters> ret = new ValidationResult<>();
@@ -25,13 +26,13 @@ public class UpdateWikiAutoValidator {
         
         
         if(empty(params.getPactsRoot())){
-            params.setPactsRoot(new File(".").toPath().normalize().toString());
+            params.setPactsRoot(getCurrentDirectory());
             ret.warning("Pact contract files search directory has been defaulted to: "
                     + params.getPactsRoot());
         }
         
         if(empty(params.getOutputDirectory())){
-            params.setOutputDirectory(new File(".").toPath().normalize().toString());
+            params.setOutputDirectory(getCurrentDirectory());
             ret.warning("The work directory has been defaulted to: "
                     + params.getOutputDirectory());
         }
@@ -59,7 +60,4 @@ public class UpdateWikiAutoValidator {
         return ret;
     }
 
-    private boolean empty(String value) {
-        return value==null || value.length()==0;
-    }
 }

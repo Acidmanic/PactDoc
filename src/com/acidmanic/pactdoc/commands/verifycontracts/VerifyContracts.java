@@ -8,6 +8,8 @@ package com.acidmanic.pactdoc.commands.verifycontracts;
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
+import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
+import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
 
 /**
  *
@@ -42,7 +44,20 @@ public class VerifyContracts extends CommandBase {
     @Override
     public void execute() {
         
-        
+        if(!this.paramsEnvironment.isHelpExecuted()){
+            
+            ValidationResult<VerifyingParameters> result = 
+                    new VerifyContractParameterValidator().validate(parameters);
+            
+       
+            result.getInfos().forEach((String v)-> log(v));
+            result.getWarnings().forEach((String v)-> warning(v));
+            result.getErrors().forEach((String v)-> error(v));
+            
+            if( result.isValid()){
+                
+            }
+        }
     }
 
     @Override
@@ -51,6 +66,7 @@ public class VerifyContracts extends CommandBase {
         
         return anyAvailable();
     }
+
     
     
     
