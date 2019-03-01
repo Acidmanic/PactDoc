@@ -109,9 +109,9 @@ public class UpdateWiki extends CommandBase{
     private boolean generateWiki(CreateWikiParameters parameters) {
         ContractIndexer indexer = scanForAllContracts(parameters.getPactsRoot());
 
-        MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
-
-        generator.setLinksEndWithFileExtionsion(parameters.isExtensionForMarkDownFiles());
+        MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer
+                , parameters.getDocumentsSubDirectory()
+                ,parameters.isExtensionForMarkDownFiles());
 
         generator.generate(parameters.getOutputDirectory());
         return true;

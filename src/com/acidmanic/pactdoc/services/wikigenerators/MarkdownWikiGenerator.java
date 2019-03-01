@@ -15,7 +15,7 @@ import com.acidmanic.pactdoc.services.ContractIndexer;
  */
 public class MarkdownWikiGenerator extends WikiGeneratorBase{
 
-    public MarkdownWikiGenerator(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase) {
+    public MarkdownWikiGenerator(ContractIndexer indexer, String linksBase,boolean linksEndWithFileExtionsion) {
         super(linksEndWithFileExtionsion, indexer, linksBase);
     }
     

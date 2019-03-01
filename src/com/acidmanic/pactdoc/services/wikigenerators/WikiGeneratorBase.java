@@ -38,9 +38,6 @@ public abstract class WikiGeneratorBase {
     }
 
    
-
-    
-    
     
     public boolean getLinksEndWithFileExtension(){
         return this.linksEndWithFileExtionsion;

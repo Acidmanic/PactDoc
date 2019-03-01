@@ -41,9 +41,9 @@ public class CreateMarkdownWiki extends CommandBase{
         
             ContractIndexer indexer = scanForAllContracts(parameters.getPactsRoot());
 
-            MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer, parameters.getDocumentsSubDirectory());
-
-            generator.setLinksEndWithFileExtionsion(parameters.isExtensionForMarkDownFiles());
+            MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer
+                    , parameters.getDocumentsSubDirectory()
+                    , parameters.isExtensionForMarkDownFiles());
 
             generator.generate(parameters.getOutputDirectory());
         }
