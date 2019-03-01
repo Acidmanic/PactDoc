@@ -9,7 +9,7 @@ package com.acidmanic.pactdoc.commands;
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pactdoc.commands.createwiki.CreateMarkdownWikiTypeRegistery;
+import com.acidmanic.pactdoc.commands.createwiki.CreateWikiTypeRegistery;
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
 import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
@@ -23,7 +23,7 @@ public class CreateMarkdownWiki extends CommandBase{
     
     private final CreateWikiParameters parameters = new CreateWikiParameters();
 
-    private final ExecutionEnvironment environment = new ExecutionEnvironment(new CreateMarkdownWikiTypeRegistery());
+    private final ExecutionEnvironment environment = new ExecutionEnvironment(new CreateWikiTypeRegistery());
     
     @Override
     protected String getUsageString() {

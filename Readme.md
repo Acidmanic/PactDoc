@@ -13,4 +13,4 @@ Features
 How to use
 ===
 
-After you download the binaries package, you can run the file pactdoc.sh on unix based platforms or pactdoc.bat for windows platforms. You need to have java coomand available on your comman line environment, then you can use PactDoc.
+After you download the binaries package, you can run the file ./pactdoc on unix based platforms or pactdoc in windows platforms. You need to have java coomand available on your comman line environment, then you can use PactDoc.

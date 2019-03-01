@@ -26,6 +26,7 @@ public class CreateWikiParameters {
     
     private String remote;
     
+    private boolean byVersion;
     
     private boolean extensionForMarkDownFiles;
 
@@ -35,7 +36,7 @@ public class CreateWikiParameters {
         this.documentsSubDirectory="Api";
         this.extensionForMarkDownFiles=false;
         this.remote = "origin";
-        
+        this.byVersion = false;
     }
     
     
@@ -113,6 +114,14 @@ public class CreateWikiParameters {
 
     public void setRemote(String remote) {
         this.remote = remote;
+    }
+
+    public boolean isByVersion() {
+        return byVersion;
+    }
+
+    public void setByVersion(boolean byVersion) {
+        this.byVersion = byVersion;
     }
     
     

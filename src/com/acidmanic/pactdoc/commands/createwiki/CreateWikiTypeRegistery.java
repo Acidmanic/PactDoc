@@ -11,13 +11,14 @@ import acidmanic.commandline.commands.TypeRegistery;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class CreateMarkdownWikiTypeRegistery extends TypeRegistery{
+public class CreateWikiTypeRegistery extends TypeRegistery{
 
-        public CreateMarkdownWikiTypeRegistery() {
+        public CreateWikiTypeRegistery() {
             registerClass(AddExtensions.class);
             registerClass(Output.class);
             registerClass(APIsSubDir.class);
             registerClass(PactsRoot.class);
+            registerClass(ByVersion.class);
         }
         
         

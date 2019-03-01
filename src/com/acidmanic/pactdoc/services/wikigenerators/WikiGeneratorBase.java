@@ -21,7 +21,7 @@ import java.nio.file.StandardOpenOption;
 public abstract class WikiGeneratorBase {
     
     
-    
+    private boolean byVersion;
     
     protected abstract Glossary createGlossary();
     
@@ -67,4 +67,15 @@ public abstract class WikiGeneratorBase {
         } catch (Exception e) {
         }
     }
+
+    public boolean isByVersion() {
+        return byVersion;
+    }
+
+    public void setByVersion(boolean byVersion) {
+        this.byVersion = byVersion;
+    }
+    
+    
+    
 }

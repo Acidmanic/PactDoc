@@ -9,7 +9,7 @@ package com.acidmanic.pactdoc.commands.createwiki;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class UpdateWikiTypesRegistery extends CreateMarkdownWikiTypeRegistery{
+public class UpdateWikiTypesRegistery extends CreateWikiTypeRegistery{
 
     public UpdateWikiTypesRegistery() {
         
