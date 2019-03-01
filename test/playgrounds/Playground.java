@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.playgrounds;
+package playgrounds;
 
 import com.acidmanic.pactdoc.services.ContractContentIndexer;
 import com.acidmanic.pactdoc.services.ContractIndexer;
