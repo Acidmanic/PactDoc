@@ -20,7 +20,8 @@ public class ContractIndexer {
     private final HashMap<String,List<Contract>> indexes;
     private final HashMap<String,List<String>> propretyIndexes;
     private final List<Contract> allContracts;
-    public ContractIndexer(Property[] indexingProperties) {
+    
+    public ContractIndexer(Property... indexingProperties) {
         this.indexingProperties = indexingProperties;
         
         this.indexes = new HashMap<>();
@@ -80,7 +81,7 @@ public class ContractIndexer {
         int count = properties.length;
         
         for(int i=0;i<count;i++){
-            String key = key(fullkey,i);
+            String key = key(fullkey,i+1);
             ret.add(key);
         }
         return ret;
@@ -96,10 +97,11 @@ public class ContractIndexer {
     }
  
     
-    private String getPropertyKey(Property[] properties,int from, int to){
-        String[] fields = new String[]{
-            properties[from].name(),
-            properties[to].name()};
+    private String getPropertyKey(Property[] properties,Contract contract
+            , int from, int to){
+        
+        String[] fields ={properties[from].value(contract)
+                ,properties[to].name()};
         
         return key(fields);
     }
@@ -135,8 +137,9 @@ public class ContractIndexer {
             values = new ArrayList<>();
             this.propretyIndexes.put(propertyKey, values);
         }
-        
-        values.add(propertyValue);
+        if(!values.contains(propertyValue)){
+            values.add(propertyValue);
+        }
     }
 
     private void indexContract(Contract contract) {
@@ -150,7 +153,8 @@ public class ContractIndexer {
     private void indexProperties(Contract contract) {
         for(int from=0;from<this.indexingProperties.length-1;from++)
             for(int to=from+1;to<this.indexingProperties.length;to++){
-                String propertyKey = getPropertyKey(indexingProperties, from, to);
+                String propertyKey = getPropertyKey(indexingProperties
+                        ,contract, from, to);
                 String propertyValue = this.indexingProperties[to].value(contract);
                 indexProperty(propertyKey,propertyValue);
             }
