@@ -34,17 +34,22 @@ public class ExtendedIndexing {
         List<String> res;
         
         System.out.println("All services by version 1.0.0:");
-        res = indexer.getAllXsByY(Service.class, "1.0.0");
+        res = indexer.getAll( "1.0.0");
         res.forEach((String s)->System.out.println(s));
         
         
-        
-        
-        System.out.println("All Functions by Service PostsAPI:");
-        res = indexer.getAllXsByY(Function.class, "PostsAPI");
+        System.out.println("All services by version v2:");
+        res = indexer.getAll( "v2");
         res.forEach((String s)->System.out.println(s));
         
         
+        System.out.println("All Functions by version 1.0.0 > Service PostsAPI:");
+        res = indexer.getAll("1.0.0","PostsAPI");
+        res.forEach((String s)->System.out.println(s));
+        
+        System.out.println("All Functions by version v2 > Service PostsAPI:");
+        res = indexer.getAll("v2","PostsAPI");
+        res.forEach((String s)->System.out.println(s));
         
         System.out.println("All Versions:");
         res = indexer.getAll(Version.class);
