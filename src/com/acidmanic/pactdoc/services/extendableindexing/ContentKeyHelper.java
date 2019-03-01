@@ -13,10 +13,10 @@ public class ContentKeyHelper {
     
     
     
-    public static String[] append(String[] contentKey,String child){
-        String[] ret = new String[contentKey.length+1];
+    public static String[] append(String[] contentKey,String... child){
+        String[] ret = new String[contentKey.length+child.length];
         System.arraycopy(contentKey, 0, ret, 0, contentKey.length);
-        ret[contentKey.length]=child;
+        System.arraycopy(child, 0, ret, contentKey.length, child.length);
         return ret;
     }
 }

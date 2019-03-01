@@ -5,9 +5,9 @@
  */
 package com.acidmanic.pactdoc.services.wikigenerators;
 
-import com.acidmanic.pactdoc.services.contentproviders.MarkdownContentProvider;
 import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
-import com.acidmanic.pactdoc.services.ContractIndexer;
+import com.acidmanic.pactdoc.services.contentproviders.MarkdownContentProvider;
+import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 
 /**
  *

@@ -32,9 +32,5 @@ public class Playground {
         
         indexer.index("data/");
         
-        
-        MarkdownWikiGenerator wikiGenerator = new MarkdownWikiGenerator(indexer, "Api");
-        
-        wikiGenerator.generate("build");
     }
 }

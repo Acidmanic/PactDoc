@@ -6,95 +6,88 @@
 package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.models.ConventionedContract;
-import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.ContractMarkDown;
 import com.acidmanic.pactdoc.services.Glossary;
+import static com.acidmanic.pactdoc.services.extendableindexing.ContentKeyHelper.*;
+import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.extendableindexing.IndexHelper;
 import java.util.List;
 
 /**
  *
- * 
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class MarkdownContentProvider implements ContentProvider{
-    
-    
-    private final ContractIndexer contractIndexer;
 
-    public MarkdownContentProvider(ContractIndexer contractIndexer) {
-        this.contractIndexer = contractIndexer;
+    private final ContractIndexer indexer;
+    private final IndexHelper indexHelper;
+    
+    public MarkdownContentProvider(ContractIndexer indexer) {
+        this.indexer = indexer;
+        this.indexHelper = new IndexHelper(indexer);
     }
     
     
-
+    
+    
     @Override
-    public <T> String provideContentFor(T contentKey,Glossary glossary) {
+    public <T> String provideContentFor(T contentKey, Glossary glossary) {
         
-        if(contentKey instanceof String && ((String)contentKey).length()==0){
-            return homeContent(glossary);
+        if( contentKey instanceof String[]){
+            return provide((String[]) contentKey,glossary);
         }
-        
-        if (contentKey instanceof String){
-            return contentFor((String) contentKey, glossary);
-        }
-        if(contentKey instanceof ConventionedContract){
-            return contentFor((ConventionedContract) contentKey,glossary);
-        }
-        return CONTENT_NOT_FOUND;
-    }
-
-    private String contentFor(String serviceName,Glossary glossary) {
-        List<Contract> contracts = contractIndexer.getContracts(serviceName);
-        
-        StringBuilder sb = new StringBuilder();
-        
-        for(Contract contract:contracts){
-            sb.append("\n[");
-            sb.append("**");
-            sb.append(contract.getProvider().getName()).append("**");
-            sb.append("  *Version: ");
-            sb.append(contract.getMetadata().getPactSpecification().getVersion());
-            sb.append("*](").append(glossary.link(contract)).append(")");
-            sb.append("\n");
-        }
-        
-        sb.append("\n\n").append("_______\n\n")
-                .append("[Back to **Index**](")
-                .append(glossary.link("")).append(")\n");
-        
-        return sb.toString();
+        return "";
     }
     
-    private String contentFor(ConventionedContract contract,Glossary glossary) {
+    
+    private String provide(String[] contentKey, Glossary glossary){
+        
+        if(isIndex(contentKey)){
+            
+            StringBuilder sb = new StringBuilder();
+            
+            List<String> childs = indexHelper.getChilds(contentKey);
+            
+            for(String child:childs){
+                
+                String[] childKey = append(contentKey, child);
+                
+                sb.append("\n[**");
+                sb.append(child).append("**](")
+                    .append(glossary.link(childKey)).append(")");
+                
+                sb.append("\n");
+            }
+            
+            return sb.toString();
+        }
+        
+        List<Contract> contracts = indexer.getContract(contentKey);
+        
+        if(!contracts.isEmpty()) {
+        
+            return provide(contracts.get(0));
+        }
+        
+        return "Fuck you not found";
+    }
+
+    private boolean isIndex(String[] contentKey) {
+        if(!indexHelper.isLeaf(contentKey)){
+            return true;
+        }
+        return indexer.getContract(contentKey).isEmpty();
+    }
+
+    private String provide(Contract contract) {
+        
         ContractMarkDown markDown = new ContractMarkDown();
         
-        String ret = markDown.getMarkDown(contract);
+        return markDown.getMarkDown(contract);
         
         
-        String service = contractIndexer.getParentService(contract);
-        
-        if(service!=null){
-            ret += "\n\n_____\n\n"
-                    + "[Back to **"+service+"**]("
-                    + glossary.link(service)+")\n\n";
-        }
-        
-        return ret;
     }
 
-    private String homeContent(Glossary glossary) {
-        
-        StringBuilder sb = new StringBuilder();
-        
-        for(String service:this.contractIndexer.getServices()){
-            sb.append("\n[**");
-            sb.append(service).append("**](")
-                    .append(glossary.link(service)).append(")");
-            sb.append("\n");
-        }
-        
-        return sb.toString();
-    }
+
     
 }

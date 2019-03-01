@@ -7,6 +7,7 @@ package playgrounds;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.Glossary;
+import com.acidmanic.pactdoc.services.GlossaryScanner;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.extendableindexing.Function;
 import com.acidmanic.pactdoc.services.extendableindexing.Service;
@@ -34,6 +35,28 @@ public class ExtendedGlossary {
         
         Glossary glossary = new GlossaryGenerator(indexer).generate("Api", ".md");
         
+        println(glossary);
+        
         System.out.println("Ok");
+    }
+
+    private static void println(Glossary glossary) {
+        glossary.scan(new GlossaryScanner() {
+            @Override
+            public void scan(String link, String[] contentKey) {
+                
+                System.out.println(getKey(contentKey)+" <-----> " +link);
+            }
+
+            private String getKey(String[] contentKey) {
+                String sep="";
+                String ret ="";
+                for(String key:contentKey){
+                    ret+=sep+key;
+                    sep="_";
+                }
+                return ret;
+            }
+        });
     }
 }

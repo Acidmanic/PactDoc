@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.services.extendableindexing;
 
 import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.utility.StringArrayKeyMaker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,8 @@ public class ContractIndexer {
     private final HashMap<String,List<Contract>> indexes;
     private final HashMap<String,List<String>> propretyIndexes;
     private final List<Contract> allContracts;
+    private final StringArrayKeyMaker keyMaker;
+    
     
     public ContractIndexer(Property... indexingProperties) {
         this.indexingProperties = indexingProperties;
@@ -29,6 +32,8 @@ public class ContractIndexer {
         this.propretyIndexes = new HashMap<>();
         
         this.allContracts = new ArrayList<>();
+        
+        this.keyMaker = new StringArrayKeyMaker();
     }
     
     
@@ -47,7 +52,7 @@ public class ContractIndexer {
     
     public List<Contract> getContract(String...fields){
         if(fields.length!=0){
-            String key = key(fields);
+            String key = this.keyMaker.key(fields);
             if(this.indexes.containsKey(key)){
                return this.indexes.get(key);
             }   
@@ -57,7 +62,7 @@ public class ContractIndexer {
     
     public List<String> getAll(String...fields){
                 
-        String key = key(fields);
+        String key = this.keyMaker.key(fields);
         
         if(this.propretyIndexes.containsKey(key)){
             return this.propretyIndexes.get(key);
@@ -81,7 +86,7 @@ public class ContractIndexer {
     }
     
     public List<String> getAll(Property property){
-        String key = key(new String[]{property.name()});
+        String key = this.keyMaker.key(new String[]{property.name()});
         if(this.propretyIndexes.containsKey(key)){
             return this.propretyIndexes.get(key);
         }
@@ -125,7 +130,7 @@ public class ContractIndexer {
     private List<String> triangleArray(String[] array,int upToLength){
         ArrayList<String> ret = new ArrayList<>();
         for(int i=0;i<upToLength;i++){
-            String key = key(array,i+1);
+            String key = this.keyMaker.key(array,i+1);
             ret.add(key);
         }
         return ret;
@@ -138,28 +143,6 @@ public class ContractIndexer {
             ret[i]=properties[i].value(contract);
         }
         return ret;
-    }
-    
-    private String key(String[] fields){
-        return key(fields,fields.length);
-    }
-    
-    private String key(String[] fields,int upToCount){
-        StringBuilder sb = new StringBuilder();
-        
-        String sep="";
-        
-        sb.append("[");
-        
-        for(int i=0;i<upToCount;i++){
-            String field = fields[i];
-            sb.append(sep).append(field);
-            sep="]::[";
-        }
-     
-        sb.append("]");
-        
-        return sb.toString();
     }
 
     private void indexProperty(String propertyKey, String propertyValue) {
@@ -188,7 +171,7 @@ public class ContractIndexer {
         String[] fields = getFields(this.indexingProperties, contract);
         
         for(int i=0;i<fields.length-1;i++){
-            String propertyKey = key(fields, i+1);
+            String propertyKey = this.keyMaker.key(fields, i+1);
             String propertyValue = fields[i+1];
             indexProperty(propertyKey,propertyValue);
         }
@@ -197,7 +180,7 @@ public class ContractIndexer {
     private void indexSingularProperties(Contract contract) {
         
         for(Property p:this.indexingProperties){
-            String key = key(new String[]{p.name()});
+            String key = this.keyMaker.key(new String[]{p.name()});
             String value = p.value(contract);
             indexProperty(key, value);
         }

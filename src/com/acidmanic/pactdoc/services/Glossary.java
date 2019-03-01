@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services;
 
+import com.acidmanic.pactdoc.utility.StringArrayKeyMaker;
 import java.util.HashMap;
 
 /**
@@ -15,39 +16,43 @@ public class Glossary {
     
     
     private final HashMap<String,Object> contentKeys;
-    private final HashMap<Object,String> links;
-
+    private final HashMap<String,String> links;
+    private final StringArrayKeyMaker keyMaker;
+    
     public Glossary() {
         this.contentKeys = new HashMap<>();
         this.links = new HashMap<>();
-    
+        this.keyMaker = new StringArrayKeyMaker();
     }
     
-    public void put(String link, Object contentKey ){
-        if(!this.contentKeys.containsKey(link))
-            if(!this.links.containsKey(contentKey)){
+    public void put(String link, String[] contentKey ){
+        if(!this.contentKeys.containsKey(link)){
+            String hashed = this.keyMaker.key(contentKey);
+            if(!this.links.containsKey(hashed)){
                 this.contentKeys.put(link, contentKey);
-                this.links.put(contentKey, link);
+                this.links.put(hashed, link);
             }
+        }
     }
     
-    public <T> String link(T contentKey){
-        if(this.links.containsKey(contentKey)){
-            return this.links.get(contentKey);
+    public String link(String[] contentKey){
+        String hashed = this.keyMaker.key(contentKey);
+        if(this.links.containsKey(hashed)){
+            return this.links.get(hashed);
         }
         return null;
     }
     
-    public <T> T contentKey(String link){
+    public String[] contentKey(String link){
         if(this.contentKeys.containsKey(link)){
-            return (T) this.contentKeys.get(link);
+            return (String[]) this.contentKeys.get(link);
         }
         return null;
     }
     
     public void scan(GlossaryScanner scanner){
         for(String link:this.contentKeys.keySet()){
-            scanner.scan(link, contentKeys.get(link));
+            scanner.scan(link, (String[]) contentKeys.get(link));
         }
     }
     

@@ -5,11 +5,12 @@
  */
 package com.acidmanic.pactdoc.services.wikigenerators;
 
+import com.acidmanic.io.file.FileSystemHelper;
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.Glossary;
 import com.acidmanic.pactdoc.services.GlossaryScanner;
 import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
+import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,19 +46,28 @@ public abstract class WikiGeneratorBase {
     
     
     public void generate(String destinationDirectory) {
-        Glossary glossary = createGlossary();
         
-        final String extension = linksEndWithFileExtionsion?"":".md";
+        final String fsExtension = linksEndWithFileExtionsion?"":".md";
+        final String glossaryExtension = linksEndWithFileExtionsion?".md":"";
         
-        final Path baseDirectory = Paths.get(destinationDirectory);
+        Glossary glossary = new GlossaryGenerator(indexer)
+                .generate(linksBase, glossaryExtension);
+        
+        final Path baseDirectory = Paths.get(destinationDirectory)
+                .toAbsolutePath().normalize();
+        
+        new FileSystemHelper().clearDirectory(baseDirectory.toString());
         
         glossary.scan(new GlossaryScanner() {
             @Override
-            public void scan(String link, Object contentKey) {
+            public void scan(String link, String[] contentKey) {
                 String content = getContentProvider().provideContentFor(contentKey, glossary);
                 
-                writeFile(baseDirectory.resolve(link+extension)
-                        .toString(),content);
+                Path path = baseDirectory.resolve(link+fsExtension); 
+                
+                path.getParent().toFile().mkdirs();
+                
+                writeFile(path.toString(),content);
             }
         });
         
@@ -81,36 +91,6 @@ public abstract class WikiGeneratorBase {
             
         } catch (Exception e) {
         }
-    }
-
-    
-    private Glossary createGlossary() {
-        
-        Glossary glossary = new Glossary();
-        
-        Path base = Paths.get(linksBase);
-        
-        String extension=getLinksEndWithFileExtension()?".md":"";
-        
-        /*      Add home        */
-        
-        glossary.put(base.resolve("Index"+extension).toString(), "");
-        
-        /*  Add services links  */
-        for(String service:indexer.getServices()){
-            glossary.put( base.resolve(service+extension).toString()
-                    , service);
-        }
-        
-        /*  Add contracts   */
-        for(String service:indexer.getServices()){
-            for(Contract contract:indexer.getContracts(service)){
-                glossary.put(base.resolve(contract.getProvider()
-                        .getName()+extension).toString(), contract);
-            }
-        }
-        
-        return glossary;
     }
     
     

@@ -11,5 +11,5 @@ package com.acidmanic.pactdoc.services;
  */
 public interface GlossaryScanner {
     
-    void scan(String link,Object contentKey);
+    void scan(String link,String[] contentKey);
 }

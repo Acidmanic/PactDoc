@@ -51,8 +51,9 @@ public class GlossaryGenerator {
         
         if(indexHelper.isLeaf(contentKey)){
             glossary.put(baseLink.toString()+extension, contentKey);
+            return;
         }else{
-            glossary.put(replace(baseLink,"Index").toString()+extension, contentKey);
+            glossary.put(baseLink.resolve("Index").toString()+extension, contentKey);
         }
         
         List<String> childs = indexHelper.getChilds(contentKey);
