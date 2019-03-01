@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.contentproviders;
 
-import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.ConventionedContract;
 import com.acidmanic.pactdoc.services.ContractIndexer;

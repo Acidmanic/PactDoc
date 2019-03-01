@@ -5,12 +5,12 @@
  */
 package com.acidmanic.pactdoc.services.wikigenerators;
 
-import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.Glossary;
+import static com.acidmanic.pactdoc.services.extendableindexing.ContentKeyHelper.*;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.extendableindexing.IndexHelper;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +22,11 @@ public class GlossaryGenerator {
     
     
     private final ContractIndexer indexer;
-
+    private final IndexHelper indexHelper;
+    
     public GlossaryGenerator(ContractIndexer indexer) {
         this.indexer = indexer;
+        this.indexHelper = new IndexHelper(indexer);
     }
     
     
@@ -47,49 +49,22 @@ public class GlossaryGenerator {
         
         
         
-        if(isLeaf(contentKey)){
+        if(indexHelper.isLeaf(contentKey)){
             glossary.put(baseLink.toString()+extension, contentKey);
         }else{
             glossary.put(replace(baseLink,"Index").toString()+extension, contentKey);
         }
         
-        List<String> childs = getChilds(contentKey);
+        List<String> childs = indexHelper.getChilds(contentKey);
         
         for(String child:childs){
             addLink(glossary
-                    , append(contentKey, child)
+                    ,  append(contentKey, child)
                     , baseLink.resolve(child)
                     , extension);
         }
     }
-    
-    private String[] append(String[] array,String value){
-        String[] ret = new String[array.length+1];
-        System.arraycopy(array, 0, ret, 0, array.length);
-        ret[array.length]=value;
-        return ret;
-    }
-    
-    
-    private List<String> getChilds(String[] key){
-        if (key.length==0){
-            return indexer.getAll(indexer.getRootProperty());
-        }
-        if(key.length<indexer.getPropertiesCount()){
-            return indexer.getAll(key);
-        }
-        return getNamesFor(indexer.getContract(key));
-    }
-
-    private List<String> getNamesFor(List<Contract> contracts) {
-        ArrayList<String> names = new ArrayList<>();
-        contracts.forEach((Contract c)-> names.add(c.getProvider().getName()));
-        return names;
-    }
-
-    private boolean isLeaf(String[] contentKey) {
-        return contentKey.length >= indexer.getPropertiesCount();
-    }
+ 
 
     private Path replace(Path path, String with) {
         Path parent = path.getParent();
