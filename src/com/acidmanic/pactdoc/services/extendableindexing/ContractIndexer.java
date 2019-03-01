@@ -7,6 +7,8 @@ package com.acidmanic.pactdoc.services.extendableindexing;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.utility.StringArrayKeyMaker;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +25,8 @@ public class ContractIndexer {
     private final List<Contract> allContracts;
     private final StringArrayKeyMaker keyMaker;
     
-    
     public ContractIndexer(Property... indexingProperties) {
+        
         this.indexingProperties = indexingProperties;
         
         this.indexes = new HashMap<>();
@@ -34,9 +36,24 @@ public class ContractIndexer {
         this.allContracts = new ArrayList<>();
         
         this.keyMaker = new StringArrayKeyMaker();
+    
+    }
+
+    
+    public void index(String filePath){
+        File file = new File(filePath);
+        if(file.exists()){
+            index(file);
+        }
     }
     
-    
+    private void index(File file) {
+        try {
+            Contract contract = Contract.load(file.getAbsolutePath());
+            index(contract);
+        } catch (IOException ex) {
+        }
+    }
     
     public void index(Contract contract){
         

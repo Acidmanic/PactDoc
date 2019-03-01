@@ -5,7 +5,6 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.Glossary;
 import com.acidmanic.pactdoc.services.GlossaryScanner;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
@@ -14,7 +13,6 @@ import com.acidmanic.pactdoc.services.extendableindexing.Service;
 import com.acidmanic.pactdoc.services.extendableindexing.Version;
 import com.acidmanic.pactdoc.services.wikigenerators.GlossaryGenerator;
 import com.acidmanic.pactdoc.utility.PactFiles;
-import java.util.List;
 
 /**
  *
@@ -26,12 +24,9 @@ public class ExtendedGlossary {
     
     public static void main(String[] args) {
         
-        
-        List<Contract> contracts = PactFiles.scanForAllContracts(".").getAllContracts();
-        
         ContractIndexer indexer = new ContractIndexer(new Version(),new Service(),new Function());
         
-        contracts.forEach((Contract c)->indexer.index(c));
+        PactFiles.scanForAllContracts(".",indexer);
         
         Glossary glossary = new GlossaryGenerator(indexer).generate("Api", ".md");
         

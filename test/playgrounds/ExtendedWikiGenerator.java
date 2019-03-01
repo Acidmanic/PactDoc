@@ -29,8 +29,7 @@ public class ExtendedWikiGenerator {
         );
         
         
-        PactFiles.scanForAllContracts(".").getAllContracts()
-                .forEach((Contract contract) -> indexer.index(contract));
+        PactFiles.scanForAllContracts(".",indexer);
         
         
         MarkdownWikiGenerator wikiGenerator 

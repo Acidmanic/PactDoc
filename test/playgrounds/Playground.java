@@ -7,7 +7,6 @@ package playgrounds;
 
 import com.acidmanic.pactdoc.services.ContractContentIndexer;
 import com.acidmanic.pactdoc.services.ContractIndexer;
-import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
 import com.acidmanic.pactdoc.services.HashContractContentIndexer;
 import java.io.IOException;
 

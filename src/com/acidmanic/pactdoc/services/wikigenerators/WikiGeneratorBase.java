@@ -56,7 +56,7 @@ public abstract class WikiGeneratorBase {
         final Path baseDirectory = Paths.get(destinationDirectory)
                 .toAbsolutePath().normalize();
         
-        new FileSystemHelper().clearDirectory(baseDirectory.toString());
+//        new FileSystemHelper().clearDirectory(baseDirectory.toString());
         
         glossary.scan(new GlossaryScanner() {
             @Override

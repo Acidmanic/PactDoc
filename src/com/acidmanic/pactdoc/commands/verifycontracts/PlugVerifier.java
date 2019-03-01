@@ -20,7 +20,7 @@ public class PlugVerifier extends VerifyingArgumentBase{
         ContractVerifier verifier = null;
         if(!noArguments(2)){
             try {
-                log("Loading verifier: "+args[0] + " from library: "+args[0] );
+                log("Loading verifier: "+args[1] + " from library: "+args[0] );
                 verifier = new PluginLoader().makeObject(args[0], args[1]);
             } catch (Exception e) {
                 error("Unable to load verifier because of a " + 

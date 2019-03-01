@@ -21,6 +21,8 @@ public class UpdateWikiTypesRegistery extends CreateWikiTypeRegistery{
         
         registerClass(Remote.class);
         
+        registerClass(PlugWikiProps.class);
+        
     
     }
 }

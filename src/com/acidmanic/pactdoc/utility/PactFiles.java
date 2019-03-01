@@ -5,11 +5,14 @@
  */
 package com.acidmanic.pactdoc.utility;
 
-import com.acidmanic.pactdoc.services.ContractIndexer;
+import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  *
@@ -17,21 +20,35 @@ import java.nio.file.Path;
  */
 public class PactFiles {
 
-    public static ContractIndexer scanForAllContracts(String rootDirectory) {
-        final ContractIndexer indexer = new ContractIndexer();
+    public static void scanForAllContracts(String rootDirectory
+            ,Consumer<Contract> scanner) {
         try {
             File root = new File(rootDirectory);
             Files.walkFileTree(root.toPath(), new SimpleFileVisitor() {
                 @Override
                 public void onFile(Path path) {
-                    if (path.toString().endsWith(".json")) {
-                        indexer.index(path.toAbsolutePath().toString());
+                    String file = path.toAbsolutePath().toString();
+                    if (file.endsWith(".json")) {
+                        try {
+                            Contract contract = Contract.load(file);
+                            scanner.accept(contract);
+                        } catch (Exception e) {
+                        }
                     }
                 }
             });
         } catch (IOException ex) {
         }
-        return indexer;
     }
     
+    
+    public static void scanForAllContracts(String rootDirectory
+            ,List<Contract> list){
+        scanForAllContracts(rootDirectory, list::add);
+    }
+    
+    public static void scanForAllContracts(String rootDirectory
+            ,ContractIndexer indexer){
+        scanForAllContracts(rootDirectory, indexer::index);
+    }
 }

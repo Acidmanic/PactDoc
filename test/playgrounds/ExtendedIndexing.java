@@ -5,7 +5,6 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.extendableindexing.Function;
 import com.acidmanic.pactdoc.services.extendableindexing.Service;
@@ -25,11 +24,11 @@ public class ExtendedIndexing {
         
         
         
-        List<Contract> contracts = PactFiles.scanForAllContracts(".").getAllContracts();
+        
         
         ContractIndexer indexer = new ContractIndexer(new Version(),new Service(),new Function());
         
-        contracts.forEach((Contract c)->indexer.index(c));
+        PactFiles.scanForAllContracts(".",indexer);
         
         List<String> res;
         

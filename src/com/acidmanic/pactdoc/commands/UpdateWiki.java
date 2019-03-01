@@ -12,8 +12,8 @@ import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
 import com.acidmanic.pactdoc.commands.createwiki.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
-import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.services.JGit;
+import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
 import static com.acidmanic.pactdoc.utility.PactFiles.*;
 import java.util.Date;
@@ -51,6 +51,8 @@ public class UpdateWiki extends CommandBase{
             
             ValidationResult<CreateWikiParameters> result 
                     = new UpdateWikiAutoValidator().validate(parameters);
+            
+            
             
             JGit git = new JGit();
             
@@ -107,7 +109,11 @@ public class UpdateWiki extends CommandBase{
     }
 
     private boolean generateWiki(CreateWikiParameters parameters) {
-        ContractIndexer indexer = scanForAllContracts(parameters.getPactsRoot());
+        ContractIndexer indexer = new ContractIndexer(
+                parameters.getPropertyProvider().makeProperties()
+        );
+        
+        scanForAllContracts(parameters.getPactsRoot(),indexer);
 
         MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer
                 , parameters.getDocumentsSubDirectory()

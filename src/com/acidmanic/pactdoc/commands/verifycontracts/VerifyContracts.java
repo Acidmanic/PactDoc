@@ -12,10 +12,9 @@ import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
 import com.acidmanic.pactdoc.logging.Log;
 import com.acidmanic.pactdoc.logging.LogRecord;
-import com.acidmanic.pactdoc.logging.LogTypes;
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.ContractIndexer;
 import com.acidmanic.pactdoc.utility.PactFiles;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,10 +62,10 @@ public class VerifyContracts extends CommandBase {
             
             if( result.isValid()){
                 
-                ContractIndexer indexer = 
-                        PactFiles.scanForAllContracts(parameters.getPactsRoot());
+                List<Contract> contracts = new ArrayList<>();
                 
-                List<Contract> contracts = indexer.getAllContracts();
+                PactFiles.scanForAllContracts(parameters.getPactsRoot(),contracts);
+                
                 
                 Log verificationResults = 
                         parameters.getContractVerifier()
@@ -85,14 +84,19 @@ public class VerifyContracts extends CommandBase {
 
     private void log(Log log){
         for(LogRecord record:log.getRecords()){
-            if (record.getLogType()==LogTypes.Error){
-                error(record.getMessage());
-            }else if (record.getLogType()==LogTypes.Warning){
-                warning(record.getMessage());
-            }else if (record.getLogType()==LogTypes.Info){
-                info(record.getMessage());
-            }else{
-                log(record.getMessage());
+            if (null!=record.getLogType())switch (record.getLogType()) {
+                case Error:
+                    error(record.getMessage());
+                    break;
+                case Warning:
+                    warning(record.getMessage());
+                    break;
+                case Info:
+                    info(record.getMessage());
+                    break;
+                default:
+                    log(record.getMessage());
+                    break;
             }
         }
     }

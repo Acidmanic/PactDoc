@@ -6,7 +6,6 @@
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
-import java.io.File;
 
 /**
  *

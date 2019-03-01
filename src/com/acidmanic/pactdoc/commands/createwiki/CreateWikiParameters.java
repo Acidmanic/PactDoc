@@ -5,6 +5,9 @@
  */
 package com.acidmanic.pactdoc.commands.createwiki;
 
+import com.acidmanic.pactdoc.services.extendableindexing.DefaultPropertyProvider;
+import com.acidmanic.pactdoc.services.extendableindexing.PropertyProvider;
+
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -29,6 +32,8 @@ public class CreateWikiParameters {
     private boolean byVersion;
     
     private boolean extensionForMarkDownFiles;
+    
+    private PropertyProvider propertyProvider;
 
     public CreateWikiParameters() {
         this.pactsRoot=".";
@@ -37,6 +42,7 @@ public class CreateWikiParameters {
         this.extensionForMarkDownFiles=false;
         this.remote = "origin";
         this.byVersion = false;
+        this.propertyProvider = new DefaultPropertyProvider();
     }
     
     
@@ -123,6 +129,15 @@ public class CreateWikiParameters {
     public void setByVersion(boolean byVersion) {
         this.byVersion = byVersion;
     }
+
+    public PropertyProvider getPropertyProvider() {
+        return propertyProvider;
+    }
+
+    public void setPropertyProvider(PropertyProvider propertyProvider) {
+        this.propertyProvider = propertyProvider;
+    }
+    
     
     
     
