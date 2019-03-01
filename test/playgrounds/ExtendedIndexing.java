@@ -31,6 +31,36 @@ public class ExtendedIndexing {
         
         contracts.forEach((Contract c)->indexer.index(c));
         
+        List<String> res;
+        
+        System.out.println("All services by version 1.0.0:");
+        res = indexer.getAllXsByY(Service.class, "1.0.0");
+        res.forEach((String s)->System.out.println(s));
+        
+        
+        
+        
+        System.out.println("All Functions by Service PostsAPI:");
+        res = indexer.getAllXsByY(Function.class, "PostsAPI");
+        res.forEach((String s)->System.out.println(s));
+        
+        
+        
+        System.out.println("All Versions:");
+        res = indexer.getAll(Version.class);
+        res.forEach((String s)->System.out.println(s));
+        
+        
+        System.out.println("All Services:");
+        res = indexer.getAll(Service.class);
+        res.forEach((String s)->System.out.println(s));
+        
+        
+        System.out.println("All Functions:");
+        res = indexer.getAll(Function.class);
+        res.forEach((String s)->System.out.println(s));
+        
+        
         System.out.println("Ok");
         
         

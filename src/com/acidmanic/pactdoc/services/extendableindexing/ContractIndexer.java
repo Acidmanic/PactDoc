@@ -40,13 +40,62 @@ public class ContractIndexer {
         
         
         indexProperties(contract);
+        
+        indexSingularProperties(contract);
     }
     
     
     public List<Contract> getContract(String...fields){
+        if(fields.length!=0){
+            String key = key(fields);
+            if(this.indexes.containsKey(key)){
+               return this.indexes.get(key);
+            }   
+        }
+        return new ArrayList<>();
+    }
+    
+    public List<String> getAllXsByY(Property x,String y){
+        String[] fields = {y,x.name()};
+        
         String key = key(fields);
-        if(this.indexes.containsKey(key)){
-            return this.indexes.get(key);
+        
+        if(this.propretyIndexes.containsKey(key)){
+            return this.propretyIndexes.get(key);
+        }
+        
+        return new ArrayList<>();
+    }
+            
+            
+    public List<String> getAllXsByY(Class<? extends Property> x,String y){
+        Property xProp = null;
+        try {
+            xProp = x.newInstance();
+        } catch (Exception e) {}
+        
+        if(xProp!=null){
+            return getAllXsByY(xProp, y);
+        }
+        return new ArrayList<>();
+    }
+    
+    public List<String> getAll(Class<? extends Property> property){
+        Property xProp = null;
+        try {
+            xProp = property.newInstance();
+        } catch (Exception e) {}
+        
+        if(xProp!=null){
+            return getAll(xProp);
+        }
+        return new ArrayList<>();
+    }
+    
+    public List<String> getAll(Property property){
+        String key = key(new String[]{property.name()});
+        if(this.propretyIndexes.containsKey(key)){
+            return this.propretyIndexes.get(key);
         }
         return new ArrayList<>();
     }
@@ -120,7 +169,7 @@ public class ContractIndexer {
         for(int i=0;i<upTo;i++){
             String field = fields[i];
             sb.append(sep).append(field);
-            sep="]::::[";
+            sep="]::[";
         }
      
         sb.append("]");
@@ -153,10 +202,19 @@ public class ContractIndexer {
     private void indexProperties(Contract contract) {
         for(int from=0;from<this.indexingProperties.length-1;from++)
             for(int to=from+1;to<this.indexingProperties.length;to++){
-                String propertyKey = getPropertyKey(indexingProperties
+                String propertyKey = getPropertyKey(this.indexingProperties
                         ,contract, from, to);
                 String propertyValue = this.indexingProperties[to].value(contract);
                 indexProperty(propertyKey,propertyValue);
             }
+    }
+
+    private void indexSingularProperties(Contract contract) {
+        
+        for(Property p:this.indexingProperties){
+            String key = key(new String[]{p.name()});
+            String value = p.value(contract);
+            indexProperty(key, value);
+        }
     }
 }
