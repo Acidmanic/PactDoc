@@ -18,7 +18,6 @@ import com.acidmanic.pactdoc.services.Glossary;
 public interface ContentProvider {
     
     public static String CONTENT_NOT_FOUND="Requested Content not found.";
-    
     /**
      * 
      * @param <T> is the Content key. 

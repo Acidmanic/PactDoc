@@ -202,4 +202,17 @@ public class ContractIndexer {
             indexProperty(key, value);
         }
     }
+
+    public Property[] getIndexingProperties() {
+        return indexingProperties;
+    }
+    
+    public Property getRootProperty(){
+        return this.indexingProperties[0];
+    }
+    
+    public int getPropertiesCount(){
+        return this.indexingProperties.length;
+    }
+    
 }
