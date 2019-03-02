@@ -7,8 +7,10 @@ package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.Glossary;
+import static com.acidmanic.pactdoc.services.extendableindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.extendableindexing.IndexHelper;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +22,8 @@ public abstract class ContentProviderBase implements ContentProvider{
     private final ContractIndexer indexer;
     private final IndexHelper indexHelper;
 
+    private Glossary glossary;
+    
     public ContentProviderBase(ContractIndexer indexer) {
         this.indexer = indexer;
         this.indexHelper = new IndexHelper(indexer);
@@ -33,7 +37,9 @@ public abstract class ContentProviderBase implements ContentProvider{
         return indexHelper;
     }
     
-    
+    protected Glossary getGlossary(){
+        return this.glossary;
+    }
     
     private boolean isIndex(String[] contentKey) {
         if(!indexHelper.isLeaf(contentKey)){
@@ -47,8 +53,22 @@ public abstract class ContentProviderBase implements ContentProvider{
     @Override
     public String provideContentFor(String[] contentKey, Glossary glossary) {
         
+        this.glossary = glossary;
+        
         if(isIndex(contentKey)){
-            return createIndexPage(contentKey, glossary);
+            
+            ArrayList<Link> links = new ArrayList<>();
+            
+            List<String> childs = getIndexHelper().getChilds(contentKey);
+            
+            for(String child:childs){
+                
+                String[] childKey = append(contentKey, child);
+                
+                links.add(new Link(glossary.link(childKey),child));
+            }
+            
+            return createIndexPage(links);
         }else{
             List<Contract> contracts = indexer.getContract(contentKey);
         
@@ -62,7 +82,7 @@ public abstract class ContentProviderBase implements ContentProvider{
     }
 
     
-    protected abstract String createIndexPage(String[] contentKey,Glossary glossary);
+    protected abstract String createIndexPage(List<Link> links);
     
     
     protected abstract String createContractPage(Contract contract);

@@ -7,8 +7,6 @@ package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.ContractMarkDown;
-import com.acidmanic.pactdoc.services.Glossary;
-import static com.acidmanic.pactdoc.services.extendableindexing.ContentKeyHelper.*;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import java.util.List;
 
@@ -22,30 +20,26 @@ public class MarkdownContentProvider extends ContentProviderBase{
         super(indexer);
     }
 
-  
-    @Override
-    protected String createIndexPage(String[] contentKey, Glossary glossary) {
-        StringBuilder sb = new StringBuilder();
-            
-            List<String> childs = getIndexHelper().getChilds(contentKey);
-            
-            for(String child:childs){
-                
-                String[] childKey = append(contentKey, child);
-                
-                sb.append("\n[**");
-                sb.append(child).append("**](")
-                    .append(glossary.link(childKey)).append(")");
-                
-                sb.append("\n");
-            }
-            
-            return sb.toString();
-    }
-
+ 
     @Override
     protected String createContractPage(Contract contract) {
         return new ContractMarkDown().getMarkDown(contract);
+    }
+
+    @Override
+    protected String createIndexPage(List<Link> links) {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(Link link:links){
+            sb.append("\n[**");
+                sb.append(link.getCaption()).append("**](")
+                    .append(link.getSrc()).append(")");
+                
+                sb.append("\n");
+        }
+        
+        return sb.toString();
     }
 
 
