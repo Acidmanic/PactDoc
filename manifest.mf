@@ -1,0 +1,5 @@
+Implementation-Version: 0.0.0
+Implementation-Title: PactDoc
+Implementation-Vendor: Acidmanic
+Application-Description: PACT contract verification and documentation tool.
+
