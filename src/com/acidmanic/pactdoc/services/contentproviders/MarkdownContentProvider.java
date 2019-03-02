@@ -31,10 +31,10 @@ public class MarkdownContentProvider implements ContentProvider{
     
     
     @Override
-    public <T> String provideContentFor(T contentKey, Glossary glossary) {
+    public String provideContentFor(String[] contentKey, Glossary glossary) {
         
         if( contentKey instanceof String[]){
-            return provide((String[]) contentKey,glossary);
+            return provide(contentKey,glossary);
         }
         return "";
     }

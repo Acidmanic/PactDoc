@@ -20,12 +20,11 @@ public interface ContentProvider {
     public static String CONTENT_NOT_FOUND="Requested Content not found.";
     /**
      * 
-     * @param <T> is the Content key. 
      * @param contentKey a content key can be any object that 
      * points to a content, it can be a search keyword, a category or etc. 
      * @param glossary can be used to include links inside of contents 
      * being provided
      * @return 
      */
-    public <T> String provideContentFor(T contentKey,Glossary glossary);
+    public String provideContentFor(String[] contentKey,Glossary glossary);
 }
