@@ -119,8 +119,3 @@ Again consider the project constructor above.
 --repository will take the remote address for your repository, it can be ssh or http or other.
 If you're working with a remote repository, you probabiliy need to authenticate. so you should use --user and --pass to provide authentication information. If your using github or gitlab cicds, you can put your password in a environment variable, then use that variable (ex. $MY_PASSWORD) in the script.
 When we put the documentation inside a wiki, the wiki itself might not be completely dedicated to Api documentations. Then we might need to put all the generated api documentations inside a sub directory. This is wat the --apis-sub-dir does.
-
-
-
-
-
