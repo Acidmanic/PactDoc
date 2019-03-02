@@ -5,8 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wikigenerators;
 
-import com.acidmanic.io.file.FileSystemHelper;
-import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.Glossary;
 import com.acidmanic.pactdoc.services.GlossaryScanner;
 import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
@@ -56,7 +54,6 @@ public abstract class WikiGeneratorBase {
         final Path baseDirectory = Paths.get(destinationDirectory)
                 .toAbsolutePath().normalize();
         
-//        new FileSystemHelper().clearDirectory(baseDirectory.toString());
         
         glossary.scan(new GlossaryScanner() {
             @Override

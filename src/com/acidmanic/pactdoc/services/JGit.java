@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services;
 
-import com.acidmanic.utilities.Bash;
 import java.io.File;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -80,14 +79,7 @@ public class JGit {
        return false;
     }
     
-    
-    
-    public boolean pushUsingBash(String repo,String directory){
-        String command = "git " + forwardGit(directory)+" push "
-                + repo + " --all";
-        String res = new Bash().syncRun(command);
-        return res!=null;
-    }
+ 
     public boolean push(String remote,String directory){
         Git git = tryGetGit(new File(directory));
 
