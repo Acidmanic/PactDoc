@@ -21,6 +21,9 @@ public interface PageItemsProvider {
     
     StringBuilder appendTable(StringBuilder sb,HashMap<String,String> table);
     
+    StringBuilder appendTable(StringBuilder sb,String leftHeader,String rightHeader
+            , HashMap<String,String> table);
+    
     String bold(String text);
     
     String italic(String text);

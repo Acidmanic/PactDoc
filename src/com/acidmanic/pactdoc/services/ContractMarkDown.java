@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc.services;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.Interaction;
+import com.acidmanic.pactdoc.utility.TextReformater;
 import java.util.HashMap;
 
 /**
@@ -39,7 +40,7 @@ public class ContractMarkDown {
             
             if(inter.getRequest().getBody()!=null){
                sb.append("\n").append("with body:\n```json\n")
-                       .append(pritifyJson(inter.getRequest().getBody()))
+                       .append(new TextReformater().pritifyJson(inter.getRequest().getBody()))
                        .append("\n```").append("\n");
             }
 
@@ -54,7 +55,7 @@ public class ContractMarkDown {
 
             if(inter.getResponse().getBody()!=null){
                sb.append("\n").append("with body:\n```json\n")
-                       .append(pritifyJson(inter.getResponse().getBody()))
+                       .append(new TextReformater().pritifyJson(inter.getResponse().getBody()))
                        .append("\n```").append("\n");
             }
         }
@@ -75,41 +76,8 @@ public class ContractMarkDown {
     }
     
     
-    private String pritifyJson(String json){
-        StringBuilder sb = new StringBuilder();
-        
-        int indent =0;
-        char[] chars = json.toCharArray();
-        
-        for(char ch: chars){
-            if(ch=='{' || ch == '[' ){
-                sb.append(ch);
-                indent+=1;
-                appendIndentedLine(sb,indent);
-            }else if(ch=='}' || ch ==']'){
-                indent -=1;
-                appendIndentedLine(sb,indent);
-                sb.append(ch);
-            }else if ( ch == ','){
-                sb.append(ch);
-                appendIndentedLine(sb,indent);
-            }else{
-                sb.append(ch);
-            }
-        }
-        
-        return sb.toString();
-    }
+    
 
    
-    private StringBuilder appendIndentedLine(StringBuilder sb,int indent) {
-        
-        sb.append("\n");
-        
-        for(int i=0;i<indent;i++){
-            sb.append("    ");
-        }
-        
-        return sb;
-    }
+    
 }
