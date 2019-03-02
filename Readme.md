@@ -117,5 +117,8 @@ Again consider the project constructor above.
 ```
 
 --repository will take the remote address for your repository, it can be ssh or http or other.
-If you're working with a remote repository, you probabiliy need to authenticate. so you should use --user and --pass to provide authentication information. If your using github or gitlab cicds, you can put your password in a environment variable, then use that variable (ex. $MY_PASSWORD) in the script.
-When we put the documentation inside a wiki, the wiki itself might not be completely dedicated to Api documentations. Then we might need to put all the generated api documentations inside a sub directory. This is wat the --apis-sub-dir does.
+If you're working with a remote repository, you probably need to authenticate. so you should use --user and --pass to provide authentication information. If your using github or gitlab cicds, you can put your password in an environment variable, then use that variable (ex. $MY_PASSWORD) in the script.
+When we put the documentation inside a wiki, the wiki itself might not be completely dedicated to Api documentations. Then we might need to put all the generated api documentations inside a sub directory. This is wat the --apis-sub-dir does. In the above example, all documents will be put inside the Api sub directory of the wiki.
+
+| __Note:__ For CreateMarkdownWiki command and for UpdateWiki command, you __DONT__ necessarily __HAVE TO__ deal with creating a library and pluging it into the command. Unless you want to alter the wiki structure and extract more informations from the PACT contracts.
+|
