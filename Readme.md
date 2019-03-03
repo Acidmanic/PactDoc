@@ -122,4 +122,3 @@ When we put the documentation inside a wiki, the wiki itself might not be comple
 
 | __Note:__ For GenerateWiki command and for UpdateWiki command, you __DONT__ necessarily __HAVE TO__ deal with creating a library and pluging it into the command. Unless you want to alter the wiki structure and extract more informations from the PACT contracts.
 |
-
