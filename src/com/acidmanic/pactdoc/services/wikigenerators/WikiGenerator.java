@@ -8,7 +8,9 @@ package com.acidmanic.pactdoc.services.wikigenerators;
 import com.acidmanic.pactdoc.services.Glossary;
 import com.acidmanic.pactdoc.services.GlossaryScanner;
 import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
+import com.acidmanic.pactdoc.services.contentproviders.DirectoriyContentProvider;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.pages.PageContext;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,22 +21,28 @@ import java.nio.file.StandardOpenOption;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public abstract class WikiGeneratorBase {
+public class WikiGenerator {
     
     
     private boolean byVersion;
     private final boolean  linksEndWithFileExtionsion;
     private final ContractIndexer indexer;
     private final String linksBase;
+    private final Class<? extends PageContext> contextClass;
     
     
-    protected abstract ContentProvider getContentProvider();
+    private final ContentProvider contentProvider;
+   
 
-    public WikiGeneratorBase(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase) {
+    public WikiGenerator(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase, Class<? extends PageContext> contextClass) {
         this.linksEndWithFileExtionsion = linksEndWithFileExtionsion;
         this.indexer = indexer;
         this.linksBase = linksBase;
+        this.contextClass = contextClass;
+        this.contentProvider = new DirectoriyContentProvider(indexer, contextClass);
     }
+
+    
 
    
     
@@ -58,7 +66,7 @@ public abstract class WikiGeneratorBase {
         glossary.scan(new GlossaryScanner() {
             @Override
             public void scan(String link, String[] contentKey) {
-                String content = getContentProvider().provideContentFor(contentKey, glossary);
+                String content = contentProvider.provideContentFor(contentKey, glossary);
                 
                 Path path = baseDirectory.resolve(link+fsExtension); 
                 

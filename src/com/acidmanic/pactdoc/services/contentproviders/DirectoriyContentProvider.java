@@ -6,12 +6,12 @@
 package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.ContractExpression;
+import com.acidmanic.pactdoc.services.pages.ContractExpression;
 import com.acidmanic.pactdoc.services.Glossary;
 import static com.acidmanic.pactdoc.services.extendableindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.extendableindexing.IndexHelper;
-import com.acidmanic.pactdoc.services.pages.MarkdownContext;
+import com.acidmanic.pactdoc.services.pages.IndexExpression;
 import com.acidmanic.pactdoc.services.pages.PageContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +20,18 @@ import java.util.List;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public abstract class ContentProviderBase implements ContentProvider{
+public class DirectoriyContentProvider implements ContentProvider{
 
     private final ContractIndexer indexer;
     private final IndexHelper indexHelper;
-    private final Class<? extends PageContext> contextClass = MarkdownContext.class;
+    private final Class<? extends PageContext> contextClass;
     
     private Glossary glossary;
     
-    public ContentProviderBase(ContractIndexer indexer) {
+    public DirectoriyContentProvider(ContractIndexer indexer, Class<? extends PageContext> contextClass) {
         this.indexer = indexer;
         this.indexHelper = new IndexHelper(indexer);
+        this.contextClass = contextClass;
     }
 
     protected ContractIndexer getIndexer() {
@@ -84,7 +85,17 @@ public abstract class ContentProviderBase implements ContentProvider{
     }
 
     
-    protected abstract String createIndexPage(List<Link> links);
+    protected String createIndexPage(List<Link> links){
+        try {
+            
+            PageContext context = contextClass.newInstance();
+            IndexExpression exp = new IndexExpression(context);
+            exp.interpret(links);
+            
+            return context.output();
+        } catch (Exception e) {}
+        return CONTENT_NOT_FOUND;
+    }
     
     
     protected String createContractPage(Contract contract){

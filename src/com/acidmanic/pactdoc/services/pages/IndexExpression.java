@@ -3,35 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contentproviders;
+package com.acidmanic.pactdoc.services.pages;
 
+import com.acidmanic.pactdoc.services.contentproviders.Link;
 import java.util.List;
-import com.acidmanic.pactdoc.services.pages.PageContext;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class IndexPageGenerator {
+public class IndexExpression {
     
     
     private final PageContext provider;
 
-    public IndexPageGenerator(PageContext provider) {
+    public IndexExpression(PageContext provider) {
         this.provider = provider;
     }
     
     
     
-    public String generate(List<Link> links){
-        StringBuilder sb = new StringBuilder();
+    public void interpret(List<Link> links){
         
         for(Link link:links){
-            sb.append(provider.link(link))
-                    .append(provider.newLine());
+            
+            provider.newLine().link(link);
         }
         
-        return sb.toString();
+        provider.newLine();
         
     }
 }

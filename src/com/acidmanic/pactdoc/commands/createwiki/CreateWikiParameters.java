@@ -7,6 +7,8 @@ package com.acidmanic.pactdoc.commands.createwiki;
 
 import com.acidmanic.pactdoc.services.extendableindexing.DefaultPropertyProvider;
 import com.acidmanic.pactdoc.services.extendableindexing.PropertyProvider;
+import com.acidmanic.pactdoc.services.pages.MarkdownContext;
+import com.acidmanic.pactdoc.services.pages.PageContext;
 
 /**
  *
@@ -34,6 +36,9 @@ public class CreateWikiParameters {
     private boolean extensionForMarkDownFiles;
     
     private PropertyProvider propertyProvider;
+    
+    
+    private Class<? extends PageContext> contextClass;
 
     public CreateWikiParameters() {
         this.pactsRoot=".";
@@ -43,6 +48,7 @@ public class CreateWikiParameters {
         this.remote = "origin";
         this.byVersion = false;
         this.propertyProvider = new DefaultPropertyProvider();
+        this.contextClass = MarkdownContext.class;
     }
     
     
@@ -137,7 +143,14 @@ public class CreateWikiParameters {
     public void setPropertyProvider(PropertyProvider propertyProvider) {
         this.propertyProvider = propertyProvider;
     }
-    
+
+    public Class<? extends PageContext> getContextClass() {
+        return contextClass;
+    }
+
+    public void setContextClass(Class<? extends PageContext> contextClass) {
+        this.contextClass = contextClass;
+    }
     
     
     

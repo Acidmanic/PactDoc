@@ -14,7 +14,7 @@ import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidato
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.services.JGit;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
+import com.acidmanic.pactdoc.services.wikigenerators.WikiGenerator;
 import static com.acidmanic.pactdoc.utility.PactFiles.*;
 import java.util.Date;
 import com.acidmanic.pactdoc.utility.Func;
@@ -115,9 +115,9 @@ public class UpdateWiki extends CommandBase{
         
         scanForAllContracts(parameters.getPactsRoot(),indexer);
 
-        MarkdownWikiGenerator generator = new MarkdownWikiGenerator(indexer
-                , parameters.getDocumentsSubDirectory()
-                ,parameters.isExtensionForMarkDownFiles());
+        WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
+                    indexer, parameters.getDocumentsSubDirectory(), 
+                    parameters.getContextClass());
 
         generator.generate(parameters.getOutputDirectory());
         return true;
