@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.wikiformat;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 /**
@@ -21,7 +22,8 @@ public class WikiformatFactory {
     
         this.formats = new HashMap<>();
     
-        putFormat(WikiFormats.MARKDOWN);
+        putAllFormats();
+        
     }
     
     
@@ -36,6 +38,22 @@ public class WikiformatFactory {
 
     private void putFormat(WikiFormat format) {
         this.formats.put(format.getName().toLowerCase(), format);
+    }
+
+    private void putAllFormats() {
+        Class type = WikiFormats.class;
+        
+        Field[] fields = type.getFields();
+        
+        for(Field field:fields){
+            if(field.getType()==WikiFormat.class){
+                try {
+                    WikiFormat format = (WikiFormat) field.get(null);
+                    putFormat(format);
+                } catch (Exception e) {
+                }
+            }
+        }
     }
     
     

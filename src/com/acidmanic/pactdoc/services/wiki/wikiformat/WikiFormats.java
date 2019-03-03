@@ -15,5 +15,7 @@ public class WikiFormats {
     
     public static WikiFormat MARKDOWN = new WikiFormat(MarkdownContext.class, "md", "Markdown");
     
+    public static WikiFormat HTML = new WikiFormat(MarkdownContext.class, "html", "html");
+    
     
 }
