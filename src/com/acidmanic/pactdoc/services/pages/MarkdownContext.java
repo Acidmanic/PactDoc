@@ -97,18 +97,20 @@ public class MarkdownContext implements PageContext{
 
     @Override
     public PageContext openBold() {
+        checkEndsWithWhiteSpace();
         sb.append("__");
         return this;
     }
 
     @Override
     public PageContext closeBold() {
-        sb.append("__");
+        sb.append("__ ");
         return this;
     }
 
     @Override
     public PageContext openItalic() {
+        checkEndsWithWhiteSpace();
         sb.append("_");
         return this;
     }
@@ -117,6 +119,12 @@ public class MarkdownContext implements PageContext{
     public PageContext closeItalic() {
         sb.append("_");
         return this;
+    }
+
+    private void checkEndsWithWhiteSpace() {
+        if(!Character.isWhitespace(sb.charAt(sb.length()-1))){
+            sb.append(" ");
+        }
     }
 
     
