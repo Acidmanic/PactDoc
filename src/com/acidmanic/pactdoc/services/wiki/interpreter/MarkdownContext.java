@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contentproviders;
+package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.services.contentproviders.Link;
+import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
+import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import java.util.HashMap;
 

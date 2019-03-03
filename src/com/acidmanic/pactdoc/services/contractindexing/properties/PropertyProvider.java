@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contentproviders;
+package com.acidmanic.pactdoc.services.contractindexing.properties;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public interface PageContextProvider {
-    
-    
-    PageContext makeContext();
-    
+public interface PropertyProvider {
+    Property[] makeProperties();
 }

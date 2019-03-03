@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.wikiformat;
+package com.acidmanic.pactdoc.services.wiki.wikiformat;
 
-import com.acidmanic.pactdoc.services.contentproviders.PageContext;
-import com.acidmanic.pactdoc.services.contentproviders.PageContextProvider;
+import com.acidmanic.pactdoc.services.wiki.interpreter.PageContext;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class WikiFormat implements PageContextProvider{
+public class WikiFormat{
     
     private Class<? extends PageContext> contextClass;
     
@@ -46,9 +45,7 @@ public class WikiFormat implements PageContextProvider{
     public void setName(String name) {
         this.name = name;
     }
-    
-    
-    @Override
+        
     public PageContext makeContext(){
         try {
             

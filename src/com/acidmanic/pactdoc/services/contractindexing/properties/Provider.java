@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contractindexing;
+package com.acidmanic.pactdoc.services.contractindexing.properties;
 
 import com.acidmanic.pactdoc.models.Contract;
 
@@ -11,16 +11,19 @@ import com.acidmanic.pactdoc.models.Contract;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class Version implements Property {
+class Provider implements Property {
+
+    public Provider() {
+    }
 
     @Override
     public String name() {
-        return "Version";
+        return "Provider";
     }
 
     @Override
     public String value(Contract contract) {
-        return contract.getMetadata().getPactSpecification().getVersion();
+        return contract.getProvider().getName();
     }
     
 }

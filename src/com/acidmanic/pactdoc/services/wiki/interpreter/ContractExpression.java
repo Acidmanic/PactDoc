@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contentproviders;
+package com.acidmanic.pactdoc.services.wiki.interpreter;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.Interaction;
 import com.acidmanic.pactdoc.utility.TextReformater;
-import com.acidmanic.pactdoc.services.contentproviders.PageContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.PageContext;
 
 /**
  *

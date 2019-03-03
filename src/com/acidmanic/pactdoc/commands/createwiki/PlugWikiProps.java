@@ -7,8 +7,8 @@ package com.acidmanic.pactdoc.commands.createwiki;
 
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.plugin.PluginLoader;
-import com.acidmanic.pactdoc.services.contractindexing.DefaultPropertyProvider;
-import com.acidmanic.pactdoc.services.contractindexing.PropertyProvider;
+import com.acidmanic.pactdoc.services.contractindexing.properties.DefaultPropertyProvider;
+import com.acidmanic.pactdoc.services.contractindexing.properties.PropertyProvider;
 
 /**
  *

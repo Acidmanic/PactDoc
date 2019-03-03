@@ -5,11 +5,9 @@
  */
 package com.acidmanic.pactdoc.commands.createwiki;
 
-import com.acidmanic.pactdoc.services.contractindexing.DefaultPropertyProvider;
-import com.acidmanic.pactdoc.services.contractindexing.PropertyProvider;
-import com.acidmanic.pactdoc.services.contentproviders.MarkdownContext;
-import com.acidmanic.pactdoc.services.contentproviders.PageContext;
-import com.acidmanic.pactdoc.services.wikiformat.WikiFormats;
+import com.acidmanic.pactdoc.services.contractindexing.properties.DefaultPropertyProvider;
+import com.acidmanic.pactdoc.services.contractindexing.properties.PropertyProvider;
+import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
 
 /**
  *
@@ -31,9 +29,7 @@ public class CreateWikiParameters {
     private String password;
     
     private String remote;
-    
-    private boolean byVersion;
-    
+        
     private boolean extensionForMarkDownFiles;
     
     private String wikiFormat;
@@ -46,7 +42,6 @@ public class CreateWikiParameters {
         this.documentsSubDirectory="Api";
         this.extensionForMarkDownFiles=false;
         this.remote = "origin";
-        this.byVersion = false;
         this.propertyProvider = new DefaultPropertyProvider();
         this.wikiFormat = WikiFormats.MARKDOWN.getName();
     }
@@ -126,14 +121,6 @@ public class CreateWikiParameters {
 
     public void setRemote(String remote) {
         this.remote = remote;
-    }
-
-    public boolean isByVersion() {
-        return byVersion;
-    }
-
-    public void setByVersion(boolean byVersion) {
-        this.byVersion = byVersion;
     }
 
     public PropertyProvider getPropertyProvider() {

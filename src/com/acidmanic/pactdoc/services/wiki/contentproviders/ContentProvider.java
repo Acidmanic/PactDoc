@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contentproviders;
+package com.acidmanic.pactdoc.services.wiki.contentproviders;
 
-import com.acidmanic.pactdoc.services.Glossary;
+import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 
 /**
  *

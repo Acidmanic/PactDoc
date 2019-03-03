@@ -5,6 +5,8 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing;
 
+import com.acidmanic.pactdoc.services.contractindexing.properties.Service;
+
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)

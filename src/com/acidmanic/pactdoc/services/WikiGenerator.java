@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contentproviders;
+package com.acidmanic.pactdoc.services;
 
-import com.acidmanic.pactdoc.services.Glossary;
-import com.acidmanic.pactdoc.services.GlossaryScanner;
+import com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider;
+import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
+import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
+import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryScanner;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import java.io.File;
 import java.nio.file.Files;

@@ -7,8 +7,8 @@ package playgrounds;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.Function;
-import com.acidmanic.pactdoc.services.contractindexing.Service;
-import com.acidmanic.pactdoc.services.contractindexing.Version;
+import com.acidmanic.pactdoc.services.contractindexing.properties.Service;
+import com.acidmanic.pactdoc.services.contractindexing.properties.Version;
 import com.acidmanic.pactdoc.utility.PactFiles;
 import java.util.List;
 

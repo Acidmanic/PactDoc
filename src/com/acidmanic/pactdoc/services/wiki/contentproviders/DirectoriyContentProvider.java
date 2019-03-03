@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.contentproviders;
+package com.acidmanic.pactdoc.services.wiki.contentproviders;
 
+import com.acidmanic.pactdoc.services.wiki.interpreter.ContractExpression;
+import com.acidmanic.pactdoc.services.wiki.interpreter.PageContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.IndexExpression;
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.Glossary;
+import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
-import com.acidmanic.pactdoc.services.wikiformat.WikiFormat;
+import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing;
 
+import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
 import com.acidmanic.pactdoc.models.Contract;
 import java.util.ArrayList;
 import java.util.List;
