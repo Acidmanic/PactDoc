@@ -6,7 +6,7 @@
 package com.acidmanic.pactdoc.services.contentproviders;
 
 import java.util.List;
-import com.acidmanic.pactdoc.services.pages.PageItemsProvider;
+import com.acidmanic.pactdoc.services.pages.PageContext;
 
 /**
  *
@@ -15,9 +15,9 @@ import com.acidmanic.pactdoc.services.pages.PageItemsProvider;
 public class IndexPageGenerator {
     
     
-    private final PageItemsProvider provider;
+    private final PageContext provider;
 
-    public IndexPageGenerator(PageItemsProvider provider) {
+    public IndexPageGenerator(PageContext provider) {
         this.provider = provider;
     }
     

@@ -6,10 +6,13 @@
 package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.services.ContractExpression;
 import com.acidmanic.pactdoc.services.Glossary;
 import static com.acidmanic.pactdoc.services.extendableindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.extendableindexing.IndexHelper;
+import com.acidmanic.pactdoc.services.pages.MarkdownContext;
+import com.acidmanic.pactdoc.services.pages.PageContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +24,8 @@ public abstract class ContentProviderBase implements ContentProvider{
 
     private final ContractIndexer indexer;
     private final IndexHelper indexHelper;
-
+    private final Class<? extends PageContext> contextClass = MarkdownContext.class;
+    
     private Glossary glossary;
     
     public ContentProviderBase(ContractIndexer indexer) {
@@ -47,8 +51,6 @@ public abstract class ContentProviderBase implements ContentProvider{
         }
         return indexer.getContract(contentKey).isEmpty();
     }
-    
-    
     
     @Override
     public String provideContentFor(String[] contentKey, Glossary glossary) {
@@ -85,7 +87,18 @@ public abstract class ContentProviderBase implements ContentProvider{
     protected abstract String createIndexPage(List<Link> links);
     
     
-    protected abstract String createContractPage(Contract contract);
+    protected String createContractPage(Contract contract){
+        try {
+            
+            PageContext context = contextClass.newInstance();
+            ContractExpression exp = new ContractExpression(context);
+            exp.interpret(contract);
+            
+            return context.output();
+        } catch (Exception e) {}
+        return CONTENT_NOT_FOUND;
+        
+    }
     
     
     

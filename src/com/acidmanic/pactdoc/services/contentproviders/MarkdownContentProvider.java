@@ -5,10 +5,8 @@
  */
 package com.acidmanic.pactdoc.services.contentproviders;
 
-import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.ContractMarkDown;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.pages.MarkdownProvider;
+import com.acidmanic.pactdoc.services.pages.MarkdownContext;
 import java.util.List;
 
 /**
@@ -21,16 +19,11 @@ public class MarkdownContentProvider extends ContentProviderBase{
         super(indexer);
     }
 
- 
-    @Override
-    protected String createContractPage(Contract contract) {
-        return new ContractMarkDown().getMarkDown(contract);
-    }
 
     @Override
     protected String createIndexPage(List<Link> links) {
 
-        return new IndexPageGenerator(new MarkdownProvider())
+        return new IndexPageGenerator(new MarkdownContext())
                 .generate(links);
     }
 
