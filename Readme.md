@@ -82,20 +82,20 @@ If you do not provide --pacts-root &lt;path-pact-files&gt; parameter, the comman
 
 ##Generating A Markdown Documentation
 
-The ___CreateMarkdownWiki___ will search for all pact files available, then it creates documentation files in the output directory you've specified. This command is useful when you have some sort of static documentation server.
+The ___GenerateWiki___ will search for all pact files available, then it creates documentation files in the output directory you've specified. This command is useful when you have some sort of static documentation server.
 
 ###Example
 
 
 ```bash
-	./pactdoc CreateMarkdownWiki --output Documentations --add-extensions
+	./pactdoc GenerateWiki --output Documentations --add-extensions
 ```
-The bash code above, will create _Documentations_ directory if it already doesn't exist. And all documents will be put there. Each Endpoint's page will be addressed as api-version/provider-name.md. This addressing, is determined by an object of type ___PropertyProvider___. A PropertyProvider has one method which returns an array of Property objects. This array is used to create the structure of the documentation. A Property object is able to read an string from a Pact contract. By default, PactDoc uses an object of Type ___DefaultPropertyProvider___ and this object provides an array with first element being a ___Version___ object and the second being a ___Provider___ object. You can write your own Property objects and PropertyProvider class and plug it to the CreateMarkdownWiki command. Considering that your costume classes are in the MyCustomePlugin.jar file you created, and this file is in the same directory as PactDoc.jar, then using the command will be like this:
+The bash code above, will create _Documentations_ directory if it already doesn't exist. And all documents will be put there. Each Endpoint's page will be addressed as api-version/provider-name.md. This addressing, is determined by an object of type ___PropertyProvider___. A PropertyProvider has one method which returns an array of Property objects. This array is used to create the structure of the documentation. A Property object is able to read an string from a Pact contract. By default, PactDoc uses an object of Type ___DefaultPropertyProvider___ and this object provides an array with first element being a ___Version___ object and the second being a ___Provider___ object. You can write your own Property objects and PropertyProvider class and plug it to the GenerateWiki command. Considering that your costume classes are in the MyCustomePlugin.jar file you created, and this file is in the same directory as PactDoc.jar, then using the command will be like this:
 
 ```bash
-	./pactdoc CreateMarkdownWiki --output Documentations --plug-verifier MyCostumePlugin.jar my.costume.PropertyProvider --add-extensions
+	./pactdoc GenerateWiki --output Documentations --plug-verifier MyCostumePlugin.jar my.costume.PropertyProvider --add-extensions
 ```
-The --add-extensions argument, will prevent the CreateMarkdownWiki command from trimming off the document file extensions in links. 
+The --add-extensions argument, will prevent the GenerateWiki command from trimming off the document file extensions in links. 
 
 
 ##Updating A Repo-based Wiki
@@ -120,6 +120,6 @@ Again consider the project constructor above.
 If you're working with a remote repository, you probably need to authenticate. so you should use --user and --pass to provide authentication information. If your using github or gitlab cicds, you can put your password in an environment variable, then use that variable (ex. $MY_PASSWORD) in the script.
 When we put the documentation inside a wiki, the wiki itself might not be completely dedicated to Api documentations. Then we might need to put all the generated api documentations inside a sub directory. This is wat the --apis-sub-dir does. In the above example, all documents will be put inside the Api sub directory of the wiki.
 
-| __Note:__ For CreateMarkdownWiki command and for UpdateWiki command, you __DONT__ necessarily __HAVE TO__ deal with creating a library and pluging it into the command. Unless you want to alter the wiki structure and extract more informations from the PACT contracts.
+| __Note:__ For GenerateWiki command and for UpdateWiki command, you __DONT__ necessarily __HAVE TO__ deal with creating a library and pluging it into the command. Unless you want to alter the wiki structure and extract more informations from the PACT contracts.
 |
 

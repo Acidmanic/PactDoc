@@ -7,7 +7,7 @@ package com.acidmanic.pactdoc;
 
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.ApplicationWideTypeRegistery;
-import com.acidmanic.pactdoc.commands.CreateMarkdownWiki;
+import com.acidmanic.pactdoc.commands.GenerateWiki;
 import com.acidmanic.pactdoc.commands.UpdateWiki;
 import com.acidmanic.pactdoc.commands.verifycontracts.VerifyContracts;
 
@@ -23,7 +23,7 @@ public class PactDoc {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        ApplicationWideTypeRegistery.makeInstance().registerClass(CreateMarkdownWiki.class);
+        ApplicationWideTypeRegistery.makeInstance().registerClass(GenerateWiki.class);
         ApplicationWideTypeRegistery.makeInstance().registerClass(UpdateWiki.class);
         ApplicationWideTypeRegistery.makeInstance().registerClass(VerifyContracts.class);
         

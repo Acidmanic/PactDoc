@@ -19,7 +19,7 @@ import static com.acidmanic.pactdoc.utility.PactFiles.*;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class CreateMarkdownWiki extends CommandBase{
+public class GenerateWiki extends CommandBase{
     
     private final CreateWikiParameters parameters = new CreateWikiParameters();
 
