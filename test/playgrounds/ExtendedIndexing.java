@@ -5,10 +5,10 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.extendableindexing.Function;
-import com.acidmanic.pactdoc.services.extendableindexing.Service;
-import com.acidmanic.pactdoc.services.extendableindexing.Version;
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.contractindexing.Function;
+import com.acidmanic.pactdoc.services.contractindexing.Service;
+import com.acidmanic.pactdoc.services.contractindexing.Version;
 import com.acidmanic.pactdoc.utility.PactFiles;
 import java.util.List;
 

@@ -6,13 +6,10 @@
 package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.pages.ContractExpression;
 import com.acidmanic.pactdoc.services.Glossary;
-import static com.acidmanic.pactdoc.services.extendableindexing.ContentKeyHelper.append;
-import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.extendableindexing.IndexHelper;
-import com.acidmanic.pactdoc.services.pages.IndexExpression;
-import com.acidmanic.pactdoc.services.pages.PageContext;
+import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.pages;
+package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.services.contentproviders.Link;
 import java.util.HashMap;

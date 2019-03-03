@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.extendableindexing;
-
-import com.acidmanic.pactdoc.models.Contract;
+package com.acidmanic.pactdoc.services.contentproviders;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public interface Property {
+public interface ContractPage {
+ 
     
-    String name();
     
-    String value(Contract contract);
+    void setTitle(String title);
 }

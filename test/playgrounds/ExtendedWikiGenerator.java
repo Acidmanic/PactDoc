@@ -6,11 +6,12 @@
 package playgrounds;
 
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.extendableindexing.Function;
-import com.acidmanic.pactdoc.services.extendableindexing.Service;
-import com.acidmanic.pactdoc.services.extendableindexing.Version;
-import com.acidmanic.pactdoc.services.wikigenerators.MarkdownWikiGenerator;
+import com.acidmanic.pactdoc.services.contentproviders.MarkdownContext;
+import com.acidmanic.pactdoc.services.contentproviders.WikiGenerator;
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.contractindexing.Function;
+import com.acidmanic.pactdoc.services.contractindexing.Service;
+import com.acidmanic.pactdoc.services.contractindexing.Version;
 import com.acidmanic.pactdoc.utility.PactFiles;
 
 /**
@@ -32,8 +33,8 @@ public class ExtendedWikiGenerator {
         PactFiles.scanForAllContracts(".",indexer);
         
         
-        MarkdownWikiGenerator wikiGenerator 
-                = new MarkdownWikiGenerator(indexer, "ApiEx");
+        WikiGenerator wikiGenerator 
+                = new WikiGenerator(false, indexer, "api", MarkdownContext.class);
         
         wikiGenerator.generate("build");
     }

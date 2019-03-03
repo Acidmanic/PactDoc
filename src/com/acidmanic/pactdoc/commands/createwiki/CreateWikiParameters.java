@@ -5,10 +5,10 @@
  */
 package com.acidmanic.pactdoc.commands.createwiki;
 
-import com.acidmanic.pactdoc.services.extendableindexing.DefaultPropertyProvider;
-import com.acidmanic.pactdoc.services.extendableindexing.PropertyProvider;
-import com.acidmanic.pactdoc.services.pages.MarkdownContext;
-import com.acidmanic.pactdoc.services.pages.PageContext;
+import com.acidmanic.pactdoc.services.contractindexing.DefaultPropertyProvider;
+import com.acidmanic.pactdoc.services.contractindexing.PropertyProvider;
+import com.acidmanic.pactdoc.services.contentproviders.MarkdownContext;
+import com.acidmanic.pactdoc.services.contentproviders.PageContext;
 
 /**
  *

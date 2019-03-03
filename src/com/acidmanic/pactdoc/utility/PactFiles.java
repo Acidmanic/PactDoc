@@ -6,7 +6,7 @@
 package com.acidmanic.pactdoc.utility;
 
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
