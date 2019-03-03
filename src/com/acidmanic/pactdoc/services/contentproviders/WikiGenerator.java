@@ -7,10 +7,7 @@ package com.acidmanic.pactdoc.services.contentproviders;
 
 import com.acidmanic.pactdoc.services.Glossary;
 import com.acidmanic.pactdoc.services.GlossaryScanner;
-import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
-import com.acidmanic.pactdoc.services.contentproviders.DirectoriyContentProvider;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.contentproviders.PageContext;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,24 +25,20 @@ public class WikiGenerator {
     private final boolean  linksEndWithFileExtionsion;
     private final ContractIndexer indexer;
     private final String linksBase;
-    private final Class<? extends PageContext> contextClass;
     
     
     private final ContentProvider contentProvider;
-   
 
-    public WikiGenerator(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase, Class<? extends PageContext> contextClass) {
+    public WikiGenerator(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase, ContentProvider contentProvider) {
         this.linksEndWithFileExtionsion = linksEndWithFileExtionsion;
         this.indexer = indexer;
         this.linksBase = linksBase;
-        this.contextClass = contextClass;
-        this.contentProvider = new DirectoriyContentProvider(indexer, contextClass);
+        this.contentProvider = contentProvider;
     }
 
-    
-
    
-    
+   
+
     public boolean getLinksEndWithFileExtension(){
         return this.linksEndWithFileExtionsion;
     }

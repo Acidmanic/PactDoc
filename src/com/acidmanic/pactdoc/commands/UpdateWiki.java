@@ -13,8 +13,12 @@ import com.acidmanic.pactdoc.commands.createwiki.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.services.JGit;
+import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
+import com.acidmanic.pactdoc.services.contentproviders.DirectoriyContentProvider;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contentproviders.WikiGenerator;
+import com.acidmanic.pactdoc.services.wikiformat.WikiFormat;
+import com.acidmanic.pactdoc.services.wikiformat.WikiformatFactory;
 import static com.acidmanic.pactdoc.utility.PactFiles.*;
 import java.util.Date;
 import com.acidmanic.pactdoc.utility.Func;
@@ -115,10 +119,13 @@ public class UpdateWiki extends CommandBase{
         
         scanForAllContracts(parameters.getPactsRoot(),indexer);
 
-        WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
-                    indexer, parameters.getDocumentsSubDirectory(), 
-                    parameters.getContextClass());
-
+         WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
+            
+            ContentProvider contentProvider = new DirectoriyContentProvider(indexer, format);
+            
+            WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
+                    indexer, parameters.getDocumentsSubDirectory(),contentProvider);
+            
         generator.generate(parameters.getOutputDirectory());
         return true;
     }

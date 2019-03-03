@@ -10,6 +10,7 @@ import com.acidmanic.pactdoc.services.Glossary;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
+import com.acidmanic.pactdoc.services.wikiformat.WikiFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +21,19 @@ import java.util.List;
 public class DirectoriyContentProvider implements ContentProvider{
 
     private final ContractIndexer indexer;
+    private final WikiFormat wikiFormat;
     private final IndexHelper indexHelper;
-    private final Class<? extends PageContext> contextClass;
     
-    private Glossary glossary;
-    
-    public DirectoriyContentProvider(ContractIndexer indexer, Class<? extends PageContext> contextClass) {
+    public DirectoriyContentProvider(ContractIndexer indexer,  WikiFormat wikiFormat) {
         this.indexer = indexer;
         this.indexHelper = new IndexHelper(indexer);
-        this.contextClass = contextClass;
+        this.wikiFormat = wikiFormat;
     }
+    
+    
+
+    
+   
 
     protected ContractIndexer getIndexer() {
         return indexer;
@@ -39,9 +43,7 @@ public class DirectoriyContentProvider implements ContentProvider{
         return indexHelper;
     }
     
-    protected Glossary getGlossary(){
-        return this.glossary;
-    }
+
     
     private boolean isIndex(String[] contentKey) {
         if(!indexHelper.isLeaf(contentKey)){
@@ -53,7 +55,6 @@ public class DirectoriyContentProvider implements ContentProvider{
     @Override
     public String provideContentFor(String[] contentKey, Glossary glossary) {
         
-        this.glossary = glossary;
         
         if(isIndex(contentKey)){
             
@@ -83,28 +84,19 @@ public class DirectoriyContentProvider implements ContentProvider{
 
     
     protected String createIndexPage(List<Link> links){
-        try {
-            
-            PageContext context = contextClass.newInstance();
-            IndexExpression exp = new IndexExpression(context);
-            exp.interpret(links);
-            
-            return context.output();
-        } catch (Exception e) {}
-        return CONTENT_NOT_FOUND;
+        PageContext context = wikiFormat.makeContext();
+        IndexExpression exp = new IndexExpression(context);
+        exp.interpret(links);
+        return context.output();
     }
     
     
     protected String createContractPage(Contract contract){
-        try {
-            
-            PageContext context = contextClass.newInstance();
+        PageContext context = wikiFormat.makeContext();
             ContractExpression exp = new ContractExpression(context);
             exp.interpret(contract);
             
             return context.output();
-        } catch (Exception e) {}
-        return CONTENT_NOT_FOUND;
         
     }
     

@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.wikiformat;
-
-import com.acidmanic.pactdoc.services.contentproviders.MarkdownContext;
+package com.acidmanic.pactdoc.services.contentproviders;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class WikiFormats {
+public interface PageContextProvider {
     
-    public static WikiFormat MARKDOWN = new WikiFormat(MarkdownContext.class, "md", "Markdown");
     
+    PageContext makeContext();
     
 }

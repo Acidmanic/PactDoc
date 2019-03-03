@@ -11,8 +11,12 @@ import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiTypeRegistery;
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
+import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
+import com.acidmanic.pactdoc.services.contentproviders.DirectoriyContentProvider;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contentproviders.WikiGenerator;
+import com.acidmanic.pactdoc.services.wikiformat.WikiFormat;
+import com.acidmanic.pactdoc.services.wikiformat.WikiformatFactory;
 import static com.acidmanic.pactdoc.utility.PactFiles.*;
 
 /**
@@ -44,9 +48,12 @@ public class GenerateWiki extends CommandBase{
             
             scanForAllContracts(parameters.getPactsRoot(),indexer);
 
+            WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
+            
+            ContentProvider contentProvider = new DirectoriyContentProvider(indexer, format);
+            
             WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
-                    indexer, parameters.getDocumentsSubDirectory(), 
-                    parameters.getContextClass());
+                    indexer, parameters.getDocumentsSubDirectory(),contentProvider);
 
             generator.generate(parameters.getOutputDirectory());
         }

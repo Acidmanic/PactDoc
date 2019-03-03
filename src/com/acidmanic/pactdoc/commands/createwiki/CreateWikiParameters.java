@@ -9,6 +9,7 @@ import com.acidmanic.pactdoc.services.contractindexing.DefaultPropertyProvider;
 import com.acidmanic.pactdoc.services.contractindexing.PropertyProvider;
 import com.acidmanic.pactdoc.services.contentproviders.MarkdownContext;
 import com.acidmanic.pactdoc.services.contentproviders.PageContext;
+import com.acidmanic.pactdoc.services.wikiformat.WikiFormats;
 
 /**
  *
@@ -35,10 +36,9 @@ public class CreateWikiParameters {
     
     private boolean extensionForMarkDownFiles;
     
-    private PropertyProvider propertyProvider;
+    private String wikiFormat;
     
-    
-    private Class<? extends PageContext> contextClass;
+    private PropertyProvider propertyProvider;;
 
     public CreateWikiParameters() {
         this.pactsRoot=".";
@@ -48,7 +48,7 @@ public class CreateWikiParameters {
         this.remote = "origin";
         this.byVersion = false;
         this.propertyProvider = new DefaultPropertyProvider();
-        this.contextClass = MarkdownContext.class;
+        this.wikiFormat = WikiFormats.MARKDOWN.getName();
     }
     
     
@@ -144,14 +144,15 @@ public class CreateWikiParameters {
         this.propertyProvider = propertyProvider;
     }
 
-    public Class<? extends PageContext> getContextClass() {
-        return contextClass;
+    public String getWikiFormat() {
+        return wikiFormat;
     }
 
-    public void setContextClass(Class<? extends PageContext> contextClass) {
-        this.contextClass = contextClass;
+    public void setWikiFormat(String wikiFormat) {
+        this.wikiFormat = wikiFormat;
     }
-    
+
+   
     
     
 }

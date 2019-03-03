@@ -6,12 +6,15 @@
 package playgrounds;
 
 import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactdoc.services.contentproviders.ContentProvider;
+import com.acidmanic.pactdoc.services.contentproviders.DirectoriyContentProvider;
 import com.acidmanic.pactdoc.services.contentproviders.MarkdownContext;
 import com.acidmanic.pactdoc.services.contentproviders.WikiGenerator;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.Function;
 import com.acidmanic.pactdoc.services.contractindexing.Service;
 import com.acidmanic.pactdoc.services.contractindexing.Version;
+import com.acidmanic.pactdoc.services.wikiformat.WikiFormats;
 import com.acidmanic.pactdoc.utility.PactFiles;
 
 /**
@@ -34,7 +37,8 @@ public class ExtendedWikiGenerator {
         
         
         WikiGenerator wikiGenerator 
-                = new WikiGenerator(false, indexer, "api", MarkdownContext.class);
+                = new WikiGenerator(false, indexer, "api",
+                        new DirectoriyContentProvider(indexer,WikiFormats.MARKDOWN));
         
         wikiGenerator.generate("build");
     }

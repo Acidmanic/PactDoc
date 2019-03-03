@@ -6,35 +6,29 @@
 package com.acidmanic.pactdoc.services.wikiformat;
 
 import com.acidmanic.pactdoc.services.contentproviders.PageContext;
+import com.acidmanic.pactdoc.services.contentproviders.PageContextProvider;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class WikiFormat {
+public class WikiFormat implements PageContextProvider{
     
-    private PageContext context;
+    private Class<? extends PageContext> contextClass;
     
     private String filesExtension;
+    
+    private String name;
 
-    public WikiFormat(PageContext context, String filesExtension) {
-        this.context = context;
+    public WikiFormat(Class<? extends PageContext> contextClass, String filesExtension, String name) {
+        this.contextClass = contextClass;
         this.filesExtension = filesExtension;
+        this.name = name;
     }
-    
-    
-    
+
     
 
     public WikiFormat() {
-    }
-
-    public PageContext getContext() {
-        return context;
-    }
-
-    public void setContext(PageContext context) {
-        this.context = context;
     }
 
     public String getFilesExtension() {
@@ -44,6 +38,27 @@ public class WikiFormat {
     public void setFilesExtension(String filesExtension) {
         this.filesExtension = filesExtension;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
+    @Override
+    public PageContext makeContext(){
+        try {
+            
+            return contextClass.newInstance();
+            
+        } catch (Exception e) {}
+        
+        return PageContext.NULL;
+    }
+    
     
     
 }

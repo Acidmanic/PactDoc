@@ -12,7 +12,8 @@ import java.util.HashMap;
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class WikiformatFactory {
-
+    
+    
     private final HashMap<String,WikiFormat> formats;
     
     
@@ -20,7 +21,7 @@ public class WikiformatFactory {
     
         this.formats = new HashMap<>();
     
-        this.formats.put("markdown",WikiFormats.MARKDOWN );
+        putFormat(WikiFormats.MARKDOWN);
     }
     
     
@@ -31,6 +32,10 @@ public class WikiformatFactory {
         }
         
         return WikiFormats.MARKDOWN;
+    }
+
+    private void putFormat(WikiFormat format) {
+        this.formats.put(format.getName().toLowerCase(), format);
     }
     
     

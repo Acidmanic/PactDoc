@@ -14,6 +14,8 @@ import java.util.HashMap;
  */
 public interface PageContext {
         
+    public static final PageContext NULL = new NULLContext();
+    
     PageContext title(String text);
     
     PageContext paragraph(String text);
