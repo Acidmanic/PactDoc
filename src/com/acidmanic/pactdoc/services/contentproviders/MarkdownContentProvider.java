@@ -8,6 +8,7 @@ package com.acidmanic.pactdoc.services.contentproviders;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.ContractMarkDown;
 import com.acidmanic.pactdoc.services.extendableindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.pages.MarkdownProvider;
 import java.util.List;
 
 /**
@@ -28,18 +29,9 @@ public class MarkdownContentProvider extends ContentProviderBase{
 
     @Override
     protected String createIndexPage(List<Link> links) {
-        
-        StringBuilder sb = new StringBuilder();
-        
-        for(Link link:links){
-            sb.append("\n[**");
-                sb.append(link.getCaption()).append("**](")
-                    .append(link.getSrc()).append(")");
-                
-                sb.append("\n");
-        }
-        
-        return sb.toString();
+
+        return new IndexPageGenerator(new MarkdownProvider())
+                .generate(links);
     }
 
 
