@@ -72,7 +72,7 @@ public class DirectoriyContentProvider implements ContentProvider{
                 links.add(new Link(glossary.link(childKey),child));
             }
             
-            return createIndexPage(links);
+            return createIndexPage(links,contentKey);
         }else{
             List<Contract> contracts = indexer.getContract(contentKey);
         
@@ -86,10 +86,10 @@ public class DirectoriyContentProvider implements ContentProvider{
     }
 
     
-    protected String createIndexPage(List<Link> links){
+    protected String createIndexPage(List<Link> links,String[] currentContentKey){
         PageContext context = wikiFormat.makeContext();
         IndexExpression exp = new IndexExpression(context);
-        exp.interpret(links);
+        exp.interpret(links,currentContentKey,indexer);
         return context.output();
     }
     

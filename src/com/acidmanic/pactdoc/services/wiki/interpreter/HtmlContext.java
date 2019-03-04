@@ -144,4 +144,10 @@ public class HtmlContext implements PageContext{
         sb.append("</a>");
         return this;
     }
+
+    @Override
+    public PageContext horizontalLine() {
+        sb.append("<hr>");
+        return this;
+    }
 }

@@ -50,4 +50,25 @@ public class TextReformater {
         
         return sb;
     }
+    
+    public String plural(String noun){
+        
+        
+        if (takesPluralE(noun)){
+            return noun + "es";
+        }
+        
+        return noun+"s";
+    }
+
+    private boolean takesPluralE(String noun) {
+        String[] chars = {"s", "x", "z", "ch", "sh"};
+        String lowerNoun = noun.toLowerCase();
+        for(String end:chars){
+            if (lowerNoun.endsWith(end)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

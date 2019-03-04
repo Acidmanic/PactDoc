@@ -155,6 +155,12 @@ public class MarkdownContext implements PageContext{
         this.currentContent.append("[**").append(caption)
                 .append("**](").append(src).append(")");
     }
+
+    @Override
+    public PageContext horizontalLine() {
+        this.currentContent.append("___________________");
+        return this;
+    }
     
     
     

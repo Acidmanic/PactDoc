@@ -49,4 +49,6 @@ public interface PageContext {
     PageContext json(String json);
     
     String output();
+
+    PageContext horizontalLine();
 }

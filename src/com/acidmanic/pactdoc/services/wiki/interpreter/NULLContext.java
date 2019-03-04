@@ -91,5 +91,10 @@ public class NULLContext implements PageContext{
     public PageContext closeLink() {
         return this;
     }
+
+    @Override
+    public PageContext horizontalLine() {
+        return this;
+    }
     
 }
