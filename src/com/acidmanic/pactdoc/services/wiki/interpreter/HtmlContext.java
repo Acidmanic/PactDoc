@@ -17,8 +17,23 @@ public class HtmlContext implements PageContext{
 
     StringBuilder sb;
 
+    private final String ENDTAG = "\"</div></body></html>\"";
     public HtmlContext() {  
         sb= new StringBuilder();
+        
+        sb.append("<html>").append("<head>")
+                .append("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css\" integrity=\"sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS\" crossorigin=\"anonymous\">\n" +
+"<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js\" integrity=\"sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k\" crossorigin=\"anonymous\"></script>")
+                .append("<style>")
+                .append("table{margin:10px}")
+                .append("</style>")
+                .append("</head><body>");
+        sb.append("<nav class=\"navbar navbar-default\"> </div>")
+                .append("<div class=\"container-fluid\">")
+                .append("<div class=\"navbar-header\">")
+                .append("</div></div></nav>");
+        
+        sb.append("<div class=\"container\">");
     }
     
     @Override
@@ -35,23 +50,25 @@ public class HtmlContext implements PageContext{
 
     @Override
     public PageContext table(HashMap<String, String> table) {
-        sb.append("<table>");
+        sb.append("<table class=\"table table-bordered col-lg-4\">");
         
         for(String key:table.keySet()){
             appendRow(sb,key,table.get(key));
         }
-        sb.append("</table>");
+        sb.append("</table></row>");
         return this;
     }
 
     @Override
     public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        sb.append("<table>");
-        appendRow(sb,leftHeader,rightHeader);
+        sb.append("<table class=\"table table-bordered col-lg-4\">");
+        sb.append("<thead class=\"thead-light\">");
+        appendTags(sb, "th", new String[]{leftHeader,rightHeader});
+        sb.append("</thead><tbody>");
         for(String key:table.keySet()){
             appendRow(sb,key,table.get(key));
         }
-        sb.append("</table>");
+        sb.append("</tbody></table>");
         return this;
     }
 
@@ -108,8 +125,32 @@ public class HtmlContext implements PageContext{
         return this;
     }
 
+    
+    private boolean endsWith(String value){
+        
+        int count = value.length();
+        int charsAtSb = sb.length();
+        
+        if(count>charsAtSb){
+            return false;
+        }
+        
+        int firstChar = charsAtSb-count;
+        
+        for(int i=0;i<count;i++){
+            if(value.charAt(i)!=sb.charAt(i+firstChar)){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     @Override
     public String output() {
+        if(!endsWith(ENDTAG)){
+            sb.append(ENDTAG);
+        }
         return sb.toString();
     }
 
@@ -126,6 +167,17 @@ public class HtmlContext implements PageContext{
         return text;
     }
 
+    private StringBuilder appendTags(StringBuilder sb, String tag,String[] values){
+        for(String value:values){
+            appendTag(sb, tag, value);
+        }
+        return sb;
+    }
+    
+    private StringBuilder appendTag(StringBuilder sb, String tag,String value){
+        return sb.append("<").append(tag).append(">")
+                .append(value).append("</").append(tag).append(">");
+    }
     private void appendRow(StringBuilder sb, String left, String right) {
         sb.append("<tr><td>")
                 .append(left).append("</td><td>")
