@@ -131,4 +131,17 @@ public class HtmlContext implements PageContext{
                 .append(left).append("</td><td>")
                 .append(right).append("</td></tr>");
     }
+
+    @Override
+    public PageContext openLink(String src) {
+        sb.append("<a href=\"").append(src)
+                .append("\" >");
+        return this;
+    }
+
+    @Override
+    public PageContext closeLink() {
+        sb.append("</a>");
+        return this;
+    }
 }

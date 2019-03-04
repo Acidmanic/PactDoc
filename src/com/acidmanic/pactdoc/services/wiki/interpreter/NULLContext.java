@@ -81,5 +81,15 @@ public class NULLContext implements PageContext{
     public String output() {
         return "Unable to create Content";
     }
+
+    @Override
+    public PageContext openLink(String src) {
+        return this;
+    }
+
+    @Override
+    public PageContext closeLink() {
+        return this;
+    }
     
 }

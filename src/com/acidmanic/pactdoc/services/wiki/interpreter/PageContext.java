@@ -40,6 +40,12 @@ public interface PageContext {
     
     PageContext newLine();
     
+    PageContext openLink(String src);
+    
+    PageContext closeLink();
+    
+    
+    
     PageContext json(String json);
     
     String output();

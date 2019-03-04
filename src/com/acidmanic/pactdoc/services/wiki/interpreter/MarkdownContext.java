@@ -15,12 +15,19 @@ import java.util.HashMap;
  */
 public class MarkdownContext implements PageContext{
 
+    private final StringBuilder mainContent;
     
-    private final StringBuilder sb;
+    private StringBuilder currentContent;
 
+    private StringBuilder linkContent;
+    
+    private String linkSrc;
+    
     public MarkdownContext() {
     
-        this.sb  = new StringBuilder();
+        this.mainContent  = new StringBuilder();
+        
+        this.currentContent = this.mainContent;
     }
     
     
@@ -28,7 +35,7 @@ public class MarkdownContext implements PageContext{
     @Override
     public PageContext title(String text) {
         
-        sb.append("##").append(text).append("\n");
+        currentContent.append("##").append(text).append("\n");
         
         return this;
     }
@@ -36,7 +43,7 @@ public class MarkdownContext implements PageContext{
     @Override
     public PageContext paragraph(String text) {
         
-        sb.append("\n").append(text).append("\n");
+        currentContent.append("\n").append(text).append("\n");
         
         return this;
     }
@@ -46,7 +53,7 @@ public class MarkdownContext implements PageContext{
     public PageContext table(HashMap<String, String> table) {
         for(String key:table.keySet()){
             String value = table.get(key);
-            sb.append("|")
+            currentContent.append("|")
                     .append(key)
                     .append("|")
                     .append(value)
@@ -57,21 +64,21 @@ public class MarkdownContext implements PageContext{
 
     @Override
     public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        sb.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
-        sb.append("|:------|:------------|\n");
+        currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
+        currentContent.append("|:------|:------------|\n");
         return this.table(table);
     }
 
     @Override
     public PageContext newLine() {
-        this.sb.append("\n\n");
+        this.currentContent.append("\n\n");
         return this;
     }
 
 
     @Override
     public PageContext json(String json) {
-        this.sb.append("```json\n").
+        this.currentContent.append("```json\n").
                 append(new TextReformater().pritifyJson(json))
                 .append("\n```\n");
         return this;
@@ -79,54 +86,75 @@ public class MarkdownContext implements PageContext{
 
     @Override
     public String output() {
-        return sb.toString();
+        return currentContent.toString();
     }
 
     @Override
     public PageContext link(Link link) {
-        this.sb.append("[**").append(link.getCaption())
-                .append("**](").append(link.getSrc()).append(")");
+        appendLink(link.getSrc(),link.getCaption());
         return this;
     }
 
     @Override
     public PageContext append(String text) {
-        this.sb.append(text);
+        this.currentContent.append(text);
         return this;
     }
 
     @Override
     public PageContext openBold() {
         checkEndsWithWhiteSpace();
-        sb.append("__");
+        currentContent.append("__");
         return this;
     }
 
     @Override
     public PageContext closeBold() {
-        sb.append("__ ");
+        currentContent.append("__ ");
         return this;
     }
 
     @Override
     public PageContext openItalic() {
         checkEndsWithWhiteSpace();
-        sb.append("_");
+        currentContent.append("_");
         return this;
     }
 
     @Override
     public PageContext closeItalic() {
-        sb.append("_");
+        currentContent.append("_");
         return this;
     }
 
     private void checkEndsWithWhiteSpace() {
-        if(!Character.isWhitespace(sb.charAt(sb.length()-1))){
-            sb.append(" ");
+        if(!Character.isWhitespace(currentContent.charAt(currentContent.length()-1))){
+            currentContent.append(" ");
         }
     }
 
+    @Override
+    public PageContext openLink(String src) {
+        this.linkContent = new StringBuilder();
+        this.currentContent = this.linkContent;
+        this.linkSrc=src;
+        return this;
+    }
+
+    @Override
+    public PageContext closeLink() {
+        
+        appendLink(this.linkSrc, this.linkContent.toString());
+        
+        this.currentContent = this.mainContent;
+        
+        return this;
+    }
+
+    private void appendLink(String src,String caption){
+        this.currentContent.append("[**").append(caption)
+                .append("**](").append(src).append(")");
+    }
     
     
     
