@@ -103,7 +103,6 @@ public class MarkdownContext implements PageContext{
 
     @Override
     public PageContext openBold() {
-        checkEndsWithWhiteSpace();
         currentContent.append("__");
         return this;
     }
@@ -116,7 +115,6 @@ public class MarkdownContext implements PageContext{
 
     @Override
     public PageContext openItalic() {
-        checkEndsWithWhiteSpace();
         currentContent.append("_");
         return this;
     }
@@ -128,6 +126,9 @@ public class MarkdownContext implements PageContext{
     }
 
     private void checkEndsWithWhiteSpace() {
+        if(currentContent.length()<1){
+            return;
+        }
         if(!Character.isWhitespace(currentContent.charAt(currentContent.length()-1))){
             currentContent.append(" ");
         }
@@ -144,16 +145,20 @@ public class MarkdownContext implements PageContext{
     @Override
     public PageContext closeLink() {
         
-        appendLink(this.linkSrc, this.linkContent.toString());
-        
         this.currentContent = this.mainContent;
+        
+        this.currentContent.append("[")
+                .append(this.linkContent)
+                .append("](")
+                .append(linkSrc)
+                .append(")");
         
         return this;
     }
 
     private void appendLink(String src,String caption){
-        this.currentContent.append("[**").append(caption)
-                .append("**](").append(src).append(")");
+        this.currentContent.append("[").append(caption)
+                .append("](").append(src).append(")");
     }
 
     @Override

@@ -37,7 +37,11 @@ public class ExtendedWikiGenerator {
         
         
         WikiGenerator wikiGenerator 
-                = new WikiGenerator(false, indexer, "api",WikiFormats.MARKDOWN);
+                = new WikiGenerator(false, 
+                        indexer, 
+                        "api",
+                        WikiFormats.MARKDOWN,
+                false);
         
         wikiGenerator.generate("build");
     }

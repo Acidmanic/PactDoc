@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
@@ -38,6 +37,7 @@ public class IndexExpression {
                 .append("(")
                 .append(delimit(current))
                 .append(")")
+                .closeItalic()
                 .newLine().newLine().newLine();
         }
         
@@ -51,6 +51,7 @@ public class IndexExpression {
             provider.openItalic()
                     .append(itemsName)
                     .append(":")
+                    .closeItalic()
                     .newLine();
         }
         
