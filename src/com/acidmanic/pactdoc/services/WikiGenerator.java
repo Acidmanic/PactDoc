@@ -29,15 +29,20 @@ public class WikiGenerator {
     private final ContractIndexer indexer;
     private final String linksBase;
     private final String extension;
-    
+    private final boolean rootRelativeLinks;
     private final ContentProvider contentProvider;
 
-    public WikiGenerator(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase,WikiFormat format) {
+    public WikiGenerator(boolean linksEndWithFileExtionsion, 
+            ContractIndexer indexer, 
+            String linksBase,
+            WikiFormat format,
+            boolean rootRelativeLinks) {
         this.linksEndWithFileExtionsion = linksEndWithFileExtionsion;
         this.indexer = indexer;
         this.linksBase = linksBase;
         this.extension = format.getFilesExtension();
         this.contentProvider = new DirectoriyContentProvider(indexer, format);
+        this.rootRelativeLinks =rootRelativeLinks;
     }
 
    
@@ -63,12 +68,13 @@ public class WikiGenerator {
         glossary.scan(new GlossaryScanner() {
             @Override
             public void scan(String link, String[] contentKey) {
-                String content = contentProvider.provideContentFor(contentKey, glossary);
+                String content = contentProvider.provideContentFor(contentKey, 
+                        glossary,rootRelativeLinks);
                 
                 Path path = baseDirectory.resolve(link+fsExtension); 
                 
                 path.getParent().toFile().mkdirs();
-                
+                                
                 writeFile(path.toString(),content);
             }
         });

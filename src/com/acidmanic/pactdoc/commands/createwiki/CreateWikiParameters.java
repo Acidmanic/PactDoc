@@ -34,7 +34,9 @@ public class CreateWikiParameters {
     
     private String wikiFormat;
     
-    private PropertyProvider propertyProvider;;
+    private PropertyProvider propertyProvider;
+    
+    private boolean rootRelativeLinks;
 
     public CreateWikiParameters() {
         this.pactsRoot=".";
@@ -44,6 +46,7 @@ public class CreateWikiParameters {
         this.remote = "origin";
         this.propertyProvider = new DefaultPropertyProvider();
         this.wikiFormat = WikiFormats.MARKDOWN.getName();
+        this.rootRelativeLinks = false;
     }
     
     
@@ -139,7 +142,13 @@ public class CreateWikiParameters {
         this.wikiFormat = wikiFormat;
     }
 
-   
+    public boolean isRootRelativeLinks() {
+        return rootRelativeLinks;
+    }
+
+    public void setRootRelativeLinks(boolean rootRelativeLinks) {
+        this.rootRelativeLinks = rootRelativeLinks;
+    }
     
     
 }

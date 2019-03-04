@@ -13,8 +13,6 @@ import com.acidmanic.pactdoc.commands.createwiki.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.services.JGit;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.DirectoriyContentProvider;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
@@ -122,7 +120,8 @@ public class UpdateWiki extends CommandBase{
         WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
                         
         WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
-                    indexer, parameters.getDocumentsSubDirectory(),format);
+                indexer, parameters.getDocumentsSubDirectory(),
+                format,parameters.isExtensionForMarkDownFiles());
             
         generator.generate(parameters.getOutputDirectory());
         return true;

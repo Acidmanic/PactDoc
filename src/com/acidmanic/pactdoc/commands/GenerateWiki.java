@@ -49,7 +49,8 @@ public class GenerateWiki extends CommandBase{
             WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
                         
             WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
-                    indexer, parameters.getDocumentsSubDirectory(),format);
+                    indexer, parameters.getDocumentsSubDirectory(),
+                    format, parameters.isRootRelativeLinks());
 
             generator.generate(parameters.getOutputDirectory());
         }

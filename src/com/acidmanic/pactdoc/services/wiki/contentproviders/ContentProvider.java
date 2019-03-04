@@ -26,5 +26,5 @@ public interface ContentProvider {
      * being provided
      * @return 
      */
-    public String provideContentFor(String[] contentKey,Glossary glossary);
+    public String provideContentFor(String[] contentKey,Glossary glossary, boolean rootRelativeLinks);
 }

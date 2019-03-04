@@ -25,6 +25,8 @@ public class CreateWikiTypeRegistery extends TypeRegistery{
             registerClass(Format.class);
             
             registerClass(PlugWikiProps.class);
+            
+            registerClass(RootRelativeLinks.class);
 
         }
         

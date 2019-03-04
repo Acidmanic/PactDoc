@@ -14,6 +14,8 @@ import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.a
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +58,9 @@ public class DirectoriyContentProvider implements ContentProvider{
     }
     
     @Override
-    public String provideContentFor(String[] contentKey, Glossary glossary) {
+    public String provideContentFor(String[] contentKey, 
+            Glossary glossary,
+            boolean rootRelativeContents) {
         
         
         if(isIndex(contentKey)){
@@ -69,7 +73,14 @@ public class DirectoriyContentProvider implements ContentProvider{
                 
                 String[] childKey = append(contentKey, child);
                 
-                links.add(new Link(glossary.link(childKey),child));
+                String fullLink = glossary.link(childKey);
+                
+                String link = getFinalLink(fullLink,
+                        glossary,
+                        contentKey, 
+                        rootRelativeContents);
+                
+                links.add(new Link(link,child));
             }
             
             return createIndexPage(links,contentKey);
@@ -85,6 +96,24 @@ public class DirectoriyContentProvider implements ContentProvider{
         return CONTENT_NOT_FOUND;
     }
 
+    
+    private String getFinalLink(String link,
+            Glossary glossary,
+            String[] contentKey,
+            boolean rootRelative){
+        if(rootRelative){
+            return link;
+        }
+        int depth = contentKey.length;
+        Path path = Paths.get(link);
+        
+        Path curPath = Paths.get(glossary.link(contentKey)).getParent();
+            
+        path=curPath.relativize(path);
+        
+        
+        return path.toString();
+    }
     
     protected String createIndexPage(List<Link> links,String[] currentContentKey){
         PageContext context = wikiFormat.makeContext();
