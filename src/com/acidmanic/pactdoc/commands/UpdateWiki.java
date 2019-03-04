@@ -119,12 +119,10 @@ public class UpdateWiki extends CommandBase{
         
         scanForAllContracts(parameters.getPactsRoot(),indexer);
 
-         WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
-            
-            ContentProvider contentProvider = new DirectoriyContentProvider(indexer, format);
-            
-            WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
-                    indexer, parameters.getDocumentsSubDirectory(),contentProvider);
+        WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
+                        
+        WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
+                    indexer, parameters.getDocumentsSubDirectory(),format);
             
         generator.generate(parameters.getOutputDirectory());
         return true;

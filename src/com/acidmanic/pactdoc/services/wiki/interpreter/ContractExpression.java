@@ -8,7 +8,6 @@ package com.acidmanic.pactdoc.services.wiki.interpreter;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.Interaction;
 import com.acidmanic.pactdoc.utility.TextReformater;
-import com.acidmanic.pactdoc.services.wiki.interpreter.PageContext;
 
 /**
  *
@@ -32,7 +31,7 @@ public class ContractExpression {
         for(Interaction inter:contract.getInteractions()){
             
             this.context.append("If ").append(inter.getProviderState())
-                    .append(", an http").openBold()
+                    .append(", an http ").openBold()
                     .append(inter.getRequest().getMethod().toUpperCase()).closeBold()
                     .append(" Request to ").openItalic()
                     .append(inter.getRequest().getPath()).closeItalic();

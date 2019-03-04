@@ -10,6 +10,8 @@ import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
 import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryScanner;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.wiki.contentproviders.DirectoriyContentProvider;
+import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,19 +25,19 @@ import java.nio.file.StandardOpenOption;
 public class WikiGenerator {
     
     
-    private boolean byVersion;
     private final boolean  linksEndWithFileExtionsion;
     private final ContractIndexer indexer;
     private final String linksBase;
-    
+    private final String extension;
     
     private final ContentProvider contentProvider;
 
-    public WikiGenerator(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase, ContentProvider contentProvider) {
+    public WikiGenerator(boolean linksEndWithFileExtionsion, ContractIndexer indexer, String linksBase,WikiFormat format) {
         this.linksEndWithFileExtionsion = linksEndWithFileExtionsion;
         this.indexer = indexer;
         this.linksBase = linksBase;
-        this.contentProvider = contentProvider;
+        this.extension = format.getFilesExtension();
+        this.contentProvider = new DirectoriyContentProvider(indexer, format);
     }
 
    
@@ -48,8 +50,8 @@ public class WikiGenerator {
     
     public void generate(String destinationDirectory) {
         
-        final String fsExtension = linksEndWithFileExtionsion?"":".md";
-        final String glossaryExtension = linksEndWithFileExtionsion?".md":"";
+        final String fsExtension = linksEndWithFileExtionsion?"":"."+extension;
+        final String glossaryExtension = linksEndWithFileExtionsion?"."+extension:"";
         
         Glossary glossary = new GlossaryGenerator(indexer)
                 .generate(linksBase, glossaryExtension);
@@ -91,15 +93,6 @@ public class WikiGenerator {
             
         } catch (Exception e) {
         }
-    }
-    
-    
-    public boolean isByVersion() {
-        return byVersion;
-    }
-
-    public void setByVersion(boolean byVersion) {
-        this.byVersion = byVersion;
     }
 
     public boolean isLinksEndWithFileExtionsion() {

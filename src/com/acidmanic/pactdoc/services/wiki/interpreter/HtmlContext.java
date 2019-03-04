@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
+import com.acidmanic.pactdoc.utility.TextReformater;
 import java.util.HashMap;
 
 /**
@@ -102,7 +103,7 @@ public class HtmlContext implements PageContext{
 
     @Override
     public PageContext json(String json) {
-        sb.append("<pre><code>").append(json)
+        sb.append("<pre><code>").append(new TextReformater().pritifyJson(json))
                 .append("</code></pre>");
         return this;
     }

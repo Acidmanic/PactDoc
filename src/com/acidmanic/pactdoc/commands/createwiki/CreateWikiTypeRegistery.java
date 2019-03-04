@@ -18,6 +18,7 @@ public class CreateWikiTypeRegistery extends TypeRegistery{
             registerClass(Output.class);
             registerClass(APIsSubDir.class);
             registerClass(PactsRoot.class);
+            registerClass(Format.class);
         }
         
         
