@@ -15,10 +15,17 @@ public class CreateWikiTypeRegistery extends TypeRegistery{
 
         public CreateWikiTypeRegistery() {
             registerClass(AddExtensions.class);
+            
             registerClass(Output.class);
+            
             registerClass(APIsSubDir.class);
+            
             registerClass(PactsRoot.class);
+            
             registerClass(Format.class);
+            
+            registerClass(PlugWikiProps.class);
+
         }
         
         

@@ -11,8 +11,6 @@ import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiTypeRegistery;
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.DirectoriyContentProvider;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;

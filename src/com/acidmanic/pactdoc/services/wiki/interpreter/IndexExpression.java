@@ -38,7 +38,7 @@ public class IndexExpression {
                 .append("(")
                 .append(delimit(current))
                 .append(")")
-                .newLine();
+                .newLine().newLine().newLine();
         }
         
         
@@ -54,7 +54,7 @@ public class IndexExpression {
                     .newLine();
         }
         
-        provider.newLine().newLine();
+        provider.newLine();
         
         
         
@@ -91,7 +91,7 @@ public class IndexExpression {
         String sep = "";
         for(int i=0;i<current.length;i++){
             ret += sep + current[i];
-            sep="-";
+            sep=" - ";
         }
         return ret;
     }
