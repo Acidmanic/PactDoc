@@ -27,14 +27,14 @@ public  abstract class CreateWikiArgBase extends CommandBase{
 
     @Override
     public void execute() {
-        CreateWikiParameters params = this.getExecutionEnvironment()
+        WikiCommandParameters params = this.getExecutionEnvironment()
                 .getDataRepository().get("params");
         
         update(params);
         
     }
     
-    protected abstract void update(CreateWikiParameters params);
+    protected abstract void update(WikiCommandParameters params);
     
     
 }

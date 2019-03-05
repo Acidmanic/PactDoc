@@ -21,10 +21,8 @@ public interface ContentProvider {
     /**
      * 
      * @param contentKey a content key can be any object that 
-     * points to a content, it can be a search keyword, a category or etc. 
-     * @param glossary can be used to include links inside of contents 
-     * being provided
+     * points to a content, it can be a search keyword, a category or etc.
      * @return 
      */
-    public String provideContentFor(String[] contentKey,Glossary glossary, boolean rootRelativeLinks);
+    public String provideContentFor(String[] contentKey);
 }

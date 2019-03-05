@@ -5,9 +5,6 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.services.ContractContentIndexer;
-import com.acidmanic.pactdoc.services.ContractIndexer;
-import com.acidmanic.pactdoc.services.HashContractContentIndexer;
 import java.io.IOException;
 
 /**
@@ -23,13 +20,6 @@ public class Playground {
         // TODO code application logic here
 
         
-        ContractIndexer indexer = new ContractIndexer();
-        
-        ContractContentIndexer contentIndexer = new HashContractContentIndexer();
-        
-        indexer.setContentIndexer(contentIndexer);
-        
-        indexer.index("data/");
-        
+      
     }
 }

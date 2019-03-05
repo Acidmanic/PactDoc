@@ -16,8 +16,8 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
 public class AddExtensions extends CreateWikiArgBase{
 
     @Override
-    protected void update(CreateWikiParameters params) {
-        params.setExtensionForMarkDownFiles(true);
+    protected void update(WikiCommandParameters params) {
+        params.setLinksWithExtensions(true);
     }
 
     @Override

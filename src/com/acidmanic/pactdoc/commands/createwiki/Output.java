@@ -20,7 +20,7 @@ public class Output extends CreateWikiArgBase {
     }
 
     @Override
-    protected void update(CreateWikiParameters params) {
+    protected void update(WikiCommandParameters params) {
         if(noArguments()){
             log("Output directory has been defaulted to " + params.getOutputDirectory());
         }else{

@@ -14,7 +14,7 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
 public class Pass extends CreateWikiArgBase{
 
     @Override
-    protected void update(CreateWikiParameters params) {
+    protected void update(WikiCommandParameters params) {
         if (!noArguments()){
             params.setPassword(args[0]);
         }

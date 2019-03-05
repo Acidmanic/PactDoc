@@ -27,7 +27,7 @@ public class PlugWikiProps extends CreateWikiArgBase{
 
    
     @Override
-    protected void update(CreateWikiParameters params) {
+    protected void update(WikiCommandParameters params) {
          PropertyProvider provider = new DefaultPropertyProvider();
          
          if(!noArguments(2)){

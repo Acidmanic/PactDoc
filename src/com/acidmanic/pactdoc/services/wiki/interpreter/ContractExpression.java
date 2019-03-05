@@ -5,13 +5,10 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.Interaction;
-import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
-import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.utility.TextReformater;
-import java.util.List;
 
 /**
  *
@@ -20,11 +17,8 @@ import java.util.List;
 public class ContractExpression extends ExpressionBase{
 
     public ContractExpression(String[] currentKey, 
-            List<Link> links, 
-            ContractIndexer indexer, 
-            Glossary glossary,
-            Contract currnetContract) {
-        super(currentKey, links, indexer, glossary,currnetContract);
+            WikiGeneratingParamters parameters) {
+        super(currentKey, parameters);
     }
 
     public ContractExpression(ExpressionBase base) {

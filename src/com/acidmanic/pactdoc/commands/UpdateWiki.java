@@ -8,11 +8,13 @@ package com.acidmanic.pactdoc.commands;
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
+import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
 import com.acidmanic.pactdoc.commands.createwiki.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.services.JGit;
+import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
@@ -26,12 +28,12 @@ import com.acidmanic.pactdoc.utility.Func;
  */
 public class UpdateWiki extends CommandBase{
 
-    private final CreateWikiParameters parameters;
+    private final WikiCommandParameters parameters;
     
     private final ExecutionEnvironment parametersEnvironment;
 
     public UpdateWiki() {
-        this.parameters = new CreateWikiParameters();
+        this.parameters = new WikiCommandParameters();
         
         this.parametersEnvironment = new ExecutionEnvironment(new UpdateWikiTypesRegistery());
         
@@ -51,7 +53,7 @@ public class UpdateWiki extends CommandBase{
         
         if(!this.parametersEnvironment.isHelpExecuted()){
             
-            ValidationResult<CreateWikiParameters> result 
+            ValidationResult<WikiCommandParameters> result 
                     = new UpdateWikiAutoValidator().validate(parameters);
             
             
@@ -98,7 +100,7 @@ public class UpdateWiki extends CommandBase{
         
     }
 
-    private boolean cloneGitRepo(CreateWikiParameters parameters) {
+    private boolean cloneGitRepo(WikiCommandParameters parameters) {
         JGit git = new JGit();
         
         if(parameters.hasValidUserPass()){
@@ -110,18 +112,18 @@ public class UpdateWiki extends CommandBase{
         
     }
 
-    private boolean generateWiki(CreateWikiParameters parameters) {
+    private boolean generateWiki(WikiCommandParameters parameters) {
         ContractIndexer indexer = new ContractIndexer(
                 parameters.getPropertyProvider().makeProperties()
         );
         
         scanForAllContracts(parameters.getPactsRoot(),indexer);
-
-        WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
                         
-        WikiGenerator generator = new WikiGenerator(parameters.isExtensionForMarkDownFiles(),
-                indexer, parameters.getDocumentsSubDirectory(),
-                format,parameters.isExtensionForMarkDownFiles());
+        WikiGeneratingParamters genParams = new WikiGeneratingParamsBuilder()
+                    .withCommandParamters(parameters)
+                    .build();
+                    
+            WikiGenerator generator = new WikiGenerator(genParams);
             
         generator.generate(parameters.getOutputDirectory());
         return true;
@@ -132,7 +134,7 @@ public class UpdateWiki extends CommandBase{
                 + new Date().toString();
     }
 
-    private boolean push(CreateWikiParameters parameters) {
+    private boolean push(WikiCommandParameters parameters) {
         JGit git = new JGit();
         
         if(parameters.hasValidUserPass()){

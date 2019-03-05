@@ -14,7 +14,7 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
 public class User extends CreateWikiArgBase {
 
     @Override
-    protected void update(CreateWikiParameters params) {
+    protected void update(WikiCommandParameters params) {
         if(!noArguments()){
             params.setUsername(args[0]);
         }

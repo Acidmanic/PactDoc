@@ -5,12 +5,12 @@
  */
 package com.acidmanic.pactdoc.services.wiki.glossary;
 
-import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.*;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,12 +21,32 @@ public class GlossaryGenerator {
     
     
     
-    private final ContractIndexer indexer;
     private final IndexHelper indexHelper;
     
     public GlossaryGenerator(ContractIndexer indexer) {
-        this.indexer = indexer;
         this.indexHelper = new IndexHelper(indexer);
+    }
+    
+    public List<String[]> generate(){
+        List<String[]> glossary = new ArrayList<>();
+        
+        addLink(glossary, new String[]{});
+        
+        return glossary;
+    }
+    
+    
+    private void addLink(List<String[]> glossary
+            ,String[] contentKey){
+        
+        glossary.add(contentKey);
+        
+        List<String> childs = indexHelper.getChilds(contentKey);
+        
+        for(String child:childs){
+            addLink(glossary
+                    ,  append(contentKey, child));
+        }
     }
     
     

@@ -22,7 +22,7 @@ public class PactsRoot extends CreateWikiArgBase{
     }
 
     @Override
-    protected void update(CreateWikiParameters params) {
+    protected void update(WikiCommandParameters params) {
         if(noArguments()){
             warning("Pacts root for search has been defaulted to " +
                     params.getPactsRoot());

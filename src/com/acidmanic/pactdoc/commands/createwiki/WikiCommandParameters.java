@@ -13,7 +13,7 @@ import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class CreateWikiParameters {
+public class WikiCommandParameters {
 
     
     private String pactsRoot;
@@ -30,7 +30,7 @@ public class CreateWikiParameters {
     
     private String remote;
         
-    private boolean extensionForMarkDownFiles;
+    private boolean linksWithExtensions;
     
     private String wikiFormat;
     
@@ -38,11 +38,11 @@ public class CreateWikiParameters {
     
     private boolean rootRelativeLinks;
 
-    public CreateWikiParameters() {
+    public WikiCommandParameters() {
         this.pactsRoot=".";
         this.outputDirectory="wiki";
         this.documentsSubDirectory="Api";
-        this.extensionForMarkDownFiles=false;
+        this.linksWithExtensions=false;
         this.remote = "origin";
         this.propertyProvider = new DefaultPropertyProvider();
         this.wikiFormat = WikiFormats.MARKDOWN.getName();
@@ -75,12 +75,12 @@ public class CreateWikiParameters {
         this.documentsSubDirectory = documentsSubDirectory;
     }
 
-    public boolean isExtensionForMarkDownFiles() {
-        return extensionForMarkDownFiles;
+    public boolean isLinksWithExtensions() {
+        return linksWithExtensions;
     }
 
-    public void setExtensionForMarkDownFiles(boolean extensionForMarkDownFiles) {
-        this.extensionForMarkDownFiles = extensionForMarkDownFiles;
+    public void setLinksWithExtensions(boolean linksWithExtensions) {
+        this.linksWithExtensions = linksWithExtensions;
     }
 
     public String getRepository() {

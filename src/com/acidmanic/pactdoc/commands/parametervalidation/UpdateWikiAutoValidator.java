@@ -5,19 +5,19 @@
  */
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
-import com.acidmanic.pactdoc.commands.createwiki.CreateWikiParameters;
+import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class UpdateWikiAutoValidator extends ParameterValidator<CreateWikiParameters> {
+public class UpdateWikiAutoValidator extends ParameterValidator<WikiCommandParameters> {
     
     
     @Override
-    public ValidationResult<CreateWikiParameters> validate(CreateWikiParameters params){
+    public ValidationResult<WikiCommandParameters> validate(WikiCommandParameters params){
         
-        ValidationResult<CreateWikiParameters> ret = new ValidationResult<>();
+        ValidationResult<WikiCommandParameters> ret = new ValidationResult<>();
         
         
         ret.setValidatedValue(params);

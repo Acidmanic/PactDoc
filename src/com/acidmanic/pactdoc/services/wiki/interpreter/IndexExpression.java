@@ -5,13 +5,10 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
-import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.utility.TextReformater;
-import java.util.List;
 
 /**
  *
@@ -19,22 +16,13 @@ import java.util.List;
  */
 public class IndexExpression extends ExpressionBase{
 
-    public IndexExpression(String[] currentKey, 
-            List<Link> links, 
-            ContractIndexer indexer, 
-            Glossary glossary, 
-            Contract currentContract) {
-        super(currentKey, links, indexer, glossary, currentContract);
+    public IndexExpression(String[] currentKey, WikiGeneratingParamters parameters) {
+        super(currentKey, parameters);
     }
 
     public IndexExpression(ExpressionBase base) {
         super(base);
     }
-    
-    
-    
-    
-    
     
     
     @Override
@@ -57,7 +45,7 @@ public class IndexExpression extends ExpressionBase{
         
         
         int propIndex = getCurrentKey().length;
-        Property[] properties = getIndexer().getIndexingProperties();
+        Property[] properties = getParamters().getIndexer().getIndexingProperties();
         
         if(propIndex<properties.length){
             String itemsName = properties[propIndex].name();
@@ -71,11 +59,14 @@ public class IndexExpression extends ExpressionBase{
         
         context.newLine();
         
+        String here = getCurrentLink();
         
-        
-        for(Link link:getLinks()){
+        for(Link link:getChildsBaseRelatedLinks()){
             
-            context.openLink(link.getSrc());
+            String src = getParamters().getLinkingStrategy()
+                    .getLink(link.getSrc(),here);
+            
+            context.openLink(src);
             
             context.openBold().openItalic()
                     .append(link.getCaption())

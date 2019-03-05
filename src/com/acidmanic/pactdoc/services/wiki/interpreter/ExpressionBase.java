@@ -5,10 +5,12 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
+import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
-import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,57 +20,64 @@ import java.util.List;
 public abstract class ExpressionBase {
     
     private final String[] currentKey;
-    private final List<Link> links;
-    private final ContractIndexer indexer;
-    private final Glossary glossary;
-    private final Contract currentContract;
-
+    private final WikiGeneratingParamters paramters;
+    
     public ExpressionBase(String[] currentKey, 
-            List<Link> links, 
-            ContractIndexer indexer, 
-            Glossary glossary,
-            Contract currentContract) {
+            WikiGeneratingParamters parameters) {
         this.currentKey = currentKey;
-        this.links = links;
-        this.indexer = indexer;
-        this.glossary = glossary;
-        this.currentContract = currentContract;
+        this.paramters = parameters;
     }
 
     public ExpressionBase(ExpressionBase base){
-        this.currentContract =base.currentContract;
         this.currentKey = base.currentKey;
-        this.links = base.links;
-        this.glossary=base.glossary;
-        this.indexer = base.indexer;
+        this.paramters = base.paramters;
     }
     
     protected String[] getCurrentKey() {
         return currentKey;
     }
 
-    protected List<Link> getLinks() {
-        return links;
-    }
-
-    protected ContractIndexer getIndexer() {
-        return indexer;
-    }
-
-    protected Glossary getGlossary() {
-        return glossary;
-    }
-
-    protected Contract getCurrentContract() {
-        return currentContract;
+   protected final WikiGeneratingParamters getParamters(){
+       return this.paramters;
+   }
+    
+    protected Contract getCurrentContract(){
+            List<Contract> contracts = paramters.getIndexer()
+                    .getContract(currentKey);
+        
+            if(!contracts.isEmpty()) {
+                
+                return contracts.get(0);
+            }
+            
+            return null;
     }
     
     
+    protected String getCurrentLink(){
+        return paramters.getLinkGenerator().generateLink(currentKey);
+    }
     
+    protected List<Link> getChildsBaseRelatedLinks(){
+        
+        IndexHelper indexHelper = new IndexHelper(paramters.getIndexer());
+        
+        List<String> childs = indexHelper.getChilds(currentKey);
+        
+        ArrayList<Link> ret = new ArrayList<>();
+        
+        for(String child:childs){
+
+            String[] childKey = append(currentKey, child);
+
+            String fullLink = paramters.getLinkGenerator()
+                    .generateLink(childKey);
+            
+            ret.add(new Link(fullLink,child));
+        }
+
+        return ret;
+    }
     
     public abstract void interpret(PageContext context);
-    
-    
-    
-    
 }

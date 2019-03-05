@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 import static com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider.CONTENT_NOT_FOUND;
 
 /**
@@ -16,7 +17,7 @@ public class NullExpression extends ExpressionBase{
     
 
     public NullExpression() {
-        super(null, null, null, null, null);
+        super(null, new WikiGeneratingParamters());
     }
 
     @Override

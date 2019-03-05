@@ -5,11 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
-import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
-import java.util.List;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 
 /**
  *
@@ -17,8 +13,8 @@ import java.util.List;
  */
 public class NavigationExpression extends ExpressionBase{
 
-    public NavigationExpression(String[] currentKey, List<Link> links, ContractIndexer indexer, Glossary glossary, Contract currentContract) {
-        super(currentKey, links, indexer, glossary, currentContract);
+    public NavigationExpression(String[] currentKey, WikiGeneratingParamters parameters) {
+        super(currentKey, parameters);
     }
 
     public NavigationExpression(ExpressionBase base) {
@@ -35,7 +31,9 @@ public class NavigationExpression extends ExpressionBase{
             
             String[] key = getSubKey(getCurrentKey());
             
-            String link = getGlossary().link(key);
+            String link = getParamters().getLinkGenerator().generateLink(key);
+            
+            link = getParamters().getLinkingStrategy().getLink(link,getCurrentLink());
             
             if(link!=null){
                 

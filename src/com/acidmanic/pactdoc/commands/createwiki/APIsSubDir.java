@@ -24,7 +24,7 @@ public class APIsSubDir extends CreateWikiArgBase {
   
 
     @Override
-    protected void update(CreateWikiParameters params) {
+    protected void update(WikiCommandParameters params) {
         if(!noArguments()){
             params.setDocumentsSubDirectory(args[0]);
         }
