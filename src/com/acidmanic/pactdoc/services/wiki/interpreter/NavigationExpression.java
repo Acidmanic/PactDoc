@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
+import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 
 /**
  *
@@ -27,11 +28,13 @@ public class NavigationExpression extends ExpressionBase{
     @Override
     public void interpret(PageContext context) {
         
-        for(int i=0;i<getCurrentKey().length;i++){
+        String[] key = getCurrentKey();
+        
+        for(int i=0;i<key.length;i++){
             
-            String[] key = getSubKey(getCurrentKey());
+            String[] subKey = ContentKeyHelper.subKey(key, i);
             
-            String link = getParamters().getLinkGenerator().generateLink(key);
+            String link = getParamters().getLinkGenerator().generateLink(subKey);
             
             link = getParamters().getLinkingStrategy().getLink(link,getCurrentLink());
             
@@ -40,7 +43,7 @@ public class NavigationExpression extends ExpressionBase{
                 context.append(" [")
                         .openLink(link)
                         .openItalic()
-                        .append(getCurrentKey()[i])
+                        .append(ContentKeyHelper.getTitleFor(subKey))
                         .closeItalic()
                         .closeLink()
                         .append("] ");
@@ -52,14 +55,7 @@ public class NavigationExpression extends ExpressionBase{
         context.newLine();
     }
 
-    private String[] getSubKey(String[] key) {
-        if(key.length<1){
-            return new String[]{};
-        }
-        String[] sub = new String[key.length-1];
-        System.arraycopy(key, 0, sub, 0, sub.length);
-        return sub;
-    }
+    
 
     
     

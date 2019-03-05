@@ -10,7 +10,6 @@ import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
-import java.util.List;
 
 /**
  *

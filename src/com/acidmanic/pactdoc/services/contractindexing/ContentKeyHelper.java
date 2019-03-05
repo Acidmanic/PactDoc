@@ -19,4 +19,31 @@ public class ContentKeyHelper {
         System.arraycopy(child, 0, ret, contentKey.length, child.length);
         return ret;
     }
+    
+    
+    public static String[] backOnce(String[] key) {
+        if(key.length<1){
+            return new String[]{};
+        }
+        String[] sub = new String[key.length-1];
+        System.arraycopy(key, 0, sub, 0, sub.length);
+        return sub;
+    }
+    
+    public static String[] subKey(String[] key,int count){
+        String[] ret = new String[count];
+        System.arraycopy(key, 0, ret, 0, count);
+        return ret;
+    }
+    
+    
+    public static String getTitleFor(String[] current) {
+        int depth = current.length;
+        
+        if(depth==0){
+            return "Api Home Page";
+        }else{
+            return current[depth-1];
+        }
+    }
 }

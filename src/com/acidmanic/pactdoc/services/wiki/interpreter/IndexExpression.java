@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
+import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import com.acidmanic.pactdoc.utility.TextReformater;
@@ -29,7 +30,7 @@ public class IndexExpression extends ExpressionBase{
     public void interpret(PageContext context) {
         
         
-        String title = getTitleFor(getCurrentKey());
+        String title = ContentKeyHelper.getTitleFor(getCurrentKey());
         
         
         
@@ -87,16 +88,6 @@ public class IndexExpression extends ExpressionBase{
         context.horizontalLine();
         
         
-    }
-
-    private String getTitleFor(String[] current) {
-        int depth = current.length;
-        
-        if(depth==0){
-            return "Api Home Page";
-        }else{
-            return current[depth-1];
-        }
     }
 
     private String delimit(String[] current) {
