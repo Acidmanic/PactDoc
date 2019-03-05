@@ -37,14 +37,22 @@ public class GlossaryGenerator {
             ,String[] contentKey){
         
         
-        glossary.add(contentKey);
         
-        List<String> childs = indexHelper.getChilds(contentKey);
+         if(!glossary.contains(contentKey)){
+                glossary.add(contentKey);
+            }
         
-        for(String child:childs){
-            addLink(glossary
-                    ,  append(contentKey, child));
+        if(!indexHelper.isLeaf(contentKey)){
+           List<String> childs = indexHelper.getChilds(contentKey);
+        
+            for(String child:childs){
+                addLink(glossary
+                        ,  append(contentKey, child));
+            }
         }
+        
+        
+        
     }
     
 }
