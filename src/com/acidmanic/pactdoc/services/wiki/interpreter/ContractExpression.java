@@ -39,8 +39,7 @@ public class ContractExpression extends ExpressionBase{
         
         Contract contract = getCurrentContract();
         
-        context.title(contract.getProvider().getName())
-                .newLine();
+        context.title(contract.getProvider().getName());
         
         new NavigationExpression(this).interpret(context);
         

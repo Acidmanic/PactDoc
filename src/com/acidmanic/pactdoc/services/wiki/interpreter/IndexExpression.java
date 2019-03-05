@@ -86,8 +86,13 @@ public class IndexExpression extends ExpressionBase{
         
         context.newLine().newLine().newLine();
         
-        new NavigationExpression(this).interpret(context);
+        if (getCurrentKey().length>0){
+            
+            context.append("Back to: ");
         
+            new NavigationExpression(this).interpret(context);
+        
+        }
         context.horizontalLine();
         
         

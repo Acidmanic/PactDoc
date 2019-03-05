@@ -50,6 +50,8 @@ public class NavigationExpression extends ExpressionBase{
             }
             
         }
+        
+        context.newLine();
     }
 
     private String[] getSubKey(String[] key) {
