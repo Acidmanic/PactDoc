@@ -9,6 +9,7 @@ import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
+import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
@@ -62,7 +63,7 @@ public class WikiGeneratingParamsBuilder {
     public WikiGeneratingParamsBuilder withIndexer(ContractIndexer indexer){
         this.paramters.setIndexer(indexer);
         
-        List<String[]> glossary = new GlossaryGenerator(indexer).generate();
+        Glossary glossary = new GlossaryGenerator(indexer).generate();
         
         this.paramters.setGlossary(glossary);
         

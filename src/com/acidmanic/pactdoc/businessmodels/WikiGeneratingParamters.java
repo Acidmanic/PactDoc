@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.businessmodels;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
@@ -21,7 +22,7 @@ public class WikiGeneratingParamters {
     
     private LinkingStrategy linkingStrategy;
     
-    private List<String[]> glossary;
+    private Glossary glossary;
     
     private LinkGenerator linkGenerator;
     
@@ -63,11 +64,11 @@ public class WikiGeneratingParamters {
         this.linkingStrategy = linkingStrategy;
     }
 
-    public List<String[]> getGlossary() {
+    public Glossary getGlossary() {
         return glossary;
     }
 
-    public void setGlossary(List<String[]> glossary) {
+    public void setGlossary(Glossary glossary) {
         this.glossary = glossary;
     }
 

@@ -8,9 +8,6 @@ package com.acidmanic.pactdoc.services.wiki.glossary;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.*;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +24,8 @@ public class GlossaryGenerator {
         this.indexHelper = new IndexHelper(indexer);
     }
     
-    public List<String[]> generate(){
-        List<String[]> glossary = new ArrayList<>();
+    public Glossary generate(){
+        Glossary glossary = new Glossary();
         
         addLink(glossary, new String[]{});
         
@@ -36,8 +33,9 @@ public class GlossaryGenerator {
     }
     
     
-    private void addLink(List<String[]> glossary
+    private void addLink(Glossary glossary
             ,String[] contentKey){
+        
         
         glossary.add(contentKey);
         
