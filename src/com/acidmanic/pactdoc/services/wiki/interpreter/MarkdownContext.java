@@ -154,7 +154,7 @@ public class MarkdownContext implements PageContext{
 
     @Override
     public PageContext horizontalLine() {
-        this.currentContent.append("___________________");
+        this.currentContent.append("___________________\n");
         return this;
     }
     
