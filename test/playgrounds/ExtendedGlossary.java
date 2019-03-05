@@ -8,7 +8,7 @@ package playgrounds;
 import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryScanner;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.contractindexing.Function;
+import com.acidmanic.pactdoc.services.contractindexing.properties.Function;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Service;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Version;
 import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
