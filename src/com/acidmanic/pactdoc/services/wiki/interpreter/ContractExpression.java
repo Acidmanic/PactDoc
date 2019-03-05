@@ -35,8 +35,16 @@ public class ContractExpression extends ExpressionBase{
         
         context.title(contract.getProvider().getName());
         
-        new NavigationExpression(this).interpret(context);
+        context.horizontalLine();
         
+        if(getCurrentKey().length>0){
+            context.append("Back to: ");
+
+            new NavigationExpression(this).interpret(context);
+
+            context.horizontalLine();
+        }
+                
         context.newLine();
         
         for(Interaction inter:contract.getInteractions()){

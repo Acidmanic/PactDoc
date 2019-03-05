@@ -32,9 +32,18 @@ public class IndexExpression extends ExpressionBase{
         
         String title = ContentKeyHelper.getTitleFor(getCurrentKey());
         
-        
-        
         context.title(title);
+        
+        context.horizontalLine();
+        
+        if(getCurrentKey().length>0){
+            context.append("Back to: ");
+
+            new NavigationExpression(this).interpret(context);
+
+            context.horizontalLine();
+        }
+        
         if(getCurrentKey().length>1){
                 context.openItalic()
                 .append("(")
@@ -77,14 +86,6 @@ public class IndexExpression extends ExpressionBase{
         }
         
         context.newLine().newLine().newLine();
-        
-        if (getCurrentKey().length>0){
-            
-            context.append("Back to: ");
-        
-            new NavigationExpression(this).interpret(context);
-        
-        }
         context.horizontalLine();
         
         
