@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wiki.contentproviders;
 
-import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 
 /**
  *
