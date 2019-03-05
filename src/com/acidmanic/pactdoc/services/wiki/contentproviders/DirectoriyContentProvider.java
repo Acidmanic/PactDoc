@@ -13,7 +13,10 @@ import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
+import com.acidmanic.pactdoc.services.wiki.interpreter.ExpressionBase;
+import com.acidmanic.pactdoc.services.wiki.interpreter.NullExpression;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
+import java.beans.Expression;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -62,10 +65,12 @@ public class DirectoriyContentProvider implements ContentProvider{
             Glossary glossary,
             boolean rootRelativeContents) {
         
+        ArrayList<Link> links = new ArrayList<>();
+        
+        
+        ExpressionBase expression = new NullExpression();
         
         if(isIndex(contentKey)){
-            
-            ArrayList<Link> links = new ArrayList<>();
             
             List<String> childs = getIndexHelper().getChilds(contentKey);
             
@@ -83,17 +88,19 @@ public class DirectoriyContentProvider implements ContentProvider{
                 links.add(new Link(link,child));
             }
             
-            return createIndexPage(links,contentKey);
+            expression = new IndexExpression(contentKey, links, indexer, glossary, null);
+            
         }else{
             List<Contract> contracts = indexer.getContract(contentKey);
         
             if(!contracts.isEmpty()) {
-
-                return createContractPage(contracts.get(0));
+                
+                expression = new ContractExpression(contentKey, links,
+                        indexer, glossary, contracts.get(0));
             }
         }
         
-        return CONTENT_NOT_FOUND;
+        return render(expression);
     }
 
     
@@ -104,7 +111,7 @@ public class DirectoriyContentProvider implements ContentProvider{
         if(rootRelative){
             return link;
         }
-        int depth = contentKey.length;
+
         Path path = Paths.get(link);
         
         Path curPath = Paths.get(glossary.link(contentKey)).getParent();
@@ -115,21 +122,11 @@ public class DirectoriyContentProvider implements ContentProvider{
         return path.toString();
     }
     
-    protected String createIndexPage(List<Link> links,String[] currentContentKey){
+
+    private String render(ExpressionBase expression) {
         PageContext context = wikiFormat.makeContext();
-        IndexExpression exp = new IndexExpression(context);
-        exp.interpret(links,currentContentKey,indexer);
+        expression.interpret(context);
         return context.output();
-    }
-    
-    
-    protected String createContractPage(Contract contract){
-        PageContext context = wikiFormat.makeContext();
-            ContractExpression exp = new ContractExpression(context);
-            exp.interpret(contract);
-            
-            return context.output();
-        
     }
     
     

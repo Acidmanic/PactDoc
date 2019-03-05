@@ -7,30 +7,48 @@ package com.acidmanic.pactdoc.services.wiki.interpreter;
 
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.Interaction;
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
+import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.utility.TextReformater;
+import java.util.List;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class ContractExpression {
-    
-    
-    private final PageContext context;
+public class ContractExpression extends ExpressionBase{
 
-    public ContractExpression(PageContext context) {
-        this.context = context;
+    public ContractExpression(String[] currentKey, 
+            List<Link> links, 
+            ContractIndexer indexer, 
+            Glossary glossary,
+            Contract currnetContract) {
+        super(currentKey, links, indexer, glossary,currnetContract);
+    }
+
+    public ContractExpression(ExpressionBase base) {
+        super(base);
     }
     
     
-    public void interpret(Contract contract){
+    
+
+    @Override
+    public void interpret(PageContext context) {
         
-        this.context.title(contract.getProvider().getName())
+        Contract contract = getCurrentContract();
+        
+        context.title(contract.getProvider().getName())
                 .newLine();
+        
+        new NavigationExpression(this).interpret(context);
+        
+        context.newLine();
         
         for(Interaction inter:contract.getInteractions()){
             
-            this.context.append("If ").append(inter.getProviderState())
+            context.append("If ").append(inter.getProviderState())
                     .append(", an http ").openBold()
                     .append(inter.getRequest().getMethod().toUpperCase()).closeBold()
                     .append(" Request to ").openItalic()
@@ -39,33 +57,32 @@ public class ContractExpression {
             
             if(!inter.getRequest().getHeaders().isEmpty()){
                 
-                this.context.append(", with headers: ").newLine()
+                context.append(", with headers: ").newLine()
                         .table("Key", "Value", inter.getRequest().getHeaders())
                         .newLine();
             }
             
             if(inter.getRequest().getBody()!=null){
                 
-                this.context.newLine().append("with body:").newLine()
+                context.newLine().append("with body:").newLine()
                         .json(new TextReformater().pritifyJson(inter.getRequest().getBody()))
                         .newLine();
             }
 
-            this.context.newLine().append("Will receive a response with status code: ")
+            context.newLine().append("Will receive a response with status code: ")
                     .openBold().append(Integer.toString(inter.getResponse().getStatus()))
                     .closeBold().newLine();
                     
             if(!inter.getResponse().getHeaders().isEmpty()){
-                this.context.append(", with headers: ").newLine()
+                context.append(", with headers: ").newLine()
                         .table("Key", "Value", inter.getResponse().getHeaders())
                         .newLine();
             }
 
             if(inter.getResponse().getBody()!=null){
-                this.context.json(inter.getResponse().getBody());
+                context.json(inter.getResponse().getBody());
             }
         }
-        
     }
 
    

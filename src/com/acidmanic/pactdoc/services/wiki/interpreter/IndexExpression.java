@@ -5,9 +5,11 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
+import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
+import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import java.util.List;
 
@@ -15,64 +17,78 @@ import java.util.List;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class IndexExpression {
-    
-    
-    private final PageContext provider;
+public class IndexExpression extends ExpressionBase{
 
-    public IndexExpression(PageContext provider) {
-        this.provider = provider;
+    public IndexExpression(String[] currentKey, 
+            List<Link> links, 
+            ContractIndexer indexer, 
+            Glossary glossary, 
+            Contract currentContract) {
+        super(currentKey, links, indexer, glossary, currentContract);
+    }
+
+    public IndexExpression(ExpressionBase base) {
+        super(base);
     }
     
     
     
-    public void interpret(List<Link> links,String[] current,ContractIndexer indexer){
+    
+    
+    
+    
+    @Override
+    public void interpret(PageContext context) {
         
         
-        String title = getTitleFor(current);
+        String title = getTitleFor(getCurrentKey());
         
-        provider.title(title);
-        if(current.length>1){
-                provider.openItalic()
+        
+        
+        context.title(title);
+        if(getCurrentKey().length>1){
+                context.openItalic()
                 .append("(")
-                .append(delimit(current))
+                .append(delimit(getCurrentKey()))
                 .append(")")
                 .closeItalic()
                 .newLine().newLine().newLine();
         }
         
         
-        int propIndex = current.length;
-        Property[] properties = indexer.getIndexingProperties();
+        int propIndex = getCurrentKey().length;
+        Property[] properties = getIndexer().getIndexingProperties();
         
         if(propIndex<properties.length){
             String itemsName = properties[propIndex].name();
             itemsName = new TextReformater().plural(itemsName);
-            provider.openItalic()
+            context.openItalic()
                     .append(itemsName)
                     .append(":")
                     .closeItalic()
                     .newLine();
         }
         
-        provider.newLine();
+        context.newLine();
         
         
         
-        for(Link link:links){
+        for(Link link:getLinks()){
             
-            provider.openLink(link.getSrc());
+            context.openLink(link.getSrc());
             
-            provider.openBold().openItalic()
+            context.openBold().openItalic()
                     .append(link.getCaption())
                     .closeItalic().closeBold()
                     .closeLink()
                     .newLine();
         }
         
-        provider.newLine().newLine().newLine();
+        context.newLine().newLine().newLine();
         
-        provider.horizontalLine();
+        new NavigationExpression(this).interpret(context);
+        
+        context.horizontalLine();
         
         
     }
@@ -96,4 +112,6 @@ public class IndexExpression {
         }
         return ret;
     }
+
+    
 }
