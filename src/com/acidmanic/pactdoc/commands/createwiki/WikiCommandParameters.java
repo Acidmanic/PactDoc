@@ -45,7 +45,7 @@ public class WikiCommandParameters {
         this.pactsRoot=".";
         this.outputDirectory="wiki";
         this.documentsSubDirectory="Api";
-        this.linksWithExtensions=false;
+        this.linksWithExtensions=true;
         this.remote = "origin";
         this.propertyProvider = new DefaultPropertyProvider();
         this.wikiFormat = WikiFormats.MARKDOWN.getName();

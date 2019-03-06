@@ -31,9 +31,6 @@ public class GenerateWiki extends CommandBase{
     }
     
     
-    
-    
-    
     @Override
     protected String getUsageString() {
         return "This command will scan recursively all files inside "
