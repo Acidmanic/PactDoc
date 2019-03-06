@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.commands.createwiki;
 
 import acidmanic.commandline.commands.TypeRegistery;
+import com.acidmanic.pactdoc.commands.createwiki.presets.GitlabWiki;
 
 /**
  *
@@ -27,6 +28,8 @@ public class CreateWikiTypeRegistery extends TypeRegistery{
             registerClass(PlugWikiProps.class);
             
             registerClass(RootRelativeLinks.class);
+            
+            registerClass(GitlabWiki.class);
 
         }
         

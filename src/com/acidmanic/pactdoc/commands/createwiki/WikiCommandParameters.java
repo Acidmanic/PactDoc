@@ -38,6 +38,9 @@ public class WikiCommandParameters {
     
     private boolean rootRelativeLinks;
 
+    
+    private Class callerCommand;
+    
     public WikiCommandParameters() {
         this.pactsRoot=".";
         this.outputDirectory="wiki";
@@ -149,6 +152,16 @@ public class WikiCommandParameters {
     public void setRootRelativeLinks(boolean rootRelativeLinks) {
         this.rootRelativeLinks = rootRelativeLinks;
     }
+
+    public Class getCallerCommand() {
+        return callerCommand;
+    }
+
+    public void setCallerCommand(Class callerCommand) {
+        this.callerCommand = callerCommand;
+    }
+    
+    
     
     
 }

@@ -13,17 +13,7 @@ import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 import com.acidmanic.pactdoc.commands.createwiki.CreateWikiTypeRegistery;
 import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
-import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.WikiGenerator;
-import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
-import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
-import com.acidmanic.pactdoc.services.wiki.linking.ReffererRelativeLinkingStrategy;
-import com.acidmanic.pactdoc.services.wiki.linking.RelativeLinkingStrategy;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiformatFactory;
-import static com.acidmanic.pactdoc.utility.PactFiles.*;
 
 /**
  *
@@ -33,7 +23,16 @@ public class GenerateWiki extends CommandBase{
     
     private final WikiCommandParameters parameters = new WikiCommandParameters();
 
-    private final ExecutionEnvironment environment = new ExecutionEnvironment(new CreateWikiTypeRegistery());
+    private final ExecutionEnvironment environment;
+
+    public GenerateWiki() {
+        this.environment 
+            = new ExecutionEnvironment(new CreateWikiTypeRegistery(),this);
+    }
+    
+    
+    
+    
     
     @Override
     protected String getUsageString() {

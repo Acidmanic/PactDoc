@@ -17,8 +17,6 @@ import com.acidmanic.pactdoc.services.JGit;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.WikiGenerator;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiformatFactory;
 import static com.acidmanic.pactdoc.utility.PactFiles.*;
 import java.util.Date;
 import com.acidmanic.pactdoc.utility.Func;
@@ -35,7 +33,8 @@ public class UpdateWiki extends CommandBase{
     public UpdateWiki() {
         this.parameters = new WikiCommandParameters();
         
-        this.parametersEnvironment = new ExecutionEnvironment(new UpdateWikiTypesRegistery());
+        this.parametersEnvironment 
+                = new ExecutionEnvironment(new UpdateWikiTypesRegistery(),this);
         
         this.parametersEnvironment.getDataRepository()
                 .set("params", this.parameters);

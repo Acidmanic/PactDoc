@@ -19,7 +19,7 @@ public class UpdateWikiTypesRegistery extends CreateWikiTypeRegistery{
         
         registerClass(Repository.class);
         
-        registerClass(Remote.class);        
+        registerClass(Remote.class);
     
     }
 }
