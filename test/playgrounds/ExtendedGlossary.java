@@ -28,7 +28,7 @@ public class ExtendedGlossary {
         
         PactFiles.scanForAllContracts(".",indexer);
         
-        Glossary glossary = new GlossaryGenerator(indexer).generate("Api", ".md");
+        Glossary glossary = new GlossaryGenerator(indexer).generate();
         
         println(glossary);
         
@@ -36,14 +36,15 @@ public class ExtendedGlossary {
     }
 
     private static void println(Glossary glossary) {
-        glossary.scan(new GlossaryScanner() {
-            @Override
-            public void scan(String link, String[] contentKey) {
-                
-                System.out.println(getKey(contentKey)+" <-----> " +link);
-            }
-
-            private String getKey(String[] contentKey) {
+        glossary.forEach((String[] contentKey)-> {
+         
+                System.out.println(getKey(contentKey));
+            
+        });
+    }
+    
+    
+    private static String getKey(String[] contentKey) {
                 String sep="";
                 String ret ="";
                 for(String key:contentKey){
@@ -52,6 +53,4 @@ public class ExtendedGlossary {
                 }
                 return ret;
             }
-        });
-    }
 }
