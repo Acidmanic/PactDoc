@@ -13,15 +13,11 @@ import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
+import com.acidmanic.pactdoc.services.wiki.linking.LinkGeneratorFactory;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategyFactory;
-import com.acidmanic.pactdoc.services.wiki.linking.ReffererRelativeLinkingStrategy;
-import com.acidmanic.pactdoc.services.wiki.linking.RootRelativeLinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiformatFactory;
-import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
-import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
-import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 
 /**
@@ -81,13 +77,8 @@ public class WikiGeneratingParamsBuilder {
             scanForAllContracts(parameters.getPactsRoot(),indexer);
 
             WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
-            
-            IndexHelper indexHelper = new IndexHelper(indexer);
-            
-            LinkGenerator linkGenerator = new FileSystemLinkGenerator(
-                    indexHelper,
-                    format.getFilesExtension(),
-                    parameters.isLinksWithExtensions());
+                        
+            LinkGenerator linkGenerator = new LinkGeneratorFactory(indexer).create(parameters);
             
             LinkingStrategy linkingStrategy = new LinkingStrategyFactory()
                     .create(parameters.isRootRelativeLinks(),
