@@ -16,7 +16,6 @@ import com.acidmanic.pactdoc.services.JGit;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 import java.util.Date;
-import com.acidmanic.pactdoc.utility.Func;
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -61,6 +60,8 @@ public class UpdateWiki extends PactDocCommandBase{
             if (result.isValid()){
                 
                 addTask("Cloning Wiki Repo", ()->cloneGitRepo(parameters));
+                
+                addRemoveDirectoryTask(parameters.getResolvedWikiPath());
                 
                 addTask("Updating Wiki Files", ()->generateWiki(parameters));
 

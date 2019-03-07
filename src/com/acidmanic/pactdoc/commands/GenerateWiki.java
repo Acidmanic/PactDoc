@@ -53,13 +53,23 @@ public class GenerateWiki extends PactDocCommandBase{
             
             if(result.isValid()){
             
-                WikiGeneratorParamters genParams = new WikiGeneratingParamsBuilder()
-                        .withCommandParamters(result.getValidatedValue())
-                        .build();
+                
+                addRemoveDirectoryTask(parameters.getResolvedWikiPath());
+                
+                addTask("Generating Wiki files.",  ()->{
+                    WikiGeneratorParamters genParams = new WikiGeneratingParamsBuilder()
+                            .withCommandParamters(result.getValidatedValue())
+                            .build();
 
-                WikiGenerator generator = new WikiGenerator(genParams);
+                    WikiGenerator generator = new WikiGenerator(genParams);
 
-                generator.generate(parameters.getResolvedWikiPath());
+                    generator.generate(parameters.getResolvedWikiPath());
+                    
+                    return true;
+                });
+                
+                
+                performTasks();
             }
         }
     }

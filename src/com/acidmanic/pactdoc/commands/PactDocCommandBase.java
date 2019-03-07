@@ -11,8 +11,13 @@ import com.acidmanic.pactdoc.businessmodels.CommandTask;
 import com.acidmanic.pactdoc.logging.Log;
 import com.acidmanic.pactdoc.logging.LogRecord;
 import com.acidmanic.pactdoc.utility.Func;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +25,9 @@ import java.util.List;
  */
 public abstract class PactDocCommandBase extends CommandBase{
 
+    private static final String[] UNDELETABLES={".git",
+        ".gitignore",
+        ".gitmodules"};
     
     private final List<CommandTask> tasks = new ArrayList<>();
     
@@ -64,5 +72,70 @@ public abstract class PactDocCommandBase extends CommandBase{
                 return;
             }
         }
+    }
+    
+    
+    protected void addRemoveDirectoryTask(String directory){
+        
+        CommandTask task = new CommandTask();
+        
+        task.setTitleing("Removing directory: " + directory);
+        
+        task.setTask(() -> {
+            File f = new File(directory);
+            if(!f.isDirectory()){
+                error(directory + ", is not a directory!.");
+                return false;
+            }
+            
+            Path current = Paths.get(".").toAbsolutePath().normalize();
+            
+            if(current.startsWith(f.toPath().toAbsolutePath().normalize())){
+                error("I Cant Remove Where I've set under!!");
+                return false;
+            }
+            
+            File[] files = f.listFiles();
+            
+            for(File kid:files){
+                if(!isDeletable(kid)){
+                    error("Files like " + kid.getName() + " will not be deleted");
+                    return false;
+                }
+            }
+            
+            for(File kid:files){
+                try {
+                    delete(kid);
+                } catch (Exception ex) {
+                    error("Problem deleting file: " + kid.getPath()+ "\n"
+                            + "Error: " + ex.getClass().getSimpleName());
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+        
+    }
+    
+    private boolean isDeletable(File kid) {
+        String kidName = kid.getName().toLowerCase();
+        for(String name:UNDELETABLES){
+            if(name.compareTo(kidName)==0){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void delete(File f) throws Exception{
+        if(f.isDirectory()){
+            File[] files = f.listFiles();
+            for(File child:files){
+                delete(child);   
+            }
+        }
+        f.delete();
     }
 }
