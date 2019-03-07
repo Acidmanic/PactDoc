@@ -25,7 +25,7 @@ public class PassFile extends CreateWikiArgBase{
                 try {
                     String password = new String(Files.readAllBytes(f.toPath()));
                     
-                    params.setPassword(password);
+                    params.setPassword(password.trim());
                     
                 } catch (IOException ex) {
                     

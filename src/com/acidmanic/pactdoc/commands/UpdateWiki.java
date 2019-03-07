@@ -59,9 +59,9 @@ public class UpdateWiki extends PactDocCommandBase{
             
             if (result.isValid()){
                 
-                addTask("Cloning Wiki Repo", ()->cloneGitRepo(parameters));
+                addRemoveDirectoryTask(parameters.getOutputDirectory());
                 
-                addRemoveDirectoryTask(parameters.getResolvedWikiPath());
+                addTask("Cloning Wiki Repo", ()->cloneGitRepo(parameters));
                 
                 addTask("Updating Wiki Files", ()->generateWiki(parameters));
 

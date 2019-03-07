@@ -16,8 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -29,7 +27,7 @@ public abstract class PactDocCommandBase extends CommandBase{
         ".gitignore",
         ".gitmodules"};
     
-    private final List<CommandTask> tasks = new ArrayList<>();
+    private List<CommandTask> tasks = new ArrayList<>();
     
     
     protected void log(ValidationResult<? extends Object> result){
@@ -64,7 +62,7 @@ public abstract class PactDocCommandBase extends CommandBase{
     
     
     protected void performTasks(){
-        for(CommandTask task:tasks){
+        for(CommandTask task:this.tasks){
             if(task.getTask().perform()){
                 info(task.getTitleing()+" : OK");
             }else{
@@ -77,11 +75,9 @@ public abstract class PactDocCommandBase extends CommandBase{
     
     protected void addRemoveDirectoryTask(String directory){
         
-        CommandTask task = new CommandTask();
+        String title = "Removing directory: " + directory;
         
-        task.setTitleing("Removing directory: " + directory);
-        
-        task.setTask(() -> {
+        Func<Boolean> action = () -> {
             File f = new File(directory);
             if(!f.isDirectory()){
                 error(directory + ", is not a directory!.");
@@ -95,27 +91,19 @@ public abstract class PactDocCommandBase extends CommandBase{
                 return false;
             }
             
-            File[] files = f.listFiles();
-            
-            for(File kid:files){
-                if(!isDeletable(kid)){
-                    error("Files like " + kid.getName() + " will not be deleted");
-                    return false;
-                }
+            try {
+                delete(f);
+            } catch (Exception ex) {
+                error("Problem deleting: " + directory +"\n"
+                        + "Error: " + ex.getClass().getSimpleName());
+                
+                return false;
             }
-            
-            for(File kid:files){
-                try {
-                    delete(kid);
-                } catch (Exception ex) {
-                    error("Problem deleting file: " + kid.getPath()+ "\n"
-                            + "Error: " + ex.getClass().getSimpleName());
-                    return false;
-                }
-            }
-            
+           
             return true;
-        });
+        };
+        
+        addTask(directory, action);
         
     }
     
