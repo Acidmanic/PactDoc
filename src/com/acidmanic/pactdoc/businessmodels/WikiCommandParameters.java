@@ -40,6 +40,10 @@ public class WikiCommandParameters {
     
     private boolean rootRelativeLinks;
     
+    private boolean singleDirectory;
+    
+    private String singleDirectoryDelimiter;
+    
     public WikiCommandParameters() {
         this.pactsRoot=".";
         this.outputDirectory="wiki";
@@ -49,6 +53,8 @@ public class WikiCommandParameters {
         this.propertyProvider = new DefaultPropertyProvider();
         this.wikiFormat = WikiFormats.MARKDOWN.getName();
         this.rootRelativeLinks = false;
+        this.singleDirectory = false;
+        this.singleDirectoryDelimiter = " ";
     }
     
     
@@ -151,6 +157,14 @@ public class WikiCommandParameters {
     public void setRootRelativeLinks(boolean rootRelativeLinks) {
         this.rootRelativeLinks = rootRelativeLinks;
     }
+
+    public boolean isSingleDirectory() {
+        return singleDirectory;
+    }
+
+    public void setSingleDirectory(boolean singleDirectory) {
+        this.singleDirectory = singleDirectory;
+    }
     
     public String getResolvedWikiPath(){
         Path path = Paths.get(this.outputDirectory);
@@ -158,6 +172,14 @@ public class WikiCommandParameters {
             path = path.resolve(this.documentsSubDirectory);
         }
         return path.normalize().toString();
+    }
+
+    public String getSingleDirectoryDelimiter() {
+        return singleDirectoryDelimiter;
+    }
+
+    public void setSingleDirectoryDelimiter(String singleDirectoryDelimiter) {
+        this.singleDirectoryDelimiter = singleDirectoryDelimiter;
     }
     
     
