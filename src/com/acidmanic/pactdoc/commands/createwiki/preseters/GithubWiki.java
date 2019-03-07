@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.commands.createwiki.preseters;
 
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
+import com.acidmanic.pactdoc.commands.createwiki.SingleDirectory;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
 
 /**
@@ -30,7 +31,19 @@ public class GithubWiki extends WikiPresetCommand{
         params.setRootRelativeLinks(true);
         
         params.setWikiFormat(WikiFormats.MARKDOWN.getName());
+        
+        params.setSingleDirectory(true);
+        
+        params.setSingleDirectoryDelimiter(" - ");
     }
+
+    @Override
+    protected String getCSListOfFillingArguments() {
+        return super.getCSListOfFillingArguments()
+                + ", " + (new SingleDirectory().getName());
+    }
+    
+    
     
     
 

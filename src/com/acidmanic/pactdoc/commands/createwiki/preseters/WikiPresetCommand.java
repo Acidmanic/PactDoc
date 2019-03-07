@@ -33,10 +33,7 @@ public abstract class WikiPresetCommand extends CreateWikiArgBase{
     @Override
     protected String getUsageString() {
         return "This will set arguments default values for the arguments: " +
-                (new AddExtensions().getName())
-                +", "+ (new Format().getName())
-                +", "+ (new Remote().getName()) 
-                +", "+ (new RootRelativeLinks().getName())+", regarding the " + gitName()
+                getCSListOfFillingArguments() + ", regarding the " + gitName()
                 + " wikis characteristics.\n"
                 + "Using " + this.getName() + " for " +( new UpdateWiki().getName()) 
                 + ", it expects to get repository-name and user-name parameters. "
@@ -83,5 +80,10 @@ public abstract class WikiPresetCommand extends CreateWikiArgBase{
     protected abstract String getRepositoryFor(String repoName, String userName);
     
     
-    
+    protected String getCSListOfFillingArguments(){
+        return (new AddExtensions().getName())
+                +", "+ (new Format().getName())
+                +", "+ (new Remote().getName()) 
+                +", "+ (new RootRelativeLinks().getName());
+    }
 }
