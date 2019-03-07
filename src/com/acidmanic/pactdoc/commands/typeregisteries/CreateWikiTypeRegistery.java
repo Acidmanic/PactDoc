@@ -13,6 +13,7 @@ import com.acidmanic.pactdoc.commands.createwiki.Output;
 import com.acidmanic.pactdoc.commands.createwiki.PactsRoot;
 import com.acidmanic.pactdoc.commands.createwiki.PlugWikiProps;
 import com.acidmanic.pactdoc.commands.createwiki.RootRelativeLinks;
+import com.acidmanic.pactdoc.commands.createwiki.preseters.GithubWiki;
 import com.acidmanic.pactdoc.commands.createwiki.preseters.GitlabWiki;
 
 /**
@@ -37,6 +38,8 @@ public class CreateWikiTypeRegistery extends TypeRegistery{
             registerClass(RootRelativeLinks.class);
             
             registerClass(GitlabWiki.class);
+            
+            registerClass(GithubWiki.class);
 
         }
         
