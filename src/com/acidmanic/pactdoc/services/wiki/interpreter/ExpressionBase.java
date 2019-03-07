@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.models.Contract;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
@@ -20,10 +20,10 @@ import java.util.List;
 public abstract class ExpressionBase {
     
     private final String[] currentKey;
-    private final WikiGeneratingParamters paramters;
+    private final WikiGeneratorParamters paramters;
     
     public ExpressionBase(String[] currentKey, 
-            WikiGeneratingParamters parameters) {
+            WikiGeneratorParamters parameters) {
         this.currentKey = currentKey;
         this.paramters = parameters;
     }
@@ -37,7 +37,7 @@ public abstract class ExpressionBase {
         return currentKey;
     }
 
-   protected final WikiGeneratingParamters getParamters(){
+   protected final WikiGeneratorParamters getParamters(){
        return this.paramters;
    }
     

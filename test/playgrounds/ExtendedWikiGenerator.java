@@ -5,8 +5,8 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
-import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
@@ -35,7 +35,7 @@ public class ExtendedWikiGenerator {
         PactFiles.scanForAllContracts(".",indexer);
         
         
-        WikiGeneratingParamters params = new WikiGeneratingParamsBuilder()
+        WikiGeneratorParamters params = new WikiGeneratingParamsBuilder()
                 .withCommandParamters(new WikiCommandParameters())
                 .build();
         

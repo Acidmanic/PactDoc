@@ -8,8 +8,8 @@ package com.acidmanic.pactdoc.commands;
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
-import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.commands.typeregisteries.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
@@ -109,7 +109,7 @@ public class UpdateWiki extends PactDocCommandBase{
 
     private boolean generateWiki(WikiCommandParameters parameters) {
                         
-        WikiGeneratingParamters genParams = new WikiGeneratingParamsBuilder()
+        WikiGeneratorParamters genParams = new WikiGeneratingParamsBuilder()
                     .withCommandParamters(parameters)
                     .build();
                     

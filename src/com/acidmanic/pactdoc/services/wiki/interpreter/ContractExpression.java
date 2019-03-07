@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.models.Interaction;
 import com.acidmanic.pactdoc.utility.TextReformater;
@@ -17,7 +17,7 @@ import com.acidmanic.pactdoc.utility.TextReformater;
 public class ContractExpression extends ExpressionBase{
 
     public ContractExpression(String[] currentKey, 
-            WikiGeneratingParamters parameters) {
+            WikiGeneratorParamters parameters) {
         super(currentKey, parameters);
     }
 

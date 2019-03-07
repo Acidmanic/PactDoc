@@ -16,7 +16,7 @@ import com.acidmanic.pactdoc.commands.createwiki.Remote;
 import com.acidmanic.pactdoc.commands.createwiki.Repository;
 import com.acidmanic.pactdoc.commands.createwiki.RootRelativeLinks;
 import com.acidmanic.pactdoc.commands.createwiki.User;
-import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 
 /**
  *

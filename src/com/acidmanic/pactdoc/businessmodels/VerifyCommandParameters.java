@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.verifycontracts;
+package com.acidmanic.pactdoc.businessmodels;
 
 import com.acidmanic.pactdoc.services.contractverification.ContractVerifier;
 import com.acidmanic.pactdoc.services.contractverification.DefaulContractVerifier;
@@ -12,14 +12,14 @@ import com.acidmanic.pactdoc.services.contractverification.DefaulContractVerifie
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class VerifyingParameters {
+public class VerifyCommandParameters {
     
     
     private ContractVerifier contractVerifier;
     
     private String pactsRoot;
 
-    public VerifyingParameters() {
+    public VerifyCommandParameters() {
         
         this.contractVerifier = new DefaulContractVerifier();
         

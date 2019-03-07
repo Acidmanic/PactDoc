@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 
 /**
@@ -14,7 +14,7 @@ import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
  */
 public class NavigationExpression extends ExpressionBase{
 
-    public NavigationExpression(String[] currentKey, WikiGeneratingParamters parameters) {
+    public NavigationExpression(String[] currentKey, WikiGeneratorParamters parameters) {
         super(currentKey, parameters);
     }
 

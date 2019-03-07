@@ -5,20 +5,20 @@
  */
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
-import com.acidmanic.pactdoc.commands.verifycontracts.VerifyingParameters;
+import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import com.acidmanic.pactdoc.services.contractverification.DefaulContractVerifier;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class VerifyContractParameterValidator extends ParameterValidator<VerifyingParameters>{
+public class VerifyContractParameterValidator extends ParameterValidator<VerifyCommandParameters>{
  
     
     
     @Override
-    public ValidationResult<VerifyingParameters> validate(VerifyingParameters params){
-        ValidationResult<VerifyingParameters> result = new ValidationResult<>();
+    public ValidationResult<VerifyCommandParameters> validate(VerifyCommandParameters params){
+        ValidationResult<VerifyCommandParameters> result = new ValidationResult<>();
         
         result.setValid(true);
         

@@ -15,7 +15,7 @@ import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class WikiGeneratingParamters {
+public class WikiGeneratorParamters {
     
         
     
@@ -33,12 +33,12 @@ public class WikiGeneratingParamters {
     
     private boolean addFileExtensions;
 
-    public WikiGeneratingParamters() {
+    public WikiGeneratorParamters() {
     }
 
     
     
-    public WikiGeneratingParamters(WikiGeneratingParamters paramters) {
+    public WikiGeneratorParamters(WikiGeneratorParamters paramters) {
         this.linkingStrategy=paramters.linkingStrategy;
 
         this.glossary=paramters.glossary;

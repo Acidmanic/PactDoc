@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.verifycontracts;
 
+import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import com.acidmanic.pactdoc.commands.VerifyContracts;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.plugin.PluginLoader;
@@ -17,7 +18,7 @@ import com.acidmanic.pactdoc.services.contractverification.ContractVerifier;
 public class PlugVerifier extends VerifyingArgumentBase{
 
     @Override
-    protected void update(VerifyingParameters params) {
+    protected void update(VerifyCommandParameters params) {
         ContractVerifier verifier = null;
         if(!noArguments(2)){
             try {

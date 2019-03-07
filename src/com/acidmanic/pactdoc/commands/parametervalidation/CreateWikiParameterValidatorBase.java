@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
-import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

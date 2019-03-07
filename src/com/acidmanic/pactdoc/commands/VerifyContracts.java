@@ -11,7 +11,7 @@ import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
-import com.acidmanic.pactdoc.commands.verifycontracts.VerifyingParameters;
+import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import com.acidmanic.pactdoc.logging.Log;
 import com.acidmanic.pactdoc.logging.LogRecord;
 import com.acidmanic.pactdoc.models.Contract;
@@ -25,12 +25,12 @@ import java.util.List;
  */
 public class VerifyContracts extends PactDocCommandBase {
 
-    private final VerifyingParameters parameters;
+    private final VerifyCommandParameters parameters;
     
     private final ExecutionEnvironment paramsEnvironment;
 
     public VerifyContracts() {
-        this.parameters = new VerifyingParameters();
+        this.parameters = new VerifyCommandParameters();
         
         this.paramsEnvironment = new ExecutionEnvironment(new VerificationTypeRegistery());
         
@@ -52,7 +52,7 @@ public class VerifyContracts extends PactDocCommandBase {
         
         if(!this.paramsEnvironment.isHelpExecuted()){
             
-            ValidationResult<VerifyingParameters> result = 
+            ValidationResult<VerifyCommandParameters> result = 
                     new VerifyContractParameterValidator().validate(parameters);
             
        

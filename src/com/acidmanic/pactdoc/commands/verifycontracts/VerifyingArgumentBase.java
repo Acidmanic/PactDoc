@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.verifycontracts;
 
+import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import acidmanic.commandline.commandnames.DoubleDashedSnakeCaseNameGenerator;
 import acidmanic.commandline.commands.CommandBase;
 
@@ -24,13 +25,13 @@ public abstract class VerifyingArgumentBase extends CommandBase{
 
     @Override
     public void execute() {
-        VerifyingParameters params =  getExecutionEnvironment()
+        VerifyCommandParameters params =  getExecutionEnvironment()
                 .getDataRepository().get("params");
         
         update(params);
     }
     
     
-    protected abstract void update(VerifyingParameters params);
+    protected abstract void update(VerifyCommandParameters params);
     
 }

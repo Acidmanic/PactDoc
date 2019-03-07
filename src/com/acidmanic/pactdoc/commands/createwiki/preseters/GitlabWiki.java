@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.createwiki.preseters;
 
-import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
 
 /**

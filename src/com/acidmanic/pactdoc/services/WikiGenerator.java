@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services;
 
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.PageContentProvider;
@@ -22,11 +22,11 @@ import java.nio.file.StandardOpenOption;
  */
 public class WikiGenerator {
     
-    private final WikiGeneratingParamters paramters;
+    private final WikiGeneratorParamters paramters;
     private final FileSystemLinkGenerator writingLinkGenerator;
 
 
-    public WikiGenerator(WikiGeneratingParamters parameters) {
+    public WikiGenerator(WikiGeneratorParamters parameters) {
         this.paramters = parameters;
         
         IndexHelper indexHelper = new IndexHelper(parameters.getIndexer());

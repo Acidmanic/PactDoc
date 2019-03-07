@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.createwiki;
 
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import acidmanic.commandline.commandnames.DoubleDashedSnakeCaseNameGenerator;
 import acidmanic.commandline.commands.CommandBase;
 

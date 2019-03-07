@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.verifycontracts;
 
+import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 
 /**
@@ -26,7 +27,7 @@ public class PactsRoot extends VerifyingArgumentBase{
     }
 
     @Override
-    protected void update(VerifyingParameters params) {
+    protected void update(VerifyCommandParameters params) {
         if(noArguments()){
             warning("Pacts root for search has been defaulted to " +
                     params.getPactsRoot());

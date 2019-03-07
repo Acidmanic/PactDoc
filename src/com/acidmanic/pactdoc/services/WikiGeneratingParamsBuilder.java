@@ -5,8 +5,8 @@
  */
 package com.acidmanic.pactdoc.services;
 
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
-import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
@@ -21,6 +21,8 @@ import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiformatFactory;
 import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
+import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
+import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 
 /**
  *
@@ -28,7 +30,7 @@ import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
  */
 public class WikiGeneratingParamsBuilder {
     
-    private final WikiGeneratingParamters paramters = new WikiGeneratingParamters();
+    private final WikiGeneratorParamters paramters = new WikiGeneratorParamters();
     
     
     public WikiGeneratingParamsBuilder withStrategy(LinkingStrategy linkingStrategy){
@@ -102,8 +104,8 @@ public class WikiGeneratingParamsBuilder {
     }
     
     
-    public WikiGeneratingParamters build(){
-        return new WikiGeneratingParamters(this.paramters);
+    public WikiGeneratorParamters build(){
+        return new WikiGeneratorParamters(this.paramters);
     }
     
 }

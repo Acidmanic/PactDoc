@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.createwiki;
 
+import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.plugin.PluginLoader;
 import com.acidmanic.pactdoc.services.contractindexing.properties.DefaultPropertyProvider;
