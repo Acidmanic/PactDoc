@@ -31,7 +31,7 @@ public abstract class CreateWikiParameterValidatorBase extends ParameterValidato
             ret.warning("Pact contract files search directory has been defaulted to: " + params.getPactsRoot());
         }
         
-        if (validateOutputDirectory(params.getOutputDirectory())) {
+        if (!validateOutputDirectory(params.getOutputDirectory())) {
             
             String defaultOutput = Paths.get(getCurrentDirectory()).resolve(DEFAULT_OUTPUT).toString();
             
