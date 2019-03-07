@@ -103,7 +103,7 @@ public abstract class PactDocCommandBase extends CommandBase{
             return true;
         };
         
-        addTask(directory, action);
+        addTask(title, action);
         
     }
     
