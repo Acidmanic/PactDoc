@@ -17,7 +17,7 @@ public class HtmlContext implements PageContext{
 
     StringBuilder sb;
 
-    private final String ENDTAG = "\"</div></body></html>\"";
+    private final String ENDTAG = "</div></body></html>";
     public HtmlContext() {  
         sb= new StringBuilder();
         
