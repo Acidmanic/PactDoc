@@ -44,8 +44,6 @@ public class GenerateWiki extends CommandBase{
     public void execute() {
         
         if (!environment.isHelpExecuted()){
-        
-            
             
             WikiGeneratingParamters genParams = new WikiGeneratingParamsBuilder()
                     .withCommandParamters(parameters)

@@ -112,19 +112,15 @@ public class UpdateWiki extends CommandBase{
     }
 
     private boolean generateWiki(WikiCommandParameters parameters) {
-        ContractIndexer indexer = new ContractIndexer(
-                parameters.getPropertyProvider().makeProperties()
-        );
-        
-        scanForAllContracts(parameters.getPactsRoot(),indexer);
                         
         WikiGeneratingParamters genParams = new WikiGeneratingParamsBuilder()
                     .withCommandParamters(parameters)
                     .build();
                     
-            WikiGenerator generator = new WikiGenerator(genParams);
+        WikiGenerator generator = new WikiGenerator(genParams);
             
         generator.generate(parameters.getResolvedWikiPath());
+        
         return true;
     }
 

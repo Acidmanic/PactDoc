@@ -33,7 +33,8 @@ public class WikiGenerator {
         
         String extension = parameters.getWikiFormat().getFilesExtension();
        
-        this.writingLinkGenerator = new FileSystemLinkGenerator(indexHelper, extension);
+        this.writingLinkGenerator = new FileSystemLinkGenerator(indexHelper,
+                extension,true);
     }
 
    

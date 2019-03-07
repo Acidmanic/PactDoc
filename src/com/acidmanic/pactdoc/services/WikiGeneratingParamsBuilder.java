@@ -82,8 +82,10 @@ public class WikiGeneratingParamsBuilder {
             
             IndexHelper indexHelper = new IndexHelper(indexer);
             
-            LinkGenerator linkGenerator = new FileSystemLinkGenerator(indexHelper,
-                    format.getFilesExtension());
+            LinkGenerator linkGenerator = new FileSystemLinkGenerator(
+                    indexHelper,
+                    format.getFilesExtension(),
+                    parameters.isLinksWithExtensions());
             
             LinkingStrategy linkingStrategy = new LinkingStrategyFactory()
                     .create(parameters.isRootRelativeLinks(),

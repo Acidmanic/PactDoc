@@ -19,9 +19,11 @@ public class FileSystemLinkGenerator implements LinkGenerator{
     private final IndexHelper indexHelper;
     private final String extension;
 
-    public FileSystemLinkGenerator(IndexHelper indexHelper, String extension) {
+    public FileSystemLinkGenerator(IndexHelper indexHelper, 
+            String extension,
+            boolean linksWithExtensions) {
         this.indexHelper = indexHelper;
-        if(extension==null||extension.length()==0){
+        if(!linksWithExtensions||extension==null||extension.length()==0){
             this.extension="";
         }else{
             this.extension="."+extension;
