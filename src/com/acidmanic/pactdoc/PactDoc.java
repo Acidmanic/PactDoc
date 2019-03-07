@@ -9,7 +9,7 @@ import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.ApplicationWideTypeRegistery;
 import com.acidmanic.pactdoc.commands.GenerateWiki;
 import com.acidmanic.pactdoc.commands.UpdateWiki;
-import com.acidmanic.pactdoc.commands.verifycontracts.VerifyContracts;
+import com.acidmanic.pactdoc.commands.VerifyContracts;
 
 /**
  *

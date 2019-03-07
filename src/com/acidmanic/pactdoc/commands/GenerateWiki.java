@@ -7,11 +7,12 @@ package com.acidmanic.pactdoc.commands;
 
 
 import acidmanic.commandline.application.ExecutionEnvironment;
-import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
 import com.acidmanic.pactdoc.commands.typeregisteries.CreateWikiTypeRegistery;
 import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
+import com.acidmanic.pactdoc.commands.parametervalidation.GenerateWikiParameterValidator;
+import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 
@@ -19,7 +20,7 @@ import com.acidmanic.pactdoc.services.WikiGenerator;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class GenerateWiki extends CommandBase{
+public class GenerateWiki extends PactDocCommandBase{
     
     private final WikiCommandParameters parameters = new WikiCommandParameters();
 
@@ -45,20 +46,27 @@ public class GenerateWiki extends CommandBase{
         
         if (!environment.isHelpExecuted()){
             
-            WikiGeneratingParamters genParams = new WikiGeneratingParamsBuilder()
-                    .withCommandParamters(parameters)
-                    .build();
-                    
-            WikiGenerator generator = new WikiGenerator(genParams);
+            ValidationResult<WikiCommandParameters> result
+                    = new GenerateWikiParameterValidator().validate(parameters);
+            
+            log(result);
+            
+            if(result.isValid()){
+            
+                WikiGeneratingParamters genParams = new WikiGeneratingParamsBuilder()
+                        .withCommandParamters(result.getValidatedValue())
+                        .build();
 
-            generator.generate(parameters.getResolvedWikiPath());
+                WikiGenerator generator = new WikiGenerator(genParams);
+
+                generator.generate(parameters.getResolvedWikiPath());
+            }
         }
     }
 
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        
         
         environment.getDataRepository().set("params", parameters);
         

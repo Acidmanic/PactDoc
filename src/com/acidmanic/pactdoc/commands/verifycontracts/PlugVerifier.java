@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.verifycontracts;
 
+import com.acidmanic.pactdoc.commands.VerifyContracts;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.plugin.PluginLoader;
 import com.acidmanic.pactdoc.services.contractverification.ContractVerifier;

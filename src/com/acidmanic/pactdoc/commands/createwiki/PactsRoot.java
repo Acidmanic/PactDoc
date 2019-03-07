@@ -12,7 +12,6 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class PactsRoot extends CreateWikiArgBase{
-
     
     @Override
     protected String getUsageString() {

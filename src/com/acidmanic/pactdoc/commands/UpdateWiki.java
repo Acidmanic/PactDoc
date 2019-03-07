@@ -15,16 +15,14 @@ import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidato
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.services.JGit;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
-import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.WikiGenerator;
-import static com.acidmanic.pactdoc.utility.PactFiles.*;
 import java.util.Date;
 import com.acidmanic.pactdoc.utility.Func;
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class UpdateWiki extends CommandBase{
+public class UpdateWiki extends PactDocCommandBase{
 
     private final WikiCommandParameters parameters;
     
@@ -59,9 +57,7 @@ public class UpdateWiki extends CommandBase{
             
             JGit git = new JGit();
             
-            result.getInfos().forEach((String v)-> log(v));
-            result.getWarnings().forEach((String v)-> warning(v));
-            result.getErrors().forEach((String v)-> error(v));
+            log(result);
             
             if (result.isValid()){
                 
