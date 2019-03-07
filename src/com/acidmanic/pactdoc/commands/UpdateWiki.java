@@ -6,7 +6,6 @@
 package com.acidmanic.pactdoc.commands;
 
 import acidmanic.commandline.application.ExecutionEnvironment;
-import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
@@ -61,31 +60,22 @@ public class UpdateWiki extends PactDocCommandBase{
             
             if (result.isValid()){
                 
-                boolean res = logPerformTask("Cloning Wiki Repo",()->cloneGitRepo(parameters)) && 
+                addTask("Cloning Wiki Repo", ()->cloneGitRepo(parameters));
                 
-                logPerformTask("Updating Wiki Files",()->generateWiki(parameters)) && 
+                addTask("Updating Wiki Files", ()->generateWiki(parameters));
+
+                addTask("Commiting Changes", ()-> 
+                        git.acceptLocalChanges(parameters.getOutputDirectory(), makeCommit()));
                 
-                logPerformTask("Commiting Changes",()-> 
-                        git.acceptLocalChanges(parameters.getOutputDirectory(), makeCommit())) &&
+                addTask("Updating Remote Wiki", ()->push(parameters));
                 
-                logPerformTask("Updating Remote Wiki",()->push(parameters));
-               
+                performTasks();
             }
             
             
         }
     }
     
-    private boolean logPerformTask(String titleing, Func<Boolean> task){
-        if(task.perform()){
-            log(titleing+" : OK");
-            return true;
-        }else{
-            error("There was a problem " + titleing);
-            return false;
-        }
-    }
-
     @Override
     public ArgumentValidationResult validateArguments() {
       

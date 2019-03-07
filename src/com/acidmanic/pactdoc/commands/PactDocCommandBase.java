@@ -7,8 +7,12 @@ package com.acidmanic.pactdoc.commands;
 
 import acidmanic.commandline.commands.CommandBase;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
+import com.acidmanic.pactdoc.businessmodels.CommandTask;
 import com.acidmanic.pactdoc.logging.Log;
 import com.acidmanic.pactdoc.logging.LogRecord;
+import com.acidmanic.pactdoc.utility.Func;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,7 +21,7 @@ import com.acidmanic.pactdoc.logging.LogRecord;
 public abstract class PactDocCommandBase extends CommandBase{
 
     
-    
+    private final List<CommandTask> tasks = new ArrayList<>();
     
     
     protected void log(ValidationResult<? extends Object> result){
@@ -41,6 +45,23 @@ public abstract class PactDocCommandBase extends CommandBase{
                 default:
                     log(record.getMessage());
                     break;
+            }
+        }
+    }
+    
+    
+    protected void addTask(String titleing,Func<Boolean> task){
+        this.tasks.add(new CommandTask(task, titleing));
+    }
+    
+    
+    protected void performTasks(){
+        for(CommandTask task:tasks){
+            if(task.getTask().perform()){
+                info(task.getTitleing()+" : OK");
+            }else{
+                error("There was a problem " + task.getTitleing());
+                return;
             }
         }
     }

@@ -7,13 +7,11 @@ package com.acidmanic.pactdoc.commands;
 
 import com.acidmanic.pactdoc.commands.typeregisteries.VerificationTypeRegistery;
 import acidmanic.commandline.application.ExecutionEnvironment;
-import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
 import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import com.acidmanic.pactdoc.logging.Log;
-import com.acidmanic.pactdoc.logging.LogRecord;
 import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.utility.PactFiles;
 import java.util.ArrayList;
@@ -64,14 +62,11 @@ public class VerifyContracts extends PactDocCommandBase {
                 
                 PactFiles.scanForAllContracts(parameters.getPactsRoot(),contracts);
                 
-                
                 Log verificationResults = 
                         parameters.getContractVerifier()
                         .verify(contracts);
                 
-                
                 log(verificationResults);
-                
                 
                 int exitCode = verificationResults.isValid()?0:128;
                 

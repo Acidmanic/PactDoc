@@ -12,5 +12,5 @@ package com.acidmanic.pactdoc.utility;
  */
 public interface Func<T> {
     
-    boolean perform();
+    T perform();
 }
