@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 public class ReffererRelativeLinkingStrategy implements LinkingStrategy{
     
     @Override
-    public String getLink(String target,String refferer) {
+    public String getLink(String refferer,String target) {
         Path path = Paths.get(target);
         
         Path refPath = Paths.get(refferer).getParent();

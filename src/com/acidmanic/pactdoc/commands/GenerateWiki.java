@@ -53,7 +53,7 @@ public class GenerateWiki extends CommandBase{
                     
             WikiGenerator generator = new WikiGenerator(genParams);
 
-            generator.generate(parameters.getOutputDirectory());
+            generator.generate(parameters.getResolvedWikiPath());
         }
     }
 

@@ -74,7 +74,7 @@ public class IndexExpression extends ExpressionBase{
         for(Link link:getChildsBaseRelatedLinks()){
             
             String src = getParamters().getLinkingStrategy()
-                    .getLink(link.getSrc(),here);
+                    .getLink(here,link.getSrc());
             
             context.openLink(src);
             

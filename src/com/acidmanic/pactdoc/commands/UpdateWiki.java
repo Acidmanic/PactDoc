@@ -124,7 +124,7 @@ public class UpdateWiki extends CommandBase{
                     
             WikiGenerator generator = new WikiGenerator(genParams);
             
-        generator.generate(parameters.getOutputDirectory());
+        generator.generate(parameters.getResolvedWikiPath());
         return true;
     }
 

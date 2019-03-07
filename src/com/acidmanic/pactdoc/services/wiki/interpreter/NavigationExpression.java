@@ -36,7 +36,7 @@ public class NavigationExpression extends ExpressionBase{
             
             String link = getParamters().getLinkGenerator().generateLink(subKey);
             
-            link = getParamters().getLinkingStrategy().getLink(link,getCurrentLink());
+            link = getParamters().getLinkingStrategy().getLink(getCurrentLink(),link);
             
             if(link!=null){
                 

@@ -27,7 +27,7 @@ public class GitlabWiki extends WikiPresetCommand{
         
         params.setRemote("origin");
         
-        params.setRootRelativeLinks(true);
+        params.setRootRelativeLinks(false);
         
         params.setWikiFormat(WikiFormats.MARKDOWN.getName());
     }

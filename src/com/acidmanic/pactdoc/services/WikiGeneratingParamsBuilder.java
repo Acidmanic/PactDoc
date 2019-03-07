@@ -14,12 +14,13 @@ import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
+import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategyFactory;
 import com.acidmanic.pactdoc.services.wiki.linking.ReffererRelativeLinkingStrategy;
-import com.acidmanic.pactdoc.services.wiki.linking.RelativeLinkingStrategy;
+import com.acidmanic.pactdoc.services.wiki.linking.RootRelativeLinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiformatFactory;
 import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
-import java.util.List;
+import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 
 /**
  *
@@ -84,9 +85,10 @@ public class WikiGeneratingParamsBuilder {
             LinkGenerator linkGenerator = new FileSystemLinkGenerator(indexHelper,
                     format.getFilesExtension());
             
-            LinkingStrategy linkingStrategy = parameters.isRootRelativeLinks()?
-                    new RelativeLinkingStrategy():
-                    new ReffererRelativeLinkingStrategy();
+            LinkingStrategy linkingStrategy = new LinkingStrategyFactory()
+                    .create(parameters.isRootRelativeLinks(),
+                            parameters.getDocumentsSubDirectory(),
+                            format);
             
             
             return this.withApiBase(parameters.getDocumentsSubDirectory())

@@ -8,6 +8,8 @@ package com.acidmanic.pactdoc.commands.createwiki;
 import com.acidmanic.pactdoc.services.contractindexing.properties.DefaultPropertyProvider;
 import com.acidmanic.pactdoc.services.contractindexing.properties.PropertyProvider;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -44,7 +46,7 @@ public class WikiCommandParameters {
     public WikiCommandParameters() {
         this.pactsRoot=".";
         this.outputDirectory="wiki";
-        this.documentsSubDirectory="Api";
+        this.documentsSubDirectory="";
         this.linksWithExtensions=true;
         this.remote = "origin";
         this.propertyProvider = new DefaultPropertyProvider();
@@ -161,7 +163,13 @@ public class WikiCommandParameters {
         this.callerCommand = callerCommand;
     }
     
-    
+    public String getResolvedWikiPath(){
+        Path path = Paths.get(this.outputDirectory);
+        if(this.documentsSubDirectory!=null&&this.documentsSubDirectory.length()>0){
+            path = path.resolve(this.documentsSubDirectory);
+        }
+        return path.normalize().toString();
+    }
     
     
 }
