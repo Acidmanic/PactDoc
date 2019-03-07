@@ -3,7 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.createwiki;
+package com.acidmanic.pactdoc.commands.typeregisteries;
+
+import com.acidmanic.pactdoc.commands.createwiki.Pass;
+import com.acidmanic.pactdoc.commands.createwiki.Remote;
+import com.acidmanic.pactdoc.commands.createwiki.Repository;
+import com.acidmanic.pactdoc.commands.createwiki.User;
 
 /**
  *

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.createwiki.presets;
+package com.acidmanic.pactdoc.commands.createwiki.preseters;
 
 import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;

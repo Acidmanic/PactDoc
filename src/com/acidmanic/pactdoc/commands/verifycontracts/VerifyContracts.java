@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.commands.verifycontracts;
 
+import com.acidmanic.pactdoc.commands.typeregisteries.VerificationTypeRegistery;
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;

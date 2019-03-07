@@ -3,10 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.createwiki;
+package com.acidmanic.pactdoc.commands.typeregisteries;
 
 import acidmanic.commandline.commands.TypeRegistery;
-import com.acidmanic.pactdoc.commands.createwiki.presets.GitlabWiki;
+import com.acidmanic.pactdoc.commands.createwiki.APIsSubDir;
+import com.acidmanic.pactdoc.commands.createwiki.AddExtensions;
+import com.acidmanic.pactdoc.commands.createwiki.Format;
+import com.acidmanic.pactdoc.commands.createwiki.Output;
+import com.acidmanic.pactdoc.commands.createwiki.PactsRoot;
+import com.acidmanic.pactdoc.commands.createwiki.PlugWikiProps;
+import com.acidmanic.pactdoc.commands.createwiki.RootRelativeLinks;
+import com.acidmanic.pactdoc.commands.createwiki.preseters.GitlabWiki;
 
 /**
  *

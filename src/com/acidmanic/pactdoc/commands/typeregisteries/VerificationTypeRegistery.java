@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.commands.verifycontracts;
+package com.acidmanic.pactdoc.commands.typeregisteries;
 
 import acidmanic.commandline.commands.TypeRegistery;
+import com.acidmanic.pactdoc.commands.verifycontracts.PactsRoot;
+import com.acidmanic.pactdoc.commands.verifycontracts.PlugVerifier;
 
 /**
  *

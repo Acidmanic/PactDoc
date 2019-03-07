@@ -10,7 +10,7 @@ import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.commands.CommandBase;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratingParamters;
-import com.acidmanic.pactdoc.commands.createwiki.CreateWikiTypeRegistery;
+import com.acidmanic.pactdoc.commands.typeregisteries.CreateWikiTypeRegistery;
 import com.acidmanic.pactdoc.commands.createwiki.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.WikiGenerator;
