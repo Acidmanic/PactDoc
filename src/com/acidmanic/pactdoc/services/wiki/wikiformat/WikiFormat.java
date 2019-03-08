@@ -45,17 +45,10 @@ public class WikiFormat{
     public void setName(String name) {
         this.name = name;
     }
-        
-    public WikiContext makeContext(){
-        try {
-            
-            return contextClass.newInstance();
-            
-        } catch (Exception e) {}
-        
-        return WikiContext.NULL;
+
+    public Class<? extends WikiContext> getContextClass() {
+        return contextClass;
     }
-    
     
     
 }

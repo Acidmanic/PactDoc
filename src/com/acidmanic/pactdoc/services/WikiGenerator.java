@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.services;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
+import com.acidmanic.pactdoc.services.wiki.ContextFactory;
 import com.acidmanic.pactdoc.services.wiki.interpreter.WikiExpression;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
@@ -30,7 +31,7 @@ public class WikiGenerator {
         
         WikiExpression wiki = new WikiExpression(new String[]{}, paramters);
                 
-        WikiContext context= paramters.getWikiFormat().makeContext();
+        WikiContext context= new ContextFactory().make(paramters);
         
         wiki.interpret(context);
         
