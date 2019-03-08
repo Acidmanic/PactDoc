@@ -5,9 +5,9 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
  *
@@ -27,7 +27,7 @@ public class NavigationExpression extends ExpressionBase{
    
     
     @Override
-    public void interpret(PageContext context) {
+    public void interpret(WikiContext context) {
         
         String[] key = getCurrentKey();
         

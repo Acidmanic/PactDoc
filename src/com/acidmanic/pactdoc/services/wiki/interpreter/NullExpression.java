@@ -5,9 +5,9 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import static com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider.CONTENT_NOT_FOUND;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
  *
@@ -22,7 +22,7 @@ public class NullExpression extends ExpressionBase{
     }
 
     @Override
-    public void interpret(PageContext context) {
+    public void interpret(WikiContext context) {
         context.openBold().openItalic()
                 .append(CONTENT_NOT_FOUND)
                 .closeBold().closeItalic();

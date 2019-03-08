@@ -6,11 +6,8 @@
 package com.acidmanic.pactdoc.services;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
-import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.PageContentProvider;
-import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkGeneratorFactory;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;

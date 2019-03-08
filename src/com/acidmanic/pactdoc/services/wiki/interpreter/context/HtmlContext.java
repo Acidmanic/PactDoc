@@ -13,7 +13,7 @@ import java.util.HashMap;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class HtmlContext implements PageContext{
+public class HtmlContext implements WikiContext{
 
     StringBuilder sb;
 
@@ -37,19 +37,19 @@ public class HtmlContext implements PageContext{
     }
     
     @Override
-    public PageContext title(String text) {
+    public WikiContext title(String text) {
         sb.append("<h1>").append(text).append("</h1>");
         return this;
     }
 
     @Override
-    public PageContext paragraph(String text) {
+    public WikiContext paragraph(String text) {
         sb.append("<div>").append(text).append("</div>");
         return this;
     }
 
     @Override
-    public PageContext table(HashMap<String, String> table) {
+    public WikiContext table(HashMap<String, String> table) {
         sb.append("<table class=\"table table-bordered col-lg-4\">");
         
         for(String key:table.keySet()){
@@ -60,7 +60,7 @@ public class HtmlContext implements PageContext{
     }
 
     @Override
-    public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
+    public WikiContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
         sb.append("<table class=\"table table-bordered col-lg-4\">");
         sb.append("<thead class=\"thead-light\">");
         appendTags(sb, "th", new String[]{leftHeader,rightHeader});
@@ -73,53 +73,44 @@ public class HtmlContext implements PageContext{
     }
 
     @Override
-    public PageContext openBold() {
+    public WikiContext openBold() {
         sb.append("<b>");
         return this;
     }
 
     @Override
-    public PageContext closeBold() {
+    public WikiContext closeBold() {
         sb.append("</b>");
         return this;
     }
 
     @Override
-    public PageContext openItalic() {
+    public WikiContext openItalic() {
          sb.append("<i>");
         return this;
     }
 
     @Override
-    public PageContext closeItalic() {
+    public WikiContext closeItalic() {
          sb.append("</i>");
         return this;
     }
 
     @Override
-    public PageContext append(String text) {
+    public WikiContext append(String text) {
         sb.append(htmlEncode(text));
         return this;
     }
 
+    
     @Override
-    public PageContext link(Link link) {
-        sb.append("<a href=\"")
-                .append(link.getSrc())
-                .append("\">")
-                .append(link.getCaption())
-                .append("</a>");
-        return this;
-    }
-
-    @Override
-    public PageContext newLine() {
+    public WikiContext newLine() {
         sb.append("<br>");
         return this;
     }
 
     @Override
-    public PageContext json(String json) {
+    public WikiContext json(String json) {
         sb.append("<pre><code>").append(new TextReformater().pritifyJson(json))
                 .append("</code></pre>");
         return this;
@@ -146,12 +137,13 @@ public class HtmlContext implements PageContext{
         return true;
     }
     
+    
     @Override
-    public String output() {
+    public void output() {
         if(!endsWith(ENDTAG)){
             sb.append(ENDTAG);
         }
-        return sb.toString();
+        //TODO: output the output
     }
 
     private String htmlEncode(String text) {
@@ -185,21 +177,30 @@ public class HtmlContext implements PageContext{
     }
 
     @Override
-    public PageContext openLink(String src) {
+    public WikiContext openLink(String[] contentKey) {
+        //TODO: provide link src
+        String src="";
         sb.append("<a href=\"").append(src)
                 .append("\" >");
         return this;
     }
 
     @Override
-    public PageContext closeLink() {
+    public WikiContext closeLink() {
         sb.append("</a>");
         return this;
     }
 
     @Override
-    public PageContext horizontalLine() {
+    public WikiContext horizontalLine() {
         sb.append("<hr>");
+        return this;
+    }
+
+    @Override
+    public WikiContext startNewPage(String[] contentKey) {
+        //TODO: Start new Page
+        
         return this;
     }
 }

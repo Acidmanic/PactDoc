@@ -7,8 +7,8 @@ package com.acidmanic.pactdoc.services.wiki.contentproviders;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.wiki.interpreter.ExpressionBase;
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
 import com.acidmanic.pactdoc.services.wiki.interpreter.PageExpression;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
  *
@@ -36,7 +36,7 @@ public class PageContentProvider implements ContentProvider{
     }
     
     private String render(ExpressionBase expression) {
-        PageContext context = paramters.getWikiFormat().makeContext();
+        WikiContext context = paramters.getWikiFormat().makeContext();
         expression.interpret(context);
         return context.output();
     }

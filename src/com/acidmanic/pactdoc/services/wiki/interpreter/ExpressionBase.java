@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.models.Contract;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
@@ -13,6 +12,7 @@ import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import java.util.ArrayList;
 import java.util.List;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
  *
@@ -80,5 +80,5 @@ public abstract class ExpressionBase {
         return ret;
     }
     
-    public abstract void interpret(PageContext context);
+    public abstract void interpret(WikiContext context);
 }

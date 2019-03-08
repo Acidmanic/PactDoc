@@ -5,12 +5,12 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import com.acidmanic.pactdoc.utility.TextReformater;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
  *
@@ -28,7 +28,7 @@ public class IndexExpression extends ExpressionBase{
     
     
     @Override
-    public void interpret(PageContext context) {
+    public void interpret(WikiContext context) {
         
         
         String title = ContentKeyHelper.getTitleFor(getCurrentKey());

@@ -12,68 +12,68 @@ import java.util.HashMap;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class NULLContext implements PageContext{
+public class NULLContext implements WikiContext{
 
     NULLContext() {
     }
 
     @Override
-    public PageContext title(String text) {
+    public WikiContext title(String text) {
         return this;
     }
 
     @Override
-    public PageContext paragraph(String text) {
+    public WikiContext paragraph(String text) {
         return this;
     }
 
     @Override
-    public PageContext table(HashMap<String, String> table) {
+    public WikiContext table(HashMap<String, String> table) {
         return this;
     }
 
     @Override
-    public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
+    public WikiContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
         return this;
     }
 
     @Override
-    public PageContext openBold() {
+    public WikiContext openBold() {
         return this;
     }
 
     @Override
-    public PageContext closeBold() {
+    public WikiContext closeBold() {
         return this;
     }
 
     @Override
-    public PageContext openItalic() {
+    public WikiContext openItalic() {
         return this;
     }
 
     @Override
-    public PageContext closeItalic() {
+    public WikiContext closeItalic() {
         return this;
     }
 
     @Override
-    public PageContext append(String text) {
+    public WikiContext append(String text) {
         return this;
     }
 
     @Override
-    public PageContext link(Link link) {
+    public WikiContext link(Link link) {
         return this;
     }
 
     @Override
-    public PageContext newLine() {
+    public WikiContext newLine() {
         return this;
     }
 
     @Override
-    public PageContext json(String json) {
+    public WikiContext json(String json) {
         return this;
     }
 
@@ -83,17 +83,22 @@ public class NULLContext implements PageContext{
     }
 
     @Override
-    public PageContext openLink(String src) {
+    public WikiContext openLink(String src) {
         return this;
     }
 
     @Override
-    public PageContext closeLink() {
+    public WikiContext closeLink() {
         return this;
     }
 
     @Override
-    public PageContext horizontalLine() {
+    public WikiContext horizontalLine() {
+        return this;
+    }
+
+    @Override
+    public WikiContext startNewPage(String[] contentKey) {
         return this;
     }
     

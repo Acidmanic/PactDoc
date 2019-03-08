@@ -13,7 +13,7 @@ import java.util.HashMap;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class MarkdownContext implements PageContext{
+public class MarkdownContext implements WikiContext{
 
     private final StringBuilder mainContent;
     
@@ -33,7 +33,7 @@ public class MarkdownContext implements PageContext{
     
 
     @Override
-    public PageContext title(String text) {
+    public WikiContext title(String text) {
         
         currentContent.append("##").append(text).append("\n");
         
@@ -41,7 +41,7 @@ public class MarkdownContext implements PageContext{
     }
 
     @Override
-    public PageContext paragraph(String text) {
+    public WikiContext paragraph(String text) {
         
         currentContent.append("\n").append(text).append("\n");
         
@@ -50,7 +50,7 @@ public class MarkdownContext implements PageContext{
 
         
     @Override
-    public PageContext table(HashMap<String, String> table) {
+    public WikiContext table(HashMap<String, String> table) {
         for(String key:table.keySet()){
             String value = table.get(key);
             currentContent.append("|")
@@ -63,21 +63,21 @@ public class MarkdownContext implements PageContext{
     }
 
     @Override
-    public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
+    public WikiContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
         currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
         currentContent.append("|:------|:------------|\n");
         return this.table(table);
     }
 
     @Override
-    public PageContext newLine() {
+    public WikiContext newLine() {
         this.currentContent.append("\n\n");
         return this;
     }
 
 
     @Override
-    public PageContext json(String json) {
+    public WikiContext json(String json) {
         this.currentContent.append("```json\n").
                 append(new TextReformater().pritifyJson(json))
                 .append("\n```\n");
@@ -90,43 +90,43 @@ public class MarkdownContext implements PageContext{
     }
 
     @Override
-    public PageContext link(Link link) {
+    public WikiContext link(Link link) {
         appendLink(link.getSrc(),link.getCaption());
         return this;
     }
 
     @Override
-    public PageContext append(String text) {
+    public WikiContext append(String text) {
         this.currentContent.append(text);
         return this;
     }
 
     @Override
-    public PageContext openBold() {
+    public WikiContext openBold() {
         currentContent.append("__");
         return this;
     }
 
     @Override
-    public PageContext closeBold() {
+    public WikiContext closeBold() {
         currentContent.append("__");
         return this;
     }
 
     @Override
-    public PageContext openItalic() {
+    public WikiContext openItalic() {
         currentContent.append("_");
         return this;
     }
 
     @Override
-    public PageContext closeItalic() {
+    public WikiContext closeItalic() {
         currentContent.append("_");
         return this;
     }
 
     @Override
-    public PageContext openLink(String src) {
+    public WikiContext openLink(String src) {
         this.linkContent = new StringBuilder();
         this.currentContent = this.linkContent;
         this.linkSrc=src;
@@ -134,7 +134,7 @@ public class MarkdownContext implements PageContext{
     }
 
     @Override
-    public PageContext closeLink() {
+    public WikiContext closeLink() {
         
         this.currentContent = this.mainContent;
         
@@ -153,7 +153,7 @@ public class MarkdownContext implements PageContext{
     }
 
     @Override
-    public PageContext horizontalLine() {
+    public WikiContext horizontalLine() {
         this.currentContent.append("___________________\n");
         return this;
     }

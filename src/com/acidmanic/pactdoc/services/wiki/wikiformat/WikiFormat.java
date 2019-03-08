@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.wikiformat;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
  *
@@ -13,13 +13,13 @@ import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
  */
 public class WikiFormat{
     
-    private Class<? extends PageContext> contextClass;
+    private Class<? extends WikiContext> contextClass;
     
     private String filesExtension;
     
     private String name;
 
-    public WikiFormat(Class<? extends PageContext> contextClass, String filesExtension, String name) {
+    public WikiFormat(Class<? extends WikiContext> contextClass, String filesExtension, String name) {
         this.contextClass = contextClass;
         this.filesExtension = filesExtension;
         this.name = name;
@@ -46,14 +46,14 @@ public class WikiFormat{
         this.name = name;
     }
         
-    public PageContext makeContext(){
+    public WikiContext makeContext(){
         try {
             
             return contextClass.newInstance();
             
         } catch (Exception e) {}
         
-        return PageContext.NULL;
+        return WikiContext.NULL;
     }
     
     
