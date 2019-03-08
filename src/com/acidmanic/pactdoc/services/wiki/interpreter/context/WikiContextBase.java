@@ -14,6 +14,15 @@ import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
  */
 public abstract class WikiContextBase implements WikiContext{
     
+    private final String output;
+
+    public WikiContextBase(String output) {
+        this.output = output;
+    }
+
+    public String getOutput() {
+        return output;
+    }
     
     protected Link makeLinkFor(String[] contentKey){
         return decorateLink(new ContentLink(contentKey)); 
@@ -22,7 +31,7 @@ public abstract class WikiContextBase implements WikiContext{
     protected Link makeReferrerBasedLinkFor(String[] referrerKey,
             String[] targetKey){
         Link ret = decorateLink(new ContentLink(targetKey));
-        ret.reBase(new ContentLink(referrerKey));
+        ret.trimBase(new ContentLink(referrerKey));
         return ret;
     }
     

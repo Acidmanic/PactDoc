@@ -7,9 +7,6 @@ package com.acidmanic.pactdoc.businessmodels;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
-import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 
 /**
@@ -18,13 +15,7 @@ import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
  */
 public class WikiGeneratorParamters {
     
-        
-    
-    private LinkingStrategy linkingStrategy;
-    
     private Glossary glossary;
-    
-    private LinkGenerator linkGenerator;
     
     private WikiFormat wikiFormat;
     
@@ -34,22 +25,19 @@ public class WikiGeneratorParamters {
     
     private boolean addFileExtensions;
     
-    private LinkGenerator writingLinkGenerator;
-
+    private boolean referredBaseLinking;
+    
+    private String output;
+    
     public WikiGeneratorParamters() {
     }
 
     
     
     public WikiGeneratorParamters(WikiGeneratorParamters paramters) {
-        this.linkingStrategy=paramters.linkingStrategy;
 
         this.glossary=paramters.glossary;
-
-        this.linkGenerator=paramters.linkGenerator;
         
-        this.writingLinkGenerator = paramters.writingLinkGenerator;
-
         this.wikiFormat=paramters.wikiFormat;
 
         this.indexer=paramters.indexer;
@@ -58,14 +46,10 @@ public class WikiGeneratorParamters {
 
         this.addFileExtensions=paramters.addFileExtensions;
         
-    }
-
-    public LinkingStrategy getLinkingStrategy() {
-        return linkingStrategy;
-    }
-
-    public void setLinkingStrategy(LinkingStrategy linkingStrategy) {
-        this.linkingStrategy = linkingStrategy;
+        this.output = paramters.output;
+        
+        this.referredBaseLinking = paramters.referredBaseLinking;
+        
     }
 
     public Glossary getGlossary() {
@@ -75,15 +59,7 @@ public class WikiGeneratorParamters {
     public void setGlossary(Glossary glossary) {
         this.glossary = glossary;
     }
-
-    public LinkGenerator getLinkGenerator() {
-        return linkGenerator;
-    }
-
-    public void setLinkGenerator(LinkGenerator linkGenerator) {
-        this.linkGenerator = linkGenerator;
-    }
-
+    
     public WikiFormat getWikiFormat() {
         return wikiFormat;
     }
@@ -116,11 +92,19 @@ public class WikiGeneratorParamters {
         this.addFileExtensions = addFileExtensions;
     }
 
-    public LinkGenerator getWritingLinkGenerator() {
-        return writingLinkGenerator;
+    public boolean isReferrerBaseLinking() {
+        return this.referredBaseLinking;
     }
 
-    public void setWritingLinkGenerator(LinkGenerator writingLinkGenerator) {
-        this.writingLinkGenerator = writingLinkGenerator;
+    public void setReferredBaseLinking(boolean referredBaseLinking) {
+        this.referredBaseLinking = referredBaseLinking;
+    }
+
+    public String getOutput() {
+        return this.output;
+    }
+    
+    public void setOutput(String output){
+        this.output = output;
     }
 }

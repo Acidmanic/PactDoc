@@ -11,6 +11,7 @@ import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
 import com.acidmanic.pactdoc.utility.IOHelper;
 import com.acidmanic.pactdoc.utility.TextReformater;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 /**
@@ -23,8 +24,11 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     
     private final String ENDTAG = "</div></body></html>";
 
-    public MultiPageHtmlContext(boolean referrerRelativeLinking, boolean linkWithExtensions) {
-        super(referrerRelativeLinking, linkWithExtensions,"html");
+    public MultiPageHtmlContext(boolean referrerRelativeLinking,
+            boolean linkWithExtensions,
+            String output) {
+        super(referrerRelativeLinking, 
+                linkWithExtensions,"html",output);
         
         this.sb = new StringBuilder();
     }
@@ -224,6 +228,8 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
             String content = sb.toString();
             
             String path = writinLink.represent();
+            
+            path = Paths.get(getOutput()).resolve(path).toString();
             
             IOHelper.ensureParents(path);
             

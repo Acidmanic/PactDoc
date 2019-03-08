@@ -10,13 +10,8 @@ import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkGeneratorFactory;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategyFactory;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiformatFactory;
-import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 
 /**
@@ -26,17 +21,6 @@ import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 public class WikiGeneratingParamsBuilder {
     
     private final WikiGeneratorParamters paramters = new WikiGeneratorParamters();
-    
-    
-    public WikiGeneratingParamsBuilder withStrategy(LinkingStrategy linkingStrategy){
-        this.paramters.setLinkingStrategy(linkingStrategy);
-        return this;
-    }
-    
-    public WikiGeneratingParamsBuilder withLinkGenerator(LinkGenerator linkGenerator){
-        this.paramters.setLinkGenerator(linkGenerator);
-        return this;
-    }
     
     public WikiGeneratingParamsBuilder withFormat(WikiFormat format){
         this.paramters.setWikiFormat(format);
@@ -69,12 +53,9 @@ public class WikiGeneratingParamsBuilder {
         
     }
     
-    
-    public WikiGeneratingParamsBuilder withWritingLinkGenerator(LinkGenerator generator){
-        this.paramters.setWritingLinkGenerator(generator);
-        
+    public WikiGeneratingParamsBuilder withOutput(String output){
+        this.paramters.setOutput(output);
         return this;
-        
     }
     
     public WikiGeneratingParamsBuilder withCommandParamters(WikiCommandParameters parameters){
@@ -85,30 +66,22 @@ public class WikiGeneratingParamsBuilder {
 
             WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
             
-            LinkGeneratorFactory factory = new LinkGeneratorFactory(indexer); 
-                        
-            LinkGenerator linkGenerator = factory.createForContent(parameters);
-            
-            LinkGenerator writingLinkGenerator = factory.createForFiles(parameters);
-            
-            LinkingStrategy linkingStrategy = new LinkingStrategyFactory()
-                    .create(parameters.isRootRelativeLinks(),
-                            parameters.getDocumentsSubDirectory(),
-                            format);
-            
-            
             return this.withApiBase(parameters.getDocumentsSubDirectory())
                     .withFilesHavingExtension(parameters.isLinksWithExtensions())
                     .withFormat(format)
                     .withIndexer(indexer)
-                    .withLinkGenerator(linkGenerator)
-                    .withWritingLinkGenerator(writingLinkGenerator)
-                    .withStrategy(linkingStrategy);
+                    .withReferrerBaseLinks(parameters.isRootRelativeLinks())
+                    .withOutput(parameters.getResolvedWikiPath());
     }
     
     
     public WikiGeneratorParamters build(){
         return new WikiGeneratorParamters(this.paramters);
+    }
+
+    private WikiGeneratingParamsBuilder withReferrerBaseLinks(boolean rootRelativeLinks) {
+        this.paramters.setReferredBaseLinking(rootRelativeLinks);
+        return this;
     }
     
 }

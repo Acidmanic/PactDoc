@@ -40,13 +40,19 @@ public class PathLink extends FileSystemLink{
     }
 
     @Override
-    public void reBase(Link base) {
-        origin.reBase(base);
+    public void trimBase(Link base) {
+        origin.trimBase(base);
     }
 
     @Override
     public String[] getContentKey() {
         return origin.getContentKey();
+    }
+    
+    
+    @Override
+    public void baseOn(Link base) {
+        this.origin.baseOn(base);
     }
     
 }

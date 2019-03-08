@@ -27,8 +27,11 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
     
     public HierarchicalWikiContext(boolean referrerRelativeLinking, 
             boolean linkWithExtensions,
-            String extension) {
-
+            String extension,
+            String output) {
+        
+        super(output);
+        
         this.referrerRelativeLinking = referrerRelativeLinking;
         
         this.linkWithExtensions = linkWithExtensions;        

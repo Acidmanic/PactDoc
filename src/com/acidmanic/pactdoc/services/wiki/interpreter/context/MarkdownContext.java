@@ -10,6 +10,9 @@ import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
+import com.acidmanic.pactdoc.utility.IOHelper;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 /**
@@ -20,13 +23,23 @@ public class MarkdownContext extends HierarchicalWikiContext{
 
     private MarkdownPageBuilder pageBuilder;
 
-    public MarkdownContext(boolean referrerRelativeLinking, boolean linkWithExtensions, String extension) {
-        super(referrerRelativeLinking, linkWithExtensions, extension);
+    public MarkdownContext(boolean referrerRelativeLinking, 
+            boolean linkWithExtensions,
+            String output) {
+        super(referrerRelativeLinking, linkWithExtensions, "md",output);
     }
     
     @Override
     protected void deliverThisPage(String[] currentPageContentKey) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String content = pageBuilder.output();
+        
+        String path = getPageWriteLinkFor(currentPageContentKey).represent();
+        
+        path = Paths.get(getOutput()).resolve(path).toString();
+        
+        IOHelper.ensureParents(path);
+        
+        IOHelper.writeAllText(path, content);
     }
 
     @Override

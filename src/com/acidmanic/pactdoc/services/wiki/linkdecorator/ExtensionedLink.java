@@ -24,8 +24,8 @@ public class ExtensionedLink implements Link{
     }
 
     @Override
-    public void reBase(Link base) {
-        origin.reBase(base);
+    public void trimBase(Link base) {
+        origin.trimBase(base);
     }
 
     @Override
@@ -36,6 +36,11 @@ public class ExtensionedLink implements Link{
     @Override
     public String[] getContentKey() {
         return this.origin.getContentKey();
+    }
+
+    @Override
+    public void baseOn(Link base) {
+        this.origin.baseOn(base);
     }
     
 }

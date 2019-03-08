@@ -23,11 +23,8 @@ public class WikiGenerator {
         this.paramters = parameters;
         
     }
-
-   
  
     public void generate(String destinationDirectory) {
-        
         
         WikiExpression wiki = new WikiExpression(new String[]{}, paramters);
                 

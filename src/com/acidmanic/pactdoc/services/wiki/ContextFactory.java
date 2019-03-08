@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc.services.wiki;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.MarkdownContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.MultiPageHtmlContext;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
@@ -22,9 +23,16 @@ public class ContextFactory {
         
         //TODO: Implement here
         if(contextClass==MarkdownContext.class){
-            
+            return new MarkdownContext(paramters.isReferrerBaseLinking(),
+                    paramters.isAddFileExtensions(),
+                    paramters.getOutput());
         }
         
+        if(contextClass==MultiPageHtmlContext.class){
+            return new MultiPageHtmlContext(paramters.isReferrerBaseLinking(),
+                    paramters.isAddFileExtensions(),
+                    paramters.getOutput());
+        }
         return WikiContext.NULL;
     }
 }

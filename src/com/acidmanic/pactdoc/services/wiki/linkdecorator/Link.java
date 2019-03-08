@@ -11,7 +11,10 @@ package com.acidmanic.pactdoc.services.wiki.linkdecorator;
  */
 public interface Link {
     
-    public void reBase(Link base);
+    public void trimBase(Link base);
+    
+    public void baseOn(Link base);
+    
     
     String represent();
     

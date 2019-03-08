@@ -18,7 +18,7 @@ public class ContentLink implements Link{
     }
 
     @Override
-    public void reBase(Link base) {
+    public void trimBase(Link base) {
         
         String[] baseKey= base.getContentKey();
         
@@ -51,6 +51,18 @@ public class ContentLink implements Link{
     @Override
     public String represent() {
         return "";
+    }
+
+    @Override
+    public void baseOn(Link base) {
+        
+        String[] baseKey = base.getContentKey();
+        
+        String[] key = new String[this.contentKey.length+baseKey.length];
+        
+        System.arraycopy(baseKey, 0, key, 0, baseKey.length);
+        
+        System.arraycopy(this.contentKey, 0, key, baseKey.length, this.contentKey.length);
     }
     
     
