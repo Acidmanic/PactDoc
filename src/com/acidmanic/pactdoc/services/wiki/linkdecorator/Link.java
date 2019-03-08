@@ -17,8 +17,10 @@ public interface Link {
     
     public void append(String...appending);
     
-    String represent();
+    public String represent();
     
-    String[] getContentKey();
+    public String[] getContentKey();
+    
+    public Link cloneLink();
     
 }

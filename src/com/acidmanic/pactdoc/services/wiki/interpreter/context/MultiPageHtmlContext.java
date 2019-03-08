@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
@@ -20,7 +21,7 @@ import java.util.HashMap;
  */
 public class MultiPageHtmlContext extends HierarchicalWikiContext{
 
-    private final StringBuilder sb;
+    private StringBuilder sb;
     
     private final String ENDTAG = "</div></body></html>";
 
@@ -38,6 +39,8 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     
     @Override
     protected void initializeContextForNewPage(){
+        sb= new StringBuilder();
+        
         sb.append("<html>").append("<head>")
                 .append("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css\" integrity=\"sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS\" crossorigin=\"anonymous\">\n" +
 "<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js\" integrity=\"sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k\" crossorigin=\"anonymous\"></script>")
@@ -186,8 +189,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
 
     @Override
     public WikiContext openLink(String[] contentKey) {
-        //TODO: provide link src
-        String src="";
+        String src=getInternalLinkFor(contentKey).represent();
         sb.append("<a href=\"").append(src)
                 .append("\" >");
         return this;
@@ -211,10 +213,10 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
         
         ret = new PathLink(ret);
         
-        ret = new NameDeterminerLink(ret, getIndexer());
+        ret = new NameDeterminerLink((FileSystemLink) ret, getIndexer());
         
         if(this.isLinkWithExtensions()){
-            ret = new ExtensionedLink((PathLink)ret, "html");
+            ret = new ExtensionedLink((FileSystemLink) ret, "html");
         }
         
         return ret;

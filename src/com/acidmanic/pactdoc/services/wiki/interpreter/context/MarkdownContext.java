@@ -53,7 +53,7 @@ public class MarkdownContext extends HierarchicalWikiContext{
         
         Link ret = new PathLink(link);
         
-        ret = new NameDeterminerLink(ret, getIndexer());
+        ret = new NameDeterminerLink((FileSystemLink) ret, getIndexer());
         
         if( isLinkWithExtensions()){
             ret = new ExtensionedLink((FileSystemLink) ret, "md");

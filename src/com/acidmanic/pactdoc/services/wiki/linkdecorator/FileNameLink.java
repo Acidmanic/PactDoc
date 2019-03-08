@@ -22,6 +22,7 @@ public class FileNameLink extends FileSystemLink {
     
     
 
+    //TODO: this is supposed to be char delimited
     @Override
     public String represent() {
         String[] key = origin.getContentKey();
@@ -56,6 +57,11 @@ public class FileNameLink extends FileSystemLink {
     @Override
     public void append(String... appending) {
         origin.append(appending);
+    }
+
+    @Override
+    public Link cloneLink() {
+        return new FileNameLink(this.origin.cloneLink());
     }
     
 }

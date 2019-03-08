@@ -9,18 +9,14 @@ package com.acidmanic.pactdoc.services.wiki.linkdecorator;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class ExtensionedLink implements Link{
+public class ExtensionedLink extends FileSystemLink{
     
     private final FileSystemLink origin;
     private final String extension;
     
     public ExtensionedLink(FileSystemLink origin,String extension) {
         this.origin = origin;
-        if(extension!=null&&extension.length()>0){
-            this.extension="."+extension;
-        }else{
-            this.extension="";
-        }
+        this.extension = extension;
     }
 
     @Override
@@ -30,7 +26,12 @@ public class ExtensionedLink implements Link{
 
     @Override
     public String represent() {
-        return origin.represent()+this.extension;
+        String ext ="";
+        if(this.extension!=null&&this.extension.length()>0){
+            ext="."+extension;
+        }
+        
+        return origin.represent()+ext;
     }
 
     @Override
@@ -47,5 +48,11 @@ public class ExtensionedLink implements Link{
     public void append(String... appending) {
         origin.append(appending);
     }
+
+    @Override
+    public Link cloneLink() {
+        return new ExtensionedLink((FileSystemLink) this.origin.cloneLink(), this.extension);
+    }
+    
     
 }

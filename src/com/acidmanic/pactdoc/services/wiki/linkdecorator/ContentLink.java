@@ -80,6 +80,11 @@ public class ContentLink implements Link{
         this.contentKey = key;
         
     }
+
+    @Override
+    public Link cloneLink() {
+        return new ContentLink(contentKey.clone());
+    }
     
     
 }

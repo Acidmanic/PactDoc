@@ -80,9 +80,9 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         
         Link link = new ContentLink(contentkey);
         
-        link = new NameDeterminerLink(link, getIndexer());
-        
         link =  new PathLink(link);
+        
+        link = new NameDeterminerLink((FileSystemLink) link, getIndexer());
         
         link = new ExtensionedLink((FileSystemLink) link, extension);
         

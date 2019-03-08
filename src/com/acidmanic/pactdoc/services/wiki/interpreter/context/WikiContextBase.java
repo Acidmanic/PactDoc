@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.BaseTrimmerLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 
@@ -40,9 +41,12 @@ public abstract class WikiContextBase implements WikiContext{
         
         Link ret = new ContentLink(targetKey);
         
+        ret = new BaseTrimmerLink(ret, new ContentLink(referrerKey));
+        
         ret = decorateLink(ret);
         
-        ret.trimBase(new ContentLink(referrerKey));
+        
+        
         return ret;
     }
     

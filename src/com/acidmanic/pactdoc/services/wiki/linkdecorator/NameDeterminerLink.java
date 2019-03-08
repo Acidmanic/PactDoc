@@ -7,19 +7,22 @@ package com.acidmanic.pactdoc.services.wiki.linkdecorator;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
+import java.nio.file.Paths;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class NameDeterminerLink implements Link{
+public class NameDeterminerLink extends FileSystemLink{
     
-    private final Link origin;
+    private final FileSystemLink origin;
     private final IndexHelper indexHelper;
+    private final ContractIndexer indexer;
     
-    public NameDeterminerLink(Link origin,ContractIndexer indexer) {
+    public NameDeterminerLink(FileSystemLink origin,ContractIndexer indexer) {
         this.origin = origin;
         this.indexHelper = new IndexHelper(indexer);
+        this.indexer = indexer;
     }
     
     @Override
@@ -34,10 +37,13 @@ public class NameDeterminerLink implements Link{
 
     @Override
     public String represent() {
-        if(!indexHelper.isLeaf(origin.getContentKey())){
-            origin.append("Index");
+        
+        String ret = this.origin.represent();
+        
+        if(!indexHelper.isLeaf(this.origin.getContentKey())){
+            ret = Paths.get(ret).resolve("Index").toString();
         }
-        return origin.represent();
+        return ret;
     }
 
     @Override
@@ -48,6 +54,12 @@ public class NameDeterminerLink implements Link{
     @Override
     public void append(String... appending) {
         origin.append(appending);
+    }
+
+    @Override
+    public Link cloneLink() {
+        return new NameDeterminerLink((FileSystemLink) 
+                this.origin.cloneLink(), this.indexer);
     }
     
 }

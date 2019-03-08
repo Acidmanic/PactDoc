@@ -57,4 +57,9 @@ public class PathLink extends FileSystemLink{
     public void append(String... appending) {
         origin.append(appending);
     }
+
+    @Override
+    public Link cloneLink() {
+        return new PathLink(this.origin.cloneLink());
+    }
 }
