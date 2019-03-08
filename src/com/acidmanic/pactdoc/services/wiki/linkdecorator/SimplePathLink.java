@@ -5,25 +5,26 @@
  */
 package com.acidmanic.pactdoc.services.wiki.linkdecorator;
 
+import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
+
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class FileNameLink implements FileSystemLink{
+public class SimplePathLink implements FileSystemLink{
     
-    private final Link origin;
+    private final String[] contentKey;
 
-    public FileNameLink(Link original) {
-        this.origin = original;
+    public SimplePathLink(String[] contentKey) {
+        this.contentKey = contentKey;
     }
-    
-    
 
-    //TODO: this is supposed to be char delimited
     @Override
     public String represent() {
-        return "ApiHome";
+        
+        return ContentKeyHelper.getPath(contentKey).normalize().toString();
     }
+
 
     
 }

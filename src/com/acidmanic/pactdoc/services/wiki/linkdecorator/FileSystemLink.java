@@ -9,6 +9,6 @@ package com.acidmanic.pactdoc.services.wiki.linkdecorator;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public abstract class FileSystemLink implements Link{
+public interface FileSystemLink extends Link{
     
 }

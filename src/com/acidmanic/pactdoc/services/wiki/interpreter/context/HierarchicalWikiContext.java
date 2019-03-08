@@ -6,12 +6,11 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.SimplePathLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
 
 /**
  *
@@ -78,10 +77,8 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
     
     protected Link getPageWriteLinkFor(String[] contentkey){
         
-        Link link = new ContentLink(contentkey);
-        
-        link =  new PathLink(link);
-        
+        Link link = new SimplePathLink(contentkey);
+                
         link = new NameDeterminerLink((FileSystemLink) link, getIndexer());
         
         link = new ExtensionedLink((FileSystemLink) link, extension);

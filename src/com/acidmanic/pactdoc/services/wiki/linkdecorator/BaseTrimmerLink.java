@@ -5,50 +5,37 @@
  */
 package com.acidmanic.pactdoc.services.wiki.linkdecorator;
 
+import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class BaseTrimmerLink implements Link{
+public class BaseTrimmerLink implements FileSystemLink{
 
     private final Link origin;
-    private final Link newBase;
+    private final String[] base;
     
-    public BaseTrimmerLink(Link origin,Link newBase) {
+    public BaseTrimmerLink(FileSystemLink origin,String[] base) {
         this.origin = origin;
-        this.newBase = newBase;
+        this.base = base;
     }
     
-    @Override
-    public void trimBase(Link base) {
-        origin.trimBase(base);
-    }
-
-    @Override
-    public void baseOn(Link base) {
-        origin.baseOn(base);
-    }
-
-    @Override
-    public void append(String... appending) {
-        origin.append(appending);
-    }
+    
 
     @Override
     public String represent() {
-        Link clone = this.origin.cloneLink();
-        clone.trimBase(newBase);
-        return clone.represent();
+        Path mine =Paths.get(this.origin.represent());
+        Path bPath = ContentKeyHelper.getPath(base);
+        bPath=bPath.getParent();
+        if(bPath==null){
+            return mine.toString();
+        }
+        return bPath.relativize(mine).toString();
     }
 
-    @Override
-    public String[] getContentKey() {
-        return origin.getContentKey();
-    }
-
-    @Override
-    public Link cloneLink() {
-        return new BaseTrimmerLink(this.origin.cloneLink(), newBase);
-    }
+    
     
 }

@@ -11,16 +11,7 @@ package com.acidmanic.pactdoc.services.wiki.linkdecorator;
  */
 public interface Link {
     
-    public void trimBase(Link base);
-    
-    public void baseOn(Link base);
-    
-    public void append(String...appending);
-    
     public String represent();
     
-    public String[] getContentKey();
-    
-    public Link cloneLink();
     
 }

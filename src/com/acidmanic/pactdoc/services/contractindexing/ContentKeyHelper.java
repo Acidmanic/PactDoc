@@ -5,6 +5,10 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -45,5 +49,29 @@ public class ContentKeyHelper {
         }else{
             return current[depth-1];
         }
+    }
+    
+    public static Path getPath(String[] contentKey){
+        if(contentKey==null||contentKey.length==0){
+            return Paths.get("");
+        }
+        
+        Path path = Paths.get(contentKey[0]);
+        
+        for(int i=1;i<contentKey.length;i++){
+            path = path.resolve(contentKey[i]);
+        }
+        
+        return path;
+    }
+
+    public static String[] getKey(Path path) {
+        String[] ret = new String[path.getNameCount()];
+        
+        for(int i=0;i<ret.length;i++){
+            ret[i]=path.getName(i).toString();
+        }
+        
+        return ret;
     }
 }

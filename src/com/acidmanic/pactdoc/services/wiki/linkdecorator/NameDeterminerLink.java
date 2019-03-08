@@ -5,61 +5,39 @@
  */
 package com.acidmanic.pactdoc.services.wiki.linkdecorator;
 
+import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class NameDeterminerLink extends FileSystemLink{
+public class NameDeterminerLink implements FileSystemLink{
     
     private final FileSystemLink origin;
     private final IndexHelper indexHelper;
-    private final ContractIndexer indexer;
     
     public NameDeterminerLink(FileSystemLink origin,ContractIndexer indexer) {
         this.origin = origin;
         this.indexHelper = new IndexHelper(indexer);
-        this.indexer = indexer;
     }
     
-    @Override
-    public void trimBase(Link base) {
-        origin.trimBase(base);
-    }
-
-    @Override
-    public void baseOn(Link base) {
-        origin.baseOn(base);
-    }
-
     @Override
     public String represent() {
         
-        String ret = this.origin.represent();
+        Path path = Paths.get(this.origin.represent());
         
-        if(!indexHelper.isLeaf(this.origin.getContentKey())){
-            ret = Paths.get(ret).resolve("Index").toString();
+        String[] key = ContentKeyHelper.getKey(path);
+                
+        if(!indexHelper.isLeaf(key)){
+            path=path.resolve("Index");
         }
-        return ret;
+        
+        return path.toString();
     }
 
-    @Override
-    public String[] getContentKey() {
-        return origin.getContentKey();
-    }
-    
-    @Override
-    public void append(String... appending) {
-        origin.append(appending);
-    }
-
-    @Override
-    public Link cloneLink() {
-        return new NameDeterminerLink((FileSystemLink) 
-                this.origin.cloneLink(), this.indexer);
-    }
     
 }

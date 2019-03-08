@@ -10,7 +10,6 @@ import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
 import com.acidmanic.pactdoc.utility.IOHelper;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import java.nio.file.Paths;
@@ -210,9 +209,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     @Override
     protected Link decorateLink(Link link) {
         Link ret = link;
-        
-        ret = new PathLink(ret);
-        
+                
         ret = new NameDeterminerLink((FileSystemLink) ret, getIndexer());
         
         if(this.isLinkWithExtensions()){
