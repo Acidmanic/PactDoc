@@ -5,7 +5,11 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
+import com.acidmanic.pactdoc.utility.IOHelper;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import java.util.HashMap;
 
@@ -13,14 +17,19 @@ import java.util.HashMap;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class HtmlContext implements WikiContext{
+public class MultiPageHtmlContext extends HierarchicalWikiContext{
 
-    StringBuilder sb;
-
+    private final StringBuilder sb;
+    
     private final String ENDTAG = "</div></body></html>";
-    public HtmlContext() {  
-        sb= new StringBuilder();
+
+    public MultiPageHtmlContext(boolean referrerRelativeLinking, boolean linkWithExtensions) {
+        super(referrerRelativeLinking, linkWithExtensions);
         
+        this.sb = new StringBuilder();
+    }
+    
+    private void initializeContext(){
         sb.append("<html>").append("<head>")
                 .append("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css\" integrity=\"sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS\" crossorigin=\"anonymous\">\n" +
 "<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js\" integrity=\"sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k\" crossorigin=\"anonymous\"></script>")
@@ -140,10 +149,7 @@ public class HtmlContext implements WikiContext{
     
     @Override
     public void output() {
-        if(!endsWith(ENDTAG)){
-            sb.append(ENDTAG);
-        }
-        //TODO: output the output
+        //TODO: if any page remained, deliver that
     }
 
     private String htmlEncode(String text) {
@@ -198,9 +204,44 @@ public class HtmlContext implements WikiContext{
     }
 
     @Override
-    public WikiContext startNewPage(String[] contentKey) {
-        //TODO: Start new Page
+    protected Link decorateLink(ContentLink link) {
+        Link ret = link;
+        
+        ret = new PathLink(ret);
+        
+        if(this.isLinkWithExtensions()){
+            ret = new ExtensionedLink((PathLink)ret, "html");
+        }
+        
+        return ret;
+    }
+
+    @Override
+    protected WikiContext onNewPageStarted(String[] contentKey) {
+        deliverPageIfAny();
+        
+        initializeContext();
         
         return this;
+    }
+    
+    
+    
+    private void deliverPageIfAny(){
+        if( getCurrentPageKey()!=null){
+            if(!endsWith(ENDTAG)){
+                sb.append(ENDTAG);
+            }
+            
+            Link writinLink = getPageWriteLinkFor(getCurrentPageKey());
+            
+            String content = sb.toString();
+            
+            String path = writinLink.represent();
+            
+            IOHelper.ensureParents(path);
+            
+            IOHelper.writeAllText(path, content);
+        }
     }
 }

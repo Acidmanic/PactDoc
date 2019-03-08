@@ -13,6 +13,10 @@ public class ContentLink implements Link{
     
     private String[] contentKey;
 
+    public ContentLink(String[] contentKey) {
+        this.contentKey = contentKey;
+    }
+
     @Override
     public void reBase(Link base) {
         

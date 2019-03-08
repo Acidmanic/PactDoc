@@ -6,12 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
-import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
-import java.util.List;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**

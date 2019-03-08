@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import java.util.HashMap;
 
 /**

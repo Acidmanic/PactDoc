@@ -12,20 +12,19 @@ import java.nio.file.Paths;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class PathLink extends FileSystemLink{
+public class FileNameLink extends FileSystemLink {
     
     private final Link origin;
 
-    public PathLink(Link origin) {
-        this.origin = origin;
+    public FileNameLink(Link original) {
+        this.origin = original;
     }
     
     
-    
+
     @Override
     public String represent() {
         String[] key = origin.getContentKey();
-        
         if(key==null||key.length==0){
             return "";
         }

@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.wikiformat;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.HtmlContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.MultiPageHtmlContext;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.MarkdownContext;
 
 /**
@@ -16,7 +16,7 @@ public class WikiFormats {
     
     public static WikiFormat MARKDOWN = new WikiFormat(MarkdownContext.class, "md", "Markdown");
     
-    public static WikiFormat HTML = new WikiFormat(HtmlContext.class, "html", "html");
+    public static WikiFormat HTML = new WikiFormat(MultiPageHtmlContext.class, "html", "html");
     
     
 }
