@@ -6,7 +6,6 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
-import static com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider.CONTENT_NOT_FOUND;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 
 /**
@@ -15,7 +14,7 @@ import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
  */
 public class NullExpression extends ExpressionBase{
     
-    
+    public static String CONTENT_NOT_FOUND="Requested Content not found.";
 
     public NullExpression() {
         super(null, new WikiGeneratorParamters());

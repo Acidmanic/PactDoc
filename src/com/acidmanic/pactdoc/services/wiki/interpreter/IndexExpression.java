@@ -8,7 +8,6 @@ package com.acidmanic.pactdoc.services.wiki.interpreter;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 import java.util.List;

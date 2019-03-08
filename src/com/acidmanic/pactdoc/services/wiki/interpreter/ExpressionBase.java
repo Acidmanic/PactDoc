@@ -9,7 +9,6 @@ import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.models.Contract;
 import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.append;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import java.util.ArrayList;
 import java.util.List;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
@@ -52,36 +51,7 @@ public abstract class ExpressionBase {
             }
             
             return null;
-    }
-    
-    @Deprecated
-    protected String getCurrentLink(){
-        return paramters.getLinkGenerator().generateLink(currentKey);
-    }
-    
-    
-    @Deprecated
-    protected List<Link> getChildsBaseRelatedLinks(){
-        
-        IndexHelper indexHelper = new IndexHelper(paramters.getIndexer());
-        
-        List<String> childs = indexHelper.getChilds(currentKey);
-        
-        ArrayList<Link> ret = new ArrayList<>();
-        
-        for(String child:childs){
-
-            String[] childKey = append(currentKey, child);
-
-            String fullLink = paramters.getLinkGenerator()
-                    .generateLink(childKey);
-            
-            ret.add(new Link(fullLink,child));
-        }
-
-        return ret;
-    }
-    
+    }    
     
     protected List<String[]> getChilds(){
         

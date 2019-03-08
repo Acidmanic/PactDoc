@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import java.util.HashMap;
 
@@ -76,11 +75,6 @@ public class MarkdownPageBuilder{
 
     public String output() {
         return currentContent.toString();
-    }
-
-    public MarkdownPageBuilder link(Link link) {
-        appendLink(link.getSrc(),link.getCaption());
-        return this;
     }
 
     public MarkdownPageBuilder append(String text) {
