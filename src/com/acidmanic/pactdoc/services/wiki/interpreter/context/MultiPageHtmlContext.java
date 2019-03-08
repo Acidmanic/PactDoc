@@ -24,12 +24,13 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     private final String ENDTAG = "</div></body></html>";
 
     public MultiPageHtmlContext(boolean referrerRelativeLinking, boolean linkWithExtensions) {
-        super(referrerRelativeLinking, linkWithExtensions);
+        super(referrerRelativeLinking, linkWithExtensions,"html");
         
         this.sb = new StringBuilder();
     }
     
-    private void initializeContext(){
+    @Override
+    protected void initializeContextForNewPage(){
         sb.append("<html>").append("<head>")
                 .append("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css\" integrity=\"sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS\" crossorigin=\"anonymous\">\n" +
 "<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js\" integrity=\"sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k\" crossorigin=\"anonymous\"></script>")
@@ -145,12 +146,6 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
         
         return true;
     }
-    
-    
-    @Override
-    public void output() {
-        //TODO: if any page remained, deliver that
-    }
 
     private String htmlEncode(String text) {
         String[] search = {"&", "\"", "<", ">"};
@@ -215,25 +210,16 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
         
         return ret;
     }
-
+    
     @Override
-    protected WikiContext onNewPageStarted(String[] contentKey) {
-        deliverPageIfAny();
+    protected void deliverThisPage(String[] currentPageKey){
         
-        initializeContext();
-        
-        return this;
-    }
-    
-    
-    
-    private void deliverPageIfAny(){
-        if( getCurrentPageKey()!=null){
             if(!endsWith(ENDTAG)){
+            
                 sb.append(ENDTAG);
             }
             
-            Link writinLink = getPageWriteLinkFor(getCurrentPageKey());
+            Link writinLink = getPageWriteLinkFor(currentPageKey);
             
             String content = sb.toString();
             
@@ -242,6 +228,5 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
             IOHelper.ensureParents(path);
             
             IOHelper.writeAllText(path, content);
-        }
     }
 }

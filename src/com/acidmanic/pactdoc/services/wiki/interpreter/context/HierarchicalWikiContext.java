@@ -23,28 +23,43 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
 
     private String[] currentPageKey = null;
     
+    private final String extension;
     
-    public HierarchicalWikiContext(boolean referrerRelativeLinking, boolean linkWithExtensions) {
+    public HierarchicalWikiContext(boolean referrerRelativeLinking, 
+            boolean linkWithExtensions,
+            String extension) {
 
         this.referrerRelativeLinking = referrerRelativeLinking;
         
         this.linkWithExtensions = linkWithExtensions;        
+        
+        this.extension = extension;
     }
-    
-    
-    
     
     
 
     @Override
     public WikiContext startNewPage(String[] contentKey) {
+        
+        if(anyPageToDeliver()){
+            deliverThisPage(this.currentPageKey);
+        }
         this.currentPageKey=contentKey;
-        onNewPageStarted(contentKey);
+        
+        initializeContextForNewPage();
+        
         return this;
     }
     
     
-    protected abstract WikiContext onNewPageStarted(String[] contentKey);
+    protected boolean anyPageToDeliver(){
+        return this.currentPageKey!=null;
+    }
+    
+    protected abstract void deliverThisPage(String[] currentPageContentKey);
+    
+    protected abstract void initializeContextForNewPage();
+    
     
     protected Link getInternalLinkFor(String[] contentkey){
         if(this.referrerRelativeLinking){
@@ -60,7 +75,7 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         
         link = new ExtensionedLink(
                 new PathLink(link)
-                , "html");
+                , extension);
         
         return link;
     }
@@ -77,7 +92,12 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         return currentPageKey;
     }
     
-    
+    @Override
+    public void output() {
+        if(anyPageToDeliver()){
+            deliverThisPage(this.currentPageKey);
+        }
+    }
     
     
 }
