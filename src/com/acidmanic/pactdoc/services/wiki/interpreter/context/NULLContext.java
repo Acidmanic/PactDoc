@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import java.util.HashMap;
 
 /**
@@ -63,11 +62,6 @@ public class NULLContext implements WikiContext{
     }
 
     @Override
-    public WikiContext link(Link link) {
-        return this;
-    }
-
-    @Override
     public WikiContext newLine() {
         return this;
     }
@@ -78,12 +72,11 @@ public class NULLContext implements WikiContext{
     }
 
     @Override
-    public String output() {
-        return "Unable to create Content";
+    public void output() {
     }
 
     @Override
-    public WikiContext openLink(String src) {
+    public WikiContext openLink(String[] contentKey) {
         return this;
     }
 

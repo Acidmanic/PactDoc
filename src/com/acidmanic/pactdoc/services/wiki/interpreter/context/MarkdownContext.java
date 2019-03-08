@@ -5,158 +5,139 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
-import com.acidmanic.pactdoc.utility.TextReformater;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
 import java.util.HashMap;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class MarkdownContext implements WikiContext{
+public class MarkdownContext extends HierarchicalWikiContext{
 
-    private final StringBuilder mainContent;
-    
-    private StringBuilder currentContent;
+    private MarkdownPageBuilder pageBuilder;
 
-    private StringBuilder linkContent;
-    
-    private String linkSrc;
-    
-    public MarkdownContext() {
-    
-        this.mainContent  = new StringBuilder();
-        
-        this.currentContent = this.mainContent;
+    public MarkdownContext(boolean referrerRelativeLinking, boolean linkWithExtensions, String extension) {
+        super(referrerRelativeLinking, linkWithExtensions, extension);
     }
     
-    
+    @Override
+    protected void deliverThisPage(String[] currentPageContentKey) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void initializeContextForNewPage() {
+        this.pageBuilder = new MarkdownPageBuilder();
+    }
+
+    @Override
+    protected Link decorateLink(ContentLink link) {
+        
+        Link ret = new PathLink(link);
+        
+        if( isLinkWithExtensions()){
+            ret = new ExtensionedLink((FileSystemLink) ret, "md");
+        }
+        
+        return ret;
+    }
 
     @Override
     public WikiContext title(String text) {
-        
-        currentContent.append("##").append(text).append("\n");
-        
-        return this;
+       
+       this.pageBuilder.title(text);
+       
+       return this;
     }
 
     @Override
     public WikiContext paragraph(String text) {
         
-        currentContent.append("\n").append(text).append("\n");
+        this.pageBuilder.paragraph(text);
         
         return this;
     }
 
-        
     @Override
     public WikiContext table(HashMap<String, String> table) {
-        for(String key:table.keySet()){
-            String value = table.get(key);
-            currentContent.append("|")
-                    .append(key)
-                    .append("|")
-                    .append(value)
-                    .append("|\n");
-        }
+        
+        this.pageBuilder.table(table);
+        
         return this;
     }
 
     @Override
     public WikiContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
-        currentContent.append("|:------|:------------|\n");
-        return this.table(table);
-    }
-
-    @Override
-    public WikiContext newLine() {
-        this.currentContent.append("\n\n");
-        return this;
-    }
-
-
-    @Override
-    public WikiContext json(String json) {
-        this.currentContent.append("```json\n").
-                append(new TextReformater().pritifyJson(json))
-                .append("\n```\n");
-        return this;
-    }
-
-    @Override
-    public String output() {
-        return currentContent.toString();
-    }
-
-    @Override
-    public WikiContext link(Link link) {
-        appendLink(link.getSrc(),link.getCaption());
-        return this;
-    }
-
-    @Override
-    public WikiContext append(String text) {
-        this.currentContent.append(text);
+        this.pageBuilder.table(leftHeader,rightHeader, table);
+        
         return this;
     }
 
     @Override
     public WikiContext openBold() {
-        currentContent.append("__");
+        this.pageBuilder.openBold();
         return this;
     }
 
     @Override
     public WikiContext closeBold() {
-        currentContent.append("__");
+        this.pageBuilder.closeBold();
         return this;
     }
 
     @Override
     public WikiContext openItalic() {
-        currentContent.append("_");
+        this.pageBuilder.openItalic();
         return this;
     }
 
     @Override
     public WikiContext closeItalic() {
-        currentContent.append("_");
+        this.pageBuilder.closeItalic();
         return this;
     }
 
     @Override
-    public WikiContext openLink(String src) {
-        this.linkContent = new StringBuilder();
-        this.currentContent = this.linkContent;
-        this.linkSrc=src;
+    public WikiContext append(String text) {
+        this.pageBuilder.append(text);
+        return this;
+    }
+
+    @Override
+    public WikiContext newLine() {
+        this.pageBuilder.newLine();
+        return this;
+    }
+
+    @Override
+    public WikiContext openLink(String[] contentKey) {
+        this.pageBuilder.openLink(getInternalLinkFor(contentKey).represent());
         return this;
     }
 
     @Override
     public WikiContext closeLink() {
-        
-        this.currentContent = this.mainContent;
-        
-        this.currentContent.append("[")
-                .append(this.linkContent)
-                .append("](")
-                .append(linkSrc)
-                .append(")");
-        
+        this.pageBuilder.closeLink();
         return this;
     }
 
-    private void appendLink(String src,String caption){
-        this.currentContent.append("[").append(caption)
-                .append("](").append(src).append(")");
+    @Override
+    public WikiContext json(String json) {
+        this.pageBuilder.json(json);
+        return this;
     }
 
     @Override
     public WikiContext horizontalLine() {
-        this.currentContent.append("___________________\n");
+        this.pageBuilder.horizontalLine();
         return this;
     }
+
+    
     
     
     
