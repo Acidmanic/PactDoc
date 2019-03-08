@@ -34,7 +34,7 @@ public class GithubWiki extends WikiPresetCommand{
         
         params.setSingleDirectory(true);
         
-        params.setSingleDirectoryDelimiter(" - ");
+        params.setSingleDirectoryDelimiter("-");
     }
 
     @Override

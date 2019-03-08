@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc.businessmodels;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
+import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
@@ -32,6 +33,8 @@ public class WikiGeneratorParamters {
     private String apiBase;
     
     private boolean addFileExtensions;
+    
+    private LinkGenerator writingLinkGenerator;
 
     public WikiGeneratorParamters() {
     }
@@ -44,6 +47,8 @@ public class WikiGeneratorParamters {
         this.glossary=paramters.glossary;
 
         this.linkGenerator=paramters.linkGenerator;
+        
+        this.writingLinkGenerator = paramters.writingLinkGenerator;
 
         this.wikiFormat=paramters.wikiFormat;
 
@@ -109,5 +114,13 @@ public class WikiGeneratorParamters {
 
     public void setAddFileExtensions(boolean addFileExtensions) {
         this.addFileExtensions = addFileExtensions;
+    }
+
+    public LinkGenerator getWritingLinkGenerator() {
+        return writingLinkGenerator;
+    }
+
+    public void setWritingLinkGenerator(LinkGenerator writingLinkGenerator) {
+        this.writingLinkGenerator = writingLinkGenerator;
     }
 }

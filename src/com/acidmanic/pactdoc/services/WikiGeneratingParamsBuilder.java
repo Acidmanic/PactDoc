@@ -8,16 +8,15 @@ package com.acidmanic.pactdoc.services;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.glossary.Glossary;
 import com.acidmanic.pactdoc.services.wiki.glossary.GlossaryGenerator;
-import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGenerator;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkGeneratorFactory;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategy;
 import com.acidmanic.pactdoc.services.wiki.linking.LinkingStrategyFactory;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiformatFactory;
+import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 import static com.acidmanic.pactdoc.utility.PactFiles.scanForAllContracts;
 
 /**
@@ -70,6 +69,14 @@ public class WikiGeneratingParamsBuilder {
         
     }
     
+    
+    public WikiGeneratingParamsBuilder withWritingLinkGenerator(LinkGenerator generator){
+        this.paramters.setWritingLinkGenerator(generator);
+        
+        return this;
+        
+    }
+    
     public WikiGeneratingParamsBuilder withCommandParamters(WikiCommandParameters parameters){
         ContractIndexer indexer = new ContractIndexer(parameters
                     .getPropertyProvider().makeProperties());
@@ -77,8 +84,12 @@ public class WikiGeneratingParamsBuilder {
             scanForAllContracts(parameters.getPactsRoot(),indexer);
 
             WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
+            
+            LinkGeneratorFactory factory = new LinkGeneratorFactory(indexer); 
                         
-            LinkGenerator linkGenerator = new LinkGeneratorFactory(indexer).create(parameters);
+            LinkGenerator linkGenerator = factory.createForContent(parameters);
+            
+            LinkGenerator writingLinkGenerator = factory.createForFiles(parameters);
             
             LinkingStrategy linkingStrategy = new LinkingStrategyFactory()
                     .create(parameters.isRootRelativeLinks(),
@@ -91,6 +102,7 @@ public class WikiGeneratingParamsBuilder {
                     .withFormat(format)
                     .withIndexer(indexer)
                     .withLinkGenerator(linkGenerator)
+                    .withWritingLinkGenerator(writingLinkGenerator)
                     .withStrategy(linkingStrategy);
     }
     

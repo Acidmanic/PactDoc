@@ -10,6 +10,7 @@ import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.PageContentProvider;
 import com.acidmanic.pactdoc.services.wiki.linking.FileSystemLinkGenerator;
+import com.acidmanic.pactdoc.services.wiki.linking.LinkGeneratorFactory;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,18 +24,11 @@ import java.nio.file.StandardOpenOption;
 public class WikiGenerator {
     
     private final WikiGeneratorParamters paramters;
-    private final FileSystemLinkGenerator writingLinkGenerator;
 
 
     public WikiGenerator(WikiGeneratorParamters parameters) {
         this.paramters = parameters;
         
-        IndexHelper indexHelper = new IndexHelper(parameters.getIndexer());
-        
-        String extension = parameters.getWikiFormat().getFilesExtension();
-       
-        this.writingLinkGenerator = new FileSystemLinkGenerator(indexHelper,
-                extension,true);
     }
 
    
@@ -58,7 +52,7 @@ public class WikiGenerator {
             
             Path path = Paths.get(baseDirectory);
             
-            path = path.resolve(this.writingLinkGenerator.generateLink(contentKey));
+            path = path.resolve(this.paramters.getWritingLinkGenerator().generateLink(contentKey));
             
             path.toAbsolutePath().normalize().getParent().toFile().mkdirs();
             

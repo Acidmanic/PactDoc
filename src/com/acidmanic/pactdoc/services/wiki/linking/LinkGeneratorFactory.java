@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.linking;
 
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
+import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormat;
@@ -25,15 +26,11 @@ public class LinkGeneratorFactory {
         this.indexHelper = new IndexHelper(indexer);
     }
     
-    
-    
-    
-    
-    public LinkGenerator create(WikiCommandParameters parameters){
+    public LinkGenerator createForContent(WikiCommandParameters parameters){
         
         if(parameters.isSingleDirectory()){
             
-            return new SingleDirectoryLinkGenerator(parameters.getSingleDirectoryDelimiter());
+            return new SingleDirectoryContentLinkGenerator(parameters.getSingleDirectoryDelimiter());
         }
         
         WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
@@ -42,5 +39,20 @@ public class LinkGeneratorFactory {
                 format.getFilesExtension(),
                 parameters.isLinksWithExtensions());
                 
+    }
+    
+    
+    public LinkGenerator createForFiles(WikiCommandParameters parameters){
+        
+        WikiFormat format = new WikiformatFactory().create(parameters.getWikiFormat());
+        
+        if(parameters.isSingleDirectory()){
+            
+            return new SingleDirectoryFileLinkGenerator(parameters.getSingleDirectoryDelimiter(),
+                    format,this.indexHelper);
+        }
+        
+        return new FileSystemLinkGenerator(indexHelper,
+                format.getFilesExtension(),true);
     }
 }

@@ -16,6 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -72,13 +74,21 @@ public abstract class PactDocCommandBase extends CommandBase{
         }
     }
     
-    
     protected void addRemoveDirectoryTask(String directory){
+        addRemoveDirectoryTask(directory,false);
+    }
+    
+    protected void addRemoveDirectoryTask(String directory,boolean keepGitFiles){
         
         String title = "Removing directory: " + directory;
         
         Func<Boolean> action = () -> {
             File f = new File(directory);
+            
+            if(f.exists()==false){
+                return true;
+            }
+            
             if(!f.isDirectory()){
                 error(directory + ", is not a directory!.");
                 return false;
@@ -90,15 +100,30 @@ public abstract class PactDocCommandBase extends CommandBase{
                 error("I Cant Remove Where I've set under!!");
                 return false;
             }
-            
-            try {
-                delete(f);
-            } catch (Exception ex) {
-                error("Problem deleting: " + directory +"\n"
-                        + "Error: " + ex.getClass().getSimpleName());
-                
-                return false;
+            if( keepGitFiles){
+                File[] kids = f.listFiles();
+                for(File kid:kids){
+                    if(isDeletable(kid)){
+                        try {
+                            delete(kid);
+                        } catch (Exception ex) {
+                            error("Problem deleting: " + directory +"\n"
+                                + "Error: " + ex.getClass().getSimpleName());
+                            return false;
+                        }
+                    }
+                }
+            }else{
+                try {
+                    delete(f);
+                } catch (Exception ex) {
+                    error("Problem deleting: " + directory +"\n"
+                            + "Error: " + ex.getClass().getSimpleName());
+
+                    return false;
+                }    
             }
+            
            
             return true;
         };

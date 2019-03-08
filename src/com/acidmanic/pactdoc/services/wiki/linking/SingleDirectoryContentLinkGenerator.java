@@ -9,12 +9,12 @@ package com.acidmanic.pactdoc.services.wiki.linking;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class SingleDirectoryLinkGenerator  implements LinkGenerator{
+public class SingleDirectoryContentLinkGenerator  implements LinkGenerator{
 
     
     private final String delimiter;
 
-    public SingleDirectoryLinkGenerator(String delimiter) {
+    SingleDirectoryContentLinkGenerator(String delimiter) {
         this.delimiter = delimiter;
     }
 
