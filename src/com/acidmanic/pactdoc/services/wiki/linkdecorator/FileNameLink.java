@@ -53,4 +53,9 @@ public class FileNameLink extends FileSystemLink {
         this.origin.baseOn(base);
     }
     
+    @Override
+    public void append(String... appending) {
+        origin.append(appending);
+    }
+    
 }

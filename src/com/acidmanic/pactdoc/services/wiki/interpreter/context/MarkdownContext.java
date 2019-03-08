@@ -5,13 +5,13 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
 import com.acidmanic.pactdoc.utility.IOHelper;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
@@ -25,8 +25,9 @@ public class MarkdownContext extends HierarchicalWikiContext{
 
     public MarkdownContext(boolean referrerRelativeLinking, 
             boolean linkWithExtensions,
-            String output) {
-        super(referrerRelativeLinking, linkWithExtensions, "md",output);
+            String output,
+            ContractIndexer indexer) {
+        super(referrerRelativeLinking, linkWithExtensions, "md",output,indexer);
     }
     
     @Override
@@ -48,13 +49,17 @@ public class MarkdownContext extends HierarchicalWikiContext{
     }
 
     @Override
-    protected Link decorateLink(ContentLink link) {
+    protected Link decorateLink(Link link) {
         
         Link ret = new PathLink(link);
+        
+        ret = new NameDeterminerLink(ret, getIndexer());
         
         if( isLinkWithExtensions()){
             ret = new ExtensionedLink((FileSystemLink) ret, "md");
         }
+        
+        
         
         return ret;
     }

@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 
@@ -15,11 +16,17 @@ import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
 public abstract class WikiContextBase implements WikiContext{
     
     private final String output;
-
-    public WikiContextBase(String output) {
+    private final ContractIndexer indexer;
+    
+    public WikiContextBase(String output,ContractIndexer indexer) {
         this.output = output;
+        this.indexer = indexer;
     }
 
+    protected ContractIndexer getIndexer(){
+        return indexer;
+    }
+    
     public String getOutput() {
         return output;
     }
@@ -30,12 +37,16 @@ public abstract class WikiContextBase implements WikiContext{
     
     protected Link makeReferrerBasedLinkFor(String[] referrerKey,
             String[] targetKey){
-        Link ret = decorateLink(new ContentLink(targetKey));
+        
+        Link ret = new ContentLink(targetKey);
+        
+        ret = decorateLink(ret);
+        
         ret.trimBase(new ContentLink(referrerKey));
         return ret;
     }
     
-    protected abstract Link decorateLink(ContentLink link);
+    protected abstract Link decorateLink(Link link);
     
     
 }

@@ -5,9 +5,12 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
 
 /**
@@ -28,9 +31,10 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
     public HierarchicalWikiContext(boolean referrerRelativeLinking, 
             boolean linkWithExtensions,
             String extension,
-            String output) {
+            String output,
+            ContractIndexer indexer) {
         
-        super(output);
+        super(output,indexer);
         
         this.referrerRelativeLinking = referrerRelativeLinking;
         
@@ -76,9 +80,11 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         
         Link link = new ContentLink(contentkey);
         
-        link = new ExtensionedLink(
-                new PathLink(link)
-                , extension);
+        link = new NameDeterminerLink(link, getIndexer());
+        
+        link =  new PathLink(link);
+        
+        link = new ExtensionedLink((FileSystemLink) link, extension);
         
         return link;
     }

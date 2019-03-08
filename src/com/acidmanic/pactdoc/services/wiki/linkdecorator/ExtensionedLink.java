@@ -42,5 +42,10 @@ public class ExtensionedLink implements Link{
     public void baseOn(Link base) {
         this.origin.baseOn(base);
     }
+
+    @Override
+    public void append(String... appending) {
+        origin.append(appending);
+    }
     
 }

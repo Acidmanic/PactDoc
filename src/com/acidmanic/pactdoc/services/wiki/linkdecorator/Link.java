@@ -15,6 +15,7 @@ public interface Link {
     
     public void baseOn(Link base);
     
+    public void append(String...appending);
     
     String represent();
     

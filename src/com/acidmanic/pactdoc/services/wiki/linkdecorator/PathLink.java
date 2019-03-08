@@ -20,8 +20,6 @@ public class PathLink extends FileSystemLink{
         this.origin = origin;
     }
     
-    
-    
     @Override
     public String represent() {
         String[] key = origin.getContentKey();
@@ -55,4 +53,8 @@ public class PathLink extends FileSystemLink{
         this.origin.baseOn(base);
     }
     
+    @Override
+    public void append(String... appending) {
+        origin.append(appending);
+    }
 }

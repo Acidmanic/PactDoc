@@ -21,17 +21,18 @@ public class ContextFactory {
         
         Class contextClass = paramters.getWikiFormat().getContextClass();
         
-        //TODO: Implement here
         if(contextClass==MarkdownContext.class){
             return new MarkdownContext(paramters.isReferrerBaseLinking(),
                     paramters.isAddFileExtensions(),
-                    paramters.getOutput());
+                    paramters.getOutput(),
+                    paramters.getIndexer());
         }
         
         if(contextClass==MultiPageHtmlContext.class){
             return new MultiPageHtmlContext(paramters.isReferrerBaseLinking(),
                     paramters.isAddFileExtensions(),
-                    paramters.getOutput());
+                    paramters.getOutput(),
+                    paramters.getIndexer());
         }
         return WikiContext.NULL;
     }

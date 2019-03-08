@@ -5,15 +5,15 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.ContentLink;
+import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
+import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
 import com.acidmanic.pactdoc.services.wiki.linkdecorator.PathLink;
 import com.acidmanic.pactdoc.utility.IOHelper;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import java.nio.file.Paths;
 import java.util.HashMap;
-
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -24,11 +24,14 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     
     private final String ENDTAG = "</div></body></html>";
 
+    
     public MultiPageHtmlContext(boolean referrerRelativeLinking,
             boolean linkWithExtensions,
-            String output) {
+            String output,
+            ContractIndexer indexer) {
         super(referrerRelativeLinking, 
-                linkWithExtensions,"html",output);
+                linkWithExtensions,"html",
+                output,indexer);
         
         this.sb = new StringBuilder();
     }
@@ -203,10 +206,12 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     }
 
     @Override
-    protected Link decorateLink(ContentLink link) {
+    protected Link decorateLink(Link link) {
         Link ret = link;
         
         ret = new PathLink(ret);
+        
+        ret = new NameDeterminerLink(ret, getIndexer());
         
         if(this.isLinkWithExtensions()){
             ret = new ExtensionedLink((PathLink)ret, "html");

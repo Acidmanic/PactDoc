@@ -63,6 +63,22 @@ public class ContentLink implements Link{
         System.arraycopy(baseKey, 0, key, 0, baseKey.length);
         
         System.arraycopy(this.contentKey, 0, key, baseKey.length, this.contentKey.length);
+        
+        this.contentKey = key;
+    }
+
+    @Override
+    public void append(String... appending) {
+        
+        String[] key = new String[this.contentKey.length+appending.length];
+        
+        System.arraycopy(this.contentKey, 0, key, 0, contentKey.length);
+        
+        System.arraycopy(appending, 0, key, this.contentKey.length,
+                appending.length);
+        
+        this.contentKey = key;
+        
     }
     
     
