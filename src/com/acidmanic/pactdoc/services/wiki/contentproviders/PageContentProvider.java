@@ -7,7 +7,7 @@ package com.acidmanic.pactdoc.services.wiki.contentproviders;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.wiki.interpreter.ExpressionBase;
-import com.acidmanic.pactdoc.services.wiki.interpreter.PageContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
 import com.acidmanic.pactdoc.services.wiki.interpreter.PageExpression;
 
 /**

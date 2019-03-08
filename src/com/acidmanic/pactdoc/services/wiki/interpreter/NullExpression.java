@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter;
 
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.PageContext;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import static com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider.CONTENT_NOT_FOUND;
 

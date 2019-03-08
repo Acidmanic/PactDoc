@@ -5,8 +5,8 @@
  */
 package com.acidmanic.pactdoc.services.wiki.wikiformat;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.HtmlContext;
-import com.acidmanic.pactdoc.services.wiki.interpreter.MarkdownContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.HtmlContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.MarkdownContext;
 
 /**
  *
