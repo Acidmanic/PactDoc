@@ -11,6 +11,7 @@ import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.Link;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
+import java.util.List;
 
 /**
  *
@@ -69,21 +70,19 @@ public class IndexExpression extends ExpressionBase{
         }
         
         context.newLine();
+                
+        List<String[]> childs= getChilds();
         
-        String here = getCurrentLink();
-        
-        for(Link link:getChildsBaseRelatedLinks()){
+        for(String[] child:childs){
             
-            String src = getParamters().getLinkingStrategy()
-                    .getLink(here,link.getSrc());
-            
-            context.openLink(src);
+            context.openLink(child);
             
             context.openBold().openItalic()
-                    .append(link.getCaption())
+                    .append(ContentKeyHelper.getTitleFor(child))
                     .closeItalic().closeBold()
                     .closeLink()
                     .newLine();
+            
         }
         
         context.newLine().newLine().newLine();

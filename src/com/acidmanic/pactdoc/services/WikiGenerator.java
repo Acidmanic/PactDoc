@@ -8,6 +8,8 @@ package com.acidmanic.pactdoc.services;
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.ContentProvider;
 import com.acidmanic.pactdoc.services.wiki.contentproviders.PageContentProvider;
+import com.acidmanic.pactdoc.services.wiki.interpreter.WikiExpression;
+import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,15 +34,22 @@ public class WikiGenerator {
  
     public void generate(String destinationDirectory) {
         
-        ContentProvider contentProvider = new PageContentProvider(paramters);
         
-        this.paramters.getGlossary().forEach((String[] key)->{
-                                
-            String content = contentProvider.provideContentFor(key);
-            
-            writeFile(key,destinationDirectory, content);
+        WikiExpression wiki = new WikiExpression(new String[]{}, paramters);
+                
+        WikiContext context= paramters.getWikiFormat().makeContext();
         
-        });
+        wiki.interpret(context);
+        
+//        ContentProvider contentProvider = new PageContentProvider(paramters);
+//        
+//        this.paramters.getGlossary().forEach((String[] key)->{
+//                                
+//            String content = contentProvider.provideContentFor(key);
+//            
+//            writeFile(key,destinationDirectory, content);
+//        
+//        });
         
     }
     

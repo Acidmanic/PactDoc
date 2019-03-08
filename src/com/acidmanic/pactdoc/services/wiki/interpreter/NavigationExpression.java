@@ -35,22 +35,13 @@ public class NavigationExpression extends ExpressionBase{
             
             String[] subKey = ContentKeyHelper.subKey(key, i);
             
-            String link = getParamters().getLinkGenerator().generateLink(subKey);
-            
-            link = getParamters().getLinkingStrategy().getLink(getCurrentLink(),link);
-            
-            if(link!=null){
-                
-                context.append(" [")
-                        .openLink(link)
-                        .openItalic()
-                        .append(ContentKeyHelper.getTitleFor(subKey))
-                        .closeItalic()
-                        .closeLink()
-                        .append("] ");
-                                
-            }
-            
+            context.append(" [")
+                    .openLink(subKey)
+                    .openItalic()
+                    .append(ContentKeyHelper.getTitleFor(subKey))
+                    .closeItalic()
+                    .closeLink()
+                    .append("] ");
         }
         
         context.newLine();

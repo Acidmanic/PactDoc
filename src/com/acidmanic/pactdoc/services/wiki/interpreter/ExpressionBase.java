@@ -54,11 +54,13 @@ public abstract class ExpressionBase {
             return null;
     }
     
-    
+    @Deprecated
     protected String getCurrentLink(){
         return paramters.getLinkGenerator().generateLink(currentKey);
     }
     
+    
+    @Deprecated
     protected List<Link> getChildsBaseRelatedLinks(){
         
         IndexHelper indexHelper = new IndexHelper(paramters.getIndexer());
@@ -75,6 +77,25 @@ public abstract class ExpressionBase {
                     .generateLink(childKey);
             
             ret.add(new Link(fullLink,child));
+        }
+
+        return ret;
+    }
+    
+    
+    protected List<String[]> getChilds(){
+        
+        IndexHelper indexHelper = new IndexHelper(paramters.getIndexer());
+        
+        List<String> childs = indexHelper.getChilds(currentKey);
+        
+        ArrayList<String[]> ret = new ArrayList<>();
+        
+        for(String child:childs){
+
+            String[] childKey = append(currentKey, child);
+
+            ret.add(childKey);
         }
 
         return ret;
