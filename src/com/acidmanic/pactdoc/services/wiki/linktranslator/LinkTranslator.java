@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.wiki.linkdecorator;
+package com.acidmanic.pactdoc.services.wiki.linktranslator;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public interface Link {
+public interface LinkTranslator {
     
-    public String represent();
-    
+    public String translate(String[] contentKey);
     
 }

@@ -122,11 +122,6 @@ public class MarkdownPageBuilder{
         return this;
     }
 
-    private void appendLink(String src,String caption){
-        this.currentContent.append("[").append(caption)
-                .append("](").append(src).append(")");
-    }
-
     public MarkdownPageBuilder horizontalLine() {
         this.currentContent.append("___________________\n");
         return this;

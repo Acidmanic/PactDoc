@@ -6,10 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.KeyModifier;
 import com.acidmanic.pactdoc.utility.IOHelper;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -33,10 +30,8 @@ public class MarkdownContext extends HierarchicalWikiContext{
     protected void deliverThisPage(String[] currentPageContentKey) {
         String content = pageBuilder.output();
         
-        String path = getPageWriteLinkFor(currentPageContentKey).represent();
-        
-        path = Paths.get(getOutput()).resolve(path).toString();
-        
+        String path = getPageWriteLinkFor(currentPageContentKey);
+                
         IOHelper.ensureParents(path);
         
         IOHelper.writeAllText(path, content);
@@ -45,20 +40,6 @@ public class MarkdownContext extends HierarchicalWikiContext{
     @Override
     protected void initializeContextForNewPage() {
         this.pageBuilder = new MarkdownPageBuilder();
-    }
-
-    @Override
-    protected Link decorateLink(Link link) {
-      
-        Link ret = new NameDeterminerLink((FileSystemLink) link, getIndexer());
-        
-        if( isLinkWithExtensions()){
-            ret = new ExtensionedLink((FileSystemLink) ret, "md");
-        }
-        
-        
-        
-        return ret;
     }
 
     @Override
@@ -130,7 +111,7 @@ public class MarkdownContext extends HierarchicalWikiContext{
 
     @Override
     public WikiContext openLink(String[] contentKey) {
-        this.pageBuilder.openLink(getInternalLinkFor(contentKey).represent());
+        this.pageBuilder.openLink(getInternalLinkFor(contentKey));
         return this;
     }
 
@@ -151,9 +132,5 @@ public class MarkdownContext extends HierarchicalWikiContext{
         this.pageBuilder.horizontalLine();
         return this;
     }
-
-    
-    
-    
     
 }

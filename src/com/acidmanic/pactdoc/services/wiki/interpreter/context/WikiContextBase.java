@@ -6,10 +6,10 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.BaseTrimmerLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.SimplePathLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.BasicKeyModifier;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.KeyModifier;
+import com.acidmanic.pactdoc.services.wiki.linktranslator.LinkTranslator;
+
 
 /**
  *
@@ -33,25 +33,19 @@ public abstract class WikiContextBase implements WikiContext{
         return output;
     }
     
-    protected Link makeLinkFor(String[] contentKey){
-        return decorateLink(new SimplePathLink(contentKey)); 
+    protected KeyModifier decorateModifier(KeyModifier keyModifier){
+        return keyModifier;
     }
     
-    protected Link makeReferrerBasedLinkFor(String[] referrerKey,
-            String[] targetKey){
+    protected abstract LinkTranslator getTranslator();
+
+    protected String makeLinkFor(String[] contentkey) {
         
-        Link ret = new SimplePathLink(targetKey);
+        KeyModifier modifier = new BasicKeyModifier(contentkey);
         
+        decorateModifier(modifier);
         
-        
-        ret = decorateLink(ret);
-        
-        ret = new BaseTrimmerLink( (FileSystemLink) ret, referrerKey);
-        
-        return ret;
+        return getTranslator().translate(modifier.getKey());
     }
-    
-    protected abstract Link decorateLink(Link link);
-    
     
 }

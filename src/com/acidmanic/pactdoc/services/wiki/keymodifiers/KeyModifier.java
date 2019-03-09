@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.wiki.linkdecorator;
+package com.acidmanic.pactdoc.services.wiki.keymodifiers;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public interface FileSystemLink extends Link{
+public interface KeyModifier {
     
+    public String[] getKey();
+    
+    public String[] getOriginalKey();
 }

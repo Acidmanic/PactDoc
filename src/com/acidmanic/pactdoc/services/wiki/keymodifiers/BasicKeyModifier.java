@@ -3,28 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.wiki.linkdecorator;
-
-import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
+package com.acidmanic.pactdoc.services.wiki.keymodifiers;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class SimplePathLink implements FileSystemLink{
+public class BasicKeyModifier implements KeyModifier{
     
     private final String[] contentKey;
 
-    public SimplePathLink(String[] contentKey) {
+    public BasicKeyModifier(String[] contentKey) {
         this.contentKey = contentKey;
     }
 
     @Override
-    public String represent() {
-        
-        return ContentKeyHelper.getPath(contentKey).normalize().toString();
+    public String[] getKey() {
+        return this.contentKey;
     }
 
-
+    @Override
+    public String[] getOriginalKey() {
+        return this.contentKey;
+    }
     
 }

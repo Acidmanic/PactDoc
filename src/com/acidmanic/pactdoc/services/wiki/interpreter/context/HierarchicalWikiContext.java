@@ -6,11 +6,14 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.SimplePathLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
+import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.BaseOnKeyModifier;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.BaseTrimmerKeyModifier;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.BasicKeyModifier;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.IndexAppenderKeyModifier;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.KeyModifier;
+import com.acidmanic.pactdoc.services.wiki.linktranslator.FileSystemPathTranslator;
+import com.acidmanic.pactdoc.services.wiki.linktranslator.LinkTranslator;
 
 /**
  *
@@ -67,23 +70,36 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
     protected abstract void initializeContextForNewPage();
     
     
-    protected Link getInternalLinkFor(String[] contentkey){
+    protected String getInternalLinkFor(String[] contentkey){
+        
+        KeyModifier modifier = new BasicKeyModifier(contentkey);
+        
+        modifier = new BaseOnKeyModifier(modifier, new String[]{getOutput()});
+        
+        decorateModifier(modifier);
+        
         if(this.referrerRelativeLinking){
-            return makeReferrerBasedLinkFor(this.currentPageKey, contentkey);
-        }else{
-            return makeLinkFor(contentkey);
+            modifier = new BaseTrimmerKeyModifier(modifier, currentPageKey);
         }
+        
+        modifier = new IndexAppenderKeyModifier(modifier, new IndexHelper(getIndexer()));
+        
+        modifier = decorateModifier(modifier);
+        
+        return getTranslator().translate(modifier.getKey());
     }
     
-    protected Link getPageWriteLinkFor(String[] contentkey){
+    protected String getPageWriteLinkFor(String[] contentkey){
         
-        Link link = new SimplePathLink(contentkey);
-                
-        link = new NameDeterminerLink((FileSystemLink) link, getIndexer());
+        KeyModifier modifier = new BasicKeyModifier(contentkey);
         
-        link = new ExtensionedLink((FileSystemLink) link, extension);
+        modifier = new BaseOnKeyModifier(modifier, new String[]{getOutput()});
         
-        return link;
+        modifier = new IndexAppenderKeyModifier(modifier, new IndexHelper(getIndexer()));
+        
+        modifier = decorateModifier(modifier);
+        
+        return getTranslator().translate(modifier.getKey());
     }
 
     protected boolean isReferrerRelativeLinking() {
@@ -105,5 +121,10 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         }
     }
     
+    @Override
+    protected LinkTranslator getTranslator() {
+        return new FileSystemPathTranslator(extension, 
+                this.isLinkWithExtensions());
+    }
     
 }

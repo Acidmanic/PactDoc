@@ -6,10 +6,7 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.ExtensionedLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.FileSystemLink;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.Link;
-import com.acidmanic.pactdoc.services.wiki.linkdecorator.NameDeterminerLink;
+import com.acidmanic.pactdoc.services.wiki.linktranslator.LinkTranslator;
 import com.acidmanic.pactdoc.utility.IOHelper;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import java.nio.file.Paths;
@@ -188,7 +185,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
 
     @Override
     public WikiContext openLink(String[] contentKey) {
-        String src=getInternalLinkFor(contentKey).represent();
+        String src=getInternalLinkFor(contentKey);
         sb.append("<a href=\"").append(src)
                 .append("\" >");
         return this;
@@ -205,19 +202,6 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
         sb.append("<hr>");
         return this;
     }
-
-    @Override
-    protected Link decorateLink(Link link) {
-        Link ret = link;
-                
-        ret = new NameDeterminerLink((FileSystemLink) ret, getIndexer());
-        
-        if(this.isLinkWithExtensions()){
-            ret = new ExtensionedLink((FileSystemLink) ret, "html");
-        }
-        
-        return ret;
-    }
     
     @Override
     protected void deliverThisPage(String[] currentPageKey){
@@ -227,16 +211,14 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
                 sb.append(ENDTAG);
             }
             
-            Link writinLink = getPageWriteLinkFor(currentPageKey);
-            
             String content = sb.toString();
             
-            String path = writinLink.represent();
-            
-            path = Paths.get(getOutput()).resolve(path).toString();
+            String path = getPageWriteLinkFor(currentPageKey);
             
             IOHelper.ensureParents(path);
             
             IOHelper.writeAllText(path, content);
     }
+
+   
 }
