@@ -2,8 +2,6 @@ language: java
 sudo: false
 install: true
 script:
-    - apt-get update
-    - apt-get install --yes ant
     - ant jar
     - cd dist
     - zip -r ../binary-package.zip *
