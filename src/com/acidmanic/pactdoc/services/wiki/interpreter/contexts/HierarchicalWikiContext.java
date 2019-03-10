@@ -113,7 +113,8 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         
         modifier = decorateModifier(modifier);
         
-        return getTranslator().translate(modifier.getKey());
+        return new FileSystemPathTranslator(extension, true)
+                .translate(modifier.getKey());
     }
 
     protected boolean isReferrerRelativeLinking() {
