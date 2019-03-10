@@ -21,9 +21,12 @@ public class MarkdownContext extends HierarchicalWikiContext{
             boolean linkWithExtensions,
             String output,
             ContractIndexer indexer,
-            String apiBase) {
+            String apiBase,
+            boolean singleDirectory,
+            String singleDirectoryDelimiter) {
         super(referrerRelativeLinking, linkWithExtensions, "md",
-                output,indexer,apiBase);
+                output,indexer,apiBase,singleDirectory,
+                singleDirectoryDelimiter);
     }
     
     @Override

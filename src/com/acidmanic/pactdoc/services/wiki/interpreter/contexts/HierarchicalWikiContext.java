@@ -15,6 +15,7 @@ import com.acidmanic.pactdoc.services.wiki.keymodifiers.IndexAppenderKeyModifier
 import com.acidmanic.pactdoc.services.wiki.keymodifiers.KeyModifier;
 import com.acidmanic.pactdoc.services.wiki.linktranslator.FileSystemPathTranslator;
 import com.acidmanic.pactdoc.services.wiki.linktranslator.LinkTranslator;
+import com.acidmanic.pactdoc.services.wiki.linktranslator.SingleDirectoryLinkTranslator;
 
 /**
  *
@@ -36,9 +37,11 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
             String extension,
             String output,
             ContractIndexer indexer,
-            String apiBase) {
+            String apiBase,
+            boolean singleDirectory,
+            String singleDirectoryDelimiter) {
         
-        super(output,indexer,apiBase);
+        super(output,indexer,apiBase,singleDirectory,singleDirectoryDelimiter);
         
         this.referrerRelativeLinking = referrerRelativeLinking;
         
@@ -120,8 +123,7 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         
         modifier = decorateModifier(modifier);
         
-        return new FileSystemPathTranslator(extension, true)
-                .translate(modifier.getKey());
+        return makeTranslator(true).translate(modifier.getKey());
     }
 
     protected boolean isReferrerRelativeLinking() {
@@ -145,8 +147,17 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
     
     @Override
     protected LinkTranslator getTranslator() {
-        return new FileSystemPathTranslator(extension, 
-                this.isLinkWithExtensions());
+        return makeTranslator(this.isLinkWithExtensions());
+    }
+    
+    private LinkTranslator makeTranslator(boolean withExtension){
+        if(this.isSingleDirectory()){
+            return new SingleDirectoryLinkTranslator(this.extension,
+                    withExtension, this.getSingleDirectoryDelimiter());
+        }else{
+            return new FileSystemPathTranslator(extension, 
+                withExtension);
+        }
     }
     
 }

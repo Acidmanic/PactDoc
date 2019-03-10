@@ -23,10 +23,13 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
             boolean linkWithExtensions,
             String output,
             ContractIndexer indexer,
-            String apiBase) {
+            String apiBase,
+            boolean singleDirectory,
+            String singleDirectoryDelimiter) {
         super(referrerRelativeLinking, 
                 linkWithExtensions,"html",
-                output,indexer,apiBase);
+                output,indexer,apiBase,
+                singleDirectory,singleDirectoryDelimiter);
         
         this.sb = new StringBuilder();
     }

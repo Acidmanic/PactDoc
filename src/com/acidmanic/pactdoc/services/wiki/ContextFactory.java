@@ -26,7 +26,9 @@ public class ContextFactory {
                     paramters.isAddFileExtensions(),
                     paramters.getOutput(),
                     paramters.getIndexer(),
-                    paramters.getApiBase());
+                    paramters.getApiBase(),
+                    paramters.isSingleDirectory(),
+                    paramters.getSingleDirectoryDelimiter());
         }
         
         if(contextClass==MultiPageHtmlContext.class){
@@ -34,7 +36,9 @@ public class ContextFactory {
                     paramters.isAddFileExtensions(),
                     paramters.getOutput(),
                     paramters.getIndexer(),
-                    paramters.getApiBase());
+                    paramters.getApiBase(),
+                    paramters.isSingleDirectory(),
+                    paramters.getSingleDirectoryDelimiter());
         }
         return WikiContext.NULL;
     }

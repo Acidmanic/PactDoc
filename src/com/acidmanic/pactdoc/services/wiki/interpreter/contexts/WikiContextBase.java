@@ -20,12 +20,20 @@ public abstract class WikiContextBase implements WikiContext{
     private final String output;
     private final ContractIndexer indexer;
     private final String apiBase ;
+    
+    private final boolean singleDirectory;
+    private final String singleDirectoryDelimiter;
+    
     public WikiContextBase(String output,
             ContractIndexer indexer,
-            String apiBase) {
+            String apiBase,
+            boolean singleDirectory,
+            String singleDirectoryDelimiter) {
         this.output = output;
         this.indexer = indexer;
         this.apiBase = apiBase;
+        this.singleDirectory = singleDirectory;
+        this.singleDirectoryDelimiter = singleDirectoryDelimiter;
     }
 
     protected ContractIndexer getIndexer(){
@@ -42,6 +50,14 @@ public abstract class WikiContextBase implements WikiContext{
     
     protected KeyModifier decorateModifier(KeyModifier keyModifier){
         return keyModifier;
+    }
+
+    protected boolean isSingleDirectory() {
+        return singleDirectory;
+    }
+
+    protected String getSingleDirectoryDelimiter() {
+        return singleDirectoryDelimiter;
     }
     
     protected abstract LinkTranslator getTranslator();
