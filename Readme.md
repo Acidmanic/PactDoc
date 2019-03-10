@@ -92,9 +92,3 @@ prints out something like:
 ----
 
 This is possible that the application details change through the updates, so consider using a the same release version or, check for changes when your using this in your cicd projects.
-
-
-
-
-
-
