@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services;
 
+import com.acidmanic.pactdoc.utility.JGit;
 import com.acidmanic.io.file.FileIOHelper;
 import com.acidmanic.io.file.FileSystemHelper;
 import com.acidmanic.utilities.Bash;
