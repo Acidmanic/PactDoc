@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.wiki.interpreter.context;
+package com.acidmanic.pactdoc.services.wiki.interpreter.contexts;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.utility.IOHelper;

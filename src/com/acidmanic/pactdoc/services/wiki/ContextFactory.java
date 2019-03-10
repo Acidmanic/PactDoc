@@ -6,9 +6,9 @@
 package com.acidmanic.pactdoc.services.wiki;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.MarkdownContext;
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.MultiPageHtmlContext;
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.contexts.MarkdownContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.contexts.MultiPageHtmlContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.contexts.WikiContext;
 
 /**
  *

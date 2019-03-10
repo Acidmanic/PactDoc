@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.services.wiki.interpreter;
+package com.acidmanic.pactdoc.services.wiki.interpreter.expressions;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.contexts.WikiContext;
 
 /**
  *

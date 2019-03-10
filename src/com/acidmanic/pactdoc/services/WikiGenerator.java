@@ -7,8 +7,8 @@ package com.acidmanic.pactdoc.services;
 
 import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.services.wiki.ContextFactory;
-import com.acidmanic.pactdoc.services.wiki.interpreter.WikiExpression;
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.expressions.WikiExpression;
+import com.acidmanic.pactdoc.services.wiki.interpreter.contexts.WikiContext;
 
 /**
  *

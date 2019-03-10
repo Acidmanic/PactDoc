@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.wikiformat;
 
-import com.acidmanic.pactdoc.services.wiki.interpreter.context.WikiContext;
+import com.acidmanic.pactdoc.services.wiki.interpreter.contexts.WikiContext;
 
 /**
  *
