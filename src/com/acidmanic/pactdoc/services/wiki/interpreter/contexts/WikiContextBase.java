@@ -19,18 +19,25 @@ public abstract class WikiContextBase implements WikiContext{
     
     private final String output;
     private final ContractIndexer indexer;
-    
-    public WikiContextBase(String output,ContractIndexer indexer) {
+    private final String apiBase ;
+    public WikiContextBase(String output,
+            ContractIndexer indexer,
+            String apiBase) {
         this.output = output;
         this.indexer = indexer;
+        this.apiBase = apiBase;
     }
 
     protected ContractIndexer getIndexer(){
         return indexer;
     }
     
-    public String getOutput() {
+    protected String getOutput() {
         return output;
+    }
+    
+    protected String getApiBase(){
+        return apiBase;
     }
     
     protected KeyModifier decorateModifier(KeyModifier keyModifier){

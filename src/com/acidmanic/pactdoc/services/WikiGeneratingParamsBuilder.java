@@ -70,8 +70,8 @@ public class WikiGeneratingParamsBuilder {
                     .withFilesHavingExtension(parameters.isLinksWithExtensions())
                     .withFormat(format)
                     .withIndexer(indexer)
-                    .withReferrerBaseLinks(parameters.isRootRelativeLinks())
-                    .withOutput(parameters.getResolvedWikiPath());
+                    .withReferrerBaseLinks(!parameters.isRootRelativeLinks())
+                    .withOutput(parameters.getOutputDirectory());
     }
     
     

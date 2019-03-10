@@ -25,14 +25,16 @@ public class ContextFactory {
             return new MarkdownContext(paramters.isReferrerBaseLinking(),
                     paramters.isAddFileExtensions(),
                     paramters.getOutput(),
-                    paramters.getIndexer());
+                    paramters.getIndexer(),
+                    paramters.getApiBase());
         }
         
         if(contextClass==MultiPageHtmlContext.class){
             return new MultiPageHtmlContext(paramters.isReferrerBaseLinking(),
                     paramters.isAddFileExtensions(),
                     paramters.getOutput(),
-                    paramters.getIndexer());
+                    paramters.getIndexer(),
+                    paramters.getApiBase());
         }
         return WikiContext.NULL;
     }

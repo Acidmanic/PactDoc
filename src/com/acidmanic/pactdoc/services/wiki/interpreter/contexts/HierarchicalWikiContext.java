@@ -35,9 +35,10 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
             boolean linkWithExtensions,
             String extension,
             String output,
-            ContractIndexer indexer) {
+            ContractIndexer indexer,
+            String apiBase) {
         
-        super(output,indexer);
+        super(output,indexer,apiBase);
         
         this.referrerRelativeLinking = referrerRelativeLinking;
         
@@ -75,7 +76,7 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         
         KeyModifier modifier = new BasicKeyModifier(key);
         
-        String[] base = {getOutput()};
+        String[] base = {getOutput(),getApiBase()};
         
         modifier = new BaseOnKeyModifier(modifier, base);
         

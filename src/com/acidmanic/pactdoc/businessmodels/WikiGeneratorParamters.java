@@ -30,6 +30,7 @@ public class WikiGeneratorParamters {
     private String output;
     
     public WikiGeneratorParamters() {
+        this.referredBaseLinking = true;
     }
 
     

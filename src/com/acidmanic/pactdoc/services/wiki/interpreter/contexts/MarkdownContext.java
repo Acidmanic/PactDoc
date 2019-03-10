@@ -20,8 +20,10 @@ public class MarkdownContext extends HierarchicalWikiContext{
     public MarkdownContext(boolean referrerRelativeLinking, 
             boolean linkWithExtensions,
             String output,
-            ContractIndexer indexer) {
-        super(referrerRelativeLinking, linkWithExtensions, "md",output,indexer);
+            ContractIndexer indexer,
+            String apiBase) {
+        super(referrerRelativeLinking, linkWithExtensions, "md",
+                output,indexer,apiBase);
     }
     
     @Override

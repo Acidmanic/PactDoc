@@ -19,14 +19,14 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     
     private final String ENDTAG = "</div></body></html>";
 
-    
     public MultiPageHtmlContext(boolean referrerRelativeLinking,
             boolean linkWithExtensions,
             String output,
-            ContractIndexer indexer) {
+            ContractIndexer indexer,
+            String apiBase) {
         super(referrerRelativeLinking, 
                 linkWithExtensions,"html",
-                output,indexer);
+                output,indexer,apiBase);
         
         this.sb = new StringBuilder();
     }
