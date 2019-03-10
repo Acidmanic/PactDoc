@@ -76,7 +76,7 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
         
         KeyModifier modifier = new BasicKeyModifier(key);
         
-        String[] base = {getOutput(),getApiBase()};
+        String[] base = {getApiBase()};
         
         modifier = new BaseOnKeyModifier(modifier, base);
         
@@ -107,6 +107,12 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
     protected String getPageWriteLinkFor(String[] contentkey){
         
         KeyModifier modifier = new BasicKeyModifier(contentkey);
+        
+        String apiBase = getApiBase();
+        
+        if(apiBase!=null&&apiBase.length()>0){
+            modifier = new BaseOnKeyModifier(modifier, new String[]{apiBase});    
+        }
         
         modifier = new BaseOnKeyModifier(modifier, new String[]{getOutput()});
         
