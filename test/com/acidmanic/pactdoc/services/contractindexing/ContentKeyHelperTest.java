@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing;
 
-import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
+import com.acidmanic.pactdoc.utility.ContentKeyHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;

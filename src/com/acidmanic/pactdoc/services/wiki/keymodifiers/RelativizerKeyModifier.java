@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.keymodifiers;
 
-import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
+import com.acidmanic.pactdoc.utility.ContentKeyHelper;
 
 /**
  *

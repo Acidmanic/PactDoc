@@ -5,7 +5,7 @@
  */
 package com.acidmanic.pactdoc.services.wiki.glossary;
 
-import static com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper.*;
+import static com.acidmanic.pactdoc.utility.ContentKeyHelper.*;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import java.util.List;
