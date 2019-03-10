@@ -29,6 +29,10 @@ public class WikiGeneratorParamters {
     
     private String output;
     
+    private boolean singleDirectory;
+    
+    private String singleDirectoryDelimiter;
+    
     public WikiGeneratorParamters() {
         this.referredBaseLinking = true;
     }
@@ -50,6 +54,10 @@ public class WikiGeneratorParamters {
         this.output = paramters.output;
         
         this.referredBaseLinking = paramters.referredBaseLinking;
+        
+        this.singleDirectory = false;
+        
+        this.singleDirectoryDelimiter="_";
         
     }
 
@@ -108,4 +116,22 @@ public class WikiGeneratorParamters {
     public void setOutput(String output){
         this.output = output;
     }
+
+    public boolean isSingleDirectory() {
+        return singleDirectory;
+    }
+
+    public void setSingleDirectory(boolean singleDirectory) {
+        this.singleDirectory = singleDirectory;
+    }
+
+    public String getSingleDirectoryDelimiter() {
+        return singleDirectoryDelimiter;
+    }
+
+    public void setSingleDirectoryDelimiter(String singleDirectoryDelimiter) {
+        this.singleDirectoryDelimiter = singleDirectoryDelimiter;
+    }
+    
+    
 }

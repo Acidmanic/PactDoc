@@ -58,6 +58,17 @@ public class WikiGeneratingParamsBuilder {
         return this;
     }
     
+    
+    public WikiGeneratingParamsBuilder singleDirectory(boolean singleDirectory){
+        this.paramters.setSingleDirectory(singleDirectory);
+        return this;
+    }
+    
+    public WikiGeneratingParamsBuilder withDelimiter(String singleDirectoryDelimiter){
+        this.paramters.setSingleDirectoryDelimiter(singleDirectoryDelimiter);
+        return this;
+    }
+    
     public WikiGeneratingParamsBuilder withCommandParamters(WikiCommandParameters parameters){
         ContractIndexer indexer = new ContractIndexer(parameters
                     .getPropertyProvider().makeProperties());
@@ -71,7 +82,9 @@ public class WikiGeneratingParamsBuilder {
                     .withFormat(format)
                     .withIndexer(indexer)
                     .withReferrerBaseLinks(!parameters.isRootRelativeLinks())
-                    .withOutput(parameters.getOutputDirectory());
+                    .withOutput(parameters.getOutputDirectory())
+                    .singleDirectory(parameters.isSingleDirectory())
+                    .withDelimiter(parameters.getSingleDirectoryDelimiter());
     }
     
     
