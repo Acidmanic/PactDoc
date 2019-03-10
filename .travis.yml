@@ -1,5 +1,6 @@
 language: java
-
+sudo: false
+install: true
 script:
     - apt-get update
     - apt-get install --yes ant
@@ -7,7 +8,6 @@ script:
     - cd dist
     - zip -r ../binary-package.zip *
     - cd ..
-
 deploy:
   provider: releases
   skip-cleanup: true
@@ -17,6 +17,5 @@ deploy:
   on:
     branch: master
 tags: true
-
 
 
