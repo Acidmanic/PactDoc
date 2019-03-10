@@ -42,7 +42,7 @@ public class WikiGeneratorParamters {
     public WikiGeneratorParamters(WikiGeneratorParamters paramters) {
 
         this.glossary=paramters.glossary;
-        
+    
         this.wikiFormat=paramters.wikiFormat;
 
         this.indexer=paramters.indexer;
@@ -55,9 +55,9 @@ public class WikiGeneratorParamters {
         
         this.referredBaseLinking = paramters.referredBaseLinking;
         
-        this.singleDirectory = false;
+        this.singleDirectory = paramters.singleDirectory;
         
-        this.singleDirectoryDelimiter="_";
+        this.singleDirectoryDelimiter=paramters.singleDirectoryDelimiter;
         
     }
 

@@ -16,6 +16,8 @@ import com.acidmanic.pactdoc.services.wiki.keymodifiers.KeyModifier;
 import com.acidmanic.pactdoc.services.wiki.linktranslator.FileSystemPathTranslator;
 import com.acidmanic.pactdoc.services.wiki.linktranslator.LinkTranslator;
 import com.acidmanic.pactdoc.services.wiki.linktranslator.SingleDirectoryLinkTranslator;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -117,13 +119,15 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
             modifier = new BaseOnKeyModifier(modifier, new String[]{apiBase});    
         }
         
-        modifier = new BaseOnKeyModifier(modifier, new String[]{getOutput()});
-        
         modifier = new IndexAppenderKeyModifier(modifier, new IndexHelper(getIndexer()));
         
         modifier = decorateModifier(modifier);
         
-        return makeTranslator(true).translate(modifier.getKey());
+        String outputRelativePath = makeTranslator(true).translate(modifier.getKey());
+        
+        Path path = Paths.get(getOutput());
+        
+        return path.resolve(outputRelativePath).toAbsolutePath().normalize().toString();
     }
 
     protected boolean isReferrerRelativeLinking() {
