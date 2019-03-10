@@ -11,19 +11,19 @@ import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class BaseTrimmerKeyModifier implements KeyModifier{
+public class RelativizerKeyModifier implements KeyModifier{
     
     private final KeyModifier origin;
     private final String[] base;
 
-    public BaseTrimmerKeyModifier(KeyModifier origin,String[] base) {
+    public RelativizerKeyModifier(KeyModifier origin,String[] base) {
         this.origin = origin;
         this.base = base;
     }
     
     @Override
     public String[] getKey() {
-        return ContentKeyHelper.trimBase(this.origin.getKey(),base);
+        return ContentKeyHelper.relateTo(this.origin.getKey(),base);
     }
 
     @Override

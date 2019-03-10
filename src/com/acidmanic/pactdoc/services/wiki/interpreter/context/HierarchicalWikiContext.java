@@ -5,10 +5,12 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
+import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.BackOnceKeyModifier;
 import com.acidmanic.pactdoc.services.wiki.keymodifiers.BaseOnKeyModifier;
-import com.acidmanic.pactdoc.services.wiki.keymodifiers.BaseTrimmerKeyModifier;
+import com.acidmanic.pactdoc.services.wiki.keymodifiers.RelativizerKeyModifier;
 import com.acidmanic.pactdoc.services.wiki.keymodifiers.BasicKeyModifier;
 import com.acidmanic.pactdoc.services.wiki.keymodifiers.IndexAppenderKeyModifier;
 import com.acidmanic.pactdoc.services.wiki.keymodifiers.KeyModifier;
@@ -70,21 +72,34 @@ public abstract class HierarchicalWikiContext extends WikiContextBase {
     protected abstract void initializeContextForNewPage();
     
     
-    protected String getInternalLinkFor(String[] contentkey){
+    private KeyModifier getBaseRelativeModifierFor(String[] key){
         
-        KeyModifier modifier = new BasicKeyModifier(contentkey);
+        KeyModifier modifier = new BasicKeyModifier(key);
         
-        modifier = new BaseOnKeyModifier(modifier, new String[]{getOutput()});
+        String[] base = {getOutput()};
+        
+        modifier = new BaseOnKeyModifier(modifier, base);
         
         decorateModifier(modifier);
         
-        if(this.referrerRelativeLinking){
-            modifier = new BaseTrimmerKeyModifier(modifier, currentPageKey);
-        }
-        
         modifier = new IndexAppenderKeyModifier(modifier, new IndexHelper(getIndexer()));
         
-        modifier = decorateModifier(modifier);
+        return modifier;
+    }
+    
+    
+    protected String getInternalLinkFor(String[] contentkey){
+        
+        KeyModifier modifier = getBaseRelativeModifierFor(contentkey);
+        
+        if(this.referrerRelativeLinking){
+            
+            KeyModifier base = getBaseRelativeModifierFor(getCurrentPageKey());
+            
+            base = new BackOnceKeyModifier(base);
+            
+            modifier = new RelativizerKeyModifier(modifier, base.getKey());
+        }
         
         return getTranslator().translate(modifier.getKey());
     }

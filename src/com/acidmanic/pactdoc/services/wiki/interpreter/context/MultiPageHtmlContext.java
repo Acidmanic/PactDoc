@@ -6,10 +6,8 @@
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
-import com.acidmanic.pactdoc.services.wiki.linktranslator.LinkTranslator;
 import com.acidmanic.pactdoc.utility.IOHelper;
 import com.acidmanic.pactdoc.utility.TextReformater;
-import java.nio.file.Paths;
 import java.util.HashMap;
 /**
  *

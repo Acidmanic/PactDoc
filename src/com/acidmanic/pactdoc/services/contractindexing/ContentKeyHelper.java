@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc.services.contractindexing;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  *
@@ -74,6 +75,36 @@ public class ContentKeyHelper {
         return ret;
     }
 
+    public static String[] relateTo(String[] contentKey, String[] newBase) {
+        
+        ArrayList<String> res = new ArrayList<>();
+        
+        int commons =0;
+        boolean same = true;
+        
+        for(int i=0;i<newBase.length;i++){
+            String key = newBase[i];
+            same = same && contentKey.length>commons 
+                    && contentKey[commons].compareTo(key)==0;
+            if(same){
+                commons+=1;
+            }else{
+                res.add("..");
+            }
+        }
+        
+        for(int i=commons;i<contentKey.length;i++){
+            res.add(contentKey[i]);
+        }
+        
+        String[] ret = new String[res.size()];
+        
+        ret=res.toArray(ret);
+        
+        return ret;
+    }
+    
+    
     public static String[] trimBase(String[] contentKey, String[] newBase) {
         
         if(contentKey.length<newBase.length){
