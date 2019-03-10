@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.services.wiki.interpreter.context;
 
-import com.acidmanic.pactdoc.services.contractindexing.ContentKeyHelper;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.services.contractindexing.IndexHelper;
 import com.acidmanic.pactdoc.services.wiki.keymodifiers.BackOnceKeyModifier;

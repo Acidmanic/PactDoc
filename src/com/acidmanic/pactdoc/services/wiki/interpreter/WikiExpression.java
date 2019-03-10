@@ -21,6 +21,7 @@ public class WikiExpression extends ExpressionBase{
     @Override
     public void interpret(WikiContext context) {
         
+        
         getParamters().getGlossary().forEach((String[]contentKey)->{
             
             context.startNewPage(contentKey);
@@ -28,7 +29,9 @@ public class WikiExpression extends ExpressionBase{
             PageExpression page = new PageExpression(contentKey, getParamters());
             
             page.interpret(context);
+            
         });
+        
     }
     
 }

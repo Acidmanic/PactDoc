@@ -32,6 +32,8 @@ public class WikiGenerator {
         
         wiki.interpret(context);
         
+        context.output();
+        
     }
     
     
