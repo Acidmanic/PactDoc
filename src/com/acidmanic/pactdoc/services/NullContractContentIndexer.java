@@ -5,6 +5,7 @@
  */
 package com.acidmanic.pactdoc.services;
 
+import com.acidmanic.pactdoc.services.contentindexing.ContractContentIndexer;
 import com.acidmanic.pactdoc.models.ConventionedContract;
 import java.util.ArrayList;
 import java.util.List;
