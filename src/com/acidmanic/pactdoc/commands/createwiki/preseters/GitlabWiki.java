@@ -52,7 +52,7 @@ public class GitlabWiki extends WikiPresetCommand{
 
     @Override
     protected String getRepositoryFor(String repoName, String userName) {
-        return "git@gitlab.com:"+userName+"/"+repoName+".wiki.git";
+        return "https://gitlab.com/"+userName+"/"+repoName+".wiki.git";
     }
     
 }

@@ -78,8 +78,7 @@ public class JGit {
                 .setURI(repo)
                 .call();
             return true;
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {        }
        return false;
     }
     
@@ -93,7 +92,8 @@ public class JGit {
                 )
                 .call();
             return true;
-        } catch (Exception e) { }
+        } catch (Exception e) { 
+        }
        return false;
     }
     
