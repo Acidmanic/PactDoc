@@ -12,6 +12,6 @@ deploy:
   api_key: $GITHUB_TOKEN 
   keep-history: true
   file: $TRAVIS_BUILD_DIR/binary-package.zip
-  tags: true
-
-
+  on:
+    branch: master
+    tags: true
