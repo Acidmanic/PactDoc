@@ -60,7 +60,7 @@ Generate a static HTML/Markdown Wiki
 	PactDoc/pactdoc generatewiki --format html
 ```
 
-You can see all details for this command by running. For a static markdown wiki, use ```bash --format markdown``` , instead of html.
+You can see all details for this command by running. For a static markdown wiki, use ``` --format markdown``` , instead of html.
 
 ```bash
 	PactDoc/pactdoc generatewiki --help
@@ -81,7 +81,7 @@ Sometime for some reasons, it might be necessary to check PACT contract files ag
     PactDoc/pactdoc verifycontracts
 ```
 
-In most cases, You might need to use your rules for checking contract files. For this, you can extend this command by using ```bash --plug-verifier <library-jar-file> <your.verifier.class.Name>```. And library jar file would be your implementation of __ContractVerifier__ interface.
+In most cases, You might need to use your rules for checking contract files. For this, you can extend this command by using ``` --plug-verifier <library-jar-file> <your.verifier.class.Name>```. And library jar file would be your implementation of __ContractVerifier__ interface.
 
  🎁 How to Get
 ===
