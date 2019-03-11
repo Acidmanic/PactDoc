@@ -38,6 +38,8 @@ public class DefaulContractVerifier implements ContractVerifier{
     public Log verify(List<Contract> contracts) {
         Log result = new Log();
         
+        result.setValid(true);
+        
         for(Contract contract:contracts){
             
             if(contract.getInteractions().isEmpty()){
@@ -56,8 +58,6 @@ public class DefaulContractVerifier implements ContractVerifier{
                     + contract.getMetadata().getPactSpecification().getVersion()
                     + " verified.");
         }
-        
-        result.setValid(true);
         
         return result;
     }
