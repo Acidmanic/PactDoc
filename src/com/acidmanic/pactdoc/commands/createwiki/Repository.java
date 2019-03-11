@@ -49,7 +49,13 @@ public class Repository extends CreateWikiArgBase{
 
     @Override
     protected String getUsageString() {
-        return "This will set repository address of your wiki repo.";
+        return "This will set repository address of your wiki repo. it can be a "
+                + "ssh url or an http url.";
+    }
+
+    @Override
+    protected String declareArguments() {
+        return "<repository-url>";
     }
 
     

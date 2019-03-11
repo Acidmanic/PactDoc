@@ -35,7 +35,7 @@ public class APIsSubDir extends CreateWikiArgBase {
     
     @Override
     protected String getUsageString() {
-        return "This will set a sub directory, to put documents in it. its usefull, "
+        return "This will set a sub directory, to put documents in it. Its use full, "
                 + "for when the API documents are just a sub section of the whole"
                 + " wiki.";
     }
@@ -55,6 +55,11 @@ public class APIsSubDir extends CreateWikiArgBase {
             return new ArgumentValidationResult(1);    
         }
         return new ArgumentValidationResult(0);
+    }
+
+    @Override
+    protected String declareArguments() {
+        return "<dir-name>";
     }
     
     

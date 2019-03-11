@@ -40,7 +40,7 @@ public class PlugWikiProps extends CreateWikiArgBase{
         return "This command will plug your PropertyProvider from your jar "
                 + "file into the command. A property provider is an implementation "
                 + "of the interface PropertyProvider which has one method returning "
-                + "an array of Property objects. Propery is an interface that take a "
+                + "an array of Property objects. Property is an interface that take a "
                 + "piece of information out of a Contract object. ";
     }
 
@@ -66,6 +66,13 @@ public class PlugWikiProps extends CreateWikiArgBase{
     public ArgumentValidationResult validateArguments() {
         return enoughOrNothing(2);
     }
+
+    @Override
+    protected String declareArguments() {
+        return "<path-to-jar-lib> <your.class.full.Name>";
+    }
+    
+    
     
     
 }

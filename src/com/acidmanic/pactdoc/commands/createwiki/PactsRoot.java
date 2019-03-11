@@ -58,5 +58,10 @@ public class PactsRoot extends CreateWikiArgBase{
         }
     }
 
+    @Override
+    protected String declareArguments() {
+        return "<dir-name>";
+    }
+
     
 }

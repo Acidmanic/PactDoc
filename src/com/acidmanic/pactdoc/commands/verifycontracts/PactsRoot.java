@@ -53,4 +53,9 @@ public class PactsRoot extends VerifyingArgumentBase{
             params.setPactsRoot(args[0]);
         }
     }
+    
+    @Override
+    protected String declareArguments() {
+        return "<dir-path>";
+    }
 }

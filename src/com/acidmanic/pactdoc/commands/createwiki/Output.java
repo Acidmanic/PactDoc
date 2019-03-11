@@ -55,6 +55,11 @@ public class Output extends CreateWikiArgBase {
             return new ArgumentValidationResult(1);
         }
     }
+
+    @Override
+    protected String declareArguments() {
+        return "<dir-name>";
+    }
     
     
     

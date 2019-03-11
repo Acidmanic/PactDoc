@@ -41,8 +41,8 @@ public class AddExtensions extends CreateWikiArgBase{
 
     @Override
     protected String getUsageString() {
-        return "By providing this argument, generated Markdown files will have "
-                + ".md extrnsion.";
+        return "This will cause the Wiki Generator to create inter-content links "
+                + "ending in extensions. (for markdown and html formats).";
     }
 
     @Override

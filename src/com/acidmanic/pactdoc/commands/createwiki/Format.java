@@ -41,8 +41,8 @@ public class Format extends CreateWikiArgBase{
 
     @Override
     protected String getUsageString() {
-        return "This can get values 'Markdown' or 'Html'. Therefore, the "
-                + "resulting wiki documentation, will be of Markdown, or html";
+        return "This can get values 'Markdown' or HTML'. Therefore, the "
+                + "resulting wiki documentation, will be of Markdown, or HTML";
     }
 
     @Override
@@ -51,6 +51,11 @@ public class Format extends CreateWikiArgBase{
             return enoughOrNothing(1);
         }
         return anyAvailable();
+    }
+
+    @Override
+    protected String declareArguments() {
+        return "<format-name>";
     }
     
     

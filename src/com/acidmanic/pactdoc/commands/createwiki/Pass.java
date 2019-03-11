@@ -51,5 +51,12 @@ public class Pass extends CreateWikiArgBase{
                 + " set the password. you should use " + new User().getName() 
                 + " argument to set the password.";
     }
+
+    @Override
+    protected String declareArguments() {
+        return "<password>";
+    }
+    
+    
     
 }

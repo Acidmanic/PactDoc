@@ -39,10 +39,10 @@ public class ReferrerRelativeLinks extends CreateWikiArgBase{
     
     @Override
     protected String getUsageString() {
-        return "Using this argument, will cause wiki generators to make internal "
-                + "links based on the location of the refferer page. this is the "
-                + "normal behavior for FileSystem based linkings like file system "
-                + "and web links.";
+        return "Using this argument, will cause wiki generators to make "
+                + "internal links based on the location of the referrer page. "
+                + "This is the normal behavior for FileSystem based linking "
+                + "like file system and web links.";
     }
 
     @Override

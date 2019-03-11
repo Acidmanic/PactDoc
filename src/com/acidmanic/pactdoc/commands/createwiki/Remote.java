@@ -50,6 +50,11 @@ public class Remote extends CreateWikiArgBase{
                 + " from origin to something else, with this argument, you can "
                 + "set this other remote name.";
     }
+
+    @Override
+    protected String declareArguments() {
+        return "<remote-name>";
+    }
     
     
     

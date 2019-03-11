@@ -39,7 +39,7 @@ public class RootRelativeLinks extends CreateWikiArgBase{
 
     @Override
     protected String getUsageString() {
-        return "Using this argument, will cause the geenrate wiki to use links"
+        return "Using this argument, will cause the generate wiki to use links"
                 + " based on wiki-root instead of forward relative links in the"
                 + " Index files.";
     }
@@ -48,7 +48,6 @@ public class RootRelativeLinks extends CreateWikiArgBase{
     public ArgumentValidationResult validateArguments() {
         return new ArgumentValidationResult(0);
     }
-    
     
     
     

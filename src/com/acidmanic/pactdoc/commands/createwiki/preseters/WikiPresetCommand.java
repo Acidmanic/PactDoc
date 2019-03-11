@@ -57,7 +57,7 @@ public abstract class WikiPresetCommand extends CreateWikiArgBase{
                 + ", it expects to get repository-name and user-name parameters. "
                 + "then it will set " + (new Repository().getName())
                 + " and " + (new User().getName())
-                + "\nall parameters set by this command, can be overriden with "
+                + "\nall parameters set by this command, can be overridden with "
                 + "other commands coming after it.";
                 
     }

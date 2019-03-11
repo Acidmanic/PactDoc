@@ -48,11 +48,14 @@ public class User extends CreateWikiArgBase {
     protected String getUsageString() {
         return "If an authentication with username and password is needed to "
                 + "work with the wiki repository, with this argument you can "
-                + " set the username. you should use " + new Pass().getName() 
+                + " set the username. You should use " + new Pass().getName() 
                 + " argument to set the password.";
     }
     
     
-    
+    @Override
+    protected String declareArguments() {
+        return "<user-name>";
+    }
     
 }

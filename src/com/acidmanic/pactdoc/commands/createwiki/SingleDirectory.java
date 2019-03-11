@@ -48,14 +48,16 @@ public class SingleDirectory extends CreateWikiArgBase{
 
     @Override
     protected String getUsageString() {
-        return "This command will cause directory based wiki formtas like "
-                + "markdown and html, to be generated in a flat file system "
-                + "structure, instead of hierarical structure. but to keep "
-                + "hierarical link between documents valid, the wiki generator"
-                + " will instead concatinate hierarchy levels together to make "
-                + "a valid unic file name for each document. the file-name-delimiter"
-                + " argument, is used to separate file name parts. this argument "
-                + "is optional and the default value is a single space.";
+        return "This command will cause directory based wiki formats like "
+                + "markdown and HTML, to be generated in a " +
+                "flat file system structure, instead of hierarchical structure. "
+                + "But to keep hierarchical link between " +
+                "documents valid, the wiki generator will instead concatenate "
+                + "hierarchy levels together to make a " +
+                "valid unique file name for each document. The "
+                + "file-name-delimiter argument, is used to separate file " +
+                "name parts. This argument is optional and the default value "
+                + "is a single space.";
     }
     
     
