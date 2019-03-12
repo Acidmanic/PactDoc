@@ -49,7 +49,8 @@ public class MarkdownPageBuilder{
 
     public MarkdownPageBuilder title(String text) {
         
-        currentContent.append("##").append(text).append("\n");
+        currentContent.append(text).append("\n")
+                .append("====").append("\n");
         
         return this;
     }
