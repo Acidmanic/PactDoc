@@ -168,9 +168,3 @@ License
 ===
 
 This software is published under MIT license. But! The [jGit](https://github.com/eclipse/jgit) library has been used in this project as a dependency which has [its own license](https://github.com/eclipse/jgit/blob/master/LICENSE).
-
-
-
-
-
-
