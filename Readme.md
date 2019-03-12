@@ -17,7 +17,13 @@ Features
 How To Use
 ===
 
-The following shows some examples of using PactDoc. in all examples, it's considered that you have extracted the contents of binary package in a directory named _PactDoc_ under the root of your project directory.
+The following shows some examples of using PactDoc. 
+
+
+🧐 
+---
+In all examples, it's considered that you have extracted the contents of binary package in a directory named PactDoc under the root of your project directory.
+
 
 Update/Generate __Gitlab__ Repository Wiki
 ---
@@ -105,7 +111,66 @@ prints out something like:
 
 
 
-👾 Note
+👾 Note - Updates
 ----
 
 This is possible that the application details change through the updates, so consider using a the same release version or, check for changes when your using this in your cicd projects.
+
+👾 Note - Case
+----
+
+Command names are not case sensitive. Capitalized, UPPER, lower or AnY ComBiNaTion of these, will work.
+
+👾 Note - Help
+----
+
+You can list commands by ```PactDoc/pactdoc --help``` and for each command, you can get more details by using ```--help```. For example ```PactDoc/pactdoc UpdateWiki --help``` will describe all arguments that __UpdateWiki__ command can get.
+
+
+Extension
+========
+
+Currently it's possible to modify PactDoc about 1) the hierarchy of the Wiki, and 2) the convention that PactDoc uses to verify the pacts. In each case the process is simple:
+
+* Create a java class library project
+* Implement the respective Interface in your project
+* Build your project to get a jar file.
+
+Then you can put this jar file in the working directory, and use it in plug-able commands by --plug-* argument.
+
+
+Verifying PACT Contracts Your way!
+-----
+
+The Command __VerifyContracts__,  uses an implementation of the interface: __ContractVerifier__. The default implementation, does not do much. It checks to see if a contract has any interactions defined. If it doesn't, then the verifier will reject it. You  can write your Own Verifier by Implementing the ContractVerifier interface. This interface will receive a list of all indexed contracts, and on its verify method, you can write your error, warning, info and log messages into the returning __Log__ object. And reject or accept the result by calling setValid(true/false) method of the returning Log object.
+
+
+|💡|
+|:--------------------------------------------------------------------------------------------------------|
+| __To Change The Way Of Verifying contracts, The__ ___ContractVerifier___ __Interface should be Implemented__.|
+| ```verifycontracts --plug-verifier path/to/MyJarLibrary.jar my.implementation.of.ContractVerifier```|
+
+
+Changing The Structure Of Wiki
+------
+
+
+The commands: __GenerateWiki__ and __UpdateWiki__, use a WikiGenerator Object to create the Wiki file(s). The WikiGenerator, needs to know how to construct and address for each PACT contract Page. The structure of this address infect determines the hierarchy of contents. By default, WikiGenerator, Uses this structure: [Contract-Version] - [Provider-Name]. By this structure, it  first Groups all contracts by their versions. Then in each group, it sub groups them by their provider name. The WikiGenerator, consumes an object of type: __PropertyProvider__. This property provider is an interface which simply returns and array of __Property__ objects. The default property provider is the one that returns the array: {_Version_,_Provider_}. A Property object, also is an implementation of Property interface which simply takes a Contract and returns requested data from this contract. So in Summery:
+
+|💡|
+|:--------------------------------------------------------------------------------------------------------|
+| __To Change The Structure of the wiki, The__ ___PropertyProvider___ __Interface should be Implemented__.|
+| ```generatewiki/updatewiki --plug-wiki-prop path/to/MyJarLibrary.jar my.implementation.of.PropertyProvider```|
+
+
+
+License
+===
+
+This software is published under MIT license. But! The [jGit](https://github.com/eclipse/jgit) library has been used in this project as a dependency which has [its own license](https://github.com/eclipse/jgit/blob/master/LICENSE).
+
+
+
+
+
+
