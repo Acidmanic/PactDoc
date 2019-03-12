@@ -72,6 +72,13 @@ public class MarkdownContext extends HierarchicalWikiContext{
     }
 
     @Override
+    public WikiContext subTitle(String text) {
+        this.pageBuilder.subTitle(text);
+        
+        return this;
+    }
+
+    @Override
     public WikiContext paragraph(String text) {
         
         this.pageBuilder.paragraph(text);

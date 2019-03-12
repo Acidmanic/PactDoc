@@ -38,6 +38,11 @@ public class NULLContext implements WikiContext{
     public WikiContext title(String text) {
         return this;
     }
+    
+    @Override
+    public WikiContext subTitle(String text) {
+        return this;
+    }
 
     @Override
     public WikiContext paragraph(String text) {

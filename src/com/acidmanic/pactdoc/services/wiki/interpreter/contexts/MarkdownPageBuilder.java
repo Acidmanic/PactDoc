@@ -54,6 +54,13 @@ public class MarkdownPageBuilder{
         
         return this;
     }
+    
+    public MarkdownPageBuilder subTitle(String text) {
+        currentContent.append(text).append("\n")
+                .append("----").append("\n");
+        
+        return this;
+    }
 
     public MarkdownPageBuilder paragraph(String text) {
         

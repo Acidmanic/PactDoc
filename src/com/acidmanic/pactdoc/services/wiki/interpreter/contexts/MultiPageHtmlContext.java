@@ -76,6 +76,12 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
         sb.append("<h1>").append(text).append("</h1>");
         return this;
     }
+    
+    @Override
+    public WikiContext subTitle(String text) {
+        sb.append("<h3>").append(text).append("</h3>");
+        return this;
+    }
 
     @Override
     public WikiContext paragraph(String text) {

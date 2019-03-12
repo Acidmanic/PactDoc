@@ -35,6 +35,8 @@ public interface WikiContext {
     
     WikiContext title(String text);
     
+    WikiContext subTitle(String text);
+    
     WikiContext paragraph(String text);
     
     WikiContext table(HashMap<String,String> table);
