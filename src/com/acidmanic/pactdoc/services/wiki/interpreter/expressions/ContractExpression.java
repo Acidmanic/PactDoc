@@ -77,14 +77,14 @@ public class ContractExpression extends ExpressionBase{
             
             if(!inter.getRequest().getHeaders().isEmpty()){
                 
-                context.append(", with headers: ").newLine()
+                context.append(", With headers: ").newLine()
                         .table("Key", "Value", inter.getRequest().getHeaders())
                         .newLine();
             }
             
             if(inter.getRequest().getBody()!=null){
                 
-                context.newLine().append("with body:").newLine()
+                context.newLine().append("With body:").newLine()
                         .json(new TextReformater().pritifyJson(inter.getRequest().getBody()))
                         .newLine();
             }
@@ -94,7 +94,7 @@ public class ContractExpression extends ExpressionBase{
                     .closeBold().newLine();
                     
             if(!inter.getResponse().getHeaders().isEmpty()){
-                context.append(", with headers: ").newLine()
+                context.append(", With headers: ").newLine()
                         .table("Key", "Value", inter.getResponse().getHeaders())
                         .newLine();
             }
