@@ -26,7 +26,7 @@ package playgrounds;
 import com.acidmanic.pactdoc.models.Interaction;
 import com.acidmanic.pactdoc.models.Request;
 import com.acidmanic.pactdoc.models.Response;
-import com.acidmanic.pactdoc.utility.jsonparsing.JsonParserMachine;
+import com.acidmanic.pactdoc.utility.jsonparsing.HtmlWrapperJsonParserMachine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,7 +36,47 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class HttpJson {
     
-    
+    private static class Simple{
+        
+        private int type;
+        private int id;
+        private String token;
+
+        public Simple(int type, int id, String token) {
+            this.type = type;
+            this.id = id;
+            this.token = token;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public Simple() {
+        }
+        
+        
+    }
     
     public static void main(String[] args) throws JsonProcessingException {
         Interaction interaction = new Interaction();
@@ -49,11 +89,14 @@ public class HttpJson {
         response.setStatus(200);
         interaction.setRequest(request);
         interaction.setResponse(response);
-        String json = new ObjectMapper().writeValueAsString(interaction);
+        
+        Simple sim = new Simple(0, 0, "0okm34erfdyu89jkbwterfd");
+        
+        String json = new ObjectMapper().writeValueAsString(sim);
         
         System.out.println(json);
         
-        JsonParserMachine machine = new JsonParserMachine();
+        HtmlWrapperJsonParserMachine machine = new HtmlWrapperJsonParserMachine();
         
         String represented = machine.parse(json);
         

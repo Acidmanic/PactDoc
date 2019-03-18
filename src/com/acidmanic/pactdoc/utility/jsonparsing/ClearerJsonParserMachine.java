@@ -24,23 +24,13 @@
 package com.acidmanic.pactdoc.utility.jsonparsing;
 
 import com.acidmanic.pactdoc.utility.jsonparsing.states.InObjectSybolsState;
-import com.acidmanic.pactdoc.utility.jsonparsing.states.InRawValueState;
 import com.acidmanic.pactdoc.utility.jsonparsing.states.InStrings;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class JsonParserMachine {
-    
-    private static final String INSTRING_START="<span class=\"json-in-string\">";
-    private static final String INVALUE_START="<span class=\"json-in-value\">";
-    private static final String END_TAG="</span>";
-    
-
-    public JsonParserMachine() {
-    }
-    
+public class ClearerJsonParserMachine {
     public String parse(String json){
         char[] chars = json.toCharArray();
         
@@ -49,29 +39,12 @@ public class JsonParserMachine {
         StringBuilder sb = new StringBuilder();
         
         for(char c:chars){
-            JsonStringState res = state.whatsNext(c);
-            if(res.getClass()!=state.getClass()){
-                onStateUpdate(c, sb, state, res);
-                state = res;
-            }else{
+            state = state.whatsNext(c);
+            if(!Character.isWhitespace(c) || state.getClass()==InStrings.class){
                 sb.append(c);
             }
         }
         return sb.toString();
     }
     
-    private void onStateUpdate(char onChar,StringBuilder sb, JsonStringState previouse, JsonStringState next) {
-        if (next.getClass()==InStrings.class){
-            sb.append(INSTRING_START);
-            sb.append(onChar);
-        }else if(previouse.getClass()==InStrings.class){
-            sb.append(onChar).append(END_TAG);
-        }else if(next.getClass()==InRawValueState.class){
-            sb.append(INVALUE_START).append(onChar);
-        }else if(previouse.getClass()==InRawValueState.class){
-            sb.append(END_TAG).append(onChar);
-        }else{
-            sb.append(onChar);
-        }
-    }
 }

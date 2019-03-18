@@ -30,9 +30,47 @@ package com.acidmanic.pactdoc.utility;
 public class TextReformater {
     
     
-    public String pritifyJson(String json){
-        StringBuilder sb = new StringBuilder();
+    private interface Indenter{
+        StringBuilder appendIndentedLine(StringBuilder sb,int indent);
+    }
+    
+    private class StringIndenter implements Indenter{
+
+        @Override
+        public StringBuilder appendIndentedLine(StringBuilder sb, int indent) {
+            sb.append("\n");
+
+            for(int i=0;i<indent;i++){
+                sb.append("    ");
+            }
+
+            return sb;
+        }
+    }
+    
+    
+    private class HtmlIndenter implements Indenter{
+
+        @Override
+        public StringBuilder appendIndentedLine(StringBuilder sb, int indent) {
+            sb.append("<br>");
+
+            for(int i=0;i<indent;i++){
+                sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+            }
+
+            return sb;
+        }
         
+    }
+    
+    public String pritifyJson(String json){
+        return pritifyJson(json, false);
+    }
+    
+    public String pritifyJson(String json,boolean html){
+        StringBuilder sb = new StringBuilder();
+        Indenter indenter = html?new HtmlIndenter() : new StringIndenter();
         int indent =0;
         char[] chars = json.toCharArray();
         
@@ -40,33 +78,20 @@ public class TextReformater {
             if(ch=='{' || ch == '[' ){
                 sb.append(ch);
                 indent+=1;
-                appendIndentedLine(sb,indent);
+                indenter.appendIndentedLine(sb,indent);
             }else if(ch=='}' || ch ==']'){
                 indent -=1;
-                appendIndentedLine(sb,indent);
+                indenter.appendIndentedLine(sb,indent);
                 sb.append(ch);
             }else if ( ch == ','){
                 sb.append(ch);
-                appendIndentedLine(sb,indent);
+                indenter.appendIndentedLine(sb,indent);
             }else{
                 sb.append(ch);
             }
         }
         
         return sb.toString();
-    }
-    
-    
-    
-    private StringBuilder appendIndentedLine(StringBuilder sb,int indent) {
-        
-        sb.append("\n");
-        
-        for(int i=0;i<indent;i++){
-            sb.append("    ");
-        }
-        
-        return sb;
     }
     
     public String plural(String noun){

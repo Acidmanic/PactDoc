@@ -26,6 +26,8 @@ package com.acidmanic.pactdoc.services.wiki.interpreter.contexts;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
 import com.acidmanic.pactdoc.utility.IOHelper;
 import com.acidmanic.pactdoc.utility.TextReformater;
+import com.acidmanic.pactdoc.utility.jsonparsing.ClearerJsonParserMachine;
+import com.acidmanic.pactdoc.utility.jsonparsing.HtmlWrapperJsonParserMachine;
 import java.util.HashMap;
 /**
  *
@@ -152,8 +154,21 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
 
     @Override
     public WikiContext json(String json) {
-        sb.append("<pre><code>").append(new TextReformater().pritifyJson(json))
-                .append("</code></pre>");
+        
+        json = new ClearerJsonParserMachine().parse(json);
+        
+        HtmlWrapperJsonParserMachine wrapper = new HtmlWrapperJsonParserMachine();
+        
+        wrapper.setRawValueClass("text-info");
+        
+        wrapper.setStringClass("text-danger");
+        
+        json =  wrapper.parse(json);
+  
+        json = new TextReformater().pritifyJson(json, true);
+        
+        sb.append("<pre><code>").append(json).append("</code></pre>");
+        
         return this;
     }
 

@@ -36,6 +36,9 @@ public class InObjectSybolsState implements JsonStringState{
         if(c=='"'){
             return new InStrings();
         }
+        if(Character.isWhitespace(c)){
+            return this;
+        }
         if(!JsonParseHelper.isObjectSymbol(c)){
             return new InRawValueState();
         }
