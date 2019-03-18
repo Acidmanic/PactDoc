@@ -1,5 +1,8 @@
 About
 ===
+
+![Html Wiki Preview](Media/demo.gif)
+
 If you're working on a micro service like project, and your using PACT for contract testing, you probably came across the issue of communication between the developers of consumers (clients) and providers (backend). Having a mechanism which is able to create api documentation from the pushed/generated contracts live in the pipeline, can perform a very helpful role.
 PactDoc, is a java command line tool, capable of generating api documents in such way. It also have a contract verifier tool which can verify generated pact contracts against any convention you have in mind for your developers while writing pact tests. Its easy to use an can be easily run on Travis containers and gitlab runners.
 
