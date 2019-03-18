@@ -67,4 +67,6 @@ public interface WikiContext {
     WikiContext horizontalLine();
     
     WikiContext startNewPage(String[] contentKey);
+    
+    WikiContext badge(String text);
 }

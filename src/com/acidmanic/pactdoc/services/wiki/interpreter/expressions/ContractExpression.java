@@ -69,8 +69,8 @@ public class ContractExpression extends ExpressionBase{
         for(Interaction inter:contract.getInteractions()){
             
             context.append("If ").append(inter.getProviderState())
-                    .append(", an http ").openBold()
-                    .append(inter.getRequest().getMethod().toUpperCase()).closeBold()
+                    .append(", an http ")
+                    .badge(inter.getRequest().getMethod().toUpperCase())
                     .append(" Request to ").openItalic()
                     .append(inter.getRequest().getPath()).closeItalic();
             

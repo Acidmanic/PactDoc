@@ -160,5 +160,12 @@ public class MarkdownContext extends HierarchicalWikiContext{
         this.pageBuilder.horizontalLine();
         return this;
     }
+
+    @Override
+    public WikiContext badge(String text) {
+        this.pageBuilder.openBold()
+                .append(text).closeBold();
+        return this;
+    }
     
 }

@@ -117,5 +117,10 @@ public class NULLContext implements WikiContext{
     public WikiContext startNewPage(String[] contentKey) {
         return this;
     }
+
+    @Override
+    public WikiContext badge(String text) {
+        return this;
+    }
     
 }

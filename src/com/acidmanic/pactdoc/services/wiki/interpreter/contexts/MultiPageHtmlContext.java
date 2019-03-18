@@ -167,7 +167,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
   
         json = new TextReformater().pritifyJson(json, true);
         
-        sb.append("<pre><code>").append(json).append("</code></pre>");
+        sb.append("<pre>").append(json).append("</pre>");
         
         return this;
     }
@@ -258,6 +258,13 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
             IOHelper.ensureParents(path);
             
             IOHelper.writeAllText(path, content);
+    }
+
+    @Override
+    public WikiContext badge(String text) {
+        sb.append("<kbd><kbd>").append(text)
+                .append("</kbd></kbd>");
+        return this;
     }
 
    
