@@ -23,11 +23,9 @@
  */
 package com.acidmanic.pactdoc.plugin;
 
-import com.acidmanic.pactdoc.PactDoc;
-import com.sun.org.apache.bcel.internal.util.ClassPath;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.MalformedURLException;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -43,9 +41,7 @@ public class PluginProfile {
 
     private File pluginsDirectory;
     private List<File> allLibraries;
-    private List<Class> allPluggedClasses;
-    
-    
+    private ClassCollection allPluggedClasses;
 
     public PluginProfile(File pluginsDirectory) {
         this.pluginsDirectory = pluginsDirectory;
@@ -64,7 +60,7 @@ public class PluginProfile {
     }
 
     private void loadAllClasses() {
-        this.allPluggedClasses = new ArrayList<>();
+        this.allPluggedClasses = new ClassCollection();
 
         this.allLibraries.forEach(jar -> loadAllClasses(jar, this.allPluggedClasses));
     }
@@ -92,7 +88,7 @@ public class PluginProfile {
         }
     }
 
-    private void loadAllClasses(File jar, List<Class> allPluggedClasses) {
+    private void loadAllClasses(File jar, ClassCollection allPluggedClasses) {
 
         List<String> classNames = loadClassNames(jar);
 
@@ -105,6 +101,8 @@ public class PluginProfile {
             for (String className : classNames) {
                 try {
                     Class c = loader.loadClass(className);
+
+                    allPluggedClasses.add(c);
                 } catch (Exception e) {
                 }
 
@@ -127,6 +125,86 @@ public class PluginProfile {
         } catch (Exception e) {
         }
         return classNames;
+    }
+
+    public Class byFullName(String name) throws ClassNotFoundException {
+        Class ret = this.allPluggedClasses.findByFullName(name);
+
+        if (ret == null) {
+            throw new ClassNotFoundException("No class with full name: " + name
+                    + " found to be plugged in.");
+        }
+
+        return ret;
+    }
+
+    public Class bySimpleName(String name) throws ClassNotFoundException {
+        Class ret = this.allPluggedClasses.findBySimpleName(name);
+
+        if (ret == null) {
+            throw new ClassNotFoundException("No class with simple name: " + name
+                    + " found to be plugged in.");
+        }
+
+        return ret;
+    }
+
+    /**
+     * *
+     *
+     * This method first looks for full name match, if it doesn't find any, it
+     * will search for simple name match. If you use this method, there is a
+     * chance that the result is different from your expectation. for example
+     * when there are two classes which one's full name (default package) is
+     * match with other's simple name.
+     *
+     * @param name
+     * @return
+     */
+    public Class byName(String name) throws ClassNotFoundException {
+        Class type = this.allPluggedClasses.findByFullName(name);
+
+        if (type == null) {
+            type = this.allPluggedClasses.findBySimpleName(name);
+        }
+
+        if (type == null) {
+            throw new ClassNotFoundException("No class with name: " + name
+                    + " found to be plugged in.");
+        }
+
+        return type;
+    }
+
+    public <T> T makeObject(String libraryPath, String className) throws Exception {
+
+        Class type = byName(className);
+
+        return (T) type.newInstance();
+    }
+
+    public <T> T makeObject(String libraryPath, String className, Object... arguments) throws Exception {
+
+        Class type = byName(className);
+
+        Class[] parameterTypes = getTypes(arguments);
+
+        Constructor c = type.getConstructor(parameterTypes);
+
+        return (T) c.newInstance(arguments);
+    }
+
+    private Class[] getTypes(Object[] objects) {
+        Class[] ret = new Class[objects.length];
+
+        for (int i = 0; i < objects.length; i++) {
+            if (ret[i] != null) {
+                ret[i] = objects[i].getClass();
+            } else {
+                ret[i] = null;
+            }
+        }
+        return ret;
     }
 
 }
