@@ -32,9 +32,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 /**
- *
+ * This class is deprecated. use PluginProfile instead.
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
+@Deprecated()
 public class PluginLoader {
     
    

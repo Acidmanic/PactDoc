@@ -26,7 +26,7 @@ package com.acidmanic.pactdoc.commands.verifycontracts;
 import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import com.acidmanic.pactdoc.commands.VerifyContracts;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pactdoc.plugin.PluginLoader;
+import com.acidmanic.pactdoc.plugin.PactDocPluginProfile;
 import com.acidmanic.pactdoc.services.contractverification.ContractVerifier;
 
 /**
@@ -38,10 +38,10 @@ public class PlugVerifier extends VerifyingArgumentBase{
     @Override
     protected void update(VerifyCommandParameters params) {
         ContractVerifier verifier = null;
-        if(!noArguments(2)){
+        if(!noArguments(1)){
             try {
                 log("Loading verifier: "+args[1] + " from library: "+args[0] );
-                verifier = new PluginLoader().makeObject(args[0], args[1]);
+                verifier = PactDocPluginProfile.getInstance().make(args[0]);
             } catch (Exception e) {
                 error("Unable to load verifier because of a " + 
                         e.getClass().getSimpleName() + " error.");
@@ -52,22 +52,23 @@ public class PlugVerifier extends VerifyingArgumentBase{
 
     @Override
     protected String getUsageString() {
-        return "With this command, you can plug your own pact contract verifier,"
-                + " into the " + new  VerifyContracts().getName() + " command."
+        return "With this argument, you can plug your own pact contract verifier,"
+                + " into the " + new  VerifyContracts().getName() + " command by "
+                + "putting your jar file into plugins directory. "
                 + "This way, your verifier class will be used for verifications. "
-                + "This argument should be followed with <path-to-jar-lib> and then "
-                + " <your.class.full.Name> of your verifier class. the verifier class "
+                + "This argument should be followed with "
+                + " <verfier-class-name> of your verifier class. the verifier class "
                 + "should have a constructor with no arguments.";
     }
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        return enoughOrNothing(2);
+        return enoughOrNothing(1);
     }
     
     @Override
     protected String declareArguments() {
-        return "<path-to-jar-lib> <your.class.full.Name>";
+        return "<verfier-class-name>";
     }
     
 }
