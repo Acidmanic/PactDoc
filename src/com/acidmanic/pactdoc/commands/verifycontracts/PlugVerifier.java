@@ -40,7 +40,7 @@ public class PlugVerifier extends VerifyingArgumentBase{
         ContractVerifier verifier = null;
         if(!noArguments(1)){
             try {
-                log("Loading verifier: "+args[1] + " from library: "+args[0] );
+                log("Loading verifier: "+args[0] + " from library plugins directory" );
                 verifier = PactDocPluginProfile.getInstance().make(args[0]);
             } catch (Exception e) {
                 error("Unable to load verifier because of a " + 

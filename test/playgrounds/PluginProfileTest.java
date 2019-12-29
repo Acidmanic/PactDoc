@@ -44,10 +44,10 @@ public class PluginProfileTest {
         profile.allClasses().forEach(c -> System.out.println(c.getName()));
         
         
-        Object helper = profile.makeObject("RegExHelper");
+//        Object helper = profile.makeObject("RegExHelper");
         
         
-        System.out.println(helper);
+//        System.out.println(helper);
         
         
     }

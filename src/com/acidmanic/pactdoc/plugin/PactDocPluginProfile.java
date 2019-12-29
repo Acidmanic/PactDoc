@@ -40,6 +40,8 @@ public class PactDocPluginProfile {
     private PactDocPluginProfile(){
         
         this.profile = new PluginProfile(getPluginsDirectory());
+        
+        this.profile.loadPlugins();
     }
     
     

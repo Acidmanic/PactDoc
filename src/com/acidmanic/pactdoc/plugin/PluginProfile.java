@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.plugin;
 
+import com.acidmanic.pactdoc.PactDoc;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
@@ -45,6 +46,7 @@ public class PluginProfile {
 
     public PluginProfile(File pluginsDirectory) {
         this.pluginsDirectory = pluginsDirectory;
+        loadPlugins();
     }
 
     public PluginProfile(String pluginsDirectory) {
@@ -100,14 +102,16 @@ public class PluginProfile {
 
             for (String className : classNames) {
                 try {
-                    Class c = loader.loadClass(className);
+                    Class c = Class.forName(className, true, loader);
 
                     allPluggedClasses.add(c);
                 } catch (Exception e) {
+                    e=e;
                 }
 
             }
         } catch (Exception ex) {
+            ex=ex;
         }
     }
 
