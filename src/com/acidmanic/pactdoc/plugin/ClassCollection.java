@@ -23,6 +23,8 @@
  */
 package com.acidmanic.pactdoc.plugin;
 
+import com.acidmanic.pactdoc.utility.Func;
+import com.acidmanic.pactdoc.utility.Func1;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,21 +34,86 @@ import java.util.List;
  * @author 80116
  */
 public class ClassCollection {
-    
-    
-    private HashMap<String,Class> byFullNames;
-    private HashMap<String,Class> bySimpleNames;
-    
-    
-    public List<Class> getAllClasses(){
+
+    private final HashMap<String, Class> byFullNames;
+    private final HashMap<String, Class> bySimpleNames;
+    private final HashMap<Object, Class> byCustomeTag;
+    private final HashMap<Object, Class> byExternalTag;
+    private Func1<Class, Object> customeTagProvider = c -> c.getName();
+
+    public Func1<Class, Object> getCustomeTagProvider() {
+        return customeTagProvider;
+    }
+
+    public void setCustomeTagProvider(Func1<Class, Object> customeTagProvider) {
+        this.customeTagProvider = customeTagProvider;
+    }
+
+    public ClassCollection() {
+        this.byFullNames = new HashMap<>();
+
+        this.bySimpleNames = new HashMap<>();
+
+        this.byCustomeTag = new HashMap<>();
+        
+        this.byExternalTag = new HashMap<>();
+    }
+
+    public synchronized void clear() {
+        this.byCustomeTag.clear();
+        this.byFullNames.clear();
+        this.bySimpleNames.clear();
+        this.byExternalTag.clear();
+    }
+
+    public List<Class> getAllClasses() {
         List<Class> ret = new ArrayList<>();
-        
+
         ret.addAll(byFullNames.values());
-        
+
         return ret;
     }
+
+    public Class findByFullName(String name) {
+        if (this.byFullNames.containsKey(name)) {
+            return this.byFullNames.get(name);
+        }
+        return null;
+    }
+
+    public Class findBySimpleName(String name) {
+        if (this.bySimpleNames.containsKey(name)) {
+            return this.bySimpleNames.get(name);
+        }
+        return null;
+    }
+
+    public synchronized void add(Class type) {
+        this.byFullNames.put(type.getName(), type);
+
+        this.bySimpleNames.put(type.getSimpleName(), type);
+
+        this.byCustomeTag.put(this.customeTagProvider.perform(type), type);
+    }
     
+    public synchronized void add(Class type,Object externalTag){
+        this.add(type);
+        
+        this.byExternalTag.put(externalTag, type);
+    }
+
+    public Class findByCustomeTag(Object tag) {
+        if (this.byCustomeTag.containsKey(tag)) {
+            return this.byCustomeTag.get(tag);
+        }
+        return null;
+    }
     
-    
+    public Class findByExternalTag(Object tag) {
+        if (this.byExternalTag.containsKey(tag)) {
+            return this.byExternalTag.get(tag);
+        }
+        return null;
+    }
     
 }
