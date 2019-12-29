@@ -176,14 +176,14 @@ public class PluginProfile {
         return type;
     }
 
-    public <T> T makeObject(String libraryPath, String className) throws Exception {
+    public <T> T makeObject(String className) throws Exception {
 
         Class type = byName(className);
 
         return (T) type.newInstance();
     }
 
-    public <T> T makeObject(String libraryPath, String className, Object... arguments) throws Exception {
+    public <T> T makeObject(String className, Object... arguments) throws Exception {
 
         Class type = byName(className);
 
@@ -206,5 +206,11 @@ public class PluginProfile {
         }
         return ret;
     }
+
+    public List<Class> allClasses() {
+        return this.allPluggedClasses.getAllClasses();
+    }
+
+   
 
 }
