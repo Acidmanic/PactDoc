@@ -97,8 +97,11 @@ public class PluginProfile {
         ClassLoader sysClassloader = ClassLoader.getSystemClassLoader();
 
         try {
+            
+            URL jarUrl = jar.toURI().toURL();
+            
             URLClassLoader loader = new URLClassLoader(
-                    new URL[]{this.pluginsDirectory.toURI().toURL()}, sysClassloader);
+                    new URL[]{jarUrl}, sysClassloader);
 
             for (String className : classNames) {
                 try {
@@ -106,12 +109,10 @@ public class PluginProfile {
 
                     allPluggedClasses.add(c);
                 } catch (Exception e) {
-                    e=e;
                 }
 
             }
         } catch (Exception ex) {
-            ex=ex;
         }
     }
 
