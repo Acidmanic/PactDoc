@@ -25,7 +25,7 @@ package com.acidmanic.pactdoc.commands.createwiki;
 
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pactdoc.plugin.PluginLoader;
+import com.acidmanic.pactdoc.plugin.PactDocPluginProfile;
 import com.acidmanic.pactdoc.services.contractindexing.properties.DefaultPropertyProvider;
 import com.acidmanic.pactdoc.services.contractindexing.properties.PropertyProvider;
 
@@ -41,7 +41,9 @@ public class PlugWikiProps extends CreateWikiArgBase{
                 + "file into the command. A property provider is an implementation "
                 + "of the interface PropertyProvider which has one method returning "
                 + "an array of Property objects. Property is an interface that take a "
-                + "piece of information out of a Contract object. ";
+                + "piece of information out of a Contract object. You will put your "
+                + "jar file into plugins directory then you can pass class-name or class-fullname"
+                + " to this command.";
     }
 
    
@@ -49,10 +51,10 @@ public class PlugWikiProps extends CreateWikiArgBase{
     protected void update(WikiCommandParameters params) {
          PropertyProvider provider = new DefaultPropertyProvider();
          
-         if(!noArguments(2)){
+         if(!noArguments(1)){
             try {
                 log("Loading property provider: "+args[0] + " from library: "+args[0] );
-                provider = new PluginLoader().makeObject(args[0], args[1]);
+                provider = PactDocPluginProfile.getInstance().make(args[0]);
             } catch (Exception e) {
                 error("Unable to load property provider because of a " + 
                         e.getClass().getSimpleName() + " error.");
@@ -64,12 +66,12 @@ public class PlugWikiProps extends CreateWikiArgBase{
     
     @Override
     public ArgumentValidationResult validateArguments() {
-        return enoughOrNothing(2);
+        return enoughOrNothing(1);
     }
 
     @Override
     protected String declareArguments() {
-        return "<path-to-jar-lib> <your.class.full.Name>";
+        return "<provider-class-name>";
     }
     
     

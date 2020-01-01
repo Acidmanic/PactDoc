@@ -90,7 +90,7 @@ Sometime for some reasons, it might be necessary to check PACT contract files ag
     PactDoc/pactdoc verifycontracts
 ```
 
-In most cases, You might need to use your rules for checking contract files. For this, you can extend this command by using ``` --plug-verifier <library-jar-file> <your.verifier.class.Name>```. And library jar file would be your implementation of __ContractVerifier__ interface.
+In most cases, You might need to use your rules for checking contract files. For this, you can extend this command by using ``` --plug-verifier <your.verifier.class.Name>```. And library jar file would be your implementation of __ContractVerifier__ interface. For this to work, you just need to put your .jar file, inside a folder named 'plugins' beside the pactdoc.jar.
 
  🎁 How to Get
 ===
@@ -138,8 +138,9 @@ Currently it's possible to modify PactDoc about 1) the hierarchy of the Wiki, an
 * Create a java class library project
 * Implement the respective Interface in your project
 * Build your project to get a jar file.
+* Put the jar file in 'plugins' directory. this directory should be created beside pactdoc.jar file.
 
-Then you can put this jar file in the working directory, and use it in plug-able commands by --plug-* argument.
+Then  you can use it for plug-able commands by --plug-* argument.
 
 
 Verifying PACT Contracts Your way!
@@ -151,19 +152,19 @@ The Command __VerifyContracts__,  uses an implementation of the interface: __Con
 |💡|
 |:--------------------------------------------------------------------------------------------------------|
 | __To Change The Way Of Verifying contracts, The__ ___ContractVerifier___ __Interface should be Implemented__.|
-| ```verifycontracts --plug-verifier path/to/MyJarLibrary.jar my.implementation.of.ContractVerifier```|
+| ```verifycontracts --plug-verifier  my.implementation.of.ContractVerifier```|
 
 
 Changing The Structure Of Wiki
 ------
 
 
-The commands: __GenerateWiki__ and __UpdateWiki__, use a WikiGenerator Object to create the Wiki file(s). The WikiGenerator, needs to know how to construct and address for each PACT contract Page. The structure of this address infect determines the hierarchy of contents. By default, WikiGenerator, Uses this structure: [Contract-Version] - [Provider-Name]. By this structure, it  first Groups all contracts by their versions. Then in each group, it sub groups them by their provider name. The WikiGenerator, consumes an object of type: __PropertyProvider__. This property provider is an interface which simply returns and array of __Property__ objects. The default property provider is the one that returns the array: {_Version_,_Provider_}. A Property object, also is an implementation of Property interface which simply takes a Contract and returns requested data from this contract. So in Summery:
+The commands: __GenerateWiki__ and __UpdateWiki__, use a WikiGenerator Object to create the Wiki file(s). The WikiGenerator, needs to know how to construct and address for each PACT contract Page. The structure of this address infact determines the hierarchy of contents. By default, WikiGenerator, Uses this structure: [Contract-Version] - [Provider-Name]. By this structure, it  first Groups all contracts by their versions. Then in each group, it sub groups them by their provider name. The WikiGenerator, consumes an object of type: __PropertyProvider__. This property provider is an interface which simply returns and array of __Property__ objects. The default property provider is the one that returns the array: {_Version_,_Provider_}. A Property object, also is an implementation of Property interface which simply takes a Contract and returns requested data from this contract. So in Summery:
 
 |💡|
 |:--------------------------------------------------------------------------------------------------------|
 | __To Change The Structure of the wiki, The__ ___PropertyProvider___ __Interface should be Implemented__.|
-| ```generatewiki/updatewiki --plug-wiki-prop path/to/MyJarLibrary.jar my.implementation.of.PropertyProvider```|
+| ```generatewiki/updatewiki --plug-wiki-prop my.implementation.of.PropertyProvider```|
 
 
 
