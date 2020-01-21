@@ -1,6 +1,8 @@
 About
 ===
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/61fc76a9653f4b61b073e5394ed8ae8a)](https://app.codacy.com/manual/Acidmanic/PactDoc?utm_source=github.com&utm_medium=referral&utm_content=Acidmanic/PactDoc&utm_campaign=Badge_Grade_Dashboard)
+
 ![Html Wiki Preview](Media/demo.gif)
 
 If you're working on a micro service like project, and your using PACT for contract testing, you probably came across the issue of communication between the developers of consumers (clients) and providers (backend). Having a mechanism which is able to create api documentation from the pushed/generated contracts live in the pipeline, can perform a very helpful role.
