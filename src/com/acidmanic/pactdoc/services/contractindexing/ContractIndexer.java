@@ -23,7 +23,10 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing;
 
+import com.acidmanic.lightweight.logger.Logger;
+import com.acidmanic.lightweight.logger.SilentLogger;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
+import com.acidmanic.pactdoc.storage.PactFileStorage;
 import com.acidmanic.pactdoc.utility.StringArrayKeyMaker;
 import com.acidmanic.pactmodels.Contract;
 import java.io.File;
@@ -43,8 +46,9 @@ public class ContractIndexer {
     private final HashMap<String, List<String>> propretyIndexes;
     private final List<Contract> allContracts;
     private final StringArrayKeyMaker keyMaker;
+    private final Logger logger;
 
-    public ContractIndexer(Property... indexingProperties) {
+    public ContractIndexer(Logger logger, Property... indexingProperties) {
 
         this.indexingProperties = indexingProperties;
 
@@ -56,6 +60,11 @@ public class ContractIndexer {
 
         this.keyMaker = new StringArrayKeyMaker();
 
+        this.logger = logger;
+    }
+
+    public ContractIndexer(Property... indexingProperties) {
+        this(new SilentLogger(), indexingProperties);
     }
 
     public void index(String filePath) {
@@ -66,10 +75,14 @@ public class ContractIndexer {
     }
 
     private void index(File file) {
-        try {
-            Contract contract = Contract.load(file.getAbsolutePath());
-            index(contract);
-        } catch (IOException ex) {
+        Contract contract = new PactFileStorage(file, this.logger).load();
+
+        if (contract != null) {
+            try {
+                index(contract);
+            } catch (Exception e) {
+                this.logger.warning("Problem indexing contract: " + e.getClass().getSimpleName());
+            }
         }
     }
 

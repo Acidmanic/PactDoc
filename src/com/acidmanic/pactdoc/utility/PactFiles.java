@@ -23,7 +23,9 @@
  */
 package com.acidmanic.pactdoc.utility;
 
+import com.acidmanic.lightweight.logger.SilentLogger;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactdoc.storage.PactFileStorage;
 import com.acidmanic.pactmodels.Contract;
 import java.io.File;
 import java.io.IOException;
@@ -38,19 +40,24 @@ import java.util.function.Consumer;
  */
 public class PactFiles {
 
-    public static void scanForAllContracts(String rootDirectory
-            ,Consumer<Contract> scanner) {
+    public static void scanForAllContracts(String rootDirectory,
+            Consumer<Contract> scanner) {
         try {
             File root = new File(rootDirectory);
             Files.walkFileTree(root.toPath(), new SimpleFileVisitor() {
+                
                 @Override
                 public void onFile(Path path) {
+
                     String file = path.toAbsolutePath().toString();
+
                     if (file.endsWith(".json")) {
-                        try {
-                            Contract contract = Contract.load(file);
+
+                        Contract contract = new PactFileStorage(path.toFile(), new SilentLogger()).load();
+
+                        if (contract != null) {
+                            
                             scanner.accept(contract);
-                        } catch (Exception e) {
                         }
                     }
                 }
@@ -58,15 +65,14 @@ public class PactFiles {
         } catch (IOException ex) {
         }
     }
-    
-    
-    public static void scanForAllContracts(String rootDirectory
-            ,List<Contract> list){
+
+    public static void scanForAllContracts(String rootDirectory,
+            List<Contract> list) {
         scanForAllContracts(rootDirectory, list::add);
     }
-    
-    public static void scanForAllContracts(String rootDirectory
-            ,ContractIndexer indexer){
+
+    public static void scanForAllContracts(String rootDirectory,
+            ContractIndexer indexer) {
         scanForAllContracts(rootDirectory, indexer::index);
     }
 }
