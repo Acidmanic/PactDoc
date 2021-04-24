@@ -25,6 +25,8 @@ package com.acidmanic.pactdoc.utility;
 
 import java.io.File;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 /**
@@ -32,13 +34,15 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class JGit {
-    
-    
+
     public boolean acceptLocalChanges(File directory, String commitMessage) {
         Git git = tryGetGit(directory);
         if (git != null) {
             try {
-                git.add().addFilepattern(".").call();
+                git.add()
+                        .addFilepattern(".")
+                        .setUpdate(true)
+                        .call();
                 git.commit().setMessage(commitMessage).call();
                 return true;
             } catch (Exception ex) {
@@ -47,10 +51,9 @@ public class JGit {
         return false;
     }
 
-     public boolean acceptLocalChanges(String directory, String commitMessage) {
-         return acceptLocalChanges(new File(directory), commitMessage);
-     }
-    
+    public boolean acceptLocalChanges(String directory, String commitMessage) {
+        return acceptLocalChanges(new File(directory), commitMessage);
+    }
 
     private Git tryGetGit(File directory) {
         try {
@@ -59,70 +62,70 @@ public class JGit {
         }
         return null;
     }
-    
-    private String getDotGitDirectory(String directory){
+
+    private String getDotGitDirectory(String directory) {
         return new File(directory).toPath().resolve(".git")
                 .normalize().toString();
     }
-    
-    
-    private String forwardGit(String directory){
-        return "--work-tree="+directory+ " --git-dir="
-                +getDotGitDirectory(directory);
+
+    private String forwardGit(String directory) {
+        return "--work-tree=" + directory + " --git-dir="
+                + getDotGitDirectory(directory);
     }
-    
-    public boolean clone(String repo, String directory){
+
+    public boolean clone(String repo, String directory) {
         try {
             Git.cloneRepository()
-                .setDirectory(new File(directory))
-                .setURI(repo)
-                .call();
+                    .setDirectory(new File(directory))
+                    .setURI(repo)
+                    .call();
             return true;
-        } catch (Exception e) {        }
-       return false;
-    }
-    
-    public boolean clone(String repo,String username,String password, String directory){
-        try {
-            Git.cloneRepository()
-                .setDirectory(new File(directory))
-                .setURI(repo)
-                .setCredentialsProvider(
-                        new UsernamePasswordCredentialsProvider(username, password)
-                )
-                .call();
-            return true;
-        } catch (Exception e) { 
+        } catch (Exception e) {
         }
-       return false;
+        return false;
     }
-    
- 
-    public boolean push(String remote,String directory){
+
+    public boolean clone(String repo, String username, String password, String directory) {
+        try {
+            Git.cloneRepository()
+                    .setDirectory(new File(directory))
+                    .setURI(repo)
+                    .setCredentialsProvider(
+                            new UsernamePasswordCredentialsProvider(username, password)
+                    )
+                    .call();
+            return true;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public boolean push(String remote, String directory) {
         Git git = tryGetGit(new File(directory));
 
-            try {
-                git.push().setPushAll()
-                    .setRemote(remote)
-                    .call();
-                return true;
-            } catch (Exception e) {            }
-            return false;
-    }
-    
-    
-    public boolean push(String remote,String username,String password, String directory){
-        
-        Git git = tryGetGit(new File(directory));
-        
         try {
             git.push().setPushAll()
-                .setRemote(remote)
-                .setCredentialsProvider(
-                        new UsernamePasswordCredentialsProvider(username, password)
-                ).call();
+                    .setRemote(remote)
+                    .call();
             return true;
-        } catch (Exception e) {        }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public boolean push(String remote, String username, String password, String directory) {
+
+        Git git = tryGetGit(new File(directory));
+
+        try {
+            git.push().setPushAll()
+                    .setRemote(remote)
+                    .setCredentialsProvider(
+                            new UsernamePasswordCredentialsProvider(username, password)
+                    ).call();
+            return true;
+        } catch (Exception e) {
+        }
         return false;
     }
 }
