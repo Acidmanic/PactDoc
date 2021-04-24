@@ -25,8 +25,6 @@ package com.acidmanic.pactdoc.utility;
 
 import java.io.File;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 /**
@@ -42,6 +40,9 @@ public class JGit {
                 git.add()
                         .addFilepattern(".")
                         .setUpdate(true)
+                        .call();
+                git.add()
+                        .addFilepattern(".")
                         .call();
                 git.commit().setMessage(commitMessage).call();
                 return true;
