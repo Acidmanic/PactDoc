@@ -29,7 +29,7 @@ import com.acidmanic.pactdoc.models.Contract;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-class Provider implements Property {
+public class Provider implements Property {
 
     public Provider() {
     }

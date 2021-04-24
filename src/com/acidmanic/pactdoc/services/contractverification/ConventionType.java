@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2019 Mani Moayedi (acidmanic.moayedi@gmail.com).
+ * Copyright 2021 diego.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,12 @@
  */
 package com.acidmanic.pactdoc.services.contractverification;
 
-import com.acidmanic.pactdoc.logging.Log;
-import com.acidmanic.pactdoc.models.Contract;
-import java.util.List;
-
 /**
  *
- * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
+ * @author diego
  */
-public interface ContractVerifier {
-    
-    Log verify(List<Contract> contracts);
-    
-    List<ConventionTitle> conventionTitles();
-    
+public enum ConventionType {
+    Must,
+    Warnable,
+    Info
 }
