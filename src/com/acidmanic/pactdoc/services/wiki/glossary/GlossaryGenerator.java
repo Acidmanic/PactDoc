@@ -30,47 +30,44 @@ import java.util.List;
 
 /**
  *
+ * This class will create a glossary. By exploring and adding all contentKeys
+ * can be created with the given ContractIndexer. Keep in mind that
+ * ContractIndexer is where all contents are indexed.
+ *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class GlossaryGenerator {
-    
-    
-    
+
     private final IndexHelper indexHelper;
-    
+
     public GlossaryGenerator(ContractIndexer indexer) {
         this.indexHelper = new IndexHelper(indexer);
     }
-    
-    public Glossary generate(){
+
+    public Glossary generate() {
         Glossary glossary = new Glossary();
-        
+
         addLink(glossary, new String[]{});
-        
+
         return glossary;
     }
-    
-    
-    private void addLink(Glossary glossary
-            ,String[] contentKey){
-        
-        
-        
-         if(!glossary.contains(contentKey)){
-                glossary.add(contentKey);
-            }
-        
-        if(!indexHelper.isLeaf(contentKey)){
-           List<String> childs = indexHelper.getChilds(contentKey);
-        
-            for(String child:childs){
-                addLink(glossary
-                        ,  append(contentKey, child));
+
+    private void addLink(Glossary glossary,
+            String[] contentKey) {
+
+        if (!glossary.contains(contentKey)) {
+            glossary.add(contentKey);
+        }
+
+        if (!indexHelper.isLeaf(contentKey)) {
+            List<String> childs = indexHelper.getChilds(contentKey);
+
+            for (String child : childs) {
+                addLink(glossary,
+                        append(contentKey, child));
             }
         }
-        
-        
-        
+
     }
-    
+
 }

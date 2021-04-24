@@ -23,10 +23,10 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.models.Interaction;
-import com.acidmanic.pactdoc.models.Request;
-import com.acidmanic.pactdoc.models.Response;
 import com.acidmanic.pactdoc.utility.jsonparsing.HtmlWrapperJsonParserMachine;
+import com.acidmanic.pactmodels.Interaction;
+import com.acidmanic.pactmodels.Request;
+import com.acidmanic.pactmodels.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,9 +35,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class HttpJson {
-    
-    private static class Simple{
-        
+
+    private static class Simple {
+
         private int type;
         private int id;
         private String token;
@@ -74,10 +74,9 @@ public class HttpJson {
 
         public Simple() {
         }
-        
-        
+
     }
-    
+
     public static void main(String[] args) throws JsonProcessingException {
         Interaction interaction = new Interaction();
         interaction.setDescription("testy interaction");
@@ -89,20 +88,20 @@ public class HttpJson {
         response.setStatus(200);
         interaction.setRequest(request);
         interaction.setResponse(response);
-        
+
         Simple sim = new Simple(0, 0, "0okm34erfdyu89jkbwterfd");
-        
+
         String json = new ObjectMapper().writeValueAsString(sim);
-        
+
         System.out.println(json);
-        
+
         HtmlWrapperJsonParserMachine machine = new HtmlWrapperJsonParserMachine();
-        
+
         String represented = machine.parse(json);
-        
+
         System.out.println("----------------------------------------");
-        
+
         System.out.println(represented);
-        
+
     }
 }

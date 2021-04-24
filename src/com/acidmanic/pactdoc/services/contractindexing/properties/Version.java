@@ -23,7 +23,7 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing.properties;
 
-import com.acidmanic.pactdoc.models.Contract;
+import com.acidmanic.pactmodels.Contract;
 
 /**
  *

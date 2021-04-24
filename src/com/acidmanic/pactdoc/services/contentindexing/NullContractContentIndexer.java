@@ -23,8 +23,7 @@
  */
 package com.acidmanic.pactdoc.services.contentindexing;
 
-import com.acidmanic.pactdoc.services.contentindexing.ContractContentIndexer;
-import com.acidmanic.pactdoc.models.ConventionedContract;
+import com.acidmanic.pactmodels.ConventionedContract;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -24,8 +24,8 @@
 package com.acidmanic.pactdoc.services.contractverification;
 
 import com.acidmanic.pactdoc.logging.Log;
-import com.acidmanic.pactdoc.models.Contract;
-import com.acidmanic.pactdoc.models.Interaction;
+import com.acidmanic.pactmodels.Contract;
+import com.acidmanic.pactmodels.Interaction;
 import java.util.ArrayList;
 import java.util.List;
 

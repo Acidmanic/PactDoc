@@ -23,8 +23,8 @@
  */
 package com.acidmanic.pactdoc.utility;
 
-import com.acidmanic.pactdoc.models.Contract;
 import com.acidmanic.pactdoc.services.contractindexing.ContractIndexer;
+import com.acidmanic.pactmodels.Contract;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
