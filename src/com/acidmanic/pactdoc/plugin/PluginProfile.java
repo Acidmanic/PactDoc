@@ -95,14 +95,20 @@ public class PluginProfile {
         List<String> classNames = loadClassNames(jar);
 
         ClassLoader sysClassloader = ClassLoader.getSystemClassLoader();
+        
+        ClassLoader appl = new Object() {}.getClass().getClassLoader();
 
         try {
             URLClassLoader loader = new URLClassLoader(
-                    new URL[]{this.pluginsDirectory.toURI().toURL()}, sysClassloader);
+                    new URL[]{this.pluginsDirectory.toURI().toURL()}, appl);
 
+            
+            
             for (String className : classNames) {
                 try {
-                    Class c = Class.forName(className, true, loader);
+//                    Class c = Class.forName(className, true, loader);
+                    
+                    Class c = loader.loadClass(className);
 
                     allPluggedClasses.add(c);
                 } catch (Exception e) {
