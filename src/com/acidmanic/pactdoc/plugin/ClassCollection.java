@@ -23,7 +23,6 @@
  */
 package com.acidmanic.pactdoc.plugin;
 
-import com.acidmanic.pactdoc.utility.Func;
 import com.acidmanic.pactdoc.utility.Func1;
 import java.util.ArrayList;
 import java.util.HashMap;
