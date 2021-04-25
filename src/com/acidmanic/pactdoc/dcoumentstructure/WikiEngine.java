@@ -27,7 +27,7 @@ import com.acidmanic.document.render.RenderEngine;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.pagestores.FilesystemPageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
-import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.MarkdownContext;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.HtmlContext;
 import java.io.File;
 import java.nio.file.Paths;
 
@@ -41,11 +41,11 @@ public class WikiEngine {
     private PageStore<String> pageStore;
 
     public WikiEngine() {
-        this.pageContextProvider = () -> new MarkdownContext();
+        this.pageContextProvider = () -> new HtmlContext();
 
         this.pageStore = new FilesystemPageStore(
-                ".md", new File(".").toPath().resolve("wiki").toAbsolutePath().normalize(),
-                true, "-", false, false, "Index", Paths.get("api"));
+                ".html", new File(".").toPath().resolve("wiki").toAbsolutePath().normalize(),
+                false, "-", true, true, "index", Paths.get("api"));
     }
 
     public void generate(Pact pact) {

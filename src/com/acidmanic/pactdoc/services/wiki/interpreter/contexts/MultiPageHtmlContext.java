@@ -35,7 +35,7 @@ import java.util.HashMap;
  */
 public class MultiPageHtmlContext extends HierarchicalWikiContext{
 
-    private StringBuilder sb;
+    private StringBuilder contentBuilder;
     
     private final String ENDTAG = "</div></body></html>";
 
@@ -51,104 +51,104 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
                 output,indexer,apiBase,
                 singleDirectory,singleDirectoryDelimiter);
         
-        this.sb = new StringBuilder();
+        this.contentBuilder = new StringBuilder();
     }
     
     @Override
     protected void initializeContextForNewPage(){
-        sb= new StringBuilder();
+        contentBuilder= new StringBuilder();
         
-        sb.append("<html>").append("<head>")
+        contentBuilder.append("<html>").append("<head>")
                 .append("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css\" integrity=\"sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS\" crossorigin=\"anonymous\">\n" +
 "<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js\" integrity=\"sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k\" crossorigin=\"anonymous\"></script>")
                 .append("<style>")
                 .append("table{margin:10px}")
                 .append("</style>")
                 .append("</head><body>");
-        sb.append("<nav class=\"navbar navbar-default\"> </div>")
+        contentBuilder.append("<nav class=\"navbar navbar-default\"> </div>")
                 .append("<div class=\"container-fluid\">")
                 .append("<div class=\"navbar-header\">")
                 .append("</div></div></nav>");
         
-        sb.append("<div class=\"container\">");
+        contentBuilder.append("<div class=\"container\">");
     }
     
     @Override
     public WikiContext title(String text) {
-        sb.append("<h1>").append(text).append("</h1>");
+        contentBuilder.append("<h1>").append(text).append("</h1>");
         return this;
     }
     
     @Override
     public WikiContext subTitle(String text) {
-        sb.append("<h3>").append(text).append("</h3>");
+        contentBuilder.append("<h3>").append(text).append("</h3>");
         return this;
     }
 
     @Override
     public WikiContext paragraph(String text) {
-        sb.append("<div>").append(text).append("</div>");
+        contentBuilder.append("<div>").append(text).append("</div>");
         return this;
     }
 
     @Override
     public WikiContext table(HashMap<String, String> table) {
-        sb.append("<table class=\"table table-bordered col-lg-4\">");
+        contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
         
         for(String key:table.keySet()){
-            appendRow(sb,key,table.get(key));
+            appendRow(contentBuilder,key,table.get(key));
         }
-        sb.append("</table></row>");
+        contentBuilder.append("</table></row>");
         return this;
     }
 
     @Override
     public WikiContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        sb.append("<table class=\"table table-bordered col-lg-4\">");
-        sb.append("<thead class=\"thead-light\">");
-        appendTags(sb, "th", new String[]{leftHeader,rightHeader});
-        sb.append("</thead><tbody>");
+        contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
+        contentBuilder.append("<thead class=\"thead-light\">");
+        appendTags(contentBuilder, "th", new String[]{leftHeader,rightHeader});
+        contentBuilder.append("</thead><tbody>");
         for(String key:table.keySet()){
-            appendRow(sb,key,table.get(key));
+            appendRow(contentBuilder,key,table.get(key));
         }
-        sb.append("</tbody></table>");
+        contentBuilder.append("</tbody></table>");
         return this;
     }
 
     @Override
     public WikiContext openBold() {
-        sb.append("<b>");
+        contentBuilder.append("<b>");
         return this;
     }
 
     @Override
     public WikiContext closeBold() {
-        sb.append("</b>");
+        contentBuilder.append("</b>");
         return this;
     }
 
     @Override
     public WikiContext openItalic() {
-         sb.append("<i>");
+         contentBuilder.append("<i>");
         return this;
     }
 
     @Override
     public WikiContext closeItalic() {
-         sb.append("</i>");
+         contentBuilder.append("</i>");
         return this;
     }
 
     @Override
     public WikiContext append(String text) {
-        sb.append(htmlEncode(text));
+        contentBuilder.append(htmlEncode(text));
         return this;
     }
 
     
     @Override
     public WikiContext newLine() {
-        sb.append("<br>");
+        contentBuilder.append("<br>");
         return this;
     }
 
@@ -167,7 +167,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
   
         json = new TextReformater().pritifyJson(json, true);
         
-        sb.append("<pre>").append(json).append("</pre>");
+        contentBuilder.append("<pre>").append(json).append("</pre>");
         
         return this;
     }
@@ -176,7 +176,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     private boolean endsWith(String value){
         
         int count = value.length();
-        int charsAtSb = sb.length();
+        int charsAtSb = contentBuilder.length();
         
         if(count>charsAtSb){
             return false;
@@ -185,7 +185,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
         int firstChar = charsAtSb-count;
         
         for(int i=0;i<count;i++){
-            if(value.charAt(i)!=sb.charAt(i+firstChar)){
+            if(value.charAt(i)!=contentBuilder.charAt(i+firstChar)){
                 return false;
             }
         }
@@ -226,20 +226,20 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
     @Override
     public WikiContext openLink(String[] contentKey) {
         String src=getInternalLinkFor(contentKey);
-        sb.append("<a href=\"").append(src)
+        contentBuilder.append("<a href=\"").append(src)
                 .append("\" >");
         return this;
     }
 
     @Override
     public WikiContext closeLink() {
-        sb.append("</a>");
+        contentBuilder.append("</a>");
         return this;
     }
 
     @Override
     public WikiContext horizontalLine() {
-        sb.append("<hr>");
+        contentBuilder.append("<hr>");
         return this;
     }
     
@@ -248,10 +248,10 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
         
             if(!endsWith(ENDTAG)){
             
-                sb.append(ENDTAG);
+                contentBuilder.append(ENDTAG);
             }
             
-            String content = sb.toString();
+            String content = contentBuilder.toString();
             
             String path = getPageWriteLinkFor(currentPageKey);
             
@@ -262,7 +262,7 @@ public class MultiPageHtmlContext extends HierarchicalWikiContext{
 
     @Override
     public WikiContext badge(String text) {
-        sb.append("<kbd><kbd>").append(text)
+        contentBuilder.append("<kbd><kbd>").append(text)
                 .append("</kbd></kbd>");
         return this;
     }
