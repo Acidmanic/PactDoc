@@ -28,6 +28,7 @@ import com.acidmanic.io.file.FileIOHelper;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -64,59 +65,63 @@ public class FilesystemPageStore implements PageStore<String> {
         this.rootFilename = rootFilename;
     }
 
-    private File getFileFor(Key key) {
+    private Path getRootlessExtensionlessPathFor(Key key) {
 
         key = fileSystemFriendly(key);
 
         if (this.flatOrder) {
+
             String fileName = key.jointSegments(this.flatOrderSegmentDelimiter);
 
-            fileName += fileExtension;
+            return Paths.get(fileName);
 
-            return pagesDirectory.resolve(fileName).toFile();
         } else {
             String fileName;
             // if pointing to root
             if (key.segmentsCount() == 0) {
+
                 fileName = this.rootFilename + this.fileExtension;
+
+                return Paths.get(fileName);
+
             } else {
                 int directories = key.segmentsCount() - 1;
 
-                Path path = pagesDirectory;
+                Path path = Paths.get(key.segment(0));
 
-                for (int i = 0; i < directories; i++) {
+                for (int i = 1; i < directories; i++) {
 
                     String segmentName = key.segment(i);
 
                     path = path.resolve(segmentName);
                 }
 
-                fileName = key.segment(directories) + this.fileExtension;
-            }
+                fileName = key.segment(directories);
 
-            return pagesDirectory.resolve(fileName).toFile();
+                path = path.resolve(fileName);
+
+                return path;
+            }
         }
     }
 
-    @Override
-    public void save(Key key, String pageContent) {
+    private File rebaseOnFileSystem(Path path) {
 
-        File pageFile = getFileFor(key);
+        path = this.pagesDirectory.resolve(path);
 
-        File parentDirectory = pageFile.toPath().toAbsolutePath().normalize()
-                .getParent().toFile();
+        path = path.toAbsolutePath().normalize();
 
-        parentDirectory.mkdirs();
+        String filename = path.getFileName().toString() + this.fileExtension;
 
-        new FileIOHelper().tryWriteAll(pageFile, pageContent);
+        Path directory = path.getParent();
+
+        path = directory.resolve(filename);
+
+        return path.toFile();
+
     }
 
-    private String linkExtention() {
-        return this.extensionsAppearInLinks ? this.fileExtension : "";
-    }
-
-    @Override
-    public String translate(Key referrer, Key target) {
+    private Key getLinkRelativeKey(Key referrer, Key target) {
 
         Key key;
 
@@ -143,9 +148,36 @@ public class FilesystemPageStore implements PageStore<String> {
 
             key = target;
         }
-        key = fileSystemFriendly(key);
+        return key;
+    }
 
-        return key.jointSegments("/") + linkExtention();
+    @Override
+    public void save(Key key, String pageContent) {
+
+        Path path = getRootlessExtensionlessPathFor(key);
+
+        File pageFile = rebaseOnFileSystem(path);
+
+        File parentDirectory = pageFile.toPath().toAbsolutePath().normalize()
+                .getParent().toFile();
+
+        parentDirectory.mkdirs();
+
+        new FileIOHelper().tryWriteAll(pageFile, pageContent);
+    }
+
+    private String linkExtention() {
+        return this.extensionsAppearInLinks ? this.fileExtension : "";
+    }
+
+    @Override
+    public String translate(Key referrer, Key target) {
+
+        Key key = getLinkRelativeKey(referrer, target);
+
+        Path path = getRootlessExtensionlessPathFor(key);
+
+        return path.toString() + linkExtention();
     }
 
     private Key fileSystemFriendly(Key key) {
@@ -166,8 +198,57 @@ public class FilesystemPageStore implements PageStore<String> {
     private String fileSystemFriendly(String segment) {
         String[] findsRegEx = {"<", ">", ":", "\"", "/", "\\\\", "\\|", "\\?", "\\*"};
         String[] replaces = {"-", "-", ";", "'", "_", "_", ",", "!", "."};
+
+        segment = trimIllegals(segment, findsRegEx);
+
         for (int i = 0; i < findsRegEx.length; i++) {
             segment = segment.replaceAll(findsRegEx[i], replaces[i]);
+        }
+        return segment;
+    }
+
+    private String trimIllegals(String segment, String[] findsRegEx) {
+
+        String illegalRegex = "(";
+        String sep = "";
+        for (String ill : findsRegEx) {
+            illegalRegex += sep + ill;
+            sep = "|";
+        }
+        illegalRegex += ")";
+
+        if (segment.length() == 0) {
+
+            return segment;
+        }
+        String checkEdge = segment.substring(0, 1);
+
+        while (checkEdge.matches(illegalRegex)) {
+            segment = segment.substring(1, segment.length());
+
+            if (segment.length() > 0) {
+                checkEdge = segment.substring(0, 1);
+
+            } else {
+                checkEdge = "";
+            }
+        }
+        if (segment.length() == 0) {
+
+            return segment;
+        }
+        checkEdge = segment.substring(segment.length() - 1, segment.length());
+
+        while (checkEdge.matches(illegalRegex)) {
+
+            segment = segment.substring(0, segment.length() - 1);
+
+            if (segment.length() > 0) {
+
+                checkEdge = segment.substring(segment.length() - 1, segment.length());
+            } else {
+                checkEdge = "";
+            }
         }
         return segment;
     }
