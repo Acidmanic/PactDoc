@@ -21,40 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.storage;
+package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.lightweight.jsonstorage.JsonStorageBase;
-import com.acidmanic.lightweight.logger.Logger;
-import com.acidmanic.pactmodels.Contract;
-import java.io.File;
+import com.acidmanic.document.structure.Key;
+import com.acidmanic.pact.models.Pact;
+import java.util.List;
 
 /**
  *
  * @author diego
+ * @param <T> The type of object which the page would be representing
  */
-public class PactFileStorage extends JsonStorageBase<Contract> {
+public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
 
-    public PactFileStorage(File pactFile, Logger logger) {
-        super(pactFile, Contract.class, logger);
+    public MenuPageRendererBase(String pageSubtitle) {
+        super(pageSubtitle);
     }
 
     @Override
-    public Contract load() {
-        Contract contract = super.load();
+    protected void renderContent(Key key, T node, Pact root, List<Key> childs, PageContext pageContext) {
 
-        if (contract == null
-                || contract.getConsumer() == null
-                || contract.getInteractions() == null
-                || contract.getMetadata() == null
-                || contract.getProvider() == null) {
-            return null;
+        pageContext.newLine().newLine();
+
+        for (Key child : childs) {
+
+            String childName = child.leafValue();
+
+            String childReference = getPageStore().translate(key, child);
+
+            pageContext.openBold().openItalic()
+                    .openLink(childReference)
+                    .append(childName)
+                    .closeItalic().closeBold()
+                    .closeLink()
+                    .newLine();
+
         }
-        return contract;
-    }
-
-    @Override
-    public boolean save(Contract model) {
-        return super.save(model);
     }
 
 }

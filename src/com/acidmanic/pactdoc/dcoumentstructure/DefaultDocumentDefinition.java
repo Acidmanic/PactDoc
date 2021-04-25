@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2019 Mani Moayedi (acidmanic.moayedi@gmail.com).
+ * Copyright 2021 diego.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,27 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.services.contractindexing.properties;
+package com.acidmanic.pactdoc.dcoumentstructure;
 
-import com.acidmanic.pactmodels.Contract;
+import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointPropertyMapper;
+import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ProviderPropertyMapper;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.ContractPageRenderer;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.EndpointPageRenderer;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.PactPageRenderer;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
 
 /**
  *
- * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
+ * @author diego
  */
-public class Provider implements Property {
+public class DefaultDocumentDefinition extends DocumentDefinitionBase {
 
-    public Provider() {
+    public DefaultDocumentDefinition(PageContextProvider pageContextProvider,
+            PageStore<String> pageStore) {
+        super(pageContextProvider, pageStore);
+
+        addLevel(new ProviderPropertyMapper(), new PactPageRenderer());
+
+        addLevel(new EndpointPropertyMapper(), new ContractPageRenderer());
+
+        addLeaf(new EndpointPageRenderer());
     }
 
-    @Override
-    public String name() {
-        return "Provider";
-    }
-
-    @Override
-    public String value(Contract contract) {
-        return contract.getProvider().getName();
-    }
-    
 }

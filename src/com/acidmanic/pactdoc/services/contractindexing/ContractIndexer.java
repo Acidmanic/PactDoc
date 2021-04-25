@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing;
 
+import com.acidmanic.lightweight.logger.ConsoleLogger;
 import com.acidmanic.lightweight.logger.Logger;
 import com.acidmanic.lightweight.logger.SilentLogger;
 import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
@@ -64,7 +65,7 @@ public class ContractIndexer {
     }
 
     public ContractIndexer(Property... indexingProperties) {
-        this(new SilentLogger(), indexingProperties);
+        this(new ConsoleLogger(), indexingProperties);
     }
 
     public void index(String filePath) {

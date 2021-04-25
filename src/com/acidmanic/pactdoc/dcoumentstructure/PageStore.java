@@ -21,40 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.storage;
+package com.acidmanic.pactdoc.dcoumentstructure;
 
-import com.acidmanic.lightweight.jsonstorage.JsonStorageBase;
-import com.acidmanic.lightweight.logger.Logger;
-import com.acidmanic.pactmodels.Contract;
-import java.io.File;
+import com.acidmanic.document.structure.Key;
 
 /**
  *
  * @author diego
+ * @param <T> Type of page-data. for example it would be string for html and
+ * markdown
  */
-public class PactFileStorage extends JsonStorageBase<Contract> {
+public interface PageStore<T> {
 
-    public PactFileStorage(File pactFile, Logger logger) {
-        super(pactFile, Contract.class, logger);
-    }
+    void save(Key key, T pageContent);
 
-    @Override
-    public Contract load() {
-        Contract contract = super.load();
-
-        if (contract == null
-                || contract.getConsumer() == null
-                || contract.getInteractions() == null
-                || contract.getMetadata() == null
-                || contract.getProvider() == null) {
-            return null;
-        }
-        return contract;
-    }
-
-    @Override
-    public boolean save(Contract model) {
-        return super.save(model);
-    }
-
+    String translate(Key referrer,Key target);
 }

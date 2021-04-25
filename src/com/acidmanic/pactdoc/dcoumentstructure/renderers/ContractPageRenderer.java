@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2019 Mani Moayedi (acidmanic.moayedi@gmail.com).
+ * Copyright 2021 diego.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.services.contractindexing.properties;
+package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.pactmodels.Contract;
 
 /**
  *
- * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
+ * @author diego
  */
-public class Version implements Property {
+public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
 
-    @Override
-    public String name() {
-        return "Version";
+    public ContractPageRenderer() {
+        super("End points");
     }
 
-    @Override
-    public String value(Contract contract) {
-        return contract.getMetadata().getPactSpecification().getVersion();
-    }
-    
 }

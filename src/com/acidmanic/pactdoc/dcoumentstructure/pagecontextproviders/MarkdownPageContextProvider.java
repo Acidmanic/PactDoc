@@ -21,40 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.storage;
+package com.acidmanic.pactdoc.dcoumentstructure.pagecontextproviders;
 
-import com.acidmanic.lightweight.jsonstorage.JsonStorageBase;
-import com.acidmanic.lightweight.logger.Logger;
-import com.acidmanic.pactmodels.Contract;
-import java.io.File;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.MarkdownContext;
 
 /**
  *
  * @author diego
  */
-public class PactFileStorage extends JsonStorageBase<Contract> {
-
-    public PactFileStorage(File pactFile, Logger logger) {
-        super(pactFile, Contract.class, logger);
-    }
+public class MarkdownPageContextProvider implements PageContextProvider{
 
     @Override
-    public Contract load() {
-        Contract contract = super.load();
-
-        if (contract == null
-                || contract.getConsumer() == null
-                || contract.getInteractions() == null
-                || contract.getMetadata() == null
-                || contract.getProvider() == null) {
-            return null;
-        }
-        return contract;
+    public PageContext createPageContext() {
+        return new MarkdownContext();
     }
-
-    @Override
-    public boolean save(Contract model) {
-        return super.save(model);
-    }
-
+    
 }

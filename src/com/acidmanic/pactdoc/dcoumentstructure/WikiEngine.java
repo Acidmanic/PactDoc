@@ -21,40 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.storage;
+package com.acidmanic.pactdoc.dcoumentstructure;
 
-import com.acidmanic.lightweight.jsonstorage.JsonStorageBase;
-import com.acidmanic.lightweight.logger.Logger;
-import com.acidmanic.pactmodels.Contract;
+import com.acidmanic.document.render.RenderEngine;
+import com.acidmanic.pact.models.Pact;
+import com.acidmanic.pactdoc.dcoumentstructure.pagestores.FilesystemPageStore;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.MarkdownContext;
 import java.io.File;
 
 /**
  *
  * @author diego
  */
-public class PactFileStorage extends JsonStorageBase<Contract> {
+public class WikiEngine {
 
-    public PactFileStorage(File pactFile, Logger logger) {
-        super(pactFile, Contract.class, logger);
+    private PageContextProvider pageContextProvider;
+    private PageStore<String> pageStore;
+
+    public WikiEngine() {
+        this.pageContextProvider = () -> new MarkdownContext();
+
+        this.pageStore = new FilesystemPageStore(
+                ".md", new File(".").toPath().resolve("wiki").toAbsolutePath().normalize(),
+                false, "-", true, false, "Index");
     }
 
-    @Override
-    public Contract load() {
-        Contract contract = super.load();
+    public void generate(Pact pact) {
 
-        if (contract == null
-                || contract.getConsumer() == null
-                || contract.getInteractions() == null
-                || contract.getMetadata() == null
-                || contract.getProvider() == null) {
-            return null;
-        }
-        return contract;
+        RenderEngine renderEngine = new RenderEngine();
+
+        DocumentDefinitionBase definition = new DefaultDocumentDefinition(pageContextProvider, pageStore);
+
+        renderEngine.render(definition, pact);
     }
-
-    @Override
-    public boolean save(Contract model) {
-        return super.save(model);
-    }
-
 }

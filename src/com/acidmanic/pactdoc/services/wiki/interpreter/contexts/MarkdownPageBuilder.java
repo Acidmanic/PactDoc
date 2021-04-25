@@ -30,47 +30,47 @@ import java.util.HashMap;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class MarkdownPageBuilder{
-    
+public class MarkdownPageBuilder {
+
     private final StringBuilder mainContent;
-    
+
     private StringBuilder currentContent;
 
     private StringBuilder linkContent;
-    
+
     private String linkSrc;
-    
+
     public MarkdownPageBuilder() {
-    
-        this.mainContent  = new StringBuilder();
-        
+
+        this.mainContent = new StringBuilder();
+
         this.currentContent = this.mainContent;
     }
 
     public MarkdownPageBuilder title(String text) {
-        
+
         currentContent.append(text).append("\n")
                 .append("====").append("\n");
-        
+
         return this;
     }
-    
+
     public MarkdownPageBuilder subTitle(String text) {
         currentContent.append(text).append("\n")
                 .append("----").append("\n");
-        
+
         return this;
     }
 
     public MarkdownPageBuilder paragraph(String text) {
-        
+
         currentContent.append("\n").append(text).append("\n");
-        
+
         return this;
     }
-        
+
     public MarkdownPageBuilder table(HashMap<String, String> table) {
-        for(String key:table.keySet()){
+        for (String key : table.keySet()) {
             String value = table.get(key);
             currentContent.append("|")
                     .append(key)
@@ -128,23 +128,38 @@ public class MarkdownPageBuilder{
         return this;
     }
 
+    public MarkdownPageBuilder openCode() {
+        currentContent.append("```");
+        return this;
+    }
+
+    public MarkdownPageBuilder openCode(String language) {
+        currentContent.append("```" + language);
+        return this;
+    }
+
+    public MarkdownPageBuilder closeCode() {
+        currentContent.append("```");
+        return this;
+    }
+
     public MarkdownPageBuilder openLink(String src) {
         this.linkContent = new StringBuilder();
         this.currentContent = this.linkContent;
-        this.linkSrc=src;
+        this.linkSrc = src;
         return this;
     }
 
     public MarkdownPageBuilder closeLink() {
-        
+
         this.currentContent = this.mainContent;
-        
+
         this.currentContent.append("[")
                 .append(this.linkContent)
                 .append("](")
                 .append(linkSrc)
                 .append(")");
-        
+
         return this;
     }
 

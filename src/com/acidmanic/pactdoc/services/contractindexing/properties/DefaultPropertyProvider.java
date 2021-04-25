@@ -23,11 +23,6 @@
  */
 package com.acidmanic.pactdoc.services.contractindexing.properties;
 
-import com.acidmanic.pactdoc.services.contractindexing.properties.PropertyProvider;
-import com.acidmanic.pactdoc.services.contractindexing.properties.Property;
-import com.acidmanic.pactdoc.services.contractindexing.properties.Provider;
-import com.acidmanic.pactdoc.services.contractindexing.properties.Version;
-
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -37,7 +32,7 @@ public class DefaultPropertyProvider implements PropertyProvider{
     @Override
     public Property[] makeProperties() {
         return new Property[]{
-            new Version(),new Provider()
+            new Service(),new Function()
         };
     }
     

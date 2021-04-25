@@ -21,40 +21,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.storage;
+package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.lightweight.jsonstorage.JsonStorageBase;
-import com.acidmanic.lightweight.logger.Logger;
-import com.acidmanic.pactmodels.Contract;
-import java.io.File;
+import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
+import java.util.HashMap;
 
 /**
  *
+ * 
  * @author diego
+ * @param <Toutput> type of representing output data
  */
-public class PactFileStorage extends JsonStorageBase<Contract> {
+public interface PageContext<Toutput> {
 
-    public PactFileStorage(File pactFile, Logger logger) {
-        super(pactFile, Contract.class, logger);
-    }
+    PageContext title(String text);
 
-    @Override
-    public Contract load() {
-        Contract contract = super.load();
+    PageContext subTitle(String text);
 
-        if (contract == null
-                || contract.getConsumer() == null
-                || contract.getInteractions() == null
-                || contract.getMetadata() == null
-                || contract.getProvider() == null) {
-            return null;
-        }
-        return contract;
-    }
+    PageContext paragraph(String text);
 
-    @Override
-    public boolean save(Contract model) {
-        return super.save(model);
-    }
+    PageContext table(HashMap<String, String> table);
+
+    PageContext table(String leftHeader, String rightHeader,
+            HashMap<String, String> table);
+
+    PageContext openBold();
+
+    PageContext closeBold();
+
+    PageContext openItalic();
+
+    PageContext closeItalic();
+
+    PageContext append(String text);
+
+    PageContext newLine();
+
+    PageContext openLink(String reference);
+
+    PageContext closeLink();
+
+    PageContext json(String json);
+
+    Toutput output();
+
+    PageContext horizontalLine();
+
+    PageContext badge(String text);
 
 }
