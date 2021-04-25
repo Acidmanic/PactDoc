@@ -61,7 +61,7 @@ public class NavigationExpression implements PageExpression {
             context.openLink(reference)
                     .append(text)
                     .closeLink()
-                    .append(" - ");
+                    .append(" | ");
         }
 
         if (currentKey.segmentsCount() > 0) {

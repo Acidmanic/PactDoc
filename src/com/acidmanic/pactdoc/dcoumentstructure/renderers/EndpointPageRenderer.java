@@ -67,9 +67,9 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                     .newLine()
                     .append(interaction.getDescription())
                     .newLine()
-                    .append("When")
+                    .append("When ")
                     .append(interaction.getProviderState())
-                    .append("an http ").badge(method).append(" request to '")
+                    .append(" an http ").badge(method).append(" request to '")
                     .append(pathString).append("' ");
 
             if (!request.getHeaders().isEmpty()) {

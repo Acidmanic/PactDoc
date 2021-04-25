@@ -49,11 +49,14 @@ public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
 
             String childReference = getPageStore().translate(key, child);
 
-            pageContext.openBold().openItalic()
+            pageContext
+                    .openBold()
+                    .openItalic()
                     .openLink(childReference)
                     .append(childName)
-                    .closeItalic().closeBold()
                     .closeLink()
+                    .closeItalic()
+                    .closeBold()
                     .newLine();
 
         }
