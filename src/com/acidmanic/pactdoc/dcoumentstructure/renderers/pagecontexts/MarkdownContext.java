@@ -40,16 +40,33 @@ public class MarkdownContext implements PageContext<String> {
     }
 
     @Override
-    public PageContext title(String text) {
+    public PageContext openTitle() {
 
-        this.markdownPageBuilder.title(text);
+        this.markdownPageBuilder.openTitle();
 
         return this;
     }
 
     @Override
-    public PageContext subTitle(String text) {
-        this.markdownPageBuilder.subTitle(text);
+    public PageContext closeTitle() {
+
+        this.markdownPageBuilder.closeTitle();
+
+        return this;
+    }
+
+    @Override
+    public PageContext openSubtitle() {
+
+        this.markdownPageBuilder.openSubtitle();
+
+        return this;
+    }
+
+    @Override
+    public PageContext closeSubtitle() {
+
+        this.markdownPageBuilder.closeSubtitle();
 
         return this;
     }

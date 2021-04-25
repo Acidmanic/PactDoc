@@ -31,11 +31,11 @@ import java.util.HashMap;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class MarkdownContext extends HierarchicalWikiContext{
+public class MarkdownContext extends HierarchicalWikiContext {
 
     private MarkdownPageBuilder pageBuilder;
 
-    public MarkdownContext(boolean referrerRelativeLinking, 
+    public MarkdownContext(boolean referrerRelativeLinking,
             boolean linkWithExtensions,
             String output,
             ContractIndexer indexer,
@@ -43,18 +43,18 @@ public class MarkdownContext extends HierarchicalWikiContext{
             boolean singleDirectory,
             String singleDirectoryDelimiter) {
         super(referrerRelativeLinking, linkWithExtensions, "md",
-                output,indexer,apiBase,singleDirectory,
+                output, indexer, apiBase, singleDirectory,
                 singleDirectoryDelimiter);
     }
-    
+
     @Override
     protected void deliverThisPage(String[] currentPageContentKey) {
         String content = pageBuilder.output();
-        
+
         String path = getPageWriteLinkFor(currentPageContentKey);
-                
+
         IOHelper.ensureParents(path);
-        
+
         IOHelper.writeAllText(path, content);
     }
 
@@ -65,39 +65,41 @@ public class MarkdownContext extends HierarchicalWikiContext{
 
     @Override
     public WikiContext title(String text) {
-       
-       this.pageBuilder.title(text);
-       
-       return this;
+
+        this.pageBuilder.openTitle().append(text).closeTitle();
+
+        return this;
     }
 
     @Override
     public WikiContext subTitle(String text) {
-        this.pageBuilder.subTitle(text);
-        
+        this.pageBuilder.openSubtitle()
+                .append(text)
+                .closeSubtitle();
+
         return this;
     }
 
     @Override
     public WikiContext paragraph(String text) {
-        
+
         this.pageBuilder.paragraph(text);
-        
+
         return this;
     }
 
     @Override
     public WikiContext table(HashMap<String, String> table) {
-        
+
         this.pageBuilder.table(table);
-        
+
         return this;
     }
 
     @Override
     public WikiContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        this.pageBuilder.table(leftHeader,rightHeader, table);
-        
+        this.pageBuilder.table(leftHeader, rightHeader, table);
+
         return this;
     }
 
@@ -167,5 +169,5 @@ public class MarkdownContext extends HierarchicalWikiContext{
                 .append(text).closeBold();
         return this;
     }
-    
+
 }

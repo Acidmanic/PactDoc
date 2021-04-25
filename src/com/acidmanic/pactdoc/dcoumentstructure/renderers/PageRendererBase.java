@@ -44,13 +44,19 @@ public abstract class PageRendererBase<T> extends RendererBase {
     @Override
     protected void performRender(Key key, Object node, Pact root, List<Key> childs, PageContext pageContext) {
 
-        pageContext.title("Api Documentation").horizontalLine();
+        pageContext.openTitle()
+                .append("Api Documentation")
+                .closeTitle()
+                .horizontalLine();
 
-        new NavigationExpression(key, k -> getPageStore().translate(key,k))
+        new NavigationExpression(key, k -> getPageStore().translate(key, k))
                 .render(pageContext)
                 .horizontalLine()
                 .newLine()
-                .subTitle(this.pageSubtitle).newLine().newLine();
+                .openSubtitle()
+                .append(this.pageSubtitle)
+                .closeSubtitle()
+                .newLine().newLine();
 
         renderContent(key, (T) node, root, childs, pageContext);
 

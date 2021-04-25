@@ -47,16 +47,30 @@ public class MarkdownPageBuilder {
         this.currentContent = this.mainContent;
     }
 
-    public MarkdownPageBuilder title(String text) {
+    public MarkdownPageBuilder closeTitle() {
 
-        currentContent.append(text).append("\n")
+        currentContent.append("\n")
                 .append("====").append("\n");
 
         return this;
     }
 
-    public MarkdownPageBuilder subTitle(String text) {
-        currentContent.append(text).append("\n")
+    public MarkdownPageBuilder openTitle() {
+
+        currentContent.append("\n");
+
+        return this;
+    }
+
+    public MarkdownPageBuilder openSubtitle() {
+
+        currentContent.append("\n");
+
+        return this;
+    }
+
+    public MarkdownPageBuilder closeSubtitle() {
+        currentContent.append("\n")
                 .append("----").append("\n");
 
         return this;

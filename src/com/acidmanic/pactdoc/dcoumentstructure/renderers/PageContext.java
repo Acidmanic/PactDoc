@@ -23,20 +23,23 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import java.util.HashMap;
 
 /**
  *
- * 
+ *
  * @author diego
  * @param <Toutput> type of representing output data
  */
 public interface PageContext<Toutput> {
 
-    PageContext title(String text);
+    PageContext openTitle();
 
-    PageContext subTitle(String text);
+    PageContext closeTitle();
+
+    PageContext openSubtitle();
+
+    PageContext closeSubtitle();
 
     PageContext paragraph(String text);
 
