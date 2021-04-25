@@ -50,16 +50,18 @@ public class NavigationExpression implements PageExpression {
 
         context.newLine();
 
-        for (int i = 0; i < currentKey.segmentsCount() - 1; i++) {
+        for (int i = 0; i < currentKey.segmentsCount(); i++) {
 
             Key k = currentKey.subKey(0, i);
 
-            String text = currentKey.segment(i);
+            String text = k.pointsToRoot() ? "Home" : k.leafValue();
 
             String reference = this.keyTranslator.translate(k);
 
-            context.openLink(reference).append(text).closeLink()
-                    .append(" - ").closeLink();
+            context.openLink(reference)
+                    .append(text)
+                    .closeLink()
+                    .append(" - ");
         }
 
         if (currentKey.segmentsCount() > 0) {
@@ -67,6 +69,8 @@ public class NavigationExpression implements PageExpression {
             String text = currentKey.segment(currentKey.segmentsCount() - 1);
 
             context.openBold().append(text).closeBold();
+        }else{
+            context.openBold().append("Home").closeBold();
         }
 
         context.newLine();

@@ -26,6 +26,7 @@ package com.acidmanic.pactdoc.dcoumentstructure.pagestores;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.io.file.FileIOHelper;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
+import com.acidmanic.pactdoc.utility.PathHelpers;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,126 +38,65 @@ import java.nio.file.Paths;
 public class FilesystemPageStore implements PageStore<String> {
 
     private final String fileExtension;
-    private final Path pagesDirectory;
+    private final Path outputDirectory;
     private final boolean flatOrder;
     private final String flatOrderSegmentDelimiter;
     private final boolean relativizeLinks;
     private final boolean extensionsAppearInLinks;
     private final String rootFilename;
+    private final Path subDirectory;
 
     public FilesystemPageStore() {
 
         this.fileExtension = "";
-        this.pagesDirectory = new File(".").toPath().toAbsolutePath().normalize();
+        this.outputDirectory = new File(".").toPath().toAbsolutePath().normalize();
         this.flatOrder = false;
         this.flatOrderSegmentDelimiter = "-";
         this.relativizeLinks = true;
         this.extensionsAppearInLinks = true;
         this.rootFilename = "Index";
+        this.subDirectory = Paths.get("");
     }
 
-    public FilesystemPageStore(String fileExtension, Path pagesDirectory, boolean flatOrder, String flatOrderSegmentDelimiter, boolean relativizeLinks, boolean extensionsAppearInLinks, String rootFilename) {
+    public FilesystemPageStore(String fileExtension, Path outputDirectory, boolean flatOrder, String flatOrderSegmentDelimiter, boolean relativizeLinks, boolean extensionsAppearInLinks, String rootFilename, Path subDirectory) {
         this.fileExtension = fileExtension;
-        this.pagesDirectory = pagesDirectory;
+        this.outputDirectory = outputDirectory;
         this.flatOrder = flatOrder;
         this.flatOrderSegmentDelimiter = flatOrderSegmentDelimiter;
         this.relativizeLinks = relativizeLinks;
         this.extensionsAppearInLinks = extensionsAppearInLinks;
         this.rootFilename = rootFilename;
+        this.subDirectory = subDirectory;
     }
 
-    private Path getRootlessExtensionlessPathFor(Key key) {
+    private Path getFileAddressFor(Key key, String extension) {
+
+        if (key.pointsToRoot()) {
+
+            return this.subDirectory.resolve(this.rootFilename + extension);
+        }
 
         key = fileSystemFriendly(key);
 
-        if (this.flatOrder) {
+        Path path = this.subDirectory;
 
-            String fileName = key.jointSegments(this.flatOrderSegmentDelimiter);
+        for (int i = 0; i < key.segmentsCount() - 1; i++) {
 
-            return Paths.get(fileName);
+            String segmentValue = key.segment(i);
 
-        } else {
-            String fileName;
-            // if pointing to root
-            if (key.segmentsCount() == 0) {
-
-                fileName = this.rootFilename + this.fileExtension;
-
-                return Paths.get(fileName);
-
-            } else {
-                int directories = key.segmentsCount() - 1;
-
-                Path path = Paths.get(key.segment(0));
-
-                for (int i = 1; i < directories; i++) {
-
-                    String segmentName = key.segment(i);
-
-                    path = path.resolve(segmentName);
-                }
-
-                fileName = key.segment(directories);
-
-                path = path.resolve(fileName);
-
-                return path;
-            }
+            path = path.resolve(segmentValue);
         }
-    }
+        path = path.resolve(key.leafValue() + extension);
 
-    private File rebaseOnFileSystem(Path path) {
-
-        path = this.pagesDirectory.resolve(path);
-
-        path = path.toAbsolutePath().normalize();
-
-        String filename = path.getFileName().toString() + this.fileExtension;
-
-        Path directory = path.getParent();
-
-        path = directory.resolve(filename);
-
-        return path.toFile();
-
-    }
-
-    private Key getLinkRelativeKey(Key referrer, Key target) {
-
-        Key key;
-
-        if (this.relativizeLinks) {
-
-            if (target.startsWith(referrer)) {
-
-                key = target.subKey(referrer.segmentsCount(), target.segmentsCount());
-
-            } else if (referrer.startsWith(target)) {
-
-                int backwards = referrer.segmentsCount() - target.segmentsCount();
-
-                key = target.subKey(0, 0);
-
-                for (int i = 0; i < backwards; i++) {
-
-                    key.append("..");
-                }
-            } else {
-                key = target;
-            }
-        } else {
-
-            key = target;
-        }
-        return key;
+        return path;
     }
 
     @Override
     public void save(Key key, String pageContent) {
 
-        Path path = getRootlessExtensionlessPathFor(key);
+        Path pagePath = getFileAddressFor(key, this.fileExtension);
 
-        File pageFile = rebaseOnFileSystem(path);
+        File pageFile = this.outputDirectory.resolve(pagePath).toFile();
 
         File parentDirectory = pageFile.toPath().toAbsolutePath().normalize()
                 .getParent().toFile();
@@ -166,18 +106,32 @@ public class FilesystemPageStore implements PageStore<String> {
         new FileIOHelper().tryWriteAll(pageFile, pageContent);
     }
 
-    private String linkExtention() {
-        return this.extensionsAppearInLinks ? this.fileExtension : "";
-    }
-
     @Override
     public String translate(Key referrer, Key target) {
 
-        Key key = getLinkRelativeKey(referrer, target);
+        String extention = this.extensionsAppearInLinks ? this.fileExtension : "";
 
-        Path path = getRootlessExtensionlessPathFor(key);
+        Path tarPath = getFileAddressFor(target, extention);
 
-        return path.toString() + linkExtention();
+        if (!this.relativizeLinks) {
+
+            return tarPath.toString();
+        }
+        Path refPath = getFileAddressFor(referrer, extention);
+
+        PathHelpers.PathRelation relation = new PathHelpers().relation(tarPath, refPath);
+
+        if (relation == PathHelpers.PathRelation.Sibling || relation == PathHelpers.PathRelation.Identical) {
+
+            return tarPath.getFileName().toString();
+        }
+        if (relation == PathHelpers.PathRelation.ChildOf || relation == PathHelpers.PathRelation.ParentOf) {
+
+            return refPath.relativize(tarPath).toString();
+        }
+        // if diverged or not related
+        // This might not work properly
+        return "/" + target.toString();
     }
 
     private Key fileSystemFriendly(Key key) {

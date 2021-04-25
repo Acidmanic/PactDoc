@@ -29,6 +29,7 @@ import com.acidmanic.pactdoc.dcoumentstructure.pagestores.FilesystemPageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.MarkdownContext;
 import java.io.File;
+import java.nio.file.Paths;
 
 /**
  *
@@ -44,7 +45,7 @@ public class WikiEngine {
 
         this.pageStore = new FilesystemPageStore(
                 ".md", new File(".").toPath().resolve("wiki").toAbsolutePath().normalize(),
-                false, "-", true, false, "Index");
+                false, "-", false, false, "Index", Paths.get("api"));
     }
 
     public void generate(Pact pact) {
