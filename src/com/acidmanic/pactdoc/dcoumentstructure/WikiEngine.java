@@ -45,7 +45,7 @@ public class WikiEngine {
 
         this.pageStore = new FilesystemPageStore(
                 ".md", new File(".").toPath().resolve("wiki").toAbsolutePath().normalize(),
-                false, "-", false, false, "Index", Paths.get("api"));
+                true, "-", false, false, "Index", Paths.get("api"));
     }
 
     public void generate(Pact pact) {

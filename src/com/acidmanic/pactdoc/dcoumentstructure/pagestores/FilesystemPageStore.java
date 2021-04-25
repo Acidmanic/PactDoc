@@ -75,8 +75,15 @@ public class FilesystemPageStore implements PageStore<String> {
 
             return this.subDirectory.resolve(this.rootFilename + extension);
         }
-
         key = fileSystemFriendly(key);
+
+        if (this.flatOrder) {
+
+            String fileName = key.jointSegments(this.flatOrderSegmentDelimiter)
+                    + extension;
+
+            return this.subDirectory.resolve(fileName);
+        }
 
         Path path = this.subDirectory;
 
