@@ -191,11 +191,26 @@ public class WebWikiFormatBuilder {
         this.flatFileSystem = false;
         this.flatFileSystemDelimiter = "-";
         this.relativiseLinks = false;
-        this.outputDirectory = Paths.get(".");
+        this.outputDirectory = Paths.get("wiki");
         this.subDirectory = Paths.get("apis");
         this.homeDefaultFileName = "index";
         this.extensionPresentInLinks = false;
         this.contextProvider = () -> new MarkdownContext();
+
+        return this;
+    }
+
+    public WebWikiFormatBuilder staticHtmlWebsite() {
+
+        this.filesExtension = ".html";
+        this.flatFileSystem = false;
+        this.flatFileSystemDelimiter = "-";
+        this.relativiseLinks = true;
+        this.outputDirectory = Paths.get("wiki");
+        this.subDirectory = Paths.get("apis");
+        this.homeDefaultFileName = "index";
+        this.extensionPresentInLinks = true;
+        this.contextProvider = () -> new HtmlContext();
 
         return this;
     }
