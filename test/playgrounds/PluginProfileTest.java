@@ -23,7 +23,7 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.plugin.PluginProfile;
+import com.acidmanic.easyplug.PluginProfile;
 
 /**
  *

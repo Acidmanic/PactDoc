@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.plugin;
 
+import com.acidmanic.easyplug.PluginProfile;
 import java.io.File;
 import java.util.List;
 
@@ -31,29 +32,25 @@ import java.util.List;
  * @author 80116
  */
 public class PactDocPluginProfile {
-    
-    
-    private static PactDocPluginProfile instance = null; 
-    
+
+    private static PactDocPluginProfile instance = null;
+
     private final PluginProfile profile;
-    
-    private PactDocPluginProfile(){
-        
+
+    private PactDocPluginProfile() {
+
         this.profile = new PluginProfile(getPluginsDirectory());
-        
+
         this.profile.loadPlugins();
     }
-    
-    
-    
-    
-    public static synchronized PactDocPluginProfile getInstance(){
-        if(instance == null){
+
+    public static synchronized PactDocPluginProfile getInstance() {
+        if (instance == null) {
             instance = new PactDocPluginProfile();
         }
         return instance;
     }
-    
+
     private File getPluginsDirectory() {
         try {
             File myrectory = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -63,25 +60,20 @@ public class PactDocPluginProfile {
             myrectory = myrectory.toPath().normalize().toFile();
 
             return myrectory;
-            // myrectory = myrectory.toPath().resolve(CACHEDIR).toFile();
 
         } catch (Exception e) {
-            
+
         }
 
         return new File("plugins");
     }
-    
-    
-    
-    public List<Class> allClasses(){
+
+    public List<Class> allClasses() {
         return this.profile.allClasses();
     }
-    
-    
-    public <T> T make(String name) throws Exception{
+
+    public <T> T make(String name) throws Exception {
         return this.profile.makeObject(name);
     }
-    
-    
+
 }
