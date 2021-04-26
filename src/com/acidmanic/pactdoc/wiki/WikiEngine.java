@@ -21,15 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.dcoumentstructure;
+package com.acidmanic.pactdoc.wiki;
 
+import com.acidmanic.document.extention.DocumentProcessingDefinition;
 import com.acidmanic.document.render.RenderEngine;
 import com.acidmanic.pact.models.Pact;
-import com.acidmanic.pactdoc.dcoumentstructure.pagestores.FilesystemPageStore;
+import com.acidmanic.pactdoc.dcoumentstructure.DefaultDocumentDefinition;
+import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
-import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.HtmlContext;
-import java.io.File;
-import java.nio.file.Paths;
 
 /**
  *
@@ -37,22 +36,36 @@ import java.nio.file.Paths;
  */
 public class WikiEngine {
 
-    private PageContextProvider pageContextProvider;
-    private PageStore<String> pageStore;
+    private final WikiEngineOptions options;
+//    public WikiEngine() {
+//        this.pageContextProvider = () -> new HtmlContext();
+//
+//        this.pageStore = new FilesystemPageStore(
+//                ".html", new File(".").toPath().resolve("wiki").toAbsolutePath().normalize(),
+//                false, "-", true, true, "index", Paths.get("api"));
+//    }
 
-    public WikiEngine() {
-        this.pageContextProvider = () -> new HtmlContext();
-
-        this.pageStore = new FilesystemPageStore(
-                ".html", new File(".").toPath().resolve("wiki").toAbsolutePath().normalize(),
-                false, "-", true, true, "index", Paths.get("api"));
+    public WikiEngine(WikiEngineOptions options) {
+        this.options = options;
     }
 
     public void generate(Pact pact) {
 
         RenderEngine renderEngine = new RenderEngine();
 
-        DocumentDefinitionBase definition = new DefaultDocumentDefinition(pageContextProvider, pageStore);
+        DocumentProcessingDefinition definition;
+
+        if (this.options.getPluggedDocumentDefinition() != null) {
+            
+            definition = this.options.getPluggedDocumentDefinition();
+        } else {
+
+            PageContextProvider contextProvider = this.options.getFormat().getContextProvider();
+
+            PageStore pageStore = this.options.getFormat().getPageStore();
+
+            definition = new DefaultDocumentDefinition(contextProvider, pageStore);
+        }
 
         renderEngine.render(definition, pact);
     }

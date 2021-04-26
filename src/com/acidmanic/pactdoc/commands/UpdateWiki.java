@@ -32,13 +32,17 @@ import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.commands.typeregisteries.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
-import com.acidmanic.pactdoc.dcoumentstructure.WikiEngine;
+import com.acidmanic.pactdoc.wiki.WikiEngine;
 import com.acidmanic.pactdoc.utility.JGit;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 import com.acidmanic.pactdoc.storage.PactFileStorage;
+import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
+import com.acidmanic.pactdoc.wiki.WikiEngineOptions;
+import com.acidmanic.pactdoc.wiki.format.WikiFormat;
 import com.acidmanic.pactmodels.Contract;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -117,7 +121,7 @@ public class UpdateWiki extends PactDocCommandBase {
 
         if (parameters.hasValidUserPass()) {
             return git.clone(parameters.getRepository(), parameters.getUsername(),
-                     parameters.getPassword(), parameters.getOutputDirectory());
+                    parameters.getPassword(), parameters.getOutputDirectory());
         } else {
             return git.clone(parameters.getRepository(), parameters.getOutputDirectory());
         }
@@ -133,7 +137,18 @@ public class UpdateWiki extends PactDocCommandBase {
 //        WikiGenerator generator = new WikiGenerator(genParams);
 //            
 //        generator.generate(parameters.getResolvedWikiPath());
-        WikiEngine engine = new WikiEngine();
+        WikiFormat format = new WebWikiFormatBuilder()
+                .gitlab()
+                .outputDirectory(new File(genParams.getOutput()).toPath())
+                .build();
+
+        WikiEngineOptions options = new WikiEngineOptions();
+
+        options.setFormat(format);
+
+        options.setPluggedDocumentDefinition(null);
+
+        WikiEngine engine = new WikiEngine(options);
 
         Pact pact = new Pact(loadAllContracts(new File("Pacts")));
 
@@ -142,35 +157,34 @@ public class UpdateWiki extends PactDocCommandBase {
         return true;
     }
 
-    private List<Contract> loadAllContracts(File root){
-        
+    private List<Contract> loadAllContracts(File root) {
+
         List<Contract> result = new ArrayList<>();
-        
+
         loadAllContracts(root, result);
-        
+
         return result;
     }
-    
-    private void loadAllContracts(File dir,List<Contract> result){
-        
+
+    private void loadAllContracts(File dir, List<Contract> result) {
+
         File[] files = dir.listFiles();
-        
-        for(File file:files){
-            
-            if(file.isDirectory()){
+
+        for (File file : files) {
+
+            if (file.isDirectory()) {
                 loadAllContracts(file, result);
-            }else if (file.getName().toLowerCase().endsWith(".json")){
-                
-                Contract contract = new PactFileStorage(file,new ConsoleLogger()).load();
-                
-                if(contract!=null){
+            } else if (file.getName().toLowerCase().endsWith(".json")) {
+
+                Contract contract = new PactFileStorage(file, new ConsoleLogger()).load();
+
+                if (contract != null) {
                     result.add(contract);
                 }
             }
         }
     }
-    
-    
+
     private String makeCommit() {
         return "Wiki Has been updated via PactDoc application at "
                 + new Date().toString();

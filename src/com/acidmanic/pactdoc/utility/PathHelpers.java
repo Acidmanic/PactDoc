@@ -57,8 +57,10 @@ public class PathHelpers {
 
             if (firstName.compareTo(secondName) != 0) {
 
-                commonSectionsCount = i;
                 break;
+            } else {
+
+                commonSectionsCount = i + 1;
             }
         }
         if (commonSectionsCount == 0) {

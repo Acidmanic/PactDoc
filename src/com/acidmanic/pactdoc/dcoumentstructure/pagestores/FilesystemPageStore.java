@@ -138,7 +138,7 @@ public class FilesystemPageStore implements PageStore<String> {
         }
         // if diverged or not related
         // This might not work properly
-        return "/" + target.toString();
+        return "/" + tarPath.toString();
     }
 
     private Key fileSystemFriendly(Key key) {
