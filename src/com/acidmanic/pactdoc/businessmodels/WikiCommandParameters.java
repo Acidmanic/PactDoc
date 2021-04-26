@@ -23,14 +23,9 @@
  */
 package com.acidmanic.pactdoc.businessmodels;
 
-import com.acidmanic.pactdoc.services.contractindexing.properties.DefaultPropertyProvider;
-import com.acidmanic.pactdoc.services.contractindexing.properties.PropertyProvider;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
 import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -56,15 +51,13 @@ public class WikiCommandParameters {
 
     private String wikiFormat;
 
-    private PropertyProvider propertyProvider;
-
     private boolean rootRelativeLinks;
 
     private boolean singleDirectory;
 
     private String singleDirectoryDelimiter;
 
-    private WebWikiFormatBuilder webWikiFormatBuilder;
+    private final WebWikiFormatBuilder webWikiFormatBuilder;
 
     public WikiCommandParameters() {
         this.pactsRoot = ".";
@@ -72,8 +65,6 @@ public class WikiCommandParameters {
         this.documentsSubDirectory = "";
         this.linksWithExtensions = true;
         this.remote = "origin";
-        this.propertyProvider = new DefaultPropertyProvider();
-        this.wikiFormat = WikiFormats.MARKDOWN.getName();
         this.rootRelativeLinks = false;
         this.singleDirectory = false;
         this.singleDirectoryDelimiter = " ";
@@ -156,14 +147,6 @@ public class WikiCommandParameters {
 
     public WebWikiFormatBuilder getWebWikiFormatBuilder() {
         return webWikiFormatBuilder;
-    }
-
-    public PropertyProvider getPropertyProvider() {
-        return propertyProvider;
-    }
-
-    public void setPropertyProvider(PropertyProvider propertyProvider) {
-        this.propertyProvider = propertyProvider;
     }
 
     public String getWikiFormat() {

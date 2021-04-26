@@ -29,7 +29,6 @@ import com.acidmanic.pactdoc.commands.createwiki.AddExtensions;
 import com.acidmanic.pactdoc.commands.createwiki.Format;
 import com.acidmanic.pactdoc.commands.createwiki.Output;
 import com.acidmanic.pactdoc.commands.createwiki.PactsRoot;
-import com.acidmanic.pactdoc.commands.createwiki.PlugWikiProps;
 import com.acidmanic.pactdoc.commands.createwiki.ReferrerRelativeLinks;
 import com.acidmanic.pactdoc.commands.createwiki.RootRelativeLinks;
 import com.acidmanic.pactdoc.commands.createwiki.SingleDirectory;
@@ -52,9 +51,7 @@ public class CreateWikiTypeRegistery extends TypeRegistery{
             registerClass(PactsRoot.class);
             
             registerClass(Format.class);
-            
-            registerClass(PlugWikiProps.class);
-            
+                        
             registerClass(RootRelativeLinks.class);
             
             registerClass(GitlabWiki.class);

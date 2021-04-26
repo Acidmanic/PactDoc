@@ -30,9 +30,9 @@ import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
 import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import com.acidmanic.pactdoc.logging.Log;
-import com.acidmanic.pactdoc.utility.PactFiles;
+import com.acidmanic.pactdoc.storage.PactGather;
 import com.acidmanic.pactmodels.Contract;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -76,10 +76,10 @@ public class VerifyContracts extends PactDocCommandBase {
             
             if( result.isValid()){
                 
-                List<Contract> contracts = new ArrayList<>();
+                File root = new File(parameters.getPactsRoot());
                 
-                PactFiles.scanForAllContracts(parameters.getPactsRoot(),contracts);
-                
+                List<Contract> contracts = new PactGather().loadAllContracts(root);
+                                
                 Log verificationResults = 
                         parameters.getContractVerifier()
                         .verify(contracts);

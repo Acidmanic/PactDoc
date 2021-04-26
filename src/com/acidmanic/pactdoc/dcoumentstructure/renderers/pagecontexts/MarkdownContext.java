@@ -24,7 +24,7 @@
 package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts;
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
-import com.acidmanic.pactdoc.services.wiki.interpreter.contexts.MarkdownPageBuilder;
+import com.acidmanic.pactdoc.utility.MarkdownPageBuilder;
 import java.util.HashMap;
 
 /**

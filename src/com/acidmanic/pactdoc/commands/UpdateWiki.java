@@ -25,28 +25,18 @@ package com.acidmanic.pactdoc.commands;
 
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.lightweight.logger.ConsoleLogger;
 import com.acidmanic.pact.models.Pact;
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.commands.typeregisteries.UpdateWikiTypesRegistery;
 import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
 import com.acidmanic.pactdoc.wiki.WikiEngine;
 import com.acidmanic.pactdoc.utility.JGit;
-import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
-import com.acidmanic.pactdoc.services.WikiGenerator;
-import com.acidmanic.pactdoc.storage.PactFileStorage;
 import com.acidmanic.pactdoc.storage.PactGather;
-import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import com.acidmanic.pactdoc.wiki.WikiEngineOptions;
 import com.acidmanic.pactdoc.wiki.format.WikiFormat;
-import com.acidmanic.pactmodels.Contract;
 import java.io.File;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
