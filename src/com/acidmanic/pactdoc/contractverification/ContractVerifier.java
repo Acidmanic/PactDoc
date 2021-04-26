@@ -23,7 +23,7 @@
  */
 package com.acidmanic.pactdoc.contractverification;
 
-import com.acidmanic.pactdoc.logging.Log;
+import com.acidmanic.lightweight.logger.Logger;
 import com.acidmanic.pactmodels.Contract;
 import java.util.List;
 
@@ -32,9 +32,11 @@ import java.util.List;
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public interface ContractVerifier {
-    
-    Log verify(List<Contract> contracts);
-    
+
+    void setLogger(Logger logger);
+
+    void verify(List<Contract> contracts);
+
     List<ConventionTitle> conventionTitles();
-    
+
 }

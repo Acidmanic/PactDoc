@@ -23,7 +23,8 @@
  */
 package com.acidmanic.pactdoc.contractverification;
 
-import com.acidmanic.pactdoc.logging.Log;
+import com.acidmanic.lightweight.logger.Logger;
+import com.acidmanic.lightweight.logger.SilentLogger;
 import com.acidmanic.pactmodels.Contract;
 import com.acidmanic.pactmodels.Interaction;
 import java.util.ArrayList;
@@ -35,32 +36,28 @@ import java.util.List;
  */
 public class DefaulContractVerifier implements ContractVerifier {
 
-    @Override
-    public Log verify(List<Contract> contracts) {
-        Log result = new Log();
+    private Logger logger = new SilentLogger();
 
-        result.setValid(true);
+    @Override
+    public void verify(List<Contract> contracts) {
 
         for (Contract contract : contracts) {
 
             if (contract.getInteractions().isEmpty()) {
-                result.error("Contract Must atleat have one Intraction.");
-                result.setValid(false);
+                logger.error("Contract Must atleat have one Intraction.");
             }
 
             for (Interaction interaction : contract.getInteractions()) {
                 if (isEmpty(interaction.getDescription())) {
-                    result.warning("Intraction with no description.");
+                    logger.warning("Intraction with no description.");
                 }
             }
 
-            result.log("Contract " + contract.getProvider().getName()
+            logger.log("Contract " + contract.getProvider().getName()
                     + " with version "
                     + contract.getMetadata().getPactSpecification().getVersion()
                     + " verified.");
         }
-
-        return result;
     }
 
     private boolean isEmpty(String text) {
@@ -77,6 +74,11 @@ public class DefaulContractVerifier implements ContractVerifier {
         conventions.add(new ConventionTitle(ConventionType.Warnable, "Intraction with no description."));
 
         return conventions;
+    }
+
+    @Override
+    public void setLogger(Logger logger) {
+        this.logger = logger;
     }
 
 }
