@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2019 Mani Moayedi (acidmanic.moayedi@gmail.com).
+ * Copyright 2021 diego.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,40 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.services.wiki.linktranslator;
+package com.acidmanic.pactdoc.contractverification;
 
 /**
  *
- * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
+ * @author diego
  */
-public class SingleDirectoryLinkTranslator implements LinkTranslator{
-    
-    
-    private final String extension;
-    private final boolean addExtension;
-    private final String delimiter;
-
-    public SingleDirectoryLinkTranslator(String extension, boolean addExtension, String delimiter) {
-        this.extension = extension;
-        this.addExtension = addExtension;
-        this.delimiter = delimiter;
-    }
-    
-    
-    @Override
-    public String translate(String[] contentKey) {
-        StringBuilder sb = new StringBuilder();
-        
-        String sep="";
-        
-        for(String key:contentKey){
-            sb.append(sep).append(key);
-            sep=this.delimiter;
-        }
-        
-        if(this.addExtension){
-            sb.append(".").append(extension);
-        }
-        return sb.toString();
-    }
+public enum ConventionType {
+    Must,
+    Warnable,
+    Info
 }

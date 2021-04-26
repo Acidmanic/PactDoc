@@ -27,7 +27,7 @@ import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
 import com.acidmanic.pactdoc.commands.VerifyContracts;
 import acidmanic.commandline.utility.ArgumentValidationResult;
 import com.acidmanic.pactdoc.plugin.PactDocPluginProfile;
-import com.acidmanic.pactdoc.services.contractverification.ContractVerifier;
+import com.acidmanic.pactdoc.contractverification.ContractVerifier;
 
 /**
  *

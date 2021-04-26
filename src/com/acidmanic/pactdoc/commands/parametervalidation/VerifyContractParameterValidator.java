@@ -24,7 +24,7 @@
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
 import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
-import com.acidmanic.pactdoc.services.contractverification.DefaulContractVerifier;
+import com.acidmanic.pactdoc.contractverification.DefaulContractVerifier;
 
 /**
  *

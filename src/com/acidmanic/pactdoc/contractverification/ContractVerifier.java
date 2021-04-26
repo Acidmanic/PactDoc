@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.services.contractverification;
+package com.acidmanic.pactdoc.contractverification;
 
 import com.acidmanic.pactdoc.logging.Log;
 import com.acidmanic.pactmodels.Contract;

@@ -23,8 +23,8 @@
  */
 package com.acidmanic.pactdoc.businessmodels;
 
-import com.acidmanic.pactdoc.services.contractverification.ContractVerifier;
-import com.acidmanic.pactdoc.services.contractverification.DefaulContractVerifier;
+import com.acidmanic.pactdoc.contractverification.ContractVerifier;
+import com.acidmanic.pactdoc.contractverification.DefaulContractVerifier;
 
 /**
  *

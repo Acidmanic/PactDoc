@@ -21,14 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.services.contractverification;
+package com.acidmanic.pactdoc.contractverification;
 
 /**
  *
  * @author diego
  */
-public enum ConventionType {
-    Must,
-    Warnable,
-    Info
+public class ConventionTitle {
+
+    private ConventionType type;
+    private String text;
+
+    public ConventionTitle(ConventionType type, String text) {
+        this.type = type;
+        this.text = text;
+    }
+
+    public ConventionTitle() {
+    }
+
+    public ConventionType getType() {
+        return type;
+    }
+
+    public void setType(ConventionType type) {
+        this.type = type;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
 }
