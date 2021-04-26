@@ -58,6 +58,7 @@ public class WebWikiFormatBuilder {
 
     public WebWikiFormatBuilder defaults() {
         this.filesExtension = ".html";
+        this.contextProvider = () -> new HtmlContext();
         this.flatFileSystem = false;
         this.flatFileSystemDelimiter = "-";
         this.relativiseLinks = true;
@@ -184,14 +185,14 @@ public class WebWikiFormatBuilder {
 
         return this;
     }
-    
+
     public WebWikiFormatBuilder linksHaveExtensions() {
 
         this.extensionPresentInLinks = true;
 
         return this;
     }
-    
+
     public WebWikiFormatBuilder extensionLessLinks() {
 
         this.extensionPresentInLinks = false;
