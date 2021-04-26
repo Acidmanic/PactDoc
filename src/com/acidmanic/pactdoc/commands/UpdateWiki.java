@@ -130,19 +130,9 @@ public class UpdateWiki extends PactDocCommandBase {
 
     private boolean generateWiki(WikiCommandParameters parameters) {
 
-        WikiGeneratorParamters genParams = new WikiGeneratingParamsBuilder()
-                .withCommandParamters(parameters)
-                .build();
-
-//        WikiGenerator generator = new WikiGenerator(genParams);
-//            
-//        generator.generate(parameters.getResolvedWikiPath());
-        WikiFormat format = new WebWikiFormatBuilder()
-                .gitlab()
-                .outputDirectory(new File(genParams.getOutput()).toPath())
-                .build();
-
         WikiEngineOptions options = new WikiEngineOptions();
+
+        WikiFormat format = parameters.getWebWikiFormatBuilder().build();
 
         options.setFormat(format);
 
@@ -150,7 +140,9 @@ public class UpdateWiki extends PactDocCommandBase {
 
         WikiEngine engine = new WikiEngine(options);
 
-        Pact pact = new Pact(loadAllContracts(new File("Pacts")));
+        File pactsRoot = new File(parameters.getPactsRoot());
+
+        Pact pact = new Pact(loadAllContracts(pactsRoot));
 
         engine.generate(pact);
 

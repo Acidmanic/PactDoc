@@ -200,6 +200,31 @@ public class WebWikiFormatBuilder {
         return this;
     }
 
+    public WebWikiFormatBuilder github() {
+
+        this.filesExtension = ".md";
+        this.flatFileSystem = true;
+        this.flatFileSystemDelimiter = "-";
+        this.relativiseLinks = true;
+        this.outputDirectory = Paths.get("wiki");
+        this.subDirectory = Paths.get("apis");
+        this.homeDefaultFileName = "index";
+        this.extensionPresentInLinks = false;
+        this.contextProvider = () -> new MarkdownContext();
+
+        return this;
+    }
+
+    public WebWikiFormatBuilder wikiTemplate(String name) {
+
+        if ("gitlab".equals(name)) {
+            gitlab();
+        } else if ("github".equals(name)) {
+            github();
+        }
+        return this;
+    }
+
     public WebWikiFormatBuilder staticHtmlWebsite() {
 
         this.filesExtension = ".html";

@@ -24,13 +24,12 @@
 package com.acidmanic.pactdoc.commands.createwiki.preseters;
 
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class GitlabWiki extends WikiPresetCommand{
+public class GitlabWiki extends WikiPresetCommand {
 
     @Override
     protected String gitName() {
@@ -40,19 +39,13 @@ public class GitlabWiki extends WikiPresetCommand{
     @Override
     protected void update(WikiCommandParameters params) {
         super.update(params);
-        
-        params.setLinksWithExtensions(false);
-        
-        params.setRemote("origin");
-        
-        params.setRootRelativeLinks(true);
-        
-        params.setWikiFormat(WikiFormats.MARKDOWN.getName());
+
+        params.getWebWikiFormatBuilder().gitlab();
     }
 
     @Override
     protected String getRepositoryFor(String repoName, String userName) {
-        return "https://gitlab.com/"+userName+"/"+repoName+".wiki.git";
+        return "https://gitlab.com/" + userName + "/" + repoName + ".wiki.git";
     }
-    
+
 }

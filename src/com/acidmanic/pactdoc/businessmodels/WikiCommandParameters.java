@@ -26,8 +26,11 @@ package com.acidmanic.pactdoc.businessmodels;
 import com.acidmanic.pactdoc.services.contractindexing.properties.DefaultPropertyProvider;
 import com.acidmanic.pactdoc.services.contractindexing.properties.PropertyProvider;
 import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
+import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,48 +38,48 @@ import java.nio.file.Paths;
  */
 public class WikiCommandParameters {
 
-    
     private String pactsRoot;
 
     private String outputDirectory;
-    
+
     private String documentsSubDirectory;
-    
+
     private String repository;
-    
+
     private String username;
-    
+
     private String password;
-    
+
     private String remote;
-        
+
     private boolean linksWithExtensions;
-    
+
     private String wikiFormat;
-    
+
     private PropertyProvider propertyProvider;
-    
+
     private boolean rootRelativeLinks;
-    
+
     private boolean singleDirectory;
-    
+
     private String singleDirectoryDelimiter;
-    
+
+    private WebWikiFormatBuilder webWikiFormatBuilder;
+
     public WikiCommandParameters() {
-        this.pactsRoot=".";
-        this.outputDirectory="wiki";
-        this.documentsSubDirectory="";
-        this.linksWithExtensions=true;
+        this.pactsRoot = ".";
+        this.outputDirectory = "wiki";
+        this.documentsSubDirectory = "";
+        this.linksWithExtensions = true;
         this.remote = "origin";
         this.propertyProvider = new DefaultPropertyProvider();
         this.wikiFormat = WikiFormats.MARKDOWN.getName();
         this.rootRelativeLinks = false;
         this.singleDirectory = false;
         this.singleDirectoryDelimiter = " ";
+        this.webWikiFormatBuilder = new WebWikiFormatBuilder();
     }
-    
-    
-    
+
     public String getPactsRoot() {
         return pactsRoot;
     }
@@ -132,13 +135,12 @@ public class WikiCommandParameters {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-    public boolean hasValidUserPass(){
-        if(this.username==null|| this.username.length()==0){
+
+    public boolean hasValidUserPass() {
+        if (this.username == null || this.username.length() == 0) {
             return false;
         }
-        if(this.password==null||this.password.length()==0){
+        if (this.password == null || this.password.length() == 0) {
             return false;
         }
         return true;
@@ -150,6 +152,10 @@ public class WikiCommandParameters {
 
     public void setRemote(String remote) {
         this.remote = remote;
+    }
+
+    public WebWikiFormatBuilder getWebWikiFormatBuilder() {
+        return webWikiFormatBuilder;
     }
 
     public PropertyProvider getPropertyProvider() {
@@ -183,10 +189,10 @@ public class WikiCommandParameters {
     public void setSingleDirectory(boolean singleDirectory) {
         this.singleDirectory = singleDirectory;
     }
-    
-    public String getResolvedWikiPath(){
+
+    public String getResolvedWikiPath() {
         Path path = Paths.get(this.outputDirectory);
-        if(this.documentsSubDirectory!=null&&this.documentsSubDirectory.length()>0){
+        if (this.documentsSubDirectory != null && this.documentsSubDirectory.length() > 0) {
             path = path.resolve(this.documentsSubDirectory);
         }
         return path.normalize().toString();
@@ -199,6 +205,5 @@ public class WikiCommandParameters {
     public void setSingleDirectoryDelimiter(String singleDirectoryDelimiter) {
         this.singleDirectoryDelimiter = singleDirectoryDelimiter;
     }
-    
-    
+
 }

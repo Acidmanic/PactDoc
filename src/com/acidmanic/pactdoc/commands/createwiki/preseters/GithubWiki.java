@@ -25,13 +25,12 @@ package com.acidmanic.pactdoc.commands.createwiki.preseters;
 
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.commands.createwiki.SingleDirectory;
-import com.acidmanic.pactdoc.services.wiki.wikiformat.WikiFormats;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class GithubWiki extends WikiPresetCommand{
+public class GithubWiki extends WikiPresetCommand {
 
     @Override
     protected String gitName() {
@@ -40,19 +39,9 @@ public class GithubWiki extends WikiPresetCommand{
 
     @Override
     protected void update(WikiCommandParameters params) {
-        super.update(params); 
-        
-        params.setLinksWithExtensions(false);
-        
-        params.setRemote("origin");
-        
-        params.setRootRelativeLinks(true);
-        
-        params.setWikiFormat(WikiFormats.MARKDOWN.getName());
-        
-        params.setSingleDirectory(true);
-        
-        params.setSingleDirectoryDelimiter("-");
+        super.update(params);
+
+        params.getWebWikiFormatBuilder().github();
     }
 
     @Override
@@ -60,14 +49,10 @@ public class GithubWiki extends WikiPresetCommand{
         return super.getCSListOfFillingArguments()
                 + ", " + (new SingleDirectory().getName());
     }
-    
-    
-    
-    
 
     @Override
     protected String getRepositoryFor(String repoName, String userName) {
-        return "https://github.com/"+userName+"/"+repoName+".wiki.git";
+        return "https://github.com/" + userName + "/" + repoName + ".wiki.git";
     }
-    
+
 }
