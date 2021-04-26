@@ -37,6 +37,7 @@ import com.acidmanic.pactdoc.utility.JGit;
 import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
 import com.acidmanic.pactdoc.services.WikiGenerator;
 import com.acidmanic.pactdoc.storage.PactFileStorage;
+import com.acidmanic.pactdoc.storage.PactGather;
 import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import com.acidmanic.pactdoc.wiki.WikiEngineOptions;
 import com.acidmanic.pactdoc.wiki.format.WikiFormat;
@@ -142,39 +143,11 @@ public class UpdateWiki extends PactDocCommandBase {
 
         File pactsRoot = new File(parameters.getPactsRoot());
 
-        Pact pact = new Pact(loadAllContracts(pactsRoot));
+        Pact pact = new PactGather().loadAllContractsAsPact(pactsRoot);
 
         engine.generate(pact);
 
         return true;
-    }
-
-    private List<Contract> loadAllContracts(File root) {
-
-        List<Contract> result = new ArrayList<>();
-
-        loadAllContracts(root, result);
-
-        return result;
-    }
-
-    private void loadAllContracts(File dir, List<Contract> result) {
-
-        File[] files = dir.listFiles();
-
-        for (File file : files) {
-
-            if (file.isDirectory()) {
-                loadAllContracts(file, result);
-            } else if (file.getName().toLowerCase().endsWith(".json")) {
-
-                Contract contract = new PactFileStorage(file, new ConsoleLogger()).load();
-
-                if (contract != null) {
-                    result.add(contract);
-                }
-            }
-        }
     }
 
     private String makeCommit() {

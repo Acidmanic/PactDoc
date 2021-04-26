@@ -30,12 +30,15 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class Format extends CreateWikiArgBase{
+public class Format extends CreateWikiArgBase {
 
     @Override
     protected void update(WikiCommandParameters params) {
-        if(!noArguments()){
+        if (!noArguments()) {
             params.setWikiFormat(args[0]);
+
+            params.getWebWikiFormatBuilder().
+                    format(args[0]);
         }
     }
 
@@ -47,7 +50,7 @@ public class Format extends CreateWikiArgBase{
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        if(!noArguments(1)){
+        if (!noArguments(1)) {
             return enoughOrNothing(1);
         }
         return anyAvailable();
@@ -57,9 +60,5 @@ public class Format extends CreateWikiArgBase{
     protected String declareArguments() {
         return "<format-name>";
     }
-    
-    
-    
-    
-    
+
 }

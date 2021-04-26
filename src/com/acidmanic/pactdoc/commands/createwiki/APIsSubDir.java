@@ -25,6 +25,7 @@ package com.acidmanic.pactdoc.commands.createwiki;
 
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import acidmanic.commandline.utility.ArgumentValidationResult;
+import java.nio.file.Paths;
 
 /**
  *
@@ -46,6 +47,8 @@ public class APIsSubDir extends CreateWikiArgBase {
     protected void update(WikiCommandParameters params) {
         if(!noArguments()){
             params.setDocumentsSubDirectory(args[0]);
+            
+            params.getWebWikiFormatBuilder().subDirectory(Paths.get(args[0]));
         }
     }
 

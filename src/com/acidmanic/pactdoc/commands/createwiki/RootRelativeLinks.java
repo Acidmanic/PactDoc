@@ -30,11 +30,13 @@ import acidmanic.commandline.utility.ArgumentValidationResult;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class RootRelativeLinks extends CreateWikiArgBase{
+public class RootRelativeLinks extends CreateWikiArgBase {
 
     @Override
     protected void update(WikiCommandParameters params) {
         params.setRootRelativeLinks(true);
+
+        params.getWebWikiFormatBuilder().absoluteLinks();
     }
 
     @Override
@@ -48,9 +50,5 @@ public class RootRelativeLinks extends CreateWikiArgBase{
     public ArgumentValidationResult validateArguments() {
         return new ArgumentValidationResult(0);
     }
-    
-    
-    
-    
-    
+
 }

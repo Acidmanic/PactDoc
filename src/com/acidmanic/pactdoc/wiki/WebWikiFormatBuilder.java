@@ -184,6 +184,20 @@ public class WebWikiFormatBuilder {
 
         return this;
     }
+    
+    public WebWikiFormatBuilder linksHaveExtensions() {
+
+        this.extensionPresentInLinks = true;
+
+        return this;
+    }
+    
+    public WebWikiFormatBuilder extensionLessLinks() {
+
+        this.extensionPresentInLinks = false;
+
+        return this;
+    }
 
     public WebWikiFormatBuilder gitlab() {
 

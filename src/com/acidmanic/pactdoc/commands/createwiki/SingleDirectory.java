@@ -39,6 +39,9 @@ public class SingleDirectory extends CreateWikiArgBase{
         }
         params.setSingleDirectory(true);
         params.setSingleDirectoryDelimiter(delimiter);
+        
+        params.getWebWikiFormatBuilder()
+                .flatFileSystem(true, delimiter);
     }
 
     @Override

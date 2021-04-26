@@ -23,86 +23,90 @@
  */
 package com.acidmanic.pactdoc.commands;
 
-
 import acidmanic.commandline.application.ExecutionEnvironment;
 import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pactdoc.businessmodels.WikiGeneratorParamters;
+import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.commands.typeregisteries.CreateWikiTypeRegistery;
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import com.acidmanic.pactdoc.commands.parametervalidation.GenerateWikiParameterValidator;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
-import com.acidmanic.pactdoc.services.WikiGeneratingParamsBuilder;
-import com.acidmanic.pactdoc.services.WikiGenerator;
+import com.acidmanic.pactdoc.storage.PactGather;
+import com.acidmanic.pactdoc.wiki.WikiEngine;
+import com.acidmanic.pactdoc.wiki.WikiEngineOptions;
+import com.acidmanic.pactdoc.wiki.format.WikiFormat;
+import java.io.File;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class GenerateWiki extends PactDocCommandBase{
-    
+public class GenerateWiki extends PactDocCommandBase {
+
     private final WikiCommandParameters parameters = new WikiCommandParameters();
 
     private final ExecutionEnvironment environment;
 
     public GenerateWiki() {
-        this.environment 
-            = new ExecutionEnvironment(new CreateWikiTypeRegistery(),this);
+        this.environment
+                = new ExecutionEnvironment(new CreateWikiTypeRegistery(), this);
     }
-    
-    
+
     @Override
     protected String getUsageString() {
         return "This command will scan recursively all files inside "
                 + "pacts directory to find any pact json available. then"
                 + "will create a static md-based wiki in the documents directory";
     }
-    
-    
 
     @Override
     public void execute() {
-        
-        if (!environment.isHelpExecuted()){
-            
+
+        if (!environment.isHelpExecuted()) {
+
             ValidationResult<WikiCommandParameters> result
                     = new GenerateWikiParameterValidator().validate(parameters);
-            
+
             log(result);
-            
-            if(result.isValid()){
-            
-                
+
+            if (result.isValid()) {
+
                 addRemoveDirectoryTask(parameters.getResolvedWikiPath());
-                
-                addTask("Generating Wiki files.",  ()->{
-                    WikiGeneratorParamters genParams = new WikiGeneratingParamsBuilder()
-                            .withCommandParamters(result.getValidatedValue())
-                            .build();
 
-                    WikiGenerator generator = new WikiGenerator(genParams);
+                addTask("Generating Wiki files.", () -> {
 
-                    generator.generate(parameters.getResolvedWikiPath());
-                    
+                    WikiFormat format = parameters.getWebWikiFormatBuilder().build();
+
+                    WikiEngineOptions options = new WikiEngineOptions();
+
+                    options.setFormat(format);
+
+                    options.setPluggedDocumentDefinition(null);
+
+                    WikiEngine engine = new WikiEngine(options);
+
+                    File pactsRoot = new File(parameters.getPactsRoot())
+                            .toPath().toAbsolutePath().normalize().toFile();
+
+                    Pact pact = new PactGather().loadAllContractsAsPact(pactsRoot);
+
+                    engine.generate(pact);
+
                     return true;
                 });
-                
-                
+
                 performTasks();
             }
         }
     }
 
-
     @Override
     public ArgumentValidationResult validateArguments() {
-        
+
         environment.getDataRepository().set("params", parameters);
-        
+
         environment.execute(args);
-        
+
         return new ArgumentValidationResult(environment.getNumberOfExecutedCommands());
     }
 
-    
-    
 }

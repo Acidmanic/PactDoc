@@ -25,13 +25,13 @@ package com.acidmanic.pactdoc.commands.createwiki;
 
 import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
 import acidmanic.commandline.utility.ArgumentValidationResult;
+import java.nio.file.Paths;
 
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class Output extends CreateWikiArgBase {
-
 
     @Override
     protected String getUsageString() {
@@ -40,18 +40,20 @@ public class Output extends CreateWikiArgBase {
 
     @Override
     protected void update(WikiCommandParameters params) {
-        if(noArguments()){
+        if (noArguments()) {
             log("Output directory has been defaulted to " + params.getOutputDirectory());
-        }else{
+        } else {
             params.setOutputDirectory(args[0]);
+
+            params.getWebWikiFormatBuilder().outputDirectory(Paths.get(args[0]));
         }
     }
 
     @Override
     public ArgumentValidationResult validateArguments() {
-        if(noArguments()){
+        if (noArguments()) {
             return new ArgumentValidationResult(0);
-        }else{
+        } else {
             return new ArgumentValidationResult(1);
         }
     }
@@ -60,7 +62,5 @@ public class Output extends CreateWikiArgBase {
     protected String declareArguments() {
         return "<dir-name>";
     }
-    
-    
-    
+
 }

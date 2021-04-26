@@ -35,6 +35,8 @@ public class ReferrerRelativeLinks extends CreateWikiArgBase{
     @Override
     protected void update(WikiCommandParameters params) {
         params.setRootRelativeLinks(false);
+        
+        params.getWebWikiFormatBuilder().relativisedLinks();
     }
     
     @Override

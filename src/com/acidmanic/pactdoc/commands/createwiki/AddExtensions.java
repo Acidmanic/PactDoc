@@ -37,6 +37,8 @@ public class AddExtensions extends CreateWikiArgBase{
     @Override
     protected void update(WikiCommandParameters params) {
         params.setLinksWithExtensions(true);
+        
+        params.getWebWikiFormatBuilder().linksHaveExtensions();
     }
 
     @Override
