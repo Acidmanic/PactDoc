@@ -35,45 +35,54 @@ import java.util.List;
  *
  * @author diego
  */
-public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry>{
+public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry> {
 
-    
-    
-    private static final HashMap<Integer,String> conventionMarks = new HashMap<>();
-    
+    private static final HashMap<Integer, String> conventionMarks = new HashMap<>();
+
     static {
-        
+
         conventionMarks.put(ConventionType.Must.ordinal(), "💥");
         conventionMarks.put(ConventionType.Warnable.ordinal(), "⚠️");
         conventionMarks.put(ConventionType.Info.ordinal(), "ℹ️");
     }
-    
+
     public ConventionsPageRenderer() {
         super("Conventions");
     }
 
     @Override
     protected void renderContent(Key key, ConventionEntry node, Pact root, List<Key> childs, PageContext pageContext) {
-        
+
         pageContext.newLine().openList();
-        
+
         pageContext.paragraph("Whenever your pact files get verified, "
                 + "all contracts will be checked against all following "
                 + "conventions. as an api-consumer (client side developer)"
                 + ", please consider these conventions to prevent "
                 + "incompatibility issues for your code.").newLine().newLine();
-        
-        for(ConventionTitle title:node.getConventionTitles()){
-            
+
+        for (ConventionTitle title : node.getConventionTitles()) {
+
             String emoji = conventionMarks.get(title.getType().ordinal());
-            
+
+            String text = title.getText();
+
+            if (title.getType() == ConventionType.Warnable) {
+
+                while (text.endsWith(".")) {
+
+                    text = text.substring(0,text.length() - 1);
+                }
+                text += ", will cause warnings to be thrown.";
+            }
+
             pageContext.openListItem()
                     .append(" ").append(emoji).append(" ")
-                    .append(title.getText())
+                    .append(text)
                     .closeListItem();
-            
+
         }
-        
+
         pageContext.newLine().newLine().newLine().closeList();
     }
 
@@ -81,5 +90,5 @@ public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry>{
     public Class renderingType() {
         return ConventionEntry.class;
     }
-    
+
 }

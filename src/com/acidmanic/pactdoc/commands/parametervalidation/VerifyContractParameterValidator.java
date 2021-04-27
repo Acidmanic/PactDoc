@@ -24,7 +24,7 @@
 package com.acidmanic.pactdoc.commands.parametervalidation;
 
 import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
-import com.acidmanic.pactdoc.contractverification.DefaulContractVerifier;
+import com.acidmanic.pactdoc.contractverification.DefaultContractVerifier;
 
 /**
  *
@@ -49,7 +49,7 @@ public class VerifyContractParameterValidator extends ParameterValidator<VerifyC
         }
         
         if (params.getContractVerifier()==null){
-            params.setContractVerifier(new DefaulContractVerifier());
+            params.setContractVerifier(new DefaultContractVerifier());
             
             result.warning("No valid verifier has been specified. so all "
                     + "contracts will be accepted.");

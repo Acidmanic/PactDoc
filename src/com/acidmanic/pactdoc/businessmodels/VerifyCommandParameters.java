@@ -24,7 +24,7 @@
 package com.acidmanic.pactdoc.businessmodels;
 
 import com.acidmanic.pactdoc.contractverification.ContractVerifier;
-import com.acidmanic.pactdoc.contractverification.DefaulContractVerifier;
+import com.acidmanic.pactdoc.contractverification.DefaultContractVerifier;
 
 /**
  *
@@ -39,7 +39,7 @@ public class VerifyCommandParameters {
 
     public VerifyCommandParameters() {
         
-        this.contractVerifier = new DefaulContractVerifier();
+        this.contractVerifier = new DefaultContractVerifier();
         
         this.pactsRoot = ".";
     

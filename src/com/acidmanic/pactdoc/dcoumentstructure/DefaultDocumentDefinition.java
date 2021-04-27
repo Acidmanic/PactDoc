@@ -52,7 +52,10 @@ public class DefaultDocumentDefinition extends DocumentDefinitionBase {
         this.initialize();
     }
 
-    public DefaultDocumentDefinition(ContractVerifier verifier, PageContextProvider pageContextProvider, PageStore<String> pageStore) {
+    public DefaultDocumentDefinition(ContractVerifier verifier, 
+            PageContextProvider pageContextProvider, 
+            PageStore<String> pageStore) {
+        
         super(pageContextProvider, pageStore);
         
         this.verifier = verifier;

@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class DefaulContractVerifier implements ContractVerifier {
+public class DefaultContractVerifier implements ContractVerifier {
 
     private Logger logger = new SilentLogger();
 
@@ -69,7 +69,7 @@ public class DefaulContractVerifier implements ContractVerifier {
 
         List<ConventionTitle> conventions = new ArrayList<>();
 
-        conventions.add(new ConventionTitle(ConventionType.Must, "Contract Must atleat have one Intraction."));
+        conventions.add(new ConventionTitle(ConventionType.Must, "Contract Must at least have one Intraction."));
 
         conventions.add(new ConventionTitle(ConventionType.Warnable, "Intraction with no description."));
 
