@@ -23,13 +23,17 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure;
 
-import com.acidmanic.pact.models.Pact;
+import com.acidmanic.pactdoc.contractverification.ContractVerifier;
+import com.acidmanic.pactdoc.contractverification.ConventionTitle;
+import com.acidmanic.pactdoc.dcoumentstructure.models.ConventionEntry;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ProviderPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.ContractPageRenderer;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.ConventionsPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.EndpointPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PactPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
+import java.util.List;
 
 /**
  *
@@ -37,21 +41,54 @@ import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
  */
 public class DefaultDocumentDefinition extends DocumentDefinitionBase {
 
+    private final ContractVerifier verifier;
+
     public DefaultDocumentDefinition(PageContextProvider pageContextProvider,
             PageStore<String> pageStore) {
         super(pageContextProvider, pageStore);
 
-        addLevel(new ProviderPropertyMapper());
+        this.verifier = null;
+        
+        this.initialize();
+    }
+
+    public DefaultDocumentDefinition(ContractVerifier verifier, PageContextProvider pageContextProvider, PageStore<String> pageStore) {
+        super(pageContextProvider, pageStore);
+        
+        this.verifier = verifier;
+        
+        this.initialize();
+    }
+    
+    
+
+    private void initialize() {
+        
+        ProviderPropertyMapper providerPropertyMapper = new ProviderPropertyMapper();
+        
+        if(this.verifier!=null){
+            
+            List<ConventionTitle> conventionTitles = verifier.conventionTitles();
+            
+            ConventionEntry conventionEntry = new ConventionEntry(conventionTitles);
+            
+            providerPropertyMapper.setConventionEntry(conventionEntry);
+            
+        }
+        
+        addLevel(providerPropertyMapper);
 
         addLevel(new EndpointPropertyMapper());
+        
+        
 
-        
         registerRenderer(new PactPageRenderer());
-        
+
         registerRenderer(new ContractPageRenderer());
-        
+
         registerRenderer(new EndpointPageRenderer());
         
+        registerRenderer(new ConventionsPageRenderer());
     }
 
 }
