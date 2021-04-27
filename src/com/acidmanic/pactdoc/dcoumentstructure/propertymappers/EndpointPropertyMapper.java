@@ -78,11 +78,6 @@ public class EndpointPropertyMapper implements PropertyMapper {
     }
 
     @Override
-    public Class valueType() {
-        return EndPoint.class;
-    }
-
-    @Override
     public Object propertyValue(Object parent, String segmentValue) {
 
         EndPoint endPoint = new EndPoint();

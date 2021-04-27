@@ -72,5 +72,7 @@ public abstract class RendererBase implements Renderer {
     public PageStore<String> getPageStore() {
         return pageStore;
     }
+    
+    public abstract Class renderingType();
 
 }

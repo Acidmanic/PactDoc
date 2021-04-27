@@ -74,11 +74,6 @@ public class ProviderPropertyMapper implements PropertyMapper {
     }
 
     @Override
-    public Class valueType() {
-        return Contract.class;
-    }
-
-    @Override
     public Object propertyValue(Object parent, String segmentValue) {
         Contract resultingContract = new Contract();
 

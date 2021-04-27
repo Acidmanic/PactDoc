@@ -66,35 +66,25 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
         return this.renderers;
     }
 
-    protected void addLevel(PropertyMapper mapper, RendererBase renderer) {
+    protected void addLevel(PropertyMapper mapper) {
 
         this.propertyMappers.add(mapper);
-
-        Class type = mapper.parentType();
-
-        renderer.setRenderingContextProvider(this.pageContextProvider);
-
-        renderer.setPageStore(this.pageStore);
-
-        this.renderers.put(type, renderer);
-
-        this.leafType = mapper.valueType();
     }
 
-    protected void addLeaf(RendererBase renderer) {
+    protected void registerRenderer(RendererBase renderer) {
+        
+        Class type = renderer.renderingType();
 
-        if (this.propertyMappers.isEmpty()) {
-            //            throw new Exception("Cant add leaf while there is no level added");
-            return;
+        if (!this.renderers.containsKey(type)) {
+            
+            renderer.setRenderingContextProvider(this.pageContextProvider);
+
+            renderer.setPageStore(this.pageStore);
+
+            this.renderers.put(type, renderer);
         }
-
-        renderer.setRenderingContextProvider(this.pageContextProvider);
-
-        renderer.setPageStore(this.pageStore);
-
-        this.renderers.put(this.leafType, renderer);
     }
-
+    
     @Override
     public boolean keyCaseSensitive() {
         return false;

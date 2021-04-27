@@ -119,4 +119,9 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
         }
     }
 
+    @Override
+    public Class renderingType() {
+        return EndPoint.class;
+    }
+
 }

@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure;
 
+import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ProviderPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.ContractPageRenderer;
@@ -40,11 +41,17 @@ public class DefaultDocumentDefinition extends DocumentDefinitionBase {
             PageStore<String> pageStore) {
         super(pageContextProvider, pageStore);
 
-        addLevel(new ProviderPropertyMapper(), new PactPageRenderer());
+        addLevel(new ProviderPropertyMapper());
 
-        addLevel(new EndpointPropertyMapper(), new ContractPageRenderer());
+        addLevel(new EndpointPropertyMapper());
 
-        addLeaf(new EndpointPageRenderer());
+        
+        registerRenderer(new PactPageRenderer());
+        
+        registerRenderer(new ContractPageRenderer());
+        
+        registerRenderer(new EndpointPageRenderer());
+        
     }
 
 }
