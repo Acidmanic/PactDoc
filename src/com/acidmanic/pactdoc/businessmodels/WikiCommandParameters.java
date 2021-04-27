@@ -23,6 +23,8 @@
  */
 package com.acidmanic.pactdoc.businessmodels;
 
+import com.acidmanic.pactdoc.contractverification.ContractVerifier;
+import com.acidmanic.pactdoc.contractverification.DefaultContractVerifier;
 import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,6 +61,8 @@ public class WikiCommandParameters {
 
     private final WebWikiFormatBuilder webWikiFormatBuilder;
 
+    private ContractVerifier contractVerifier;
+
     public WikiCommandParameters() {
         this.pactsRoot = ".";
         this.outputDirectory = "wiki";
@@ -69,6 +73,7 @@ public class WikiCommandParameters {
         this.singleDirectory = false;
         this.singleDirectoryDelimiter = " ";
         this.webWikiFormatBuilder = new WebWikiFormatBuilder();
+        this.contractVerifier = new DefaultContractVerifier();
     }
 
     public String getPactsRoot() {
@@ -187,6 +192,14 @@ public class WikiCommandParameters {
 
     public void setSingleDirectoryDelimiter(String singleDirectoryDelimiter) {
         this.singleDirectoryDelimiter = singleDirectoryDelimiter;
+    }
+
+    public ContractVerifier getContractVerifier() {
+        return contractVerifier;
+    }
+
+    public void setContractVerifier(ContractVerifier contractVerifier) {
+        this.contractVerifier = contractVerifier;
     }
 
 }

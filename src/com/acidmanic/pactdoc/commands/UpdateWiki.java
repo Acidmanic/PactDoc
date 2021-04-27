@@ -128,6 +128,8 @@ public class UpdateWiki extends PactDocCommandBase {
         options.setFormat(format);
 
         options.setPluggedDocumentDefinition(null);
+        
+        options.setPluggedContractVerifier(parameters.getContractVerifier());
 
         WikiEngine engine = new WikiEngine(options);
 

@@ -34,6 +34,7 @@ import com.acidmanic.pactdoc.commands.createwiki.RootRelativeLinks;
 import com.acidmanic.pactdoc.commands.createwiki.SingleDirectory;
 import com.acidmanic.pactdoc.commands.createwiki.preseters.GithubWiki;
 import com.acidmanic.pactdoc.commands.createwiki.preseters.GitlabWiki;
+import com.acidmanic.pactdoc.commands.createwiki.PlugVerifier;
 
 /**
  *
@@ -61,6 +62,8 @@ public class CreateWikiTypeRegistery extends TypeRegistery{
             registerClass(SingleDirectory.class);
             
             registerClass(ReferrerRelativeLinks.class);
+            
+            registerClass(PlugVerifier.class);
             
 
         }

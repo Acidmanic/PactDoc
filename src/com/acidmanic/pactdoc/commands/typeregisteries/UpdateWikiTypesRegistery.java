@@ -25,6 +25,7 @@ package com.acidmanic.pactdoc.commands.typeregisteries;
 
 import com.acidmanic.pactdoc.commands.createwiki.Pass;
 import com.acidmanic.pactdoc.commands.createwiki.PassFile;
+import com.acidmanic.pactdoc.commands.createwiki.PlugVerifier;
 import com.acidmanic.pactdoc.commands.createwiki.Remote;
 import com.acidmanic.pactdoc.commands.createwiki.Repository;
 import com.acidmanic.pactdoc.commands.createwiki.User;
@@ -46,6 +47,8 @@ public class UpdateWikiTypesRegistery extends CreateWikiTypeRegistery{
         registerClass(Remote.class);
         
         registerClass(PassFile.class);
+        
+        registerClass(PlugVerifier.class);
     
     }
 }
