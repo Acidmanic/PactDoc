@@ -192,4 +192,36 @@ public class MarkdownContext implements PageContext<String> {
         return this;
     }
 
+    @Override
+    public PageContext openList() {
+
+        this.markdownPageBuilder.openList();
+
+        return this;
+    }
+
+    @Override
+    public PageContext closeList() {
+
+        this.markdownPageBuilder.closeList();
+
+        return this;
+    }
+
+    @Override
+    public PageContext openListItem() {
+
+        this.markdownPageBuilder.openListItem();
+
+        return this;
+    }
+
+    @Override
+    public PageContext closeListItem() {
+
+        this.markdownPageBuilder.closeListItem();
+
+        return this;
+    }
+
 }

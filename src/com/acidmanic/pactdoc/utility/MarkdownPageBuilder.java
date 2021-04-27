@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 package com.acidmanic.pactdoc.utility;
+
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import java.util.HashMap;
 
 /**
@@ -177,6 +179,31 @@ public class MarkdownPageBuilder {
 
     public MarkdownPageBuilder horizontalLine() {
         this.currentContent.append("___________________\n");
+        return this;
+    }
+
+    public MarkdownPageBuilder openList() {
+
+        this.currentContent.append("\n");
+
+        return this;
+    }
+
+    public MarkdownPageBuilder closeList() {
+
+        return this;
+    }
+
+    public MarkdownPageBuilder openListItem() {
+        this.currentContent.append("\t* ");
+
+        return this;
+    }
+
+    public MarkdownPageBuilder closeListItem() {
+
+        this.currentContent.append("\n");
+
         return this;
     }
 }
