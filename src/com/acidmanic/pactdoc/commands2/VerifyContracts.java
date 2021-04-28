@@ -63,7 +63,11 @@ public class VerifyContracts extends FractalCommandBase<ParametersContext> {
         );
         taskBox.add(new Verify(parametersContext, getLogger()));
 
-        taskBox.perform();
+        boolean success = taskBox.perform();
+
+        ApplicationContext context = getContext();
+
+        context.setSuccess(success);
 
     }
 

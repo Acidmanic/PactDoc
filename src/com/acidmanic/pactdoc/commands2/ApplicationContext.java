@@ -21,35 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package playgrounds;
+package com.acidmanic.pactdoc.commands2;
 
-import com.acidmanic.commandline.commands.Command;
-import com.acidmanic.pactdoc.Application;
-import com.acidmanic.pactdoc.commands2.GenerateWiki;
-import com.acidmanic.pactdoc.commands2.UpdateWiki;
-import com.acidmanic.pactdoc.commands2.VerifyContracts;
+import com.acidmanic.commandline.commands.context.ExecutionContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author diego
  */
-public class CommandBase2 {
+public class ApplicationContext implements ExecutionContext {
 
-    public static void main(String[] args) {
+    private boolean successful;
+    private final List<String> failureMessages;
 
-//        Application.main(new String[]{"generatewiki","website", "output", "wiki"});
-//        Application.main(new String[]{
-//            "updatewiki",
-//            "gitlab", "output", "dodo",
-//            "html",
-//            "repo", "http://5.160.179.226/Mani/devops-test.wiki.git",
-//            "auth", "Mani,neverGITLABagain"
-//        });
-//        Application.main(new String[]{"verifycontracts", "pactsroot", "Pacts"});
-        Application.main(new String[]{
-            "verifycontracts", "pactsroot", "Pacts",
-            "verifier", "litbid.api.contract.LitbidVerifier"
-        });
+    public ApplicationContext() {
+        this.successful = true;
+        this.failureMessages = new ArrayList<>();
+    }
 
+    public boolean isSuccessful() {
+        return successful;
+    }
+
+    public void fail() {
+        this.successful = false;
+    }
+
+    public void fail(String message) {
+        this.successful = false;
+        this.failureMessages.add(message);
+    }
+
+    public List<String> getFailureMessages() {
+        return failureMessages;
+    }
+
+    public void setSuccess(boolean success) {
+        this.successful = success;
     }
 }

@@ -21,35 +21,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package playgrounds;
+package com.acidmanic.pactdoc;
 
 import com.acidmanic.commandline.commands.Command;
-import com.acidmanic.pactdoc.Application;
+import com.acidmanic.commandline.commands.CommandFactory;
+import com.acidmanic.commandline.commands.Help;
+import com.acidmanic.commandline.commands.TypeRegistery;
+import com.acidmanic.lightweight.logger.ConsoleLogger;
+import com.acidmanic.lightweight.logger.Logger;
+import com.acidmanic.pactdoc.commands2.ApplicationContext;
 import com.acidmanic.pactdoc.commands2.GenerateWiki;
 import com.acidmanic.pactdoc.commands2.UpdateWiki;
 import com.acidmanic.pactdoc.commands2.VerifyContracts;
+import java.util.Map;
 
 /**
  *
  * @author diego
  */
-public class CommandBase2 {
+public class Application {
 
     public static void main(String[] args) {
 
-//        Application.main(new String[]{"generatewiki","website", "output", "wiki"});
-//        Application.main(new String[]{
-//            "updatewiki",
-//            "gitlab", "output", "dodo",
-//            "html",
-//            "repo", "http://5.160.179.226/Mani/devops-test.wiki.git",
-//            "auth", "Mani,neverGITLABagain"
-//        });
-//        Application.main(new String[]{"verifycontracts", "pactsroot", "Pacts"});
-        Application.main(new String[]{
-            "verifycontracts", "pactsroot", "Pacts",
-            "verifier", "litbid.api.contract.LitbidVerifier"
-        });
+        TypeRegistery typeRegistery = new TypeRegistery();
 
+        typeRegistery.registerClass(GenerateWiki.class);
+        typeRegistery.registerClass(UpdateWiki.class);
+        typeRegistery.registerClass(VerifyContracts.class);
+        typeRegistery.registerClass(Help.class);
+
+        ApplicationContext context = new ApplicationContext();
+
+        Logger logger = new ConsoleLogger();
+
+        CommandFactory factory = new CommandFactory(typeRegistery, logger, context);
+
+        Map<Command, String[]> commands = factory.make(args, true);
+
+        commands.forEach((c, ar) -> c.execute(ar));
+
+        if (!context.isSuccessful()) {
+
+            logger.log("Application did not executed successfully.");
+            logger.log("Failure messages:");
+
+            context.getFailureMessages().forEach(message -> logger.error(message));
+
+            System.exit(128);
+        }
     }
 }

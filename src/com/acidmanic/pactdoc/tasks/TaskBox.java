@@ -57,7 +57,7 @@ public class TaskBox {
         this.tasks.add(task);
     }
 
-    public void perform() {
+    public boolean perform() {
 
         for (Task task : this.tasks) {
 
@@ -67,9 +67,11 @@ public class TaskBox {
             } else {
 
                 this.logger.error("There was a problem " + task.getTitleing());
-                return;
+
+                return false;
             }
         }
+        return true;
     }
 
 }

@@ -93,7 +93,7 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
                 .add(Repository.class)
         );
 
-        taskBox.add(new RemoveWikiDirectory(parametersContext,getLogger()));
+        taskBox.add(new RemoveWikiDirectory(parametersContext, getLogger()));
 
         taskBox.add(new CloneGitRepository(parametersContext, getLogger()));
 
@@ -103,7 +103,11 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
         taskBox.add(new UpdateRemoteWiki(parametersContext, getLogger()));
 
-        taskBox.perform();
+        boolean success = taskBox.perform();
+
+        ApplicationContext context = getContext();
+
+        context.setSuccess(success);
 
     }
 
