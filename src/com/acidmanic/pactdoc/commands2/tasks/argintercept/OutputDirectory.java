@@ -21,50 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.commands2.tasks;
+package com.acidmanic.pactdoc.commands2.tasks.argintercept;
 
 import com.acidmanic.lightweight.logger.Logger;
-import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.commands2.ParametersContext;
-import com.acidmanic.pactdoc.storage.PactGather;
-import com.acidmanic.pactdoc.wiki.WikiEngine;
-import com.acidmanic.pactdoc.wiki.WikiEngineOptions;
-import com.acidmanic.pactdoc.wiki.format.WikiFormat;
+import java.io.File;
+import java.nio.file.Paths;
 
 /**
  *
  * @author diego
  */
-public class GenerateWiki extends PactDocCommandTaskBase {
-
-    public GenerateWiki(ParametersContext context, Logger logger) {
-        super(context, logger);
-    }
+public class OutputDirectory implements ArgumentInterceptor {
 
     @Override
-    public String getTitleing() {
-        return "Generating Wiki... in " + getContext().getOutputDirectory().getAbsolutePath();
-    }
+    public boolean intercept(ParametersContext context, Logger logger) {
 
-    @Override
-    protected boolean perform(ParametersContext context, Logger logger) {
+        if (context.getOutputDirectory() == null) {
 
-        WikiEngineOptions options = new WikiEngineOptions();
+            File output = Paths.get("wiki").toAbsolutePath().normalize().toFile();
 
-        WikiFormat format = context.getWebWikiFormatBuilder().build();
+            context.setOutputDirectory(output);
 
-        options.setFormat(format);
-
-        options.setPluggedDocumentDefinition(null);
-
-        options.setPluggedContractVerifier(context.getContractVerifier());
-
-        WikiEngine engine = new WikiEngine(options);
-
-        Pact pact = new PactGather().loadAllContractsAsPact(context.getPactsRoot());
-
-        engine.generate(pact);
-
+            logger.warning("Output directory defaulted to: " + output.getAbsolutePath());
+        }
         return true;
     }
 

@@ -24,53 +24,48 @@
 package com.acidmanic.pactdoc.commands2.tasks;
 
 import com.acidmanic.lightweight.logger.Logger;
+import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.commands2.ParametersContext;
-import com.acidmanic.pactdoc.commands2.tasks.argintercept.ArgumentInterceptor;
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import com.acidmanic.pactdoc.storage.PactGather;
+import com.acidmanic.pactdoc.wiki.WikiEngine;
+import com.acidmanic.pactdoc.wiki.WikiEngineOptions;
+import com.acidmanic.pactdoc.wiki.format.WikiFormat;
 
 /**
  *
  * @author diego
  */
-public class InterceptCommonParameters extends PactDocCommandTaskBase{
+public class WikiGenerateTask extends PactDocCommandTaskBase {
 
-    private List<ArgumentInterceptor> argumentInterceptors = new ArrayList<>();
-    
-    
-    public InterceptCommonParameters(ParametersContext context, Logger logger) {
+    public WikiGenerateTask(ParametersContext context, Logger logger) {
         super(context, logger);
     }
 
     @Override
-    protected boolean perform(ParametersContext context, Logger logger) {
-        
-        context.getWebWikiFormatBuilder().defaults();
-        
-        boolean success = true;
-        
-        for(ArgumentInterceptor interceptor:this.argumentInterceptors){
-            success &= interceptor.intercept(context, logger);
-        }
-        
-        return success;
+    public String getTitleing() {
+        return "Generating Wiki... in " + getContext().getOutputDirectory().getAbsolutePath();
     }
 
     @Override
-    public String getTitleing() {
-        return "Checking input parameters...";
+    protected boolean perform(ParametersContext context, Logger logger) {
+
+        WikiEngineOptions options = new WikiEngineOptions();
+
+        WikiFormat format = context.getWebWikiFormatBuilder().build();
+
+        options.setFormat(format);
+
+        options.setPluggedDocumentDefinition(null);
+
+        options.setPluggedContractVerifier(context.getContractVerifier());
+
+        WikiEngine engine = new WikiEngine(options);
+
+        Pact pact = new PactGather().loadAllContractsAsPact(context.getPactsRoot());
+
+        engine.generate(pact);
+
+        return true;
     }
-    
-    public InterceptCommonParameters add(Class<? extends ArgumentInterceptor> interceptor){
-        try {
-            ArgumentInterceptor item = interceptor.newInstance();
-            
-            this.argumentInterceptors.add(item);
-        } catch (Exception e) {
-        }
-        return this;
-    }
-    
+
 }

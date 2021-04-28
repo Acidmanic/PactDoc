@@ -21,56 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.commands2.tasks;
+package com.acidmanic.pactdoc.commands2.tasks.argintercept;
 
 import com.acidmanic.lightweight.logger.Logger;
 import com.acidmanic.pactdoc.commands2.ParametersContext;
-import com.acidmanic.pactdoc.commands2.tasks.argintercept.ArgumentInterceptor;
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author diego
  */
-public class InterceptCommonParameters extends PactDocCommandTaskBase{
-
-    private List<ArgumentInterceptor> argumentInterceptors = new ArrayList<>();
-    
-    
-    public InterceptCommonParameters(ParametersContext context, Logger logger) {
-        super(context, logger);
-    }
+public class PactsRoot implements ArgumentInterceptor {
 
     @Override
-    protected boolean perform(ParametersContext context, Logger logger) {
-        
-        context.getWebWikiFormatBuilder().defaults();
-        
-        boolean success = true;
-        
-        for(ArgumentInterceptor interceptor:this.argumentInterceptors){
-            success &= interceptor.intercept(context, logger);
+    public boolean intercept(ParametersContext context, Logger logger) {
+
+        if (context.getPactsRoot() == null) {
+
+            File output = Paths.get(".").toAbsolutePath().normalize().toFile();
+
+            context.setPactsRoot(output);
+
+            logger.warning("Pacts root directory defaulted to: " + output.getAbsolutePath());
         }
-        
-        return success;
+        return true;
     }
 
-    @Override
-    public String getTitleing() {
-        return "Checking input parameters...";
-    }
-    
-    public InterceptCommonParameters add(Class<? extends ArgumentInterceptor> interceptor){
-        try {
-            ArgumentInterceptor item = interceptor.newInstance();
-            
-            this.argumentInterceptors.add(item);
-        } catch (Exception e) {
-        }
-        return this;
-    }
-    
 }

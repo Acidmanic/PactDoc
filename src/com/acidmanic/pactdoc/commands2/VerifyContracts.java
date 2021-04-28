@@ -26,7 +26,6 @@ package com.acidmanic.pactdoc.commands2;
 import com.acidmanic.commandline.commands.FractalCommandBase;
 import com.acidmanic.commandline.commands.Help;
 import com.acidmanic.commandline.commands.TypeRegistery;
-import com.acidmanic.pactdoc.commands2.arguments.Auth;
 import com.acidmanic.pactdoc.commands2.arguments.Github;
 import com.acidmanic.pactdoc.commands2.arguments.Gitlab;
 import com.acidmanic.pactdoc.commands2.arguments.Html;
@@ -37,49 +36,32 @@ import com.acidmanic.pactdoc.commands2.arguments.LinksWithoutExtensions;
 import com.acidmanic.pactdoc.commands2.arguments.Markdown;
 import com.acidmanic.pactdoc.commands2.arguments.Output;
 import com.acidmanic.pactdoc.commands2.arguments.PactsRoot;
-import com.acidmanic.pactdoc.commands2.arguments.Repo;
 import com.acidmanic.pactdoc.commands2.arguments.Subdirectory;
 import com.acidmanic.pactdoc.commands2.arguments.Verifier;
 import com.acidmanic.pactdoc.commands2.arguments.Website;
 import com.acidmanic.pactdoc.commands2.arguments.WikiRootFilename;
-import com.acidmanic.pactdoc.commands2.tasks.AcceptLocalChanges;
-import com.acidmanic.pactdoc.commands2.tasks.CloneGitRepository;
 import com.acidmanic.pactdoc.commands2.tasks.InterceptCommonParameters;
 import com.acidmanic.pactdoc.commands2.tasks.RemoveWikiDirectory;
-import com.acidmanic.pactdoc.commands2.tasks.UpdateRemoteWiki;
+import com.acidmanic.pactdoc.commands2.tasks.Verify;
 import com.acidmanic.pactdoc.commands2.tasks.argintercept.OutputDirectory;
-import com.acidmanic.pactdoc.commands2.tasks.argintercept.Repository;
 import com.acidmanic.pactdoc.tasks.TaskBox;
 
 /**
  *
  * @author diego
  */
-public class UpdateWiki extends FractalCommandBase<ParametersContext> {
+public class VerifyContracts extends FractalCommandBase<ParametersContext> {
 
-    public UpdateWiki() {
+    public VerifyContracts() {
     }
 
     @Override
     protected void addArgumentClasses(TypeRegistery registery) {
 
         registery.registerClass(Help.class);
-        registery.registerClass(Output.class);
-        registery.registerClass(Auth.class);
-        registery.registerClass(Repo.class);
         registery.registerClass(PactsRoot.class);
-        registery.registerClass(Gitlab.class);
-        registery.registerClass(Github.class);
-        registery.registerClass(Website.class);
-        registery.registerClass(LinksWithExtensions.class);
-        registery.registerClass(LinksWithoutExtensions.class);
-        registery.registerClass(WikiRootFilename.class);
-        registery.registerClass(Subdirectory.class);
-        registery.registerClass(LinksRelative.class);
-        registery.registerClass(LinksAbsolute.class);
-        registery.registerClass(Html.class);
-        registery.registerClass(Markdown.class);
         registery.registerClass(Verifier.class);
+
     }
 
     @Override
@@ -90,18 +72,9 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
         taskBox.add(new InterceptCommonParameters(parametersContext, getLogger())
                 .add(OutputDirectory.class)
                 .add(com.acidmanic.pactdoc.commands2.tasks.argintercept.PactsRoot.class)
-                .add(Repository.class)
+                .add(com.acidmanic.pactdoc.commands2.tasks.argintercept.Verifier.class)
         );
-
-        taskBox.add(new RemoveWikiDirectory(parametersContext,getLogger()));
-
-        taskBox.add(new CloneGitRepository(parametersContext, getLogger()));
-
-        taskBox.add(new com.acidmanic.pactdoc.commands2.tasks.WikiGenerateTask(parametersContext, getLogger()));
-
-        taskBox.add(new AcceptLocalChanges(parametersContext, getLogger()));
-
-        taskBox.add(new UpdateRemoteWiki(parametersContext, getLogger()));
+        taskBox.add(new Verify(parametersContext, getLogger()));
 
         taskBox.perform();
 
@@ -114,9 +87,11 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
     @Override
     protected String getUsageDescription() {
-        return "This command will fetch a wiki reposiroty, update it's content "
-                + "by generating wiki contents from pact files and will update "
-                + "the remote wiki with new content.";
+        return "This command will search for all pact contracts available,"
+                + " then will check all of them to confirm with aproprate "
+                + "conventions. you can write your own contract verifier class"
+                + " and plug the jar file into this command and run it on your "
+                + "pipe line.";
     }
 
 }
