@@ -23,11 +23,7 @@
  */
 package playgrounds;
 
-import com.acidmanic.commandline.commands.Command;
 import com.acidmanic.pactdoc.Application;
-import com.acidmanic.pactdoc.commands2.GenerateWiki;
-import com.acidmanic.pactdoc.commands2.UpdateWiki;
-import com.acidmanic.pactdoc.commands2.VerifyContracts;
 
 /**
  *
@@ -46,10 +42,11 @@ public class CommandBase2 {
 //            "auth", "Mani,neverGITLABagain"
 //        });
 //        Application.main(new String[]{"verifycontracts", "pactsroot", "Pacts"});
-        Application.main(new String[]{
-            "verifycontracts", "pactsroot", "Pacts",
-            "verifier", "litbid.api.contract.LitbidVerifier"
-        });
+//        Application.main(new String[]{
+//            "verifycontracts", "pactsroot", "Pacts",
+//            "verifier", "litbid.api.contract.LitbidVerifier"
+//        });
+        Application.main(new String[]{"help"});
 
     }
 }
