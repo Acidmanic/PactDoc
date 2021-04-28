@@ -25,6 +25,7 @@ package playgrounds;
 
 import com.acidmanic.commandline.commands.Command;
 import com.acidmanic.pactdoc.commands2.GenerateWiki;
+import com.acidmanic.pactdoc.commands2.UpdateWiki;
 
 /**
  *
@@ -34,10 +35,23 @@ public class CommandBase2 {
 
     public static void main(String[] args) {
 
-        
-        
+        updateDeopsTest();
+
+    }
+
+    private static void staticWebWiki() {
         Command command = new GenerateWiki();
-        
-        command.execute(new String[]{"website output wiki"});
+
+        command.execute(new String[]{"website", "output", "wiki"});
+    }
+
+    private static void updateDeopsTest() {
+        Command command = new UpdateWiki();
+
+        command.execute(new String[]{
+            "gitlab", "output", "wiki",
+            "repo", "http://5.160.179.226/Mani/devops-test.wiki.git",
+            "auth", "Mani,neverGITLABagain"
+        });
     }
 }

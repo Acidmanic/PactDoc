@@ -81,7 +81,7 @@ public class GenerateWiki extends FractalCommandBase<ParametersContext> {
         
         taskBox.add(new InterceptCommonParameters(parametersContext, getLogger()));
 
-        taskBox.add(new RemoveWikiDirectory(false,parametersContext,getLogger()));
+        taskBox.add(new RemoveWikiDirectory(parametersContext,getLogger()));
 
         taskBox.add(new com.acidmanic.pactdoc.commands2.tasks.GenerateWiki(parametersContext, getLogger()));
 

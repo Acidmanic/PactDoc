@@ -95,11 +95,9 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
             return true;
         }, "Checking remote repository.");
 
-        taskBox.add(new RemoveWikiDirectory(false,parametersContext,getLogger()));
+        taskBox.add(new RemoveWikiDirectory(parametersContext,getLogger()));
 
         taskBox.add(new CloneGitRepository(parametersContext, getLogger()));
-
-        taskBox.add(new RemoveWikiDirectory(false,parametersContext,getLogger()));
 
         taskBox.add(new com.acidmanic.pactdoc.commands2.tasks.GenerateWiki(parametersContext, getLogger()));
 

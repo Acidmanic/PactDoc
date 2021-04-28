@@ -43,7 +43,7 @@ public class GenerateWiki extends PactDocCommandTaskBase {
 
     @Override
     public String getTitleing() {
-        return "Generating Wiki...";
+        return "Generating Wiki... in " + getContext().getOutputDirectory().getAbsolutePath();
     }
 
     @Override
