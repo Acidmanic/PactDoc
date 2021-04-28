@@ -26,6 +26,8 @@ package playgrounds;
 import com.acidmanic.commandline.commands.Command;
 import com.acidmanic.pactdoc.commands2.GenerateWiki;
 import com.acidmanic.pactdoc.commands2.UpdateWiki;
+import com.acidmanic.pactdoc.commands2.VerifyContracts;
+import com.acidmanic.pactdoc.plugin.PactDocPluginProfile;
 
 /**
  *
@@ -35,7 +37,9 @@ public class CommandBase2 {
 
     public static void main(String[] args) {
 
-        updateDeopsTest();
+//        updateDeopsTest();
+//        verifyUnplugged();
+        verifyPlugged();
 
     }
 
@@ -46,6 +50,7 @@ public class CommandBase2 {
     }
 
     private static void updateDeopsTest() {
+
         Command command = new UpdateWiki();
 
         command.execute(new String[]{
@@ -53,6 +58,26 @@ public class CommandBase2 {
             "html",
             "repo", "http://5.160.179.226/Mani/devops-test.wiki.git",
             "auth", "Mani,"
+        });
+    }
+
+    private static void verifyUnplugged() {
+
+        Command command = new VerifyContracts();
+
+        command.execute(new String[]{
+            "pactsroot", "Pacts"
+        });
+    }
+
+    private static void verifyPlugged() {
+
+        
+        Command command = new VerifyContracts();
+
+        command.execute(new String[]{
+            "pactsroot", "Pacts",
+            "verifier","litbid.api.contract.LitbidVerifier"
         });
     }
 }
