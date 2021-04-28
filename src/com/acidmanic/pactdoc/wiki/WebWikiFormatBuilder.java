@@ -65,6 +65,7 @@ public class WebWikiFormatBuilder {
         this.outputDirectory = new File(".").toPath().toAbsolutePath().normalize();
         this.subDirectory = Paths.get("apis");
         this.homeDefaultFileName = "index";
+        this.outputDirectory = Paths.get("wiki");
         this.extensionPresentInLinks = true;
         return this;
     }
@@ -206,7 +207,6 @@ public class WebWikiFormatBuilder {
         this.flatFileSystem = false;
         this.flatFileSystemDelimiter = "-";
         this.relativiseLinks = false;
-        this.outputDirectory = Paths.get("wiki");
         this.subDirectory = Paths.get("apis");
         this.homeDefaultFileName = "index";
         this.extensionPresentInLinks = false;
@@ -221,7 +221,6 @@ public class WebWikiFormatBuilder {
         this.flatFileSystem = true;
         this.flatFileSystemDelimiter = "-";
         this.relativiseLinks = true;
-        this.outputDirectory = Paths.get("wiki");
         this.subDirectory = Paths.get("apis");
         this.homeDefaultFileName = "index";
         this.extensionPresentInLinks = false;
@@ -246,7 +245,6 @@ public class WebWikiFormatBuilder {
         this.flatFileSystem = false;
         this.flatFileSystemDelimiter = "-";
         this.relativiseLinks = true;
-        this.outputDirectory = Paths.get("wiki");
         this.subDirectory = Paths.get("apis");
         this.homeDefaultFileName = "index";
         this.extensionPresentInLinks = true;

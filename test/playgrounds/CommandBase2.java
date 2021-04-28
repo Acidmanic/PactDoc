@@ -49,10 +49,10 @@ public class CommandBase2 {
         Command command = new UpdateWiki();
 
         command.execute(new String[]{
-            "gitlab", "output", "wiki",
+            "gitlab", "output", "dodo",
             "html",
             "repo", "http://5.160.179.226/Mani/devops-test.wiki.git",
-            "auth", "Mani,neverGITLABagain"
+            "auth", "Mani,"
         });
     }
 }
