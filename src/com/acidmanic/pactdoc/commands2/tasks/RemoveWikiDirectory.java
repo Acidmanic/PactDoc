@@ -25,6 +25,7 @@ package com.acidmanic.pactdoc.commands2.tasks;
 
 import com.acidmanic.delegates.Function;
 import com.acidmanic.lightweight.logger.Logger;
+import com.acidmanic.pactdoc.commands2.ParametersContext;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,17 +36,17 @@ import java.nio.file.Paths;
  */
 public class RemoveWikiDirectory extends TaskBase {
 
-    private final File directory;
     private final boolean keepGitFiles;
+    private final ParametersContext context;
 
     private static final String[] UNDELETABLES = {".git",
         ".gitignore",
         ".gitmodules"};
 
-    public RemoveWikiDirectory(File directory, boolean keepGitFiles, Logger logger) {
+    public RemoveWikiDirectory(boolean keepGitFiles, ParametersContext context, Logger logger) {
         super(logger);
-        this.directory = directory;
         this.keepGitFiles = keepGitFiles;
+        this.context = context;
     }
 
     private boolean isDeletable(File kid) {
@@ -62,14 +63,14 @@ public class RemoveWikiDirectory extends TaskBase {
     public Function<Boolean> getTask() {
 
         return () -> {
-            File f = this.directory;
+            File f = this.context.getOutputDirectory();
 
             if (f.exists() == false) {
                 return true;
             }
 
             if (!f.isDirectory()) {
-                getLogger().error(directory + ", is not a directory!.");
+                getLogger().error(f + ", is not a directory!.");
                 return false;
             }
 
@@ -86,7 +87,7 @@ public class RemoveWikiDirectory extends TaskBase {
                         try {
                             delete(kid);
                         } catch (Exception ex) {
-                            getLogger().error("Problem deleting: " + directory + "\n"
+                            getLogger().error("Problem deleting: " + f + "\n"
                                     + "Error: " + ex.getClass().getSimpleName());
                             return false;
                         }
@@ -96,7 +97,7 @@ public class RemoveWikiDirectory extends TaskBase {
                 try {
                     delete(f);
                 } catch (Exception ex) {
-                    getLogger().error("Problem deleting: " + directory + "\n"
+                    getLogger().error("Problem deleting: " + f + "\n"
                             + "Error: " + ex.getClass().getSimpleName());
 
                     return false;
@@ -119,7 +120,7 @@ public class RemoveWikiDirectory extends TaskBase {
 
     @Override
     public String getTitleing() {
-        return "Removing directory: " + this.directory;
+        return "Removing directory: " + this.context.getOutputDirectory().getAbsolutePath();
     }
 
 }

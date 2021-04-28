@@ -24,7 +24,7 @@
 package playgrounds;
 
 import com.acidmanic.commandline.commands.Command;
-import com.acidmanic.pactdoc.commands2.UpdateWiki;
+import com.acidmanic.pactdoc.commands2.GenerateWiki;
 
 /**
  *
@@ -36,8 +36,8 @@ public class CommandBase2 {
 
         
         
-        Command update = new UpdateWiki();
+        Command command = new GenerateWiki();
         
-        update.execute(new String[]{"help"});
+        command.execute(new String[]{"website output wiki"});
     }
 }

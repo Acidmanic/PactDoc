@@ -44,6 +44,7 @@ import com.acidmanic.pactdoc.commands2.arguments.Website;
 import com.acidmanic.pactdoc.commands2.arguments.WikiRootFilename;
 import com.acidmanic.pactdoc.commands2.tasks.AcceptLocalChanges;
 import com.acidmanic.pactdoc.commands2.tasks.CloneGitRepository;
+import com.acidmanic.pactdoc.commands2.tasks.InterceptCommonParameters;
 import com.acidmanic.pactdoc.commands2.tasks.RemoveWikiDirectory;
 import com.acidmanic.pactdoc.commands2.tasks.UpdateRemoteWiki;
 import com.acidmanic.pactdoc.tasks.TaskBox;
@@ -84,14 +85,22 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
         TaskBox taskBox = new TaskBox(getLogger());
 
-        taskBox.add(new RemoveWikiDirectory(parametersContext.getOutputDirectory(),
-                false, getLogger()));
+        taskBox.add(new InterceptCommonParameters(parametersContext, getLogger()));
+
+        taskBox.add(() -> {
+            if (parametersContext.getRepository() == null || parametersContext.getRepository().length() == 0) {
+                error("Remote repositories address must be provided.");
+                return false;
+            }
+            return true;
+        }, "Checking remote repository.");
+
+        taskBox.add(new RemoveWikiDirectory(false,parametersContext,getLogger()));
 
         taskBox.add(new CloneGitRepository(parametersContext, getLogger()));
 
-        taskBox.add(new RemoveWikiDirectory(parametersContext.getOutputDirectory(),
-                true, getLogger()));
-        
+        taskBox.add(new RemoveWikiDirectory(false,parametersContext,getLogger()));
+
         taskBox.add(new com.acidmanic.pactdoc.commands2.tasks.GenerateWiki(parametersContext, getLogger()));
 
         taskBox.add(new AcceptLocalChanges(parametersContext, getLogger()));

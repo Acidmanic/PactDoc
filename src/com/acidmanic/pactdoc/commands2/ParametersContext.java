@@ -72,6 +72,7 @@ public class ParametersContext implements ExecutionContext {
 
     public void setOutputDirectory(File outputDirectory) {
         this.outputDirectory = outputDirectory;
+        this.webWikiFormatBuilder.outputDirectory(outputDirectory.toPath());
     }
 
     public Credential getCredential() {

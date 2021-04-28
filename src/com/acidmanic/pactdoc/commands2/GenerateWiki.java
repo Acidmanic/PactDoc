@@ -40,6 +40,7 @@ import com.acidmanic.pactdoc.commands2.arguments.Subdirectory;
 import com.acidmanic.pactdoc.commands2.arguments.Verifier;
 import com.acidmanic.pactdoc.commands2.arguments.Website;
 import com.acidmanic.pactdoc.commands2.arguments.WikiRootFilename;
+import com.acidmanic.pactdoc.commands2.tasks.InterceptCommonParameters;
 import com.acidmanic.pactdoc.commands2.tasks.RemoveWikiDirectory;
 import com.acidmanic.pactdoc.tasks.TaskBox;
 
@@ -77,9 +78,10 @@ public class GenerateWiki extends FractalCommandBase<ParametersContext> {
     protected void execute(ParametersContext parametersContext) {
 
         TaskBox taskBox = new TaskBox(getLogger());
+        
+        taskBox.add(new InterceptCommonParameters(parametersContext, getLogger()));
 
-        taskBox.add(new RemoveWikiDirectory(parametersContext.getOutputDirectory(),
-                false, getLogger()));
+        taskBox.add(new RemoveWikiDirectory(false,parametersContext,getLogger()));
 
         taskBox.add(new com.acidmanic.pactdoc.commands2.tasks.GenerateWiki(parametersContext, getLogger()));
 
