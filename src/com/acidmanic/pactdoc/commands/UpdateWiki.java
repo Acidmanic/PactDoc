@@ -110,11 +110,13 @@ public class UpdateWiki extends PactDocCommandBase {
     private boolean cloneGitRepo(WikiCommandParameters parameters) {
         JGit git = new JGit();
 
+        File directory = new File(parameters.getOutputDirectory());
+
         if (parameters.hasValidUserPass()) {
             return git.clone(parameters.getRepository(), parameters.getUsername(),
-                    parameters.getPassword(), parameters.getOutputDirectory());
+                    parameters.getPassword(), directory);
         } else {
-            return git.clone(parameters.getRepository(), parameters.getOutputDirectory());
+            return git.clone(parameters.getRepository(), directory);
         }
 
     }
@@ -128,7 +130,7 @@ public class UpdateWiki extends PactDocCommandBase {
         options.setFormat(format);
 
         options.setPluggedDocumentDefinition(null);
-        
+
         options.setPluggedContractVerifier(parameters.getContractVerifier());
 
         WikiEngine engine = new WikiEngine(options);
@@ -150,13 +152,14 @@ public class UpdateWiki extends PactDocCommandBase {
     private boolean push(WikiCommandParameters parameters) {
         JGit git = new JGit();
 
+        File directory = new File(parameters.getOutputDirectory());
+
         if (parameters.hasValidUserPass()) {
 
             return git.push(parameters.getRemote(), parameters.getUsername(),
-                    parameters.getPassword(), parameters.getOutputDirectory());
-
+                    parameters.getPassword(), directory);
         } else {
-            return git.push(parameters.getRemote(), parameters.getOutputDirectory());
+            return git.push(parameters.getRemote(), directory);
         }
     }
 

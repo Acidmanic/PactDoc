@@ -74,10 +74,10 @@ public class JGit {
                 + getDotGitDirectory(directory);
     }
 
-    public boolean clone(String repo, String directory) {
+    public boolean clone(String repo, File directory) {
         try {
             Git.cloneRepository()
-                    .setDirectory(new File(directory))
+                    .setDirectory(directory)
                     .setURI(repo)
                     .call();
             return true;
@@ -86,10 +86,10 @@ public class JGit {
         return false;
     }
 
-    public boolean clone(String repo, String username, String password, String directory) {
+    public boolean clone(String repo, String username, String password, File directory) {
         try {
             Git.cloneRepository()
-                    .setDirectory(new File(directory))
+                    .setDirectory(directory)
                     .setURI(repo)
                     .setCredentialsProvider(
                             new UsernamePasswordCredentialsProvider(username, password)
@@ -101,8 +101,8 @@ public class JGit {
         return false;
     }
 
-    public boolean push(String remote, String directory) {
-        Git git = tryGetGit(new File(directory));
+    public boolean push(String remote, File directory) {
+        Git git = tryGetGit(directory);
 
         try {
             git.push().setPushAll()
@@ -114,9 +114,9 @@ public class JGit {
         return false;
     }
 
-    public boolean push(String remote, String username, String password, String directory) {
+    public boolean push(String remote, String username, String password, File directory) {
 
-        Git git = tryGetGit(new File(directory));
+        Git git = tryGetGit(directory);
 
         try {
             git.push().setPushAll()
