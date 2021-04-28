@@ -25,7 +25,6 @@ package com.acidmanic.pactdoc.dcoumentstructure.pagestores;
 
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.io.file.FileIOHelper;
-import com.acidmanic.io.file.FileSystemHelper;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import com.acidmanic.pactdoc.utility.MetaSafeDirectoryCleaner;
 import com.acidmanic.pactdoc.utility.PathHelpers;
@@ -219,7 +218,12 @@ public class FilesystemPageStore implements PageStore<String> {
     @Override
     public void initialize() {
 
-        new MetaSafeDirectoryCleaner().delete(this.subDirectory);
+        File filesDirectory = this.outputDirectory.resolve(subDirectory)
+                .toFile();
+
+        new MetaSafeDirectoryCleaner().delete(filesDirectory);
+
+        filesDirectory.mkdirs();
     }
 
 }

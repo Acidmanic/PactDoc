@@ -50,6 +50,7 @@ public class CommandBase2 {
 
         command.execute(new String[]{
             "gitlab", "output", "wiki",
+            "html",
             "repo", "http://5.160.179.226/Mani/devops-test.wiki.git",
             "auth", "Mani,neverGITLABagain"
         });

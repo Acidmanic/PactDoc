@@ -49,13 +49,16 @@ public class MetaSafeDirectoryCleaner {
 
     public void delete(File directory) {
 
-        File[] files = directory.listFiles();
+        if (directory.exists() && directory.isDirectory()) {
 
-        for (File file : files) {
+            File[] files = directory.listFiles();
 
-            if (!file.getName().startsWith(".")) {
+            for (File file : files) {
 
-                recursiveDelete(file);
+                if (!file.getName().startsWith(".")) {
+
+                    recursiveDelete(file);
+                }
             }
         }
     }
