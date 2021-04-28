@@ -32,8 +32,8 @@ import com.acidmanic.pactdoc.Application;
 public class CommandBase2 {
 
     public static void main(String[] args) {
-
-//        Application.main(new String[]{"generatewiki","website", "output", "wiki"});
+        
+        Application.main(new String[]{"generatewiki","website", "output", "debug/wiki"});
 //        Application.main(new String[]{
 //            "updatewiki",
 //            "gitlab", "output", "dodo",
@@ -46,7 +46,7 @@ public class CommandBase2 {
 //            "verifycontracts", "pactsroot", "Pacts",
 //            "verifier", "litbid.api.contract.LitbidVerifier"
 //        });
-        Application.main(new String[]{"help"});
+//        Application.main(new String[]{"help"});
 
     }
 }

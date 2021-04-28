@@ -26,8 +26,6 @@ package com.acidmanic.pactdoc.commands2.tasks;
 import com.acidmanic.lightweight.logger.Logger;
 import com.acidmanic.pactdoc.commands2.ParametersContext;
 import com.acidmanic.pactdoc.commands2.tasks.argintercept.ArgumentInterceptor;
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +44,7 @@ public class InterceptCommonParameters extends PactDocCommandTaskBase{
 
     @Override
     protected boolean perform(ParametersContext context, Logger logger) {
-        
-        context.getWebWikiFormatBuilder().defaults();
-        
+                
         boolean success = true;
         
         for(ArgumentInterceptor interceptor:this.argumentInterceptors){

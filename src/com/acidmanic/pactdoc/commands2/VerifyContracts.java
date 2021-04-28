@@ -57,7 +57,6 @@ public class VerifyContracts extends FractalCommandBase<ParametersContext> {
         TaskBox taskBox = new TaskBox(getLogger());
 
         taskBox.add(new InterceptCommonParameters(parametersContext, getLogger())
-                .add(OutputDirectory.class)
                 .add(com.acidmanic.pactdoc.commands2.tasks.argintercept.PactsRoot.class)
                 .add(com.acidmanic.pactdoc.commands2.tasks.argintercept.Verifier.class)
         );
