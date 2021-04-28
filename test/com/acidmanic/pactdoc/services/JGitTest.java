@@ -26,15 +26,15 @@ public class JGitTest {
     
     String repo ="git@127.0.0.1:/repos/test.git";
     String privateRepo ="git@gitlab.com:Acidmanic/podpodekhamir.git";
-    String directory = "container";
-    Path directoryPath = Paths.get(directory);
+    String directoryName = "container";
+    Path directoryPath = Paths.get(directoryName);
     
     private final String username;
     private final String password;
     
     
     public JGitTest() {
-        new FileSystemHelper().clearDirectory(directory);
+        new FileSystemHelper().clearDirectory(directoryName);
         
         List<String> cred = new FileIOHelper().tryReadAllLines("cred");
         username = cred.get(0);
@@ -45,7 +45,7 @@ public class JGitTest {
     public void testCloneLocal() {
         JGit git  = new JGit();
         
-        git.clone(repo, directory);
+        git.clone(repo, directoryPath.toFile());
         
         Assert.assertTrue(directoryPath.resolve(".git").toFile().exists());
         
@@ -55,7 +55,7 @@ public class JGitTest {
     public void testCloneUsernamePassword() {
         JGit git  = new JGit();
         
-        git.clone(privateRepo,username,password, directory);
+        git.clone(privateRepo,username,password, directoryPath.toFile());
         
         Assert.assertTrue(directoryPath.resolve(".git").toFile().exists());
         
@@ -65,16 +65,16 @@ public class JGitTest {
     @Test
     public void testAcceptLocalChanges() throws IOException {
         
-        makeUnClearRepo(directory);
+        makeUnClearRepo(directoryName);
         
         
         JGit git = new JGit();
         
         String commit = makeUnitCommit();
         
-        git.acceptLocalChanges(directory,commit);
+        git.acceptLocalChanges(directoryPath.toFile(),commit);
         
-        String res = readLastLog(directory);
+        String res = readLastLog(directoryName);
         
         Assert.assertTrue(res.contains(commit));
     }
@@ -86,15 +86,15 @@ public class JGitTest {
         
         JGit git = new JGit();
         
-        git.clone(privateRepo,username,password, directory);
+        git.clone(privateRepo,username,password, directoryPath.toFile());
         
-        makeDummyFile(directory);
+        makeDummyFile(directoryName);
         
         String commit = makeUnitCommit();
         
-        git.acceptLocalChanges(directory,commit);
+        git.acceptLocalChanges(directoryPath.toFile(),commit);
         
-        boolean res = git.push("origin",username,password, directory);
+        boolean res = git.push("origin",username,password, directoryPath.toFile());
         
         Assert.assertTrue(res);
         
