@@ -33,13 +33,13 @@ public class CommandBase2 {
 
     public static void main(String[] args) {
         
-        Application.main(new String[]{"generatewiki","website", "output", "debug/wiki"});
+//        Application.main(new String[]{"generatewiki","website", "output", "debug/wiki"});
 //        Application.main(new String[]{
 //            "updatewiki",
-//            "gitlab", "output", "dodo",
+//            "gitlab", "output", "debug/dodo",
 //            "html",
 //            "repo", "http://5.160.179.226/Mani/devops-test.wiki.git",
-//            "auth", "Mani,neverGITLABagain"
+//            "auth", "Mani,"
 //        });
 //        Application.main(new String[]{"verifycontracts", "pactsroot", "Pacts"});
 //        Application.main(new String[]{
