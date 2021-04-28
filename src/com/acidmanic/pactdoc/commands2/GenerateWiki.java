@@ -51,9 +51,9 @@ import com.acidmanic.pactdoc.tasks.TaskBox;
  *
  * @author diego
  */
-public class UpdateWiki extends FractalCommandBase<ParametersContext> {
+public class GenerateWiki extends FractalCommandBase<ParametersContext> {
 
-    public UpdateWiki() {
+    public GenerateWiki() {
     }
 
     @Override
@@ -61,8 +61,6 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
         registery.registerClass(Help.class);
         registery.registerClass(Output.class);
-        registery.registerClass(Auth.class);
-        registery.registerClass(Repo.class);
         registery.registerClass(PactsRoot.class);
         registery.registerClass(Gitlab.class);
         registery.registerClass(Github.class);
@@ -86,16 +84,7 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
         taskBox.add(new RemoveWikiDirectory(parametersContext.getOutputDirectory(),
                 false, getLogger()));
 
-        taskBox.add(new CloneGitRepository(parametersContext, getLogger()));
-
-        taskBox.add(new RemoveWikiDirectory(parametersContext.getOutputDirectory(),
-                true, getLogger()));
-        
         taskBox.add(new com.acidmanic.pactdoc.commands2.tasks.GenerateWiki(parametersContext, getLogger()));
-
-        taskBox.add(new AcceptLocalChanges(parametersContext, getLogger()));
-
-        taskBox.add(new UpdateRemoteWiki(parametersContext, getLogger()));
 
         taskBox.perform();
 
@@ -108,9 +97,9 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
     @Override
     protected String getUsageDescription() {
-        return "This command will fetch a wiki reposiroty, update it's content "
-                + "by generating wiki contents from pact files and will update "
-                + "the remote wiki with new content.";
+        return "This command will scan recursively all files inside "
+                + "pacts directory to find any pact json available. then"
+                + "will create a static md-based wiki in the documents directory";
     }
 
 }
