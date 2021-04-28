@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2019 Mani Moayedi (acidmanic.moayedi@gmail.com).
+ * Copyright 2021 diego.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,46 +21,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.acidmanic.pactdoc.businessmodels;
+package com.acidmanic.pactdoc.tasks;
 
-import com.acidmanic.pactdoc.utility.Func;
+import com.acidmanic.delegates.Function;
+import com.acidmanic.lightweight.logger.Logger;
+import com.acidmanic.lightweight.logger.SilentLogger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
+ * @author diego
  */
-public class CommandTask {
-    
-    private Func<Boolean> task ;
-    
-    private String titleing;
+public class TaskBox {
 
-    public CommandTask() {
-    
+    private final List<Task> tasks;
+    private final Logger logger;
+
+    public TaskBox() {
+        this(new SilentLogger());
     }
 
-    public CommandTask(Func<Boolean> task, String titleing) {
-        this.task = task;
-        this.titleing = titleing;
-    }
-    
-    public Func<Boolean> getTask() {
-        return task;
+    public TaskBox(Logger logger) {
+        this.tasks = new ArrayList<>();
+        this.logger = logger;
     }
 
-    public void setTask(Func<Boolean> task) {
-        this.task = task;
+    public void add(Function<Boolean> funciton, String titling) {
+
+        this.tasks.add(new TaskModel(funciton, titling));
     }
 
-    public String getTitleing() {
-        return titleing;
+    public void add(Task task) {
+
+        this.tasks.add(task);
     }
 
-    public void setTitleing(String titleing) {
-        this.titleing = titleing;
+    public void perform() {
+
+        for (Task task : this.tasks) {
+
+            if (task.getTask().perform()) {
+
+                this.logger.info(task.getTitleing() + " : OK");
+            } else {
+
+                this.logger.error("There was a problem " + task.getTitleing());
+                return;
+            }
+        }
     }
 
-    
-    
-    
 }

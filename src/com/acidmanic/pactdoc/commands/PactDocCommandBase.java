@@ -24,12 +24,12 @@
 package com.acidmanic.pactdoc.commands;
 
 import acidmanic.commandline.commands.CommandBase;
+import com.acidmanic.delegates.Function;
 import com.acidmanic.delegates.arg1.Action;
 import com.acidmanic.lightweight.logger.ArchiveLogger;
 import com.acidmanic.lightweight.logger.LogTypes;
 import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
-import com.acidmanic.pactdoc.businessmodels.CommandTask;
-import com.acidmanic.pactdoc.utility.Func;
+import com.acidmanic.pactdoc.tasks.TaskModel;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,7 +49,7 @@ public abstract class PactDocCommandBase extends CommandBase {
 
     private final HashMap<String, Action<String>> mappedLogger = new HashMap<>();
 
-    private List<CommandTask> tasks = new ArrayList<>();
+    private List<TaskModel> tasks = new ArrayList<>();
 
     public PactDocCommandBase() {
         mappedLogger.put(LogTypes.ERROR, message -> error(message));
@@ -70,12 +70,12 @@ public abstract class PactDocCommandBase extends CommandBase {
         );
     }
 
-    protected void addTask(String titleing, Func<Boolean> task) {
-        this.tasks.add(new CommandTask(task, titleing));
+    protected void addTask(String titleing, Function<Boolean> task) {
+        this.tasks.add(new TaskModel(task, titleing));
     }
 
     protected void performTasks() {
-        for (CommandTask task : this.tasks) {
+        for (TaskModel task : this.tasks) {
             if (task.getTask().perform()) {
                 info(task.getTitleing() + " : OK");
             } else {
@@ -93,7 +93,7 @@ public abstract class PactDocCommandBase extends CommandBase {
 
         String title = "Removing directory: " + directory;
 
-        Func<Boolean> action = () -> {
+        Function<Boolean> action = () -> {
             File f = new File(directory);
 
             if (f.exists() == false) {
