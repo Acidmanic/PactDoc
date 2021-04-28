@@ -26,7 +26,6 @@ package com.acidmanic.pactdoc.commands2;
 import com.acidmanic.commandline.commands.FractalCommandBase;
 import com.acidmanic.commandline.commands.Help;
 import com.acidmanic.commandline.commands.TypeRegistery;
-import com.acidmanic.pactdoc.commands2.arguments.Auth;
 import com.acidmanic.pactdoc.commands2.arguments.Github;
 import com.acidmanic.pactdoc.commands2.arguments.Gitlab;
 import com.acidmanic.pactdoc.commands2.arguments.Html;
@@ -37,14 +36,11 @@ import com.acidmanic.pactdoc.commands2.arguments.LinksWithoutExtensions;
 import com.acidmanic.pactdoc.commands2.arguments.Markdown;
 import com.acidmanic.pactdoc.commands2.arguments.Output;
 import com.acidmanic.pactdoc.commands2.arguments.PactsRoot;
-import com.acidmanic.pactdoc.commands2.arguments.Repo;
 import com.acidmanic.pactdoc.commands2.arguments.Subdirectory;
+import com.acidmanic.pactdoc.commands2.arguments.Verifier;
 import com.acidmanic.pactdoc.commands2.arguments.Website;
 import com.acidmanic.pactdoc.commands2.arguments.WikiRootFilename;
-import com.acidmanic.pactdoc.commands2.tasks.AcceptLocalChanges;
-import com.acidmanic.pactdoc.commands2.tasks.CloneGitRepository;
 import com.acidmanic.pactdoc.commands2.tasks.RemoveWikiDirectory;
-import com.acidmanic.pactdoc.commands2.tasks.UpdateRemoteWiki;
 import com.acidmanic.pactdoc.tasks.TaskBox;
 
 /**
@@ -73,6 +69,7 @@ public class GenerateWiki extends FractalCommandBase<ParametersContext> {
         registery.registerClass(LinksAbsolute.class);
         registery.registerClass(Html.class);
         registery.registerClass(Markdown.class);
+        registery.registerClass(Verifier.class);
 
     }
 

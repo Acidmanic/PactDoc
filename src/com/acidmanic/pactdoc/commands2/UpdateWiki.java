@@ -39,6 +39,7 @@ import com.acidmanic.pactdoc.commands2.arguments.Output;
 import com.acidmanic.pactdoc.commands2.arguments.PactsRoot;
 import com.acidmanic.pactdoc.commands2.arguments.Repo;
 import com.acidmanic.pactdoc.commands2.arguments.Subdirectory;
+import com.acidmanic.pactdoc.commands2.arguments.Verifier;
 import com.acidmanic.pactdoc.commands2.arguments.Website;
 import com.acidmanic.pactdoc.commands2.arguments.WikiRootFilename;
 import com.acidmanic.pactdoc.commands2.tasks.AcceptLocalChanges;
@@ -75,7 +76,7 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
         registery.registerClass(LinksAbsolute.class);
         registery.registerClass(Html.class);
         registery.registerClass(Markdown.class);
-
+        registery.registerClass(Verifier.class);
     }
 
     @Override
