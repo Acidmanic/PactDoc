@@ -24,7 +24,6 @@
 package com.acidmanic.pactdoc.utility.jsonparsing.states;
 
 import com.acidmanic.pactdoc.utility.jsonparsing.JsonStringState;
-import static com.acidmanic.pactdoc.utility.jsonparsing.states.JsonParseHelper.*;
 /**
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
@@ -34,7 +33,7 @@ public class InRawValueState implements JsonStringState
 
     @Override
     public JsonStringState whatsNext(char c) {
-        if(Character.isWhitespace(c)||isObjectSymbol(c)){
+        if(Character.isWhitespace(c)||JsonParseHelper.isObjectSymbol(c)){
             return new InObjectSymbolsState();
         }
         return this;
