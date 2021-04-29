@@ -29,7 +29,7 @@ import com.acidmanic.pactdoc.utility.jsonparsing.JsonStringState;
  *
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
-public class InObjectSybolsState implements JsonStringState{
+public class InObjectSymbolsState implements JsonStringState{
 
     @Override
     public JsonStringState whatsNext(char c) {

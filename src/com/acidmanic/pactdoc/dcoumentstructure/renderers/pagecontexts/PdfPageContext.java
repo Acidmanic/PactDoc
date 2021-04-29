@@ -6,6 +6,7 @@
 package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts;
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
+import com.acidmanic.pactdoc.utility.jsonparsing.PdfElementJsonParserMachine;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
@@ -200,8 +201,12 @@ public class PdfPageContext implements PageContext<PdfPage> {
 
     @Override
     public PageContext json(String json) {
-        //TODO: Improve
-        append(json.toUpperCase());
+
+        json = "\n" + json.trim() + "\n";
+
+        Element jsonElement = new PdfElementJsonParserMachine().parse(json);
+
+        this.addElement(jsonElement);
 
         return this;
     }

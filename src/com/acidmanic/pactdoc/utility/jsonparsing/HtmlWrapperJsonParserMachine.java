@@ -23,7 +23,7 @@
  */
 package com.acidmanic.pactdoc.utility.jsonparsing;
 
-import com.acidmanic.pactdoc.utility.jsonparsing.states.InObjectSybolsState;
+import com.acidmanic.pactdoc.utility.jsonparsing.states.InObjectSymbolsState;
 import com.acidmanic.pactdoc.utility.jsonparsing.states.InRawValueState;
 import com.acidmanic.pactdoc.utility.jsonparsing.states.InStrings;
 
@@ -71,7 +71,7 @@ public class HtmlWrapperJsonParserMachine {
     public String parse(String json){
         char[] chars = json.toCharArray();
         
-        JsonStringState state = new InObjectSybolsState();
+        JsonStringState state = new InObjectSymbolsState();
         
         StringBuilder sb = new StringBuilder();
         

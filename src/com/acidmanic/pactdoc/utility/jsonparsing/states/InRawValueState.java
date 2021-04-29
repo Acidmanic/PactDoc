@@ -35,7 +35,7 @@ public class InRawValueState implements JsonStringState
     @Override
     public JsonStringState whatsNext(char c) {
         if(Character.isWhitespace(c)||isObjectSymbol(c)){
-            return new InObjectSybolsState();
+            return new InObjectSymbolsState();
         }
         return this;
     }
