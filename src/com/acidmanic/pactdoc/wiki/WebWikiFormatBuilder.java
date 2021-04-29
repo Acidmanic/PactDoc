@@ -25,9 +25,11 @@ package com.acidmanic.pactdoc.wiki;
 
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.pagestores.FilesystemPageStore;
+import com.acidmanic.pactdoc.dcoumentstructure.pagestores.PdfPageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.HtmlContext;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.MarkdownContext;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.PdfPageContext;
 import com.acidmanic.pactdoc.wiki.format.WikiFormat;
 import java.io.File;
 import java.nio.file.Path;
@@ -39,8 +41,13 @@ import java.nio.file.Paths;
  */
 public class WebWikiFormatBuilder {
 
+    public static final String FORMAT_HTML = "html";
+    public static final String FORMAT_MARKDOWN = "markdown";
+    public static final String FORMAT_PDF = "pdf";
+
+    private String formatName;
     private PageContextProvider contextProvider;
-    private FilesystemPageStore pageStore;
+    private PageStore pageStore;
 
     private String filesExtension;
     private String flatFileSystemDelimiter;
@@ -67,6 +74,7 @@ public class WebWikiFormatBuilder {
         this.homeDefaultFileName = "index";
         this.outputDirectory = Paths.get("wiki");
         this.extensionPresentInLinks = true;
+        this.formatName = FORMAT_HTML;
         return this;
     }
 
@@ -74,25 +82,36 @@ public class WebWikiFormatBuilder {
         this.filesExtension = ".html";
         this.contextProvider = () -> new HtmlContext();
         this.extensionPresentInLinks = true;
+        this.formatName = FORMAT_HTML;
         return this;
     }
 
     public WebWikiFormatBuilder formatMarkdown() {
         this.filesExtension = ".md";
         this.contextProvider = () -> new MarkdownContext();
-
+        this.formatName = FORMAT_MARKDOWN;
         return this;
     }
 
     public WebWikiFormatBuilder format(String formatName) {
 
-        if ("markdown".equals(formatName.toLowerCase())) {
+        if (FORMAT_MARKDOWN.equals(formatName.toLowerCase())) {
 
             this.formatMarkdown();
-        } else {
+        } else if (FORMAT_HTML.equals(formatName)){
 
             this.formatHtml();
+        } else if (FORMAT_PDF.equals(formatName)){
+
+            this.formatPdf();
         }
+        return this;
+    }
+    
+    public WebWikiFormatBuilder formatPdf() {
+        this.filesExtension = ".pdf";
+        this.contextProvider = () -> new PdfPageContext();
+        this.formatName = FORMAT_PDF;
         return this;
     }
 
@@ -255,15 +274,7 @@ public class WebWikiFormatBuilder {
 
     public WikiFormat build() {
 
-        this.pageStore = new FilesystemPageStore(
-                this.filesExtension,
-                this.outputDirectory.toAbsolutePath().normalize(),
-                this.flatFileSystem,
-                this.flatFileSystemDelimiter,
-                this.relativiseLinks,
-                this.extensionPresentInLinks,
-                this.homeDefaultFileName,
-                this.subDirectory);
+        this.pageStore = createPageStore();
 
         WikiFormat format = new WikiFormat() {
 
@@ -283,6 +294,35 @@ public class WebWikiFormatBuilder {
             }
         };
         return format;
+    }
+
+    private PageStore createPageStore() {
+        
+        if(FORMAT_PDF.equals(this.formatName)){
+            
+            Path outputFile = this.outputDirectory;
+            
+            String filename ="wiki";
+            
+            if (this.subDirectory.getNameCount()==0){
+                
+                filename = this.subDirectory + filename;
+            }
+            filename += this.filesExtension;
+            
+            outputFile=outputFile.resolve(filename);
+            
+            return new PdfPageStore(outputFile.toFile());
+        }
+        return new FilesystemPageStore(
+                this.filesExtension,
+                this.outputDirectory.toAbsolutePath().normalize(),
+                this.flatFileSystem,
+                this.flatFileSystemDelimiter,
+                this.relativiseLinks,
+                this.extensionPresentInLinks,
+                this.homeDefaultFileName,
+                this.subDirectory);
     }
 
 }
