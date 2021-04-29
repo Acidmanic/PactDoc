@@ -40,7 +40,7 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
 
     private final HashMap<Class, Renderer> renderers = new HashMap<>();
     private final PageContextProvider pageContextProvider;
-    private final PageStore<String> pageStore;
+    private final PageStore pageStore;
     private final List<PropertyMapper> propertyMappers = new ArrayList<>();
     private Class leafType = null;
 
@@ -72,11 +72,11 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
     }
 
     protected void registerRenderer(RendererBase renderer) {
-        
+
         Class type = renderer.renderingType();
 
         if (!this.renderers.containsKey(type)) {
-            
+
             renderer.setRenderingContextProvider(this.pageContextProvider);
 
             renderer.setPageStore(this.pageStore);
@@ -84,10 +84,14 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
             this.renderers.put(type, renderer);
         }
     }
-    
+
     @Override
     public boolean keyCaseSensitive() {
         return false;
+    }
+
+    public Runnable finilizer() {
+        return () -> this.pageStore.deliver();
     }
 
 }

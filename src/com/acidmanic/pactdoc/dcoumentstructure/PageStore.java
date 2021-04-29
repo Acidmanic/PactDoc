@@ -38,4 +38,6 @@ public interface PageStore<T> {
     void save(Key key, T pageContent);
 
     String translate(Key referrer,Key target);
+    
+    void deliver();
 }

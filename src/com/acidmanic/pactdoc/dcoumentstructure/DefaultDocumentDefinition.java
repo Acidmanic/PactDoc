@@ -48,49 +48,45 @@ public class DefaultDocumentDefinition extends DocumentDefinitionBase {
         super(pageContextProvider, pageStore);
 
         this.verifier = null;
-        
+
         this.initialize();
     }
 
-    public DefaultDocumentDefinition(ContractVerifier verifier, 
-            PageContextProvider pageContextProvider, 
+    public DefaultDocumentDefinition(ContractVerifier verifier,
+            PageContextProvider pageContextProvider,
             PageStore<String> pageStore) {
-        
+
         super(pageContextProvider, pageStore);
-        
+
         this.verifier = verifier;
-        
+
         this.initialize();
     }
-    
-    
 
     private void initialize() {
-        
+
         ProviderPropertyMapper providerPropertyMapper = new ProviderPropertyMapper();
-        
-        if(this.verifier!=null){
-            
+
+        if (this.verifier != null) {
+
             List<ConventionTitle> conventionTitles = verifier.conventionTitles();
-            
+
             ConventionEntry conventionEntry = new ConventionEntry(conventionTitles);
-            
+
             providerPropertyMapper.setConventionEntry(conventionEntry);
-            
+
         }
-        
+
         addLevel(providerPropertyMapper);
 
         addLevel(new EndpointPropertyMapper());
-        
-        
 
         registerRenderer(new PactPageRenderer());
 
         registerRenderer(new ContractPageRenderer());
 
         registerRenderer(new EndpointPageRenderer());
-        
+
         registerRenderer(new ConventionsPageRenderer());
     }
 

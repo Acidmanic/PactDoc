@@ -32,7 +32,7 @@ import com.acidmanic.pactdoc.Application;
 public class CommandBase2 {
 
     public static void main(String[] args) {
-        
+
 //        Application.main(new String[]{"generatewiki","website", "output", "debug/wiki"});
 //        Application.main(new String[]{
 //            "updatewiki",
@@ -47,6 +47,10 @@ public class CommandBase2 {
 //            "verifier", "litbid.api.contract.LitbidVerifier"
 //        });
 //        Application.main(new String[]{"help"});
-
+        Application.main(new String[]{
+            "generatewiki", "gitlab", "pdf",
+            "output", "debug",
+            "subdirectory", "apis"
+        });
     }
 }

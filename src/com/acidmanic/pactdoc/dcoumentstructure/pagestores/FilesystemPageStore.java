@@ -226,4 +226,9 @@ public class FilesystemPageStore implements PageStore<String> {
         filesDirectory.mkdirs();
     }
 
+    @Override
+    public void deliver() {
+        
+    }
+
 }

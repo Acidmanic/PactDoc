@@ -8,12 +8,9 @@ package com.acidmanic.pactdoc.dcoumentstructure.pagestores;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.PdfPage;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,7 +32,7 @@ public class PdfPageStore implements PageStore<PdfPage> {
     public void initialize() {
         this.document = new Document();
 
-        File parentDirectory = this.outputFile.toPath().getRoot().toFile();
+        File parentDirectory = this.outputFile.toPath().getParent().toFile();
 
         parentDirectory.mkdirs();
 
@@ -81,7 +78,8 @@ public class PdfPageStore implements PageStore<PdfPage> {
         return target.uniqueHash();
     }
     
-    public void finish(){
+    @Override
+    public void deliver(){
     
         this.document.close();
     }

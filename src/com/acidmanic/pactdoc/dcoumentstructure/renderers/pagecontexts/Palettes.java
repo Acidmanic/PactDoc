@@ -7,26 +7,38 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 
 /**
  *
  * @author diego
  */
 public class Palettes {
-    
-    private static final Font FONT_TITLE = new Font(Font.FontFamily.valueOf("Aleo"), 28, Font.BOLD, BaseColor.BLACK);
-    private static final Font FONT_SUBTITLE = new Font(Font.FontFamily.valueOf("Aleo"), 18, Font.NORMAL, BaseColor.BLACK);
-    private static final Font FONT_REGULAR = new Font(Font.FontFamily.valueOf("Futura Lt BT"), 12, Font.NORMAL, BaseColor.BLACK);
-    
-    
-    public static final Palette NORMAL = new Palette(FONT_REGULAR);
-    
-    public static final Palette TITLE = new Palette(FONT_TITLE);
-    
-    public static final Palette SUB_TITLE = new Palette(FONT_SUBTITLE);
-    
-    public static final Palette PARAGRAPH = new Palette(FONT_REGULAR);
-    
-    
-    
+
+    private static Font FONT_TITLE;
+    private static Font FONT_SUBTITLE;
+    private static Font FONT_REGULAR;
+
+    public static Palette NORMAL;
+
+    public static Palette TITLE;
+
+    public static Palette SUB_TITLE;
+
+    public static Palette PARAGRAPH;
+
+    static {
+        
+        FONT_TITLE = FontFactory.getFont("Aleo",28f,Font.BOLD,BaseColor.BLACK);
+        
+        FONT_SUBTITLE = FontFactory.getFont("Aleo",18f,Font.NORMAL,BaseColor.BLACK);
+                
+        FONT_REGULAR = FontFactory.getFont("Futura Lt BT",12f,Font.NORMAL,BaseColor.BLACK);
+        
+        NORMAL = new Palette(FONT_REGULAR);
+        TITLE = new Palette(FONT_TITLE);
+        SUB_TITLE = new Palette(FONT_SUBTITLE);
+        PARAGRAPH = new Palette(FONT_REGULAR);
+    }
+
 }

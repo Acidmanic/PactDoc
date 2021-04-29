@@ -36,7 +36,7 @@ import java.util.List;
 public abstract class RendererBase implements Renderer {
 
     private PageContextProvider renderingContextProvider;
-    private PageStore<String> pageStore;
+    private PageStore pageStore;
 
     @Override
     public void render(Key key, Object o, Object o1, List<Key> childs) {
@@ -47,7 +47,7 @@ public abstract class RendererBase implements Renderer {
 
             performRender(key, o, (Pact) o1, childs, pageContext);
             
-            String pageContent = pageContext.output();
+            Object pageContent = pageContext.output();
             
             this.pageStore.save(key, pageContent);
             

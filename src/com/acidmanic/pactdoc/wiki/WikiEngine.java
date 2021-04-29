@@ -69,10 +69,12 @@ public class WikiEngine {
                     contractVerifier,
                     contextProvider,
                     pageStore);
-            
+
             pageStore.initialize();
         }
 
         renderEngine.render(definition, pact);
+
+        definition.finilizer().run();
     }
 }
