@@ -29,7 +29,7 @@ import com.acidmanic.pactdoc.dcoumentstructure.pagestores.PdfPageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.HtmlContext;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.MarkdownContext;
-import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.PdfPageContext;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.pdfcontext.PdfPageContext;
 import com.acidmanic.pactdoc.wiki.format.WikiFormat;
 import java.io.File;
 import java.nio.file.Path;

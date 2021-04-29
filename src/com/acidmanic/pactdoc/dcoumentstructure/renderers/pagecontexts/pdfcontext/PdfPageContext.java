@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts;
+package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.pdfcontext;
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import com.acidmanic.pactdoc.utility.jsonparsing.PdfElementJsonParserMachine;

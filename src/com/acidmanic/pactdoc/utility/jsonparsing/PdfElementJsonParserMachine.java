@@ -23,7 +23,7 @@
  */
 package com.acidmanic.pactdoc.utility.jsonparsing;
 
-import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.Palettes;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.pdfcontext.Palettes;
 import com.acidmanic.pactdoc.utility.jsonparsing.states.InObjectSymbolsState;
 import com.acidmanic.pactdoc.utility.jsonparsing.states.InRawValueState;
 import com.acidmanic.pactdoc.utility.jsonparsing.states.InStrings;
