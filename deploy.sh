@@ -1,3 +1,4 @@
+#!/bin/bash
 
 BASE=target/pact-doc
 
