@@ -9,11 +9,15 @@ import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.ListLabel;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.pdf.parser.TextRenderInfo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
@@ -30,6 +34,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
     private final Stack<Palette> paletteStack = new Stack<>();
 
     private String linkInprocess = null;
+
+    private BaseColor textColor = BaseColor.BLACK;
 
     private static final char LIST_BULLET = '\u2022';
 
@@ -153,7 +159,11 @@ public class PdfPageContext implements PageContext<PdfPage> {
     @Override
     public PageContext append(String text) {
 
-        Chunk chunk = new Chunk(text, this.paletteStack.peek().getFont());
+        Font font = new Font(this.paletteStack.peek().getFont());
+
+        font.setColor(textColor);
+
+        Chunk chunk = new Chunk(text, font);
 
         this.addElement(chunk);
 
@@ -173,6 +183,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
 
         this.linkInprocess = reference;
 
+        this.textColor = Palettes.LINK_COLOR;
+
         return this;
     }
 
@@ -180,6 +192,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
     public PageContext closeLink() {
 
         this.linkInprocess = null;
+
+        this.textColor = BaseColor.BLACK;
 
         return this;
     }
@@ -204,7 +218,6 @@ public class PdfPageContext implements PageContext<PdfPage> {
         LineSeparator separator = new LineSeparator(1.5f, 100f, BaseColor.DARK_GRAY, LineSeparator.ALIGN_JUSTIFIED, 2);
 
 //        separator.setPercentage(59500f / 523f);
-
         Chunk linebreak = new Chunk(separator);
 
         Paragraph horizontalLine = new Paragraph(linebreak);
@@ -216,8 +229,12 @@ public class PdfPageContext implements PageContext<PdfPage> {
 
     @Override
     public PageContext badge(String text) {
-//      TODO: Improve
-        append(text.toUpperCase());
+
+        Chunk chunk = new Chunk(text, Palettes.FONT_BADGE);
+
+        chunk.setBackground(BaseColor.LIGHT_GRAY, 3, 3, 3, 3);
+
+        this.addElement(chunk);
 
         return this;
     }
