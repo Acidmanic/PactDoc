@@ -37,9 +37,12 @@ public class IOHelper {
     
     
     public static void ensureParents(Path path){
-        path = path.toAbsolutePath().normalize().getParent();
-        if(path!=null){
-            path.toFile().mkdirs();
+        
+        Path parent = path.toAbsolutePath().normalize().getParent();
+        
+        if(parent!=null){
+            
+            parent.toFile().mkdirs();
         }
     }
     

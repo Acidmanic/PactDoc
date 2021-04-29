@@ -64,16 +64,6 @@ public class JGit {
         return null;
     }
 
-    private String getDotGitDirectory(String directory) {
-        return new File(directory).toPath().resolve(".git")
-                .normalize().toString();
-    }
-
-    private String forwardGit(String directory) {
-        return "--work-tree=" + directory + " --git-dir="
-                + getDotGitDirectory(directory);
-    }
-
     public boolean clone(String repo, File directory) {
         try {
             Git.cloneRepository()
