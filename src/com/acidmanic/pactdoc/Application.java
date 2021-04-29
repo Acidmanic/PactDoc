@@ -29,10 +29,10 @@ import com.acidmanic.commandline.commands.Help;
 import com.acidmanic.commandline.commands.TypeRegistery;
 import com.acidmanic.lightweight.logger.ConsoleLogger;
 import com.acidmanic.lightweight.logger.Logger;
-import com.acidmanic.pactdoc.commands2.ApplicationContext;
-import com.acidmanic.pactdoc.commands2.GenerateWiki;
-import com.acidmanic.pactdoc.commands2.UpdateWiki;
-import com.acidmanic.pactdoc.commands2.VerifyContracts;
+import com.acidmanic.pactdoc.commands.ApplicationContext;
+import com.acidmanic.pactdoc.commands.GenerateWiki;
+import com.acidmanic.pactdoc.commands.UpdateWiki;
+import com.acidmanic.pactdoc.commands.VerifyContracts;
 import java.util.Map;
 
 /**
