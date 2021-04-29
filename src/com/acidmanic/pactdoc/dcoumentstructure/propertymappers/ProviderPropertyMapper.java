@@ -25,6 +25,7 @@ package com.acidmanic.pactdoc.dcoumentstructure.propertymappers;
 
 import com.acidmanic.document.structure.propertymapped.PropertyMapper;
 import com.acidmanic.pact.models.Pact;
+import com.acidmanic.pactdoc.dcoumentstructure.models.ConventionEntry;
 import com.acidmanic.pactmodels.Contract;
 import com.acidmanic.pactmodels.Provider;
 import java.util.ArrayList;
@@ -36,11 +37,16 @@ import java.util.List;
  */
 public class ProviderPropertyMapper implements PropertyMapper {
 
+    private ConventionEntry conventionEntry = null;
+
     @Override
     public List<String> keySegmentValues(Object o) {
 
         List<String> segmentValues = new ArrayList<>();
 
+        if (this.conventionEntry != null) {
+            segmentValues.add("Conventions");
+        }
         if (o instanceof Pact) {
 
             Pact pact = (Pact) o;
@@ -74,17 +80,16 @@ public class ProviderPropertyMapper implements PropertyMapper {
     }
 
     @Override
-    public Class valueType() {
-        return Contract.class;
-    }
-
-    @Override
     public Object propertyValue(Object parent, String segmentValue) {
         Contract resultingContract = new Contract();
 
         resultingContract.setInteractions(new ArrayList<>());
-        
+
         if (parent instanceof Pact) {
+
+            if ("Conventions".equals(segmentValue)) {
+                return this.conventionEntry;
+            }
 
             Pact pact = (Pact) parent;
 
@@ -113,6 +118,11 @@ public class ProviderPropertyMapper implements PropertyMapper {
         main.setConsumer(merging.getConsumer());
 
         main.setMetadata(merging.getMetadata());
+    }
+
+    public void setConventionEntry(ConventionEntry conventionEntry) {
+
+        this.conventionEntry = conventionEntry;
     }
 
 }

@@ -71,5 +71,13 @@ public interface PageContext<Toutput> {
     PageContext horizontalLine();
 
     PageContext badge(String text);
+    
+    PageContext openList();
+    
+    PageContext closeList();
+    
+    PageContext openListItem();
+    
+    PageContext closeListItem();
 
 }

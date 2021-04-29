@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2019 Mani Moayedi (acidmanic.moayedi@gmail.com).
+ * Copyright 2021 diego.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,83 +23,65 @@
  */
 package com.acidmanic.pactdoc.commands;
 
-import com.acidmanic.pactdoc.commands.typeregisteries.VerificationTypeRegistery;
-import acidmanic.commandline.application.ExecutionEnvironment;
-import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.lightweight.logger.ArchiveLogger;
-import com.acidmanic.lightweight.logger.ResultTypes;
-import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
-import com.acidmanic.pactdoc.commands.parametervalidation.VerifyContractParameterValidator;
-import com.acidmanic.pactdoc.businessmodels.VerifyCommandParameters;
-import com.acidmanic.pactdoc.storage.PactGather;
-import com.acidmanic.pactmodels.Contract;
-import java.io.File;
-import java.util.List;
+import com.acidmanic.commandline.commands.FractalCommandBase;
+import com.acidmanic.commandline.commands.Help;
+import com.acidmanic.commandline.commands.TypeRegistery;
+import com.acidmanic.pactdoc.commands.arguments.PactsRoot;
+import com.acidmanic.pactdoc.commands.arguments.Verifier;
+import com.acidmanic.pactdoc.commands.tasks.InterceptCommonParameters;
+import com.acidmanic.pactdoc.commands.tasks.Verify;
+import com.acidmanic.pactdoc.commands.tasks.argintercept.OutputDirectory;
+import com.acidmanic.pactdoc.tasks.TaskBox;
 
 /**
  *
- * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
+ * @author diego
  */
-public class VerifyContracts extends PactDocCommandBase {
-
-    private final VerifyCommandParameters parameters;
-
-    private final ExecutionEnvironment paramsEnvironment;
+public class VerifyContracts extends FractalCommandBase<ParametersContext> {
 
     public VerifyContracts() {
-        this.parameters = new VerifyCommandParameters();
+    }
 
-        this.paramsEnvironment = new ExecutionEnvironment(new VerificationTypeRegistery());
+    @Override
+    protected void addArgumentClasses(TypeRegistery registery) {
 
-        this.paramsEnvironment.getDataRepository().set("params", parameters);
+        registery.registerClass(Help.class);
+        registery.registerClass(PactsRoot.class);
+        registery.registerClass(Verifier.class);
 
     }
 
     @Override
-    protected String getUsageString() {
+    protected void execute(ParametersContext parametersContext) {
+
+        TaskBox taskBox = new TaskBox(getLogger());
+
+        taskBox.add(new InterceptCommonParameters(parametersContext, getLogger())
+                .add(com.acidmanic.pactdoc.commands.tasks.argintercept.PactsRoot.class)
+                .add(com.acidmanic.pactdoc.commands.tasks.argintercept.Verifier.class)
+        );
+        taskBox.add(new Verify(parametersContext, getLogger()));
+
+        boolean success = taskBox.perform();
+
+        ApplicationContext context = getContext();
+
+        context.setSuccess(success);
+
+    }
+
+    @Override
+    protected ParametersContext createNewContext() {
+        return new ParametersContext();
+    }
+
+    @Override
+    protected String getUsageDescription() {
         return "This command will search for all pact contracts available,"
                 + " then will check all of them to confirm with aproprate "
                 + "conventions. you can write your own contract verifier class"
                 + " and plug the jar file into this command and run it on your "
                 + "pipe line.";
-    }
-
-    @Override
-    public void execute() {
-
-        if (!this.paramsEnvironment.isHelpExecuted()) {
-
-            ValidationResult<VerifyCommandParameters> result
-                    = new VerifyContractParameterValidator().validate(parameters);
-
-            log(result);
-
-            if (result.isValid()) {
-
-                File root = new File(parameters.getPactsRoot());
-
-                List<Contract> contracts = new PactGather().loadAllContracts(root);
-
-                ArchiveLogger veryfierLogger = new ArchiveLogger();
-
-                parameters.getContractVerifier().setLogger(veryfierLogger);
-
-                parameters.getContractVerifier().verify(contracts);
-
-                log(veryfierLogger);
-
-                int exitCode = (veryfierLogger.getOverallSuccess() == ResultTypes.Failed) ? 128 : 0;
-
-                getExecutionEnvironment().setExitCode(exitCode);
-            }
-        }
-    }
-
-    @Override
-    public ArgumentValidationResult validateArguments() {
-        this.paramsEnvironment.execute(args);
-
-        return anyAvailable();
     }
 
 }

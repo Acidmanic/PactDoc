@@ -1,7 +1,7 @@
-/* 
+/*
  * The MIT License
  *
- * Copyright 2019 Mani Moayedi (acidmanic.moayedi@gmail.com).
+ * Copyright 2021 diego.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,139 +23,106 @@
  */
 package com.acidmanic.pactdoc.commands;
 
-import acidmanic.commandline.application.ExecutionEnvironment;
-import acidmanic.commandline.utility.ArgumentValidationResult;
-import com.acidmanic.pact.models.Pact;
-import com.acidmanic.pactdoc.businessmodels.WikiCommandParameters;
-import com.acidmanic.pactdoc.commands.typeregisteries.UpdateWikiTypesRegistery;
-import com.acidmanic.pactdoc.commands.parametervalidation.UpdateWikiAutoValidator;
-import com.acidmanic.pactdoc.commands.parametervalidation.ValidationResult;
-import com.acidmanic.pactdoc.wiki.WikiEngine;
-import com.acidmanic.pactdoc.utility.JGit;
-import com.acidmanic.pactdoc.storage.PactGather;
-import com.acidmanic.pactdoc.wiki.WikiEngineOptions;
-import com.acidmanic.pactdoc.wiki.format.WikiFormat;
-import java.io.File;
-import java.util.Date;
+import com.acidmanic.commandline.commands.FractalCommandBase;
+import com.acidmanic.commandline.commands.Help;
+import com.acidmanic.commandline.commands.TypeRegistery;
+import com.acidmanic.pactdoc.commands.arguments.Auth;
+import com.acidmanic.pactdoc.commands.arguments.Github;
+import com.acidmanic.pactdoc.commands.arguments.Gitlab;
+import com.acidmanic.pactdoc.commands.arguments.Html;
+import com.acidmanic.pactdoc.commands.arguments.LinksAbsolute;
+import com.acidmanic.pactdoc.commands.arguments.LinksRelative;
+import com.acidmanic.pactdoc.commands.arguments.LinksWithExtensions;
+import com.acidmanic.pactdoc.commands.arguments.LinksWithoutExtensions;
+import com.acidmanic.pactdoc.commands.arguments.Markdown;
+import com.acidmanic.pactdoc.commands.arguments.Output;
+import com.acidmanic.pactdoc.commands.arguments.PactsRoot;
+import com.acidmanic.pactdoc.commands.arguments.Pdf;
+import com.acidmanic.pactdoc.commands.arguments.Repo;
+import com.acidmanic.pactdoc.commands.arguments.Subdirectory;
+import com.acidmanic.pactdoc.commands.arguments.Verifier;
+import com.acidmanic.pactdoc.commands.arguments.Website;
+import com.acidmanic.pactdoc.commands.arguments.WikiRootFilename;
+import com.acidmanic.pactdoc.commands.tasks.AcceptLocalChanges;
+import com.acidmanic.pactdoc.commands.tasks.CloneGitRepository;
+import com.acidmanic.pactdoc.commands.tasks.InterceptCommonParameters;
+import com.acidmanic.pactdoc.commands.tasks.RemoveWikiDirectory;
+import com.acidmanic.pactdoc.commands.tasks.UpdateRemoteWiki;
+import com.acidmanic.pactdoc.commands.tasks.argintercept.OutputDirectory;
+import com.acidmanic.pactdoc.commands.tasks.argintercept.Repository;
+import com.acidmanic.pactdoc.tasks.TaskBox;
 
 /**
  *
- * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
+ * @author diego
  */
-public class UpdateWiki extends PactDocCommandBase {
-
-    private final WikiCommandParameters parameters;
-
-    private final ExecutionEnvironment parametersEnvironment;
+public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
     public UpdateWiki() {
-        this.parameters = new WikiCommandParameters();
-
-        this.parametersEnvironment
-                = new ExecutionEnvironment(new UpdateWikiTypesRegistery(), this);
-
-        this.parametersEnvironment.getDataRepository()
-                .set("params", this.parameters);
     }
 
     @Override
-    protected String getUsageString() {
+    protected void addArgumentClasses(TypeRegistery registery) {
+
+        registery.registerClass(Help.class);
+        registery.registerClass(Output.class);
+        registery.registerClass(Auth.class);
+        registery.registerClass(Repo.class);
+        registery.registerClass(PactsRoot.class);
+        registery.registerClass(Gitlab.class);
+        registery.registerClass(Github.class);
+        registery.registerClass(Website.class);
+        registery.registerClass(LinksWithExtensions.class);
+        registery.registerClass(LinksWithoutExtensions.class);
+        registery.registerClass(WikiRootFilename.class);
+        registery.registerClass(Subdirectory.class);
+        registery.registerClass(LinksRelative.class);
+        registery.registerClass(LinksAbsolute.class);
+        registery.registerClass(Html.class);
+        registery.registerClass(Markdown.class);
+        registery.registerClass(Verifier.class);
+        registery.registerClass(Pdf.class);
+    }
+
+    @Override
+    protected void execute(ParametersContext parametersContext) {
+
+        TaskBox taskBox = new TaskBox(getLogger());
+
+        taskBox.add(new InterceptCommonParameters(parametersContext, getLogger())
+                .add(OutputDirectory.class)
+                .add(com.acidmanic.pactdoc.commands.tasks.argintercept.PactsRoot.class)
+                .add(Repository.class)
+        );
+
+        taskBox.add(new RemoveWikiDirectory(parametersContext, getLogger()));
+
+        taskBox.add(new CloneGitRepository(parametersContext, getLogger()));
+
+        taskBox.add(new com.acidmanic.pactdoc.commands.tasks.WikiGenerateTask(parametersContext, getLogger()));
+
+        taskBox.add(new AcceptLocalChanges(parametersContext, getLogger()));
+
+        taskBox.add(new UpdateRemoteWiki(parametersContext, getLogger()));
+
+        boolean success = taskBox.perform();
+
+        ApplicationContext context = getContext();
+
+        context.setSuccess(success);
+
+    }
+
+    @Override
+    protected ParametersContext createNewContext() {
+        return new ParametersContext();
+    }
+
+    @Override
+    protected String getUsageDescription() {
         return "This command will fetch a wiki reposiroty, update it's content "
                 + "by generating wiki contents from pact files and will update "
                 + "the remote wiki with new content.";
-    }
-
-    @Override
-    public void execute() {
-
-        if (!this.parametersEnvironment.isHelpExecuted()) {
-
-            ValidationResult<WikiCommandParameters> result
-                    = new UpdateWikiAutoValidator().validate(parameters);
-
-            JGit git = new JGit();
-
-            log(result);
-
-            if (result.isValid()) {
-
-                addRemoveDirectoryTask(parameters.getOutputDirectory());
-
-                addTask("Cloning Wiki Repo", () -> cloneGitRepo(parameters));
-
-                addRemoveDirectoryTask(parameters.getResolvedWikiPath(), true);
-
-                addTask("Updating Wiki Files", () -> generateWiki(parameters));
-
-                addTask("Commiting Changes", ()
-                        -> git.acceptLocalChanges(parameters.getOutputDirectory(), makeCommit()));
-
-                addTask("Updating Remote Wiki", () -> push(parameters));
-
-                performTasks();
-            }
-
-        }
-    }
-
-    @Override
-    public ArgumentValidationResult validateArguments() {
-
-        this.parametersEnvironment.execute(args);
-
-        return anyAvailable();
-
-    }
-
-    private boolean cloneGitRepo(WikiCommandParameters parameters) {
-        JGit git = new JGit();
-
-        if (parameters.hasValidUserPass()) {
-            return git.clone(parameters.getRepository(), parameters.getUsername(),
-                    parameters.getPassword(), parameters.getOutputDirectory());
-        } else {
-            return git.clone(parameters.getRepository(), parameters.getOutputDirectory());
-        }
-
-    }
-
-    private boolean generateWiki(WikiCommandParameters parameters) {
-
-        WikiEngineOptions options = new WikiEngineOptions();
-
-        WikiFormat format = parameters.getWebWikiFormatBuilder().build();
-
-        options.setFormat(format);
-
-        options.setPluggedDocumentDefinition(null);
-
-        WikiEngine engine = new WikiEngine(options);
-
-        File pactsRoot = new File(parameters.getPactsRoot());
-
-        Pact pact = new PactGather().loadAllContractsAsPact(pactsRoot);
-
-        engine.generate(pact);
-
-        return true;
-    }
-
-    private String makeCommit() {
-        return "Wiki Has been updated via PactDoc application at "
-                + new Date().toString();
-    }
-
-    private boolean push(WikiCommandParameters parameters) {
-        JGit git = new JGit();
-
-        if (parameters.hasValidUserPass()) {
-
-            return git.push(parameters.getRemote(), parameters.getUsername(),
-                    parameters.getPassword(), parameters.getOutputDirectory());
-
-        } else {
-            return git.push(parameters.getRemote(), parameters.getOutputDirectory());
-        }
     }
 
 }

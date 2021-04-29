@@ -35,4 +35,9 @@ public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
         super("End points");
     }
 
+    @Override
+    public Class renderingType() {
+        return Contract.class;
+    }
+
 }

@@ -245,4 +245,35 @@ public class HtmlContext implements PageContext<String> {
                 .append(left).append("</td><td>")
                 .append(right).append("</td></tr>");
     }
+
+    @Override
+    public PageContext openList() {
+
+        this.contentBuilder.append("<ul>");
+
+        return this;
+    }
+
+    @Override
+    public PageContext closeList() {
+
+        this.contentBuilder.append("</ul>");
+
+        return this;
+    }
+
+    @Override
+    public PageContext openListItem() {
+
+        this.contentBuilder.append("<li>");
+
+        return this;
+    }
+
+    @Override
+    public PageContext closeListItem() {
+        this.contentBuilder.append("</li>");
+
+        return this;
+    }
 }

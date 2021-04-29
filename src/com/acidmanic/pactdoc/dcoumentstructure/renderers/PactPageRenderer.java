@@ -35,4 +35,9 @@ public class PactPageRenderer extends MenuPageRendererBase<Pact> {
         super("Providers:");
     }
 
+    @Override
+    public Class renderingType() {
+        return Pact.class;
+    }
+
 }

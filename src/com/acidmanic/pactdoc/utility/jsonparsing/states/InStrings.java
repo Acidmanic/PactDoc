@@ -34,7 +34,7 @@ public class InStrings implements JsonStringState{
     @Override
     public JsonStringState whatsNext(char c) {
         if(c == '"'){
-            return new InObjectSybolsState();
+            return new InObjectSymbolsState();
         }
         return this;
     }

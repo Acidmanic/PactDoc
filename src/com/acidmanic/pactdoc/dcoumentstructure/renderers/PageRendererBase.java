@@ -75,5 +75,4 @@ public abstract class PageRendererBase<T> extends RendererBase {
     }
 
     protected abstract void renderContent(Key key, T node, Pact root, List<Key> childs, PageContext pageContext);
-
 }

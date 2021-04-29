@@ -32,8 +32,12 @@ import com.acidmanic.document.structure.Key;
  * markdown
  */
 public interface PageStore<T> {
+    
+    void initialize();
 
     void save(Key key, T pageContent);
 
     String translate(Key referrer,Key target);
+    
+    void deliver();
 }
