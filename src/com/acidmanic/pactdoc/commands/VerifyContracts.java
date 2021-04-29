@@ -30,7 +30,6 @@ import com.acidmanic.pactdoc.commands.arguments.PactsRoot;
 import com.acidmanic.pactdoc.commands.arguments.Verifier;
 import com.acidmanic.pactdoc.commands.tasks.InterceptCommonParameters;
 import com.acidmanic.pactdoc.commands.tasks.Verify;
-import com.acidmanic.pactdoc.commands.tasks.argintercept.OutputDirectory;
 import com.acidmanic.pactdoc.tasks.TaskBox;
 
 /**
@@ -38,9 +37,6 @@ import com.acidmanic.pactdoc.tasks.TaskBox;
  * @author diego
  */
 public class VerifyContracts extends FractalCommandBase<ParametersContext> {
-
-    public VerifyContracts() {
-    }
 
     @Override
     protected void addArgumentClasses(TypeRegistery registery) {

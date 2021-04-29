@@ -58,9 +58,6 @@ import com.acidmanic.pactdoc.tasks.TaskBox;
  */
 public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
-    public UpdateWiki() {
-    }
-
     @Override
     protected void addArgumentClasses(TypeRegistery registery) {
 
