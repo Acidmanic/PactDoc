@@ -23,6 +23,17 @@
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+        
         <testSourceDirectory>test</testSourceDirectory>
         
         <testResources>
