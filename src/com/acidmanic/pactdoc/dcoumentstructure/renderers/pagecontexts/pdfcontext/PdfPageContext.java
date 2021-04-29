@@ -3,22 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts;
+package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.pdfcontext;
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
-import com.acidmanic.pactdoc.utility.jsonparsing.PdfElementJsonParserMachine;
+import com.acidmanic.pactdoc.utility.jsonparsing.PdfJsonParser;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.ListLabel;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.LineSeparator;
-import com.itextpdf.text.pdf.parser.TextRenderInfo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
@@ -203,8 +200,12 @@ public class PdfPageContext implements PageContext<PdfPage> {
     public PageContext json(String json) {
 
         json = "\n" + json.trim() + "\n";
+        
+        PdfJsonParser parser = new PdfJsonParser();
+        
+        parser.parse(json);
 
-        Element jsonElement = new PdfElementJsonParserMachine().parse(json);
+        Element jsonElement = parser.getJsonElement();
 
         this.addElement(jsonElement);
 

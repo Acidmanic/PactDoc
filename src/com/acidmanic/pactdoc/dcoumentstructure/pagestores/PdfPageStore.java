@@ -7,7 +7,7 @@ package com.acidmanic.pactdoc.dcoumentstructure.pagestores;
 
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
-import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.PdfPage;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.pdfcontext.PdfPage;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
