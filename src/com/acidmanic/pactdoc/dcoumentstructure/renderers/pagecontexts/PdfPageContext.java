@@ -52,11 +52,14 @@ public class PdfPageContext implements PageContext<PdfPage> {
 
         this.paletteStack.pop();
 
+        newLine();
+
         return this;
     }
 
     @Override
     public PageContext openSubtitle() {
+
         this.paletteStack.push(Palettes.SUB_TITLE.clone());
 
         return this;
@@ -66,6 +69,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
     public PageContext closeSubtitle() {
 
         this.paletteStack.pop();
+
+        newLine();
 
         return this;
     }
@@ -101,8 +106,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-                    header.setBorderWidth(2);
-                    header.setPhrase(new Phrase(columnTitle));
+                    header.setBorderWidth(1);
+                    header.setPhrase(new Phrase(columnTitle, Palettes.FONT_TABLE_HEADER));
                     pdfTable.addCell(header);
                 });
 
@@ -196,13 +201,15 @@ public class PdfPageContext implements PageContext<PdfPage> {
     @Override
     public PageContext horizontalLine() {
 
-        LineSeparator separator = new LineSeparator(3, 1.0f, BaseColor.DARK_GRAY, LineSeparator.ALIGN_JUSTIFIED, 0);
+        LineSeparator separator = new LineSeparator(1.5f, 100f, BaseColor.DARK_GRAY, LineSeparator.ALIGN_JUSTIFIED, 2);
 
-        separator.setPercentage(59500f / 523f);
+//        separator.setPercentage(59500f / 523f);
 
         Chunk linebreak = new Chunk(separator);
 
-        this.addElement(linebreak);
+        Paragraph horizontalLine = new Paragraph(linebreak);
+
+        this.addElement(horizontalLine);
 
         return this;
     }
@@ -236,16 +243,25 @@ public class PdfPageContext implements PageContext<PdfPage> {
 
     @Override
     public PageContext closeListItem() {
+
+        newLine();
+
         return this;
     }
 
     private void addElement(Element e) {
 
         if (this.linkInprocess != null) {
+
             List<Chunk> childs = e.getChunks();
 
-            if (childs != null) {
-                childs.forEach(c -> c.setLocalGoto(linkInprocess));
+            if (linkInprocess.toLowerCase().startsWith("http://")
+                    || linkInprocess.toLowerCase().startsWith("https://")) {
+                childs.forEach(c -> c.setAnchor(linkInprocess));
+            } else {
+                if (childs != null) {
+                    childs.forEach(c -> c.setLocalGoto(linkInprocess));
+                }
             }
         }
         this.page.add(e);
@@ -254,8 +270,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
     private void addRows(PdfPTable table, HashMap<String, String> data) {
 
         data.forEach((left, right) -> {
-            table.addCell(left);
-            table.addCell(right);
+            table.addCell(new Phrase(left, Palettes.FONT_TABLE_CONTENT));
+            table.addCell(new Phrase(right, Palettes.FONT_TABLE_CONTENT));
         });
 
     }

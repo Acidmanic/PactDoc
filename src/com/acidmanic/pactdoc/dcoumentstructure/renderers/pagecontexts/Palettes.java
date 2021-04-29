@@ -19,6 +19,10 @@ public class Palettes {
     private static Font FONT_SUBTITLE;
     private static Font FONT_REGULAR;
 
+    
+    public static Font FONT_TABLE_HEADER;
+    public static Font FONT_TABLE_CONTENT;
+    
     public static Palette NORMAL;
 
     public static Palette TITLE;
@@ -34,6 +38,10 @@ public class Palettes {
         FONT_SUBTITLE = FontFactory.getFont("Aleo",18f,Font.NORMAL,BaseColor.BLACK);
                 
         FONT_REGULAR = FontFactory.getFont("Futura Lt BT",12f,Font.NORMAL,BaseColor.BLACK);
+        
+        FONT_TABLE_HEADER = FontFactory.getFont("Futura Lt BT",10f,Font.BOLD,BaseColor.BLACK);
+        
+        FONT_TABLE_CONTENT = FontFactory.getFont("Futura Lt BT",10f,Font.NORMAL,BaseColor.BLACK);
         
         NORMAL = new Palette(FONT_REGULAR);
         TITLE = new Palette(FONT_TITLE);
