@@ -48,7 +48,7 @@ public class CommandBase2 {
 //        });
 //        Application.main(new String[]{"help"});
         Application.main(new String[]{
-            "generatewiki", "gitlab", "pdf",
+            "generatewiki", "gitlab", 
             "output", "debug",
             "subdirectory", "apis"
         });
