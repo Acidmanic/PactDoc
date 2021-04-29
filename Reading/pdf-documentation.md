@@ -1,14 +1,9 @@
-
-
 PDF Documentation
 ==============
 
-
-
 This file contanis reading references for adding PdfContext to PactDoct infeature
 
-
-Links:
+Links
 ----
 
 https://www.baeldung.com/java-pdf-creation

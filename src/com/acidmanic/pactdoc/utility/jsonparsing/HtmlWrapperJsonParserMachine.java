@@ -65,9 +65,6 @@ public class HtmlWrapperJsonParserMachine {
         return START_OPEN + this.stringClass + START_CLOSE;
     }
     
-    public HtmlWrapperJsonParserMachine() {
-    }
-    
     public String parse(String json){
         char[] chars = json.toCharArray();
         

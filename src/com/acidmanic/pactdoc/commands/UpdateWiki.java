@@ -48,6 +48,7 @@ import com.acidmanic.pactdoc.commands.tasks.CloneGitRepository;
 import com.acidmanic.pactdoc.commands.tasks.InterceptCommonParameters;
 import com.acidmanic.pactdoc.commands.tasks.RemoveWikiDirectory;
 import com.acidmanic.pactdoc.commands.tasks.UpdateRemoteWiki;
+import com.acidmanic.pactdoc.commands.tasks.WikiGenerateTask;
 import com.acidmanic.pactdoc.commands.tasks.argintercept.OutputDirectory;
 import com.acidmanic.pactdoc.commands.tasks.argintercept.Repository;
 import com.acidmanic.pactdoc.tasks.TaskBox;
@@ -96,7 +97,7 @@ public class UpdateWiki extends FractalCommandBase<ParametersContext> {
 
         taskBox.add(new CloneGitRepository(parametersContext, getLogger()));
 
-        taskBox.add(new com.acidmanic.pactdoc.commands.tasks.WikiGenerateTask(parametersContext, getLogger()));
+        taskBox.add(new WikiGenerateTask(parametersContext, getLogger()));
 
         taskBox.add(new AcceptLocalChanges(parametersContext, getLogger()));
 
