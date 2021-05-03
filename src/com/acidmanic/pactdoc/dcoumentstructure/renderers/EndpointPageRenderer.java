@@ -31,7 +31,12 @@ import com.acidmanic.pact.models.RequestPath;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import com.acidmanic.pactmodels.Response;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -88,13 +93,15 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                         .newLine();
             }
 
-            String body = request.getBody();
+            LinkedHashMap body = request.getBody();
 
-            if (body != null && body.length() > 0) {
+            if (body != null ) {
+                
+                String jsonBody = toJson(body);
 
                 pageContext.append("with body: ")
                         .newLine()
-                        .json(body)
+                        .json(jsonBody)
                         .newLine();
             }
 
@@ -107,11 +114,13 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             body = response.getBody();
 
-            if (body != null && body.length() > 0) {
+            if (body != null ) {
+                
+                String jsonBody = toJson(body);
 
                 pageContext.append("Response will have a body like: ")
                         .newLine()
-                        .json(body)
+                        .json(jsonBody)
                         .newLine();
             }
 
@@ -122,6 +131,20 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
     @Override
     public Class renderingType() {
         return EndPoint.class;
+    }
+
+    private String toJson(LinkedHashMap body) {
+        
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            
+            String json = mapper.writeValueAsString(body);
+            
+            return json;
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(EndpointPageRenderer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
 }
