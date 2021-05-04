@@ -51,6 +51,8 @@ public class WikiGenerateTask extends PactDocCommandTaskBase {
 
         WikiEngineOptions options = new WikiEngineOptions();
 
+        options.setBadgeProviderUrl(context.getBadgeProviderUrl());
+
         WikiFormat format = context.getWebWikiFormatBuilder().build();
 
         options.setFormat(format);

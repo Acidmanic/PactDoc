@@ -73,8 +73,8 @@ public class WikiEngine {
 
         WikiRenderingContext renderingContext;
 
-        if (true) {
-            renderingContext = new WikiRenderingContext("TODO: comes from arguments");
+        if (options.getBadgeProviderUrl().isValid()) {
+            renderingContext = new WikiRenderingContext(options.getBadgeProviderUrl().get());
         } else {
             renderingContext = new WikiRenderingContext();
         }

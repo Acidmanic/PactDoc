@@ -26,6 +26,7 @@ package com.acidmanic.pactdoc.wiki;
 import com.acidmanic.document.extention.DocumentProcessingDefinition;
 import com.acidmanic.pactdoc.contractverification.ContractVerifier;
 import com.acidmanic.pactdoc.wiki.format.WikiFormat;
+import com.acidmanic.utilities.Result;
 
 /**
  *
@@ -36,6 +37,7 @@ public class WikiEngineOptions {
     private WikiFormat format;
     private DocumentProcessingDefinition pluggedDocumentDefinition;
     private ContractVerifier pluggedContractVerifier;
+    private Result<String> badgeProviderUrl = new Result<>(false, "");
 
     public WikiFormat getFormat() {
         return format;
@@ -59,6 +61,14 @@ public class WikiEngineOptions {
 
     public void setPluggedContractVerifier(ContractVerifier pluggedContractVerifier) {
         this.pluggedContractVerifier = pluggedContractVerifier;
+    }
+
+    public Result<String> getBadgeProviderUrl() {
+        return badgeProviderUrl;
+    }
+
+    public void setBadgeProviderUrl(Result<String> badgeProviderUrl) {
+        this.badgeProviderUrl = badgeProviderUrl;
     }
 
 }
