@@ -27,42 +27,52 @@ import com.acidmanic.document.render.Renderer;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
+import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
+import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import java.util.List;
 
 /**
  *
+ * This is a class to be extended for any wiki format and page structure
+ *
  * @author diego
  */
-public abstract class RendererBase implements Renderer {
+public abstract class WikiRendererBase implements Renderer<WikiRenderingContext> {
 
-    private PageContextProvider renderingContextProvider;
+    private PageContextProvider pageContextProvider;
     private PageStore pageStore;
+    private BadgeInfoProvider endpointImplementationBadgeInfoProvider;
 
     @Override
-    public void render(Key key, Object o, Object o1, List<Key> childs) {
+    public void render(Key key, Object o, Object o1, List<Key> childs, WikiRenderingContext renderingContext) {
 
         if (o1 instanceof Pact) {
 
-            PageContext<String> pageContext = this.renderingContextProvider.createPageContext();
+            PageContext<String> pageContext = this.pageContextProvider.createPageContext();
 
-            performRender(key, o, (Pact) o1, childs, pageContext);
-            
+            performRender(key, o, (Pact) o1, childs, pageContext, renderingContext);
+
             Object pageContent = pageContext.output();
-            
+
             this.pageStore.save(key, pageContent);
-            
+
         }
     }
 
-    protected abstract void performRender(Key key, Object node, Pact root, List<Key> childs, PageContext pageContext);
+    protected abstract void performRender(Key key,
+            Object node,
+            Pact root,
+            List<Key> childs,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext);
 
-    protected PageContextProvider getRenderingContextProvider() {
+    protected PageContextProvider getPageContextProvider() {
 
-        return this.renderingContextProvider;
+        return this.pageContextProvider;
     }
 
-    public void setRenderingContextProvider(PageContextProvider renderingContext) {
-        this.renderingContextProvider = renderingContext;
+    public void setPageContextProvider(PageContextProvider renderingContext) {
+        this.pageContextProvider = renderingContext;
     }
 
     public void setPageStore(PageStore<String> pageStore) {
@@ -72,7 +82,15 @@ public abstract class RendererBase implements Renderer {
     public PageStore<String> getPageStore() {
         return pageStore;
     }
-    
+
     public abstract Class renderingType();
+
+    public BadgeInfoProvider getEndpointImplementationBadgeInfoProvider() {
+        return endpointImplementationBadgeInfoProvider;
+    }
+
+    public void setEndpointImplementationBadgeInfoProvider(BadgeInfoProvider endpointImplementationBadgeInfoProvider) {
+        this.endpointImplementationBadgeInfoProvider = endpointImplementationBadgeInfoProvider;
+    }
 
 }

@@ -26,6 +26,7 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.expressions.NavigationExpression;
+import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ import java.util.List;
  * @author diego
  * @param <T> Type of object which this page will present
  */
-public abstract class PageRendererBase<T> extends RendererBase {
+public abstract class PageRendererBase<T> extends WikiRendererBase {
 
     protected final String pageSubtitle;
 
@@ -42,7 +43,9 @@ public abstract class PageRendererBase<T> extends RendererBase {
     }
 
     @Override
-    protected void performRender(Key key, Object node, Pact root, List<Key> childs, PageContext pageContext) {
+    protected void performRender(Key key, Object node, Pact root, List<Key> childs,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext) {
 
         pageContext.openTitle()
                 .append("Api Documentation")
@@ -58,7 +61,7 @@ public abstract class PageRendererBase<T> extends RendererBase {
                 .closeSubtitle()
                 .newLine().newLine();
 
-        renderContent(key, (T) node, root, childs, pageContext);
+        renderContent(key, (T) node, root, childs, pageContext, renderingContext);
 
         pageContext
                 .newLine().newLine().newLine().newLine()
@@ -74,5 +77,7 @@ public abstract class PageRendererBase<T> extends RendererBase {
 
     }
 
-    protected abstract void renderContent(Key key, T node, Pact root, List<Key> childs, PageContext pageContext);
+    protected abstract void renderContent(Key key, T node, Pact root, List<Key> childs,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext);
 }

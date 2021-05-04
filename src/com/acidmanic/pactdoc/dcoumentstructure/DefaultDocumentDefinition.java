@@ -41,7 +41,7 @@ import java.util.List;
  *
  * @author diego
  */
-public class DefaultDocumentDefinition extends DocumentDefinitionBase {
+public class DefaultDocumentDefinition extends WikiDefinitionBase {
 
     private final ContractVerifier verifier;
     private final BadgeInfoProvider badgeInfoProvider = new ColumnBadgeInfoProvider();

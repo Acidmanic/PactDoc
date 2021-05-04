@@ -28,16 +28,18 @@ import com.acidmanic.document.render.Renderer;
 import com.acidmanic.document.structure.propertymapped.PropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
-import com.acidmanic.pactdoc.dcoumentstructure.renderers.RendererBase;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.WikiRendererBase;
+import com.acidmanic.utilities.Result;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  *
+ * This class can be extended to create any different wiki format
  * @author diego
  */
-public abstract class DocumentDefinitionBase implements DocumentProcessingDefinition {
+public abstract class WikiDefinitionBase implements DocumentProcessingDefinition {
 
     private final HashMap<Class, Renderer> renderers = new HashMap<>();
     private final PageContextProvider pageContextProvider;
@@ -45,7 +47,10 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
     private final List<PropertyMapper> propertyMappers = new ArrayList<>();
     private Class leafType = null;
     
-    public DocumentDefinitionBase(PageContextProvider pageContextProvider, PageStore<String> pageStore) {
+    private final Result<String> produceEndpointImplementationBadges = 
+            new Result<>(false, null);
+    
+    public WikiDefinitionBase(PageContextProvider pageContextProvider, PageStore<String> pageStore) {
         this.pageContextProvider = pageContextProvider;
         this.pageStore = pageStore;
     }
@@ -72,15 +77,17 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
         this.propertyMappers.add(mapper);
     }
 
-    protected void registerRenderer(RendererBase renderer) {
+    protected void registerRenderer(WikiRendererBase renderer) {
 
         Class type = renderer.renderingType();
 
         if (!this.renderers.containsKey(type)) {
 
-            renderer.setRenderingContextProvider(this.pageContextProvider);
+            renderer.setPageContextProvider(this.pageContextProvider);
 
             renderer.setPageStore(this.pageStore);
+            
+            renderer.setEndpointImplementationBadgeInfoProvider(this.endpointImplementationBadgeProvider());
 
             this.renderers.put(type, renderer);
         }
@@ -98,6 +105,14 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
     @Override
     public Runnable finilizer() {
         return () -> this.pageStore.deliver();
+    }
+    
+    
+    public void produceEndpointImplementationBadges(String badgeProviderUrl){
+        
+        this.produceEndpointImplementationBadges.setValid(true);
+        
+        this.produceEndpointImplementationBadges.set(badgeProviderUrl);
     }
 
 }

@@ -46,8 +46,6 @@ public class WikiEngine {
 
     public void generate(Pact pact) {
 
-        RenderEngine renderEngine = new RenderEngine();
-
         DocumentProcessingDefinition definition;
 
         if (this.options.getPluggedDocumentDefinition() != null) {
@@ -72,6 +70,16 @@ public class WikiEngine {
 
             pageStore.initialize();
         }
+
+        WikiRenderingContext renderingContext;
+
+        if (true) {
+            renderingContext = new WikiRenderingContext("TODO: comes from arguments");
+        } else {
+            renderingContext = new WikiRenderingContext();
+        }
+
+        RenderEngine<WikiRenderingContext> renderEngine = new RenderEngine(renderingContext);
 
         renderEngine.render(definition, pact);
 

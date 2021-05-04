@@ -25,6 +25,7 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
+import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import java.util.List;
 
 /**
@@ -39,7 +40,12 @@ public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
     }
 
     @Override
-    protected void renderContent(Key key, T node, Pact root, List<Key> childs, PageContext pageContext) {
+    protected void renderContent(Key key,
+            T node,
+            Pact root,
+            List<Key> childs,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext) {
 
         pageContext.newLine().newLine();
 

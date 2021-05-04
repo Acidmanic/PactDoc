@@ -28,6 +28,7 @@ import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.contractverification.ConventionTitle;
 import com.acidmanic.pactdoc.contractverification.ConventionType;
 import com.acidmanic.pactdoc.dcoumentstructure.models.ConventionEntry;
+import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,7 +52,12 @@ public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry> {
     }
 
     @Override
-    protected void renderContent(Key key, ConventionEntry node, Pact root, List<Key> childs, PageContext pageContext) {
+    protected void renderContent(Key key,
+            ConventionEntry node,
+            Pact root,
+            List<Key> childs,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext) {
 
         pageContext.newLine().openList();
 
@@ -71,7 +77,7 @@ public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry> {
 
                 while (text.endsWith(".")) {
 
-                    text = text.substring(0,text.length() - 1);
+                    text = text.substring(0, text.length() - 1);
                 }
                 text += ", will cause warnings to be thrown.";
             }

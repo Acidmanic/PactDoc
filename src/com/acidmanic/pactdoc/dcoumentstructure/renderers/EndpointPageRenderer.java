@@ -28,6 +28,7 @@ import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pact.models.RequestPath;
+import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import com.acidmanic.pactmodels.Response;
@@ -49,7 +50,12 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
     }
 
     @Override
-    protected void renderContent(Key key, EndPoint node, Pact root, List<Key> childs, PageContext pageContext) {
+    protected void renderContent(Key key,
+            EndPoint node,
+            Pact root,
+            List<Key> childs,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext) {
 
         for (Interaction interaction : node.getInteractions()) {
 
@@ -95,8 +101,8 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             LinkedHashMap body = request.getBody();
 
-            if (body != null ) {
-                
+            if (body != null) {
+
                 String jsonBody = toJson(body);
 
                 pageContext.append("with body: ")
@@ -114,8 +120,8 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             body = response.getBody();
 
-            if (body != null ) {
-                
+            if (body != null) {
+
                 String jsonBody = toJson(body);
 
                 pageContext.append("Response will have a body like: ")
@@ -134,12 +140,12 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
     }
 
     private String toJson(LinkedHashMap body) {
-        
+
         try {
             ObjectMapper mapper = new ObjectMapper();
-            
+
             String json = mapper.writeValueAsString(body);
-            
+
             return json;
         } catch (JsonProcessingException ex) {
             Logger.getLogger(EndpointPageRenderer.class.getName()).log(Level.SEVERE, null, ex);
