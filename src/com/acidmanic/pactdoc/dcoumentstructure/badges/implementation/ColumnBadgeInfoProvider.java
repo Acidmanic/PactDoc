@@ -22,6 +22,8 @@ public class ColumnBadgeInfoProvider implements BadgeInfoProvider {
         
         tag = tag.replace("\\", ":");
         
+        tag = tag.toLowerCase();
+        
         return tag;
     }
 

@@ -28,6 +28,7 @@ import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pact.models.RequestPath;
+import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
 import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
@@ -51,13 +52,51 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
     @Override
     protected void renderContent(Key key,
-            EndPoint node,
+            EndPoint endpoint,
             Pact root,
             List<Key> childs,
             PageContext pageContext,
             WikiRenderingContext renderingContext) {
 
-        for (Interaction interaction : node.getInteractions()) {
+        if (endpoint.getInteractions().isEmpty()) {
+
+            pageContext.openTitle()
+                    .append("Something does not add up!")
+                    .closeTitle()
+                    .openSubtitle()
+                    .append("There must be at least on interaction defined for each Endpoint.")
+                    .closeSubtitle();
+            return;
+        }
+
+        if (renderingContext.isAddEndpointImplementationBadges()) {
+
+            BadgeInfoProvider provider = this.getEndpointImplementationBadgeInfoProvider();
+
+            if (!provider.equals(BadgeInfoProvider.NULL)) {
+
+                String imageUrl = renderingContext.getBadgesBaseUri();
+
+                String endpointPath = endpoint.getInteractions().get(0).getRequest().getPath();
+
+                String tag = provider.translateToBadgeTag(endpointPath);
+
+                if (imageUrl.endsWith("/")) {
+
+                    imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
+                }
+                imageUrl += "/" + tag;
+
+                pageContext.openBold()
+                        .append("Implementation Status: ")
+                        .image(imageUrl)
+                        .closeBold()
+                        .horizontalLine();
+            }
+
+        }
+
+        for (Interaction interaction : endpoint.getInteractions()) {
 
             Request request = interaction.getRequest();
 
