@@ -26,6 +26,7 @@ package com.acidmanic.pactdoc.commands;
 import com.acidmanic.commandline.commands.FractalCommandBase;
 import com.acidmanic.commandline.commands.Help;
 import com.acidmanic.commandline.commands.TypeRegistery;
+import com.acidmanic.pactdoc.commands.arguments.BadgeProvider;
 import com.acidmanic.pactdoc.commands.arguments.Github;
 import com.acidmanic.pactdoc.commands.arguments.Gitlab;
 import com.acidmanic.pactdoc.commands.arguments.Html;
@@ -72,6 +73,7 @@ public class GenerateWiki extends FractalCommandBase<ParametersContext> {
         registery.registerClass(Markdown.class);
         registery.registerClass(Verifier.class);
         registery.registerClass(Pdf.class);
+        registery.registerClass(BadgeProvider.class);
 
     }
 
