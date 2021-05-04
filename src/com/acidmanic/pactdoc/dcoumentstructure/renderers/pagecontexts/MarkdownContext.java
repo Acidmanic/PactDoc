@@ -224,4 +224,12 @@ public class MarkdownContext implements PageContext<String> {
         return this;
     }
 
+    @Override
+    public PageContext image(String url) {
+        
+        this.markdownPageBuilder.image(url);
+
+        return this;
+    }
+
 }

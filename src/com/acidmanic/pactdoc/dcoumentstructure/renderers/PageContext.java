@@ -79,5 +79,7 @@ public interface PageContext<Toutput> {
     PageContext openListItem();
     
     PageContext closeListItem();
+    
+    PageContext image(String url);
 
 }

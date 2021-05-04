@@ -206,4 +206,12 @@ public class MarkdownPageBuilder {
 
         return this;
     }
+
+    public MarkdownPageBuilder image(String url) {
+        this.currentContent.append("![Image](")
+                .append(url)
+                .append(")");
+
+        return this;
+    }
 }

@@ -276,4 +276,14 @@ public class HtmlContext implements PageContext<String> {
 
         return this;
     }
+
+    @Override
+    public PageContext image(String url) {
+        
+        this.contentBuilder.append("<img src=\"")
+                .append(url)
+                .append("\">");
+        
+        return this;
+    }
 }

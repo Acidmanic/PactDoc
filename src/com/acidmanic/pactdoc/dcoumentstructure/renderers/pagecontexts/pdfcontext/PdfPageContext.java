@@ -7,6 +7,10 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.pdfcontex
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import com.acidmanic.pactdoc.utility.jsonparsing.PdfJsonParser;
+import com.acidmanic.utilities.Result;
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
@@ -16,9 +20,17 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -200,9 +212,9 @@ public class PdfPageContext implements PageContext<PdfPage> {
     public PageContext json(String json) {
 
         json = "\n" + json.trim() + "\n";
-        
+
         PdfJsonParser parser = new PdfJsonParser();
-        
+
         parser.parse(json);
 
         Element jsonElement = parser.getJsonElement();
@@ -297,6 +309,58 @@ public class PdfPageContext implements PageContext<PdfPage> {
             table.addCell(new Phrase(right, Palettes.FONT_TABLE_CONTENT));
         });
 
+    }
+
+    private boolean downloadFile(URL url, String outputFileName) {
+        try {
+            InputStream in = url.openStream();
+            ReadableByteChannel rbc = Channels.newChannel(in);
+            FileOutputStream fos = new FileOutputStream(outputFileName);
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            return true;
+        } catch (Exception e) {
+        }
+        return false;
+
+    }
+
+    private Result<ImageData> downloadImage(String imageUrl) {
+        try {
+
+            String name = UUID.randomUUID().toString();
+
+            URL url = new URL(imageUrl);
+
+            File tempFile = Paths.get(".").resolve(name)
+                    .toAbsolutePath().normalize().toFile();
+
+            if (downloadFile(url, tempFile.getAbsolutePath())) {
+
+                ImageData data = ImageDataFactory.create(tempFile.getAbsolutePath());
+
+                tempFile.delete();
+
+                return new Result<>(true, data);
+            }
+
+        } catch (Exception e) {
+        }
+        return new Result<>(false, null);
+    }
+
+    @Override
+    public PageContext image(String url) {
+
+        Result<ImageData> downloadResult = downloadImage(url);
+
+        if (downloadResult.isValid()) {
+
+            Image image = new Image(downloadResult.get());
+
+            this.page.add((Element) image);
+        }
+
+        return this;
     }
 
 }
