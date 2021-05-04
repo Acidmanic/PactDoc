@@ -13,8 +13,6 @@ public interface BadgeInfoProvider {
 
     public static BadgeInfoProvider NULL = new NullBadgeInfoProvider();
 
-    boolean provides();
-
     String translateToBadgeTag(String info);
 
 }
