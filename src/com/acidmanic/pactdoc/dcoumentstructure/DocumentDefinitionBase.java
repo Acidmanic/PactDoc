@@ -26,6 +26,7 @@ package com.acidmanic.pactdoc.dcoumentstructure;
 import com.acidmanic.document.extention.DocumentProcessingDefinition;
 import com.acidmanic.document.render.Renderer;
 import com.acidmanic.document.structure.propertymapped.PropertyMapper;
+import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.RendererBase;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
     private final PageStore pageStore;
     private final List<PropertyMapper> propertyMappers = new ArrayList<>();
     private Class leafType = null;
-
+    
     public DocumentDefinitionBase(PageContextProvider pageContextProvider, PageStore<String> pageStore) {
         this.pageContextProvider = pageContextProvider;
         this.pageStore = pageStore;
@@ -84,12 +85,17 @@ public abstract class DocumentDefinitionBase implements DocumentProcessingDefini
             this.renderers.put(type, renderer);
         }
     }
+    
+    protected BadgeInfoProvider endpointImplementationBadgeProvider(){
+        return BadgeInfoProvider.NULL;
+    }
 
     @Override
     public boolean keyCaseSensitive() {
         return false;
     }
 
+    @Override
     public Runnable finilizer() {
         return () -> this.pageStore.deliver();
     }

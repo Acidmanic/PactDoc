@@ -9,12 +9,16 @@ package com.acidmanic.pactdoc.dcoumentstructure.badges.implementation;
  *
  * @author diego
  */
-public interface BadgeInfoProvider {
+class NullBadgeInfoProvider implements BadgeInfoProvider {
 
-    public static BadgeInfoProvider NULL = new NullBadgeInfoProvider();
+    @Override
+    public boolean provides() {
+        return false;
+    }
 
-    boolean provides();
-
-    String translateToBadgeTag(String info);
+    @Override
+    public String translateToBadgeTag(String info) {
+        return null;
+    }
 
 }
