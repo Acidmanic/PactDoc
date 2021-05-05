@@ -17,13 +17,19 @@ public class ColumnBadgeInfoProvider implements BadgeInfoProvider {
 
     @Override
     public String translateToBadgeTag(String info) {
-        
+
         String tag = info.replace("/", ":");
-        
+
         tag = tag.replace("\\", ":");
-        
+
         tag = tag.toLowerCase();
-        
+
+        while (tag.startsWith(":")) {
+            tag = tag.substring(1, tag.length());
+        }
+        while (tag.endsWith(":")) {
+            tag = tag.substring(0, tag.length() - 1);
+        }
         return tag;
     }
 

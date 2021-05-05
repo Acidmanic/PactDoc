@@ -10,28 +10,28 @@ import com.acidmanic.pactdoc.utility.jsonparsing.PdfJsonParser;
 import com.acidmanic.utilities.Result;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.layout.element.Image;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.LineSeparator;
-import java.io.File;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
-import java.util.UUID;
 import java.util.stream.Stream;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -311,55 +311,19 @@ public class PdfPageContext implements PageContext<PdfPage> {
 
     }
 
-    private boolean downloadFile(URL url, String outputFileName) {
-        try {
-            InputStream in = url.openStream();
-            ReadableByteChannel rbc = Channels.newChannel(in);
-            FileOutputStream fos = new FileOutputStream(outputFileName);
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-            return true;
-        } catch (Exception e) {
-        }
-        return false;
-
-    }
-
-    private Result<ImageData> downloadImage(String imageUrl) {
-        try {
-
-            String name = UUID.randomUUID().toString();
-
-            URL url = new URL(imageUrl);
-
-            File tempFile = Paths.get(".").resolve(name)
-                    .toAbsolutePath().normalize().toFile();
-
-            if (downloadFile(url, tempFile.getAbsolutePath())) {
-
-                ImageData data = ImageDataFactory.create(tempFile.getAbsolutePath());
-
-                tempFile.delete();
-
-                return new Result<>(true, data);
-            }
-
-        } catch (Exception e) {
-        }
-        return new Result<>(false, null);
-    }
-
     @Override
-    public PageContext image(String url) {
+    public PageContext image(String imageUrl) {
 
-        Result<ImageData> downloadResult = downloadImage(url);
+        try {
 
-        if (downloadResult.isValid()) {
+            Image image = Image.getInstance(imageUrl);
 
-            Image image = new Image(downloadResult.get());
+            this.page.add(new Chunk(image, 10, 10));
 
-            this.page.add((Element) image);
+            return this;
+        } catch (Exception e) {
         }
-
+        this.page.add(new Chunk("[ Image Ommited ]"));
         return this;
     }
 
