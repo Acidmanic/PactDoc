@@ -7,9 +7,6 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts.pdfcontex
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import com.acidmanic.pactdoc.utility.jsonparsing.PdfJsonParser;
-import com.acidmanic.utilities.Result;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
@@ -20,18 +17,10 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.LineSeparator;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Stream;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -317,8 +306,10 @@ public class PdfPageContext implements PageContext<PdfPage> {
         try {
 
             Image image = Image.getInstance(imageUrl);
+            
+            image.scalePercent(60f);
 
-            this.page.add(new Chunk(image, 10, 10));
+            this.page.add(new Chunk(image,2,-2));
 
             return this;
         } catch (Exception e) {
