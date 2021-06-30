@@ -52,17 +52,11 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
     }
 
     @Override
-    protected void renderContent(Key key,
-            EndPoint endpoint,
-            Pact root,
-            List<Key> childs,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
+    protected void renderContent(PactRenderingState<EndPoint> state) {
 
-        if (endpoint.getInteractions().isEmpty()) {
+        if (state.getNode().getInteractions().isEmpty()) {
 
-            pageContext.openTitle()
+            state.getPageContext().openTitle()
                     .append("Something does not add up!")
                     .closeTitle()
                     .openSubtitle()
@@ -71,15 +65,15 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
             return;
         }
 
-        if (renderingContext.isAddEndpointImplementationBadges()) {
+        if (state.getContext().isAddEndpointImplementationBadges()) {
 
             BadgeInfoProvider provider = this.getEndpointImplementationBadgeInfoProvider();
 
             if (!provider.equals(BadgeInfoProvider.NULL)) {
 
-                String imageUrl = renderingContext.getBadgesBaseUri();
+                String imageUrl = state.getContext().getBadgesBaseUri();
 
-                String endpointPath = endpoint.getInteractions().get(0).getRequest().getPath();
+                String endpointPath = state.getNode().getInteractions().get(0).getRequest().getPath();
 
                 String tag = provider.translateToBadgeTag(endpointPath);
 
@@ -89,7 +83,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                 }
                 imageUrl += "/" + tag;
 
-                pageContext.openBold()
+                state.getPageContext().openBold()
                         .append("Implementation Status: ")
                         .image(imageUrl)
                         .closeBold()
@@ -98,7 +92,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
         }
 
-        for (Interaction interaction : endpoint.getInteractions()) {
+        for (Interaction interaction : state.getNode().getInteractions()) {
 
             Request request = interaction.getRequest();
 
@@ -110,7 +104,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             String method = request.getMethod().toUpperCase();
 
-            pageContext
+            state.getPageContext()
                     .openBold()
                     .append(pathString).append("-").append(method)
                     .closeBold()
@@ -126,7 +120,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             if (!request.getHeaders().isEmpty()) {
 
-                pageContext.append("with headers: ")
+                state.getPageContext().append("with headers: ")
                         .newLine()
                         .table("Key", "Value", request.getHeaders())
                         .newLine();
@@ -134,7 +128,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             if (!path.getParameters().isEmpty()) {
 
-                pageContext.append("with path parameters: ")
+                state.getPageContext().append("with path parameters: ")
                         .newLine()
                         .table(path.getParameters())
                         .newLine();
@@ -146,7 +140,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
                 String jsonBody = toJson(body);
 
-                pageContext.append("with body: ")
+                state.getPageContext().append("with body: ")
                         .newLine()
                         .json(jsonBody)
                         .newLine();
@@ -154,7 +148,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             Response response = interaction.getResponse();
 
-            pageContext.append("will be responded with status code: ")
+            state.getPageContext().append("will be responded with status code: ")
                     .openBold().append(Integer.toString(response.getStatus()))
                     .closeBold()
                     .newLine();
@@ -165,13 +159,13 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
                 String jsonBody = toJson(body);
 
-                pageContext.append("Response will have a body like: ")
+                state.getPageContext().append("Response will have a body like: ")
                         .newLine()
                         .json(jsonBody)
                         .newLine();
             }
 
-            pageContext.horizontalLine().newLine();
+            state.getPageContext().horizontalLine().newLine();
         }
     }
 

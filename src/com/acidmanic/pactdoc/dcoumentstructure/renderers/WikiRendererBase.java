@@ -24,13 +24,12 @@
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.document.render.Renderer;
-import com.acidmanic.document.structure.DocumentAdapter;
+import com.acidmanic.document.render.RenderingState;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
 import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
-import java.util.List;
 
 /**
  *
@@ -45,18 +44,17 @@ public abstract class WikiRendererBase implements Renderer<WikiRenderingContext>
     private BadgeInfoProvider endpointImplementationBadgeInfoProvider;
 
     @Override
-    public void render(Key key, 
-            Object o, 
-            Object o1,
-            List<Key> childs,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
-
-        if (o1 instanceof Pact) {
+    public void render(RenderingState<WikiRenderingContext> state) {
+        
+        if (state.getRoot() instanceof Pact) {
 
             PageContext<String> pageContext = this.pageContextProvider.createPageContext();
 
-            performRender(key, o, (Pact) o1, childs, pageContext, renderingContext, adapter);
+            Key key = state.getKey();
+            
+            PactRenderingState pactState = PactRenderingState.Build(state,pageContext);
+            
+            performRender(pactState);
 
             Object pageContent = pageContext.output();
 
@@ -65,13 +63,7 @@ public abstract class WikiRendererBase implements Renderer<WikiRenderingContext>
         }
     }
 
-    protected abstract void performRender(Key key,
-            Object node,
-            Pact root,
-            List<Key> childs,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter);
+   protected abstract void performRender(PactRenderingState state);
 
     protected PageContextProvider getPageContextProvider() {
 

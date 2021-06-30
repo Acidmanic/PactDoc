@@ -44,18 +44,17 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
     }
 
     @Override
-    protected void performRender(Key key, Object node, Pact root, List<Key> childs,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
+    protected void performRender(PactRenderingState state) {
 
-        pageContext.openTitle()
+        state.getPageContext().openTitle()
                 .append("Api Documentation")
                 .closeTitle()
                 .horizontalLine();
 
+        Key key = state.getKey();
+        
         new NavigationExpression(key, k -> getPageStore().translate(key, k))
-                .render(pageContext)
+                .render(state.getPageContext())
                 .horizontalLine()
                 .newLine()
                 .openSubtitle()
@@ -63,9 +62,9 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 .closeSubtitle()
                 .newLine().newLine();
 
-        renderContent(key, (T) node, root, childs, pageContext, renderingContext,adapter);
+        renderContent((PactRenderingState<T>)state);
 
-        pageContext
+        state.getPageContext()
                 .newLine().newLine().newLine().newLine()
                 .horizontalLine()
                 .openLink("https://github.com/Acidmanic/PactDoc")
@@ -79,8 +78,5 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
 
     }
 
-    protected abstract void renderContent(Key key, T node, Pact root, List<Key> childs,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter);
+    protected abstract void renderContent(PactRenderingState<T> state);
 }

@@ -23,12 +23,9 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.EndPoint;
-import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
-import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import com.acidmanic.pactmodels.Contract;
 
 /**
@@ -47,26 +44,22 @@ public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
     }
 
     @Override
-    protected void preChildRender(Pact root,
-            Key child,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
+    protected void preChildRender(Key child, PactRenderingState<Contract> state) {
 
-        if (renderingContext.isAddEndpointImplementationBadges()) {
+        if (state.getContext().isAddEndpointImplementationBadges()) {
 
             BadgeInfoProvider provider = this.getEndpointImplementationBadgeInfoProvider();
 
             if (!provider.equals(BadgeInfoProvider.NULL)) {
 
-                String imageUrl = renderingContext.getBadgesBaseUri();
+                String imageUrl = state.getContext().getBadgesBaseUri();
 
-                Object endpointObject = adapter.getContent(child);
+                Object endpointObject = state.getAdapter().getContent(child);
 
                 if (endpointObject != null && endpointObject instanceof EndPoint) {
 
                     EndPoint endpoint = (EndPoint) endpointObject;
-                    
+
                     String endpointPath = endpoint.getInteractions().get(0).getRequest().getPath();
 
                     String tag = provider.translateToBadgeTag(endpointPath);
@@ -77,7 +70,7 @@ public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
                     }
                     imageUrl += "/" + tag;
 
-                    pageContext.openBold()
+                    state.getPageContext().openBold()
                             .image(imageUrl)
                             .closeBold()
                             .append("  ");

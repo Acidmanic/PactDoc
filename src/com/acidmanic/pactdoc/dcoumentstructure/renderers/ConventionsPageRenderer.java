@@ -23,15 +23,10 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.document.structure.DocumentAdapter;
-import com.acidmanic.document.structure.Key;
-import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.contractverification.ConventionTitle;
 import com.acidmanic.pactdoc.contractverification.ConventionType;
 import com.acidmanic.pactdoc.dcoumentstructure.models.ConventionEntry;
-import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  *
@@ -41,7 +36,7 @@ public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry> {
 
     private static final HashMap<Integer, String> conventionMarks = new HashMap<>();
 
-    static {
+   static {
 
         conventionMarks.put(ConventionType.Must.ordinal(), "💥");
         conventionMarks.put(ConventionType.Warnable.ordinal(), "⚠️");
@@ -53,23 +48,17 @@ public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry> {
     }
 
     @Override
-    protected void renderContent(Key key,
-            ConventionEntry node,
-            Pact root,
-            List<Key> childs,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
+    protected void renderContent(PactRenderingState<ConventionEntry> state) {
 
-        pageContext.newLine().openList();
+        state.getPageContext().newLine().openList();
 
-        pageContext.paragraph("Whenever your pact files get verified, "
+        state.getPageContext().paragraph("Whenever your pact files get verified, "
                 + "all contracts will be checked against all following "
                 + "conventions. as an api-consumer (client side developer)"
                 + ", please consider these conventions to prevent "
                 + "incompatibility issues for your code.").newLine().newLine();
 
-        for (ConventionTitle title : node.getConventionTitles()) {
+        for (ConventionTitle title : state.getNode().getConventionTitles()) {
 
             String emoji = conventionMarks.get(title.getType().ordinal());
 
@@ -84,14 +73,14 @@ public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry> {
                 text += ", will cause warnings to be thrown.";
             }
 
-            pageContext.openListItem()
+            state.getPageContext().openListItem()
                     .append(" ").append(emoji).append(" ")
                     .append(text)
                     .closeListItem();
 
         }
 
-        pageContext.newLine().newLine().newLine().closeList();
+        state.getPageContext().newLine().newLine().newLine().closeList();
     }
 
     @Override

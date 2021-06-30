@@ -23,11 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
-import com.acidmanic.pact.models.Pact;
-import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
-import java.util.List;
 
 /**
  *
@@ -41,25 +37,19 @@ public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
     }
 
     @Override
-    protected void renderContent(Key key,
-            T node,
-            Pact root,
-            List<Key> childs,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
+    protected void renderContent(PactRenderingState<T> state) {
 
-        pageContext.newLine().newLine();
+        state.getPageContext().newLine().newLine();
 
-        for (Key child : childs) {
+        for (Key child : state.getChildren()) {
 
             String childName = child.leafValue();
 
-            String childReference = getPageStore().translate(key, child);
+            String childReference = getPageStore().translate(state.getKey(), child);
 
-            preChildRender(root, child, pageContext, renderingContext,adapter);
+            preChildRender(child, state);
 
-            pageContext
+            state.getPageContext()
                     .openBold()
                     .openItalic()
                     .openLink(childReference)
@@ -68,25 +58,17 @@ public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
                     .closeItalic()
                     .closeBold();
 
-            postChildRender(root, child, pageContext, renderingContext,adapter);
+            postChildRender(child, state);
 
-            pageContext.newLine();
+            state.getPageContext().newLine();
         }
     }
 
-    protected void preChildRender(Pact root,
-            Key child,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
+    protected void preChildRender(Key child, PactRenderingState<T> state) {
 
     }
 
-    protected void postChildRender(Pact root,
-            Key child,
-            PageContext pageContext,
-            WikiRenderingContext renderingContext,
-            DocumentAdapter adapter) {
+    protected void postChildRender(Key child, PactRenderingState<T> state) {
 
     }
 
