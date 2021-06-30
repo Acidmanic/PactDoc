@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
@@ -45,7 +46,8 @@ public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
             Pact root,
             List<Key> childs,
             PageContext pageContext,
-            WikiRenderingContext renderingContext) {
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
 
         pageContext.newLine().newLine();
 
@@ -55,6 +57,8 @@ public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
 
             String childReference = getPageStore().translate(key, child);
 
+            preChildRender(root, child, pageContext, renderingContext,adapter);
+
             pageContext
                     .openBold()
                     .openItalic()
@@ -62,10 +66,28 @@ public abstract class MenuPageRendererBase<T> extends PageRendererBase<T> {
                     .append(childName)
                     .closeLink()
                     .closeItalic()
-                    .closeBold()
-                    .newLine();
+                    .closeBold();
 
+            postChildRender(root, child, pageContext, renderingContext,adapter);
+
+            pageContext.newLine();
         }
+    }
+
+    protected void preChildRender(Pact root,
+            Key child,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
+
+    }
+
+    protected void postChildRender(Pact root,
+            Key child,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
+
     }
 
 }

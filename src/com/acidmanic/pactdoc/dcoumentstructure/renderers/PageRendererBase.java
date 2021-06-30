@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.expressions.NavigationExpression;
@@ -45,7 +46,8 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
     @Override
     protected void performRender(Key key, Object node, Pact root, List<Key> childs,
             PageContext pageContext,
-            WikiRenderingContext renderingContext) {
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
 
         pageContext.openTitle()
                 .append("Api Documentation")
@@ -61,7 +63,7 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 .closeSubtitle()
                 .newLine().newLine();
 
-        renderContent(key, (T) node, root, childs, pageContext, renderingContext);
+        renderContent(key, (T) node, root, childs, pageContext, renderingContext,adapter);
 
         pageContext
                 .newLine().newLine().newLine().newLine()
@@ -79,5 +81,6 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
 
     protected abstract void renderContent(Key key, T node, Pact root, List<Key> childs,
             PageContext pageContext,
-            WikiRenderingContext renderingContext);
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter);
 }

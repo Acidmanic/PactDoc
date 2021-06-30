@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
@@ -56,7 +57,8 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
             Pact root,
             List<Key> childs,
             PageContext pageContext,
-            WikiRenderingContext renderingContext) {
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
 
         if (endpoint.getInteractions().isEmpty()) {
 

@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.contractverification.ConventionTitle;
@@ -57,7 +58,8 @@ public class ConventionsPageRenderer extends PageRendererBase<ConventionEntry> {
             Pact root,
             List<Key> childs,
             PageContext pageContext,
-            WikiRenderingContext renderingContext) {
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
 
         pageContext.newLine().openList();
 

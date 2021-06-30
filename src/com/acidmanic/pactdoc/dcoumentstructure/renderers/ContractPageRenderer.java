@@ -23,6 +23,12 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import com.acidmanic.document.structure.DocumentAdapter;
+import com.acidmanic.document.structure.Key;
+import com.acidmanic.pact.models.EndPoint;
+import com.acidmanic.pact.models.Pact;
+import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
+import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import com.acidmanic.pactmodels.Contract;
 
 /**
@@ -38,6 +44,47 @@ public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
     @Override
     public Class renderingType() {
         return Contract.class;
+    }
+
+    @Override
+    protected void preChildRender(Pact root,
+            Key child,
+            PageContext pageContext,
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
+
+        if (renderingContext.isAddEndpointImplementationBadges()) {
+
+            BadgeInfoProvider provider = this.getEndpointImplementationBadgeInfoProvider();
+
+            if (!provider.equals(BadgeInfoProvider.NULL)) {
+
+                String imageUrl = renderingContext.getBadgesBaseUri();
+
+                Object endpointObject = adapter.getContent(child);
+
+                if (endpointObject != null && endpointObject instanceof EndPoint) {
+
+                    EndPoint endpoint = (EndPoint) endpointObject;
+                    
+                    String endpointPath = endpoint.getInteractions().get(0).getRequest().getPath();
+
+                    String tag = provider.translateToBadgeTag(endpointPath);
+
+                    if (imageUrl.endsWith("/")) {
+
+                        imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
+                    }
+                    imageUrl += "/" + tag;
+
+                    pageContext.openBold()
+                            .image(imageUrl)
+                            .closeBold()
+                            .append("  ");
+                }
+
+            }
+        }
     }
 
 }

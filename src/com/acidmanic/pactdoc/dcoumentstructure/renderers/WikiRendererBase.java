@@ -24,6 +24,7 @@
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.document.render.Renderer;
+import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
@@ -44,13 +45,18 @@ public abstract class WikiRendererBase implements Renderer<WikiRenderingContext>
     private BadgeInfoProvider endpointImplementationBadgeInfoProvider;
 
     @Override
-    public void render(Key key, Object o, Object o1, List<Key> childs, WikiRenderingContext renderingContext) {
+    public void render(Key key, 
+            Object o, 
+            Object o1,
+            List<Key> childs,
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter) {
 
         if (o1 instanceof Pact) {
 
             PageContext<String> pageContext = this.pageContextProvider.createPageContext();
 
-            performRender(key, o, (Pact) o1, childs, pageContext, renderingContext);
+            performRender(key, o, (Pact) o1, childs, pageContext, renderingContext, adapter);
 
             Object pageContent = pageContext.output();
 
@@ -64,7 +70,8 @@ public abstract class WikiRendererBase implements Renderer<WikiRenderingContext>
             Pact root,
             List<Key> childs,
             PageContext pageContext,
-            WikiRenderingContext renderingContext);
+            WikiRenderingContext renderingContext,
+            DocumentAdapter adapter);
 
     protected PageContextProvider getPageContextProvider() {
 
