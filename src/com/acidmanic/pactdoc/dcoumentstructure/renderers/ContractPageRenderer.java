@@ -24,8 +24,6 @@
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.document.structure.Key;
-import com.acidmanic.pact.models.EndPoint;
-import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
 import com.acidmanic.pactmodels.Contract;
 
 /**
@@ -46,38 +44,11 @@ public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
     @Override
     protected void preChildRender(Key child, PactRenderingState<Contract> state) {
 
-        if (state.getContext().isAddEndpointImplementationBadges()) {
+        BadgeRenderer badgeRenderer = new BadgeRenderer(this.getEndpointImplementationBadgeInfoProvider());
 
-            BadgeInfoProvider provider = this.getEndpointImplementationBadgeInfoProvider();
+        badgeRenderer.render(state, child);
 
-            if (!provider.equals(BadgeInfoProvider.NULL)) {
-
-                String imageUrl = state.getContext().getBadgesBaseUri();
-
-                Object endpointObject = state.getAdapter().getContent(child);
-
-                if (endpointObject != null && endpointObject instanceof EndPoint) {
-
-                    EndPoint endpoint = (EndPoint) endpointObject;
-
-                    String endpointPath = endpoint.getInteractions().get(0).getRequest().getPath();
-
-                    String tag = provider.translateToBadgeTag(endpointPath);
-
-                    if (imageUrl.endsWith("/")) {
-
-                        imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
-                    }
-                    imageUrl += "/" + tag;
-
-                    state.getPageContext().openBold()
-                            .image(imageUrl)
-                            .closeBold()
-                            .append("  ");
-                }
-
-            }
-        }
+        state.getPageContext().append("  ");
     }
 
 }

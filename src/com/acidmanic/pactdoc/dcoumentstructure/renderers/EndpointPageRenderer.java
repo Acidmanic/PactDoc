@@ -23,21 +23,15 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.document.structure.DocumentAdapter;
-import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
-import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pact.models.RequestPath;
-import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
-import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import com.acidmanic.pactmodels.Response;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,32 +59,13 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
             return;
         }
 
-        if (state.getContext().isAddEndpointImplementationBadges()) {
+        state.getPageContext().openBold().append("Implementation Status: ").closeBold();
 
-            BadgeInfoProvider provider = this.getEndpointImplementationBadgeInfoProvider();
+        BadgeRenderer badgeRenderer = new BadgeRenderer(this.getEndpointImplementationBadgeInfoProvider());
 
-            if (!provider.equals(BadgeInfoProvider.NULL)) {
+        badgeRenderer.render(state);
 
-                String imageUrl = state.getContext().getBadgesBaseUri();
-
-                String endpointPath = state.getNode().getInteractions().get(0).getRequest().getPath();
-
-                String tag = provider.translateToBadgeTag(endpointPath);
-
-                if (imageUrl.endsWith("/")) {
-
-                    imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
-                }
-                imageUrl += "/" + tag;
-
-                state.getPageContext().openBold()
-                        .append("Implementation Status: ")
-                        .image(imageUrl)
-                        .closeBold()
-                        .horizontalLine();
-            }
-
-        }
+        state.getPageContext().horizontalLine();
 
         for (Interaction interaction : state.getNode().getInteractions()) {
 
