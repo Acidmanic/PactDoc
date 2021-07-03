@@ -59,7 +59,10 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
             return;
         }
 
-        state.getPageContext().openBold().append("Implementation Status: ").closeBold();
+        state.getPageContext()
+                .openBold()
+                .append("Implementation Status:")
+                .closeBold().append(" ");
 
         BadgeRenderer badgeRenderer = new BadgeRenderer(this.getEndpointImplementationBadgeInfoProvider());
 
