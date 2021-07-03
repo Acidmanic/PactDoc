@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.BadgeRenderer;
 import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.RequestPath;
@@ -114,7 +115,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             LinkedHashMap body = request.getBody();
 
-            if (body != null) {
+            if (body != null && !body.isEmpty()) {
 
                 String jsonBody = toJson(body);
 
@@ -133,7 +134,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             body = response.getBody();
 
-            if (body != null) {
+            if (body != null && !body.isEmpty()) {
 
                 String jsonBody = toJson(body);
 

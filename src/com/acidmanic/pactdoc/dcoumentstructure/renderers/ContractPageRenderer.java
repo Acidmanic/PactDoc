@@ -23,6 +23,7 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.BadgeRenderer;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pactmodels.Contract;
 
