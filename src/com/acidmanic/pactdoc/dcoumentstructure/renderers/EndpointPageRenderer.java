@@ -27,6 +27,7 @@ import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.BadgeRen
 import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.RequestPath;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.JsonRenderer;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import com.acidmanic.pactmodels.Response;
@@ -113,18 +114,9 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                         .newLine();
             }
 
-            LinkedHashMap body = request.getBody();
-
-            if (body != null && !body.isEmpty()) {
-
-                String jsonBody = toJson(body);
-
-                state.getPageContext().append("with body: ")
-                        .newLine()
-                        .json(jsonBody)
-                        .newLine();
-            }
-
+            
+            new JsonRenderer().Render(state, request.getBody(), "with body: ");
+            
             Response response = interaction.getResponse();
 
             state.getPageContext().append("will be responded with status code: ")
@@ -132,18 +124,8 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                     .closeBold()
                     .newLine();
 
-            body = response.getBody();
-
-            if (body != null && !body.isEmpty()) {
-
-                String jsonBody = toJson(body);
-
-                state.getPageContext().append("Response will have a body like: ")
-                        .newLine()
-                        .json(jsonBody)
-                        .newLine();
-            }
-
+            new JsonRenderer().Render(state, response.getBody(), "Response will have a body like: ");
+            
             state.getPageContext().horizontalLine().newLine();
         }
     }
@@ -153,18 +135,6 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
         return EndPoint.class;
     }
 
-    private String toJson(LinkedHashMap body) {
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-
-            String json = mapper.writeValueAsString(body);
-
-            return json;
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(EndpointPageRenderer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
+    
 
 }
