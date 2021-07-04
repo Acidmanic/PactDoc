@@ -158,14 +158,16 @@ public class PdfPageContext implements PageContext<PdfPage> {
     @Override
     public PageContext append(String text) {
 
-        Font font = new Font(this.paletteStack.peek().getFont());
+        if (text != null && text.length() > 0) {
 
-        font.setColor(textColor);
+            Font font = new Font(this.paletteStack.peek().getFont());
 
-        Chunk chunk = new Chunk(text, font);
+            font.setColor(textColor);
 
-        this.addElement(chunk);
+            Chunk chunk = new Chunk(text, font);
 
+            this.addElement(chunk);
+        }
         return this;
     }
 
@@ -306,10 +308,10 @@ public class PdfPageContext implements PageContext<PdfPage> {
         try {
 
             Image image = Image.getInstance(imageUrl);
-            
+
             image.scalePercent(60f);
 
-            this.page.add(new Chunk(image,2,-2));
+            this.page.add(new Chunk(image, 2, -2));
 
             return this;
         } catch (Exception e) {
