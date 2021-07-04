@@ -28,15 +28,16 @@ import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.RequestPath;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.JsonRenderer;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.RequestQueryRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.RulesRenderer;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import com.acidmanic.pactmodels.Response;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.LinkedHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static com.itextpdf.text.pdf.PdfFileSpecification.url;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 /**
  *
@@ -77,15 +78,6 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             Request request = interaction.getRequest();
 
-            String fullUri = request.getPath();
-            
-            if (request.getQuery() != null && request.getQuery().length() > 0) {
-                
-                fullUri += "?" + request.getQuery();
-            }
-
-            RequestPath path = new RequestPathBuilder().build(fullUri);
-
             String method = request.getMethod().toUpperCase();
 
             state.getPageContext()
@@ -108,22 +100,14 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                         .newLine()
                         .table("Key", "Value", request.getHeaders())
                         .newLine();
-                
+
                 new RulesRenderer().render(state, request, "$.headers");
             }
 
-            if (!path.getParameters().isEmpty()) {
-
-                state.getPageContext().append("with query parameters: ")
-                        .newLine()
-                        .table(path.getParameters())
-                        .newLine();
-                
-                new RulesRenderer().render(state, request, "$.query");
-            }
+            new RequestQueryRenderer().render(state, request);
 
             new JsonRenderer().Render(state, request.getBody(), "with body: ");
-            
+
             new RulesRenderer().render(state, request, "$.body");
 
             Response response = interaction.getResponse();
@@ -134,16 +118,16 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                     .newLine();
 
             new JsonRenderer().Render(state, response.getBody(), "Response will have a body like: ");
-            
+
             new RulesRenderer().render(state, response, "$.body");
-            
+
             if (!response.getHeaders().isEmpty()) {
 
                 state.getPageContext().append("with headers: ")
                         .newLine()
                         .table("Key", "Value", response.getHeaders())
                         .newLine();
-                
+
                 new RulesRenderer().render(state, response, "$.headers");
             }
 
