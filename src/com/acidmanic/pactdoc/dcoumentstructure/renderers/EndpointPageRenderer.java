@@ -28,6 +28,7 @@ import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.RequestPath;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.JsonRenderer;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.RulesRenderer;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import com.acidmanic.pactmodels.Response;
@@ -76,17 +77,20 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             Request request = interaction.getRequest();
 
-            String pathString = request.getPath();
+            String fullUri = request.getPath();
+            
+            if (request.getQuery() != null && request.getQuery().length() > 0) {
+                
+                fullUri += "?" + request.getQuery();
+            }
 
-            RequestPath path = new RequestPathBuilder().build(pathString);
-
-            pathString = new RequestPathBuilder().stripParameters(pathString);
+            RequestPath path = new RequestPathBuilder().build(fullUri);
 
             String method = request.getMethod().toUpperCase();
 
             state.getPageContext()
                     .openBold()
-                    .append(pathString).append("-").append(method)
+                    .append(request.getPath()).append("-").append(method)
                     .closeBold()
                     .horizontalLine()
                     .newLine()
@@ -96,7 +100,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                     .append("When ")
                     .append(interaction.getProviderState())
                     .append(" an http ").badge(method).append(" request to '")
-                    .append(pathString).append("' ");
+                    .append(request.getPath()).append("' ");
 
             if (!request.getHeaders().isEmpty()) {
 
@@ -104,19 +108,24 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                         .newLine()
                         .table("Key", "Value", request.getHeaders())
                         .newLine();
+                
+                new RulesRenderer().render(state, request, "$.headers");
             }
 
             if (!path.getParameters().isEmpty()) {
 
-                state.getPageContext().append("with path parameters: ")
+                state.getPageContext().append("with query parameters: ")
                         .newLine()
                         .table(path.getParameters())
                         .newLine();
+                
+                new RulesRenderer().render(state, request, "$.query");
             }
 
-            
             new JsonRenderer().Render(state, request.getBody(), "with body: ");
             
+            new RulesRenderer().render(state, request, "$.body");
+
             Response response = interaction.getResponse();
 
             state.getPageContext().append("will be responded with status code: ")
@@ -126,6 +135,18 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             new JsonRenderer().Render(state, response.getBody(), "Response will have a body like: ");
             
+            new RulesRenderer().render(state, response, "$.body");
+            
+            if (!response.getHeaders().isEmpty()) {
+
+                state.getPageContext().append("with headers: ")
+                        .newLine()
+                        .table("Key", "Value", response.getHeaders())
+                        .newLine();
+                
+                new RulesRenderer().render(state, response, "$.headers");
+            }
+
             state.getPageContext().horizontalLine().newLine();
         }
     }
@@ -134,7 +155,5 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
     public Class renderingType() {
         return EndPoint.class;
     }
-
-    
 
 }
