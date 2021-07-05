@@ -13,6 +13,6 @@ jobs:
             - run: ${{ github.workspace }}/deploy.sh
             - uses: ncipollo/release-action@v1
               with:
-                artifacts: "${{ github.workspace }}/target/pact-doc.jar,${{ github.workspace }}/target/run.sh"
+                artifacts: "${{ github.workspace }}/target/pact-doc/application-standalone.jar,${{ github.workspace }}/target/pact-doc/run.sh"
                 token: ${{ secrets.GITHUB_TOKEN }}
               
