@@ -1,0 +1,18 @@
+
+name: ReleaseByTags
+on: 
+  push:
+    tags:
+    - '*'
+jobs:
+    Deploy_Project:
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Check out repository code
+              uses: actions/checkout@v2
+            - run: ${{ github.workspace }}/deploy.sh
+            - uses: ncipollo/release-action@v1
+              with:
+                artifacts: "${{ github.workspace }}/target/pact-doc.jar,${{ github.workspace }}/target/run.sh"
+                token: ${{ secrets.GITHUB_TOKEN }}
+              
