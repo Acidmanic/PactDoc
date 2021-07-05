@@ -187,7 +187,7 @@ public class RulesRenderer {
             state.getPageContext()
                     .append("The field: ")
                     .openBold()
-                    .append(fieldPath.toString())
+                    .append(fieldPath.relativizeToBaseObject().toString())
                     .closeBold()
                     .append(" of ");
         }
