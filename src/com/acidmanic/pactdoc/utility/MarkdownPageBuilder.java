@@ -195,7 +195,7 @@ public class MarkdownPageBuilder {
     }
 
     public MarkdownPageBuilder openListItem() {
-        this.currentContent.append("\t* ");
+        this.currentContent.append("  * ");
 
         return this;
     }
