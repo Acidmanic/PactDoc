@@ -24,20 +24,13 @@
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.BadgeRenderer;
-import com.acidmanic.pact.helpers.RequestPathBuilder;
 import com.acidmanic.pact.models.EndPoint;
-import com.acidmanic.pact.models.RequestPath;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.JsonRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.RequestQueryRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers.RulesRenderer;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import com.acidmanic.pactmodels.Response;
-import static com.itextpdf.text.pdf.PdfFileSpecification.url;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 
 /**
  *
