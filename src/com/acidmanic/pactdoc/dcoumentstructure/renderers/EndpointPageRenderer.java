@@ -105,12 +105,13 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
             Response response = interaction.getResponse();
 
-            state.getPageContext().append("will be responded with status code: ")
+            state.getPageContext().newLine()
+                    .append("This request, will be responded with status code: ")
                     .openBold().append(Integer.toString(response.getStatus()))
                     .closeBold()
                     .newLine();
 
-            new JsonRenderer().Render(state, response.getBody(), "Response will have a body like: ");
+            new JsonRenderer().Render(state, response.getBody(), "And response will have a body like: ");
 
             new RulesRenderer().render(state, response, "$.body");
 
