@@ -227,7 +227,7 @@ public class MarkdownContext implements PageContext<String> {
 
     @Override
     public PageContext image(String url) {
-        
+
         this.markdownPageBuilder.image(url);
 
         return this;
@@ -235,37 +235,58 @@ public class MarkdownContext implements PageContext<String> {
 
     @Override
     public PageContext openTable(int columns) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.markdownPageBuilder.openTable(columns);
+
+        return this;
     }
 
     @Override
     public PageContext openTable(Collection<String> headers) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.markdownPageBuilder.openTable(headers);
+
+        return this;
     }
 
     @Override
     public PageContext openTableRow() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.markdownPageBuilder.openTableRow();
+
+        return this;
     }
 
     @Override
     public PageContext closeTableRow() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.markdownPageBuilder.closeTableRow();
+
+        return this;
     }
 
     @Override
     public PageContext closeTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.markdownPageBuilder.closeTable();
+
+        return this;
     }
 
     @Override
     public PageContext openCell() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.markdownPageBuilder.openCell();
+
+        return this;
     }
 
     @Override
     public PageContext closeCell() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        this.markdownPageBuilder.closeCell();
+
+        return this;
     }
 
 }

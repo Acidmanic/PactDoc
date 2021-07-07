@@ -24,6 +24,8 @@
 package com.acidmanic.pactdoc.utility;
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -81,24 +83,6 @@ public class MarkdownPageBuilder {
         currentContent.append("\n").append(text).append("\n");
 
         return this;
-    }
-
-    public MarkdownPageBuilder table(HashMap<String, String> table) {
-        for (String key : table.keySet()) {
-            String value = table.get(key);
-            currentContent.append("|")
-                    .append(key)
-                    .append("|")
-                    .append(value)
-                    .append("|\n");
-        }
-        return this;
-    }
-
-    public MarkdownPageBuilder table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
-        currentContent.append("|:------|:------------|\n");
-        return this.table(table);
     }
 
     public MarkdownPageBuilder newLine() {
@@ -212,6 +196,100 @@ public class MarkdownPageBuilder {
                 .append(url)
                 .append(")");
 
+        return this;
+    }
+
+    public MarkdownPageBuilder table(HashMap<String, String> table) {
+        for (String key : table.keySet()) {
+            String value = table.get(key);
+            currentContent.append("|")
+                    .append(key)
+                    .append("|")
+                    .append(value)
+                    .append("|\n");
+        }
+        return this;
+    }
+
+    public MarkdownPageBuilder table(String leftHeader, String rightHeader, HashMap<String, String> table) {
+        currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
+        currentContent.append("|:------|:------------|\n");
+        return this.table(table);
+    }
+
+    private int tableColumns = 0;
+    private int putTableColumns = 0;
+    private boolean isAtTableCell = false;
+
+    public MarkdownPageBuilder openTable(int columns) {
+
+        ArrayList<String> headers = new ArrayList<>();
+
+        for (int i = 0; i < columns; i++) {
+            headers.add(" ");
+        }
+
+        return this.openTable(headers);
+    }
+
+    public MarkdownPageBuilder openTable(Collection<String> headers) {
+
+        this.tableColumns = headers.size();
+
+        currentContent.append("\n|");
+
+        headers.forEach(header -> currentContent.append(header).append("|"));
+
+        currentContent.append("\n").append("|");
+
+        headers.forEach(header -> currentContent.append(":--------").append("|"));
+
+        currentContent.append("\n");
+
+        return this;
+
+    }
+
+    public MarkdownPageBuilder openTableRow() {
+
+        this.putTableColumns = 0;
+
+        currentContent.append("|");
+
+        return this;
+    }
+
+    public MarkdownPageBuilder closeTableRow() {
+
+        for (int i = this.putTableColumns; i < this.tableColumns; i++) {
+
+            this.currentContent.append("|");
+        }
+
+        currentContent.append("\n");
+
+        return this;
+    }
+
+    public MarkdownPageBuilder closeTable() {
+        return this;
+    }
+
+    public MarkdownPageBuilder openCell() {
+        
+        this.isAtTableCell = true;
+        
+        this.putTableColumns +=1;
+        
+        return this;
+    }
+
+    public MarkdownPageBuilder closeCell() {
+        
+        this.isAtTableCell = false;
+        
+        this.currentContent.append("|");
+        
         return this;
     }
 }
