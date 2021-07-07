@@ -5,7 +5,6 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers;
 
-import com.acidmanic.consoletools.rendering.RenderingContext;
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
@@ -15,7 +14,6 @@ import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import com.acidmanic.pactmodels.Contract;
 import com.acidmanic.pactmodels.Interaction;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

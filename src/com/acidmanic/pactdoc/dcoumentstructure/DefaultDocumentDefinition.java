@@ -26,7 +26,7 @@ package com.acidmanic.pactdoc.dcoumentstructure;
 import com.acidmanic.pactdoc.contractverification.ContractVerifier;
 import com.acidmanic.pactdoc.contractverification.ConventionTitle;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
-import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.ColumnBadgeInfoProvider;
+import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.AcidmanicPactNetCoreBadgeProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.models.ConventionEntry;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ProviderPropertyMapper;
@@ -44,7 +44,7 @@ import java.util.List;
 public class DefaultDocumentDefinition extends WikiDefinitionBase {
 
     private final ContractVerifier verifier;
-    private final BadgeInfoProvider badgeInfoProvider = new ColumnBadgeInfoProvider();
+    private final BadgeInfoProvider badgeInfoProvider = new AcidmanicPactNetCoreBadgeProvider();
 
     public DefaultDocumentDefinition(PageContextProvider pageContextProvider,
             PageStore<String> pageStore) {

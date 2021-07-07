@@ -11,9 +11,15 @@ package com.acidmanic.pactdoc.dcoumentstructure.badges.implementation;
  */
 class NullBadgeInfoProvider implements BadgeInfoProvider {
 
+  
     @Override
-    public String translateToBadgeTag(String info) {
-        return null;
+    public String translateToBadgeTag(Object info) {
+        return "no-tag";
+    }
+
+    @Override
+    public boolean providesFor(Class type) {
+        return false;
     }
 
 }
