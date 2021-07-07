@@ -47,7 +47,7 @@ public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
 
         BadgeRenderer badgeRenderer = new BadgeRenderer(this.getEndpointImplementationBadgeInfoProvider());
 
-        badgeRenderer.render(state, child);
+        badgeRenderer.renderPerEndpoint(state, child);
 
         state.getPageContext().append("  ");
     }

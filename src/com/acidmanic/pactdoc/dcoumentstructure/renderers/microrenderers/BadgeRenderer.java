@@ -13,6 +13,9 @@ import com.acidmanic.pactdoc.dcoumentstructure.renderers.PactRenderingState;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
 import com.acidmanic.pactmodels.Contract;
+import com.acidmanic.pactmodels.Interaction;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -26,24 +29,41 @@ public class BadgeRenderer {
         this.badgeInfoProvider = badgeInfoProvider;
     }
 
-    public void render(PactRenderingState<EndPoint> state) {
-        
-        render(state.getPageContext(), state.getContext(),state.getNode());
+    public void renderPerInteraction(PactRenderingState<EndPoint> state) {
+
+        renderPerInteraction(state.getPageContext(), state.getContext(), state.getNode());
     }
 
-    public void render(PactRenderingState<Contract> state, Key child) {
+    public void renderPerInteraction(PactRenderingState<Contract> state, Key child) {
 
         Object endpointObject = state.getAdapter().getContent(child);
 
         if (endpointObject != null && endpointObject instanceof EndPoint) {
 
             EndPoint endpoint = (EndPoint) endpointObject;
-            
-            render(state.getPageContext(), state.getContext(),endpoint);
+
+            renderPerInteraction(state.getPageContext(), state.getContext(), endpoint);
+        }
+    }
+    
+    public void renderPerEndpoint(PactRenderingState<EndPoint> state) {
+
+        renderPerEndpoint(state.getPageContext(), state.getContext(), state.getNode());
+    }
+
+    public void renderPerEndpoint(PactRenderingState<Contract> state, Key child) {
+
+        Object endpointObject = state.getAdapter().getContent(child);
+
+        if (endpointObject != null && endpointObject instanceof EndPoint) {
+
+            EndPoint endpoint = (EndPoint) endpointObject;
+
+            renderPerEndpoint(state.getPageContext(), state.getContext(), endpoint);
         }
     }
 
-    public void render(
+    public void renderPerInteraction(
             PageContext context,
             WikiRenderingContext renderingContext,
             EndPoint endpoint) {
@@ -52,21 +72,68 @@ public class BadgeRenderer {
 
             if (!badgeInfoProvider.equals(BadgeInfoProvider.NULL)) {
 
-                String imageUrl = renderingContext.getBadgesBaseUri();
+                ArrayList<String> headers = new ArrayList<>();
+                headers.add("Provider State        ");
+                headers.add("Method");
+                headers.add("Status");
 
-                String endpointPath = endpoint.getInteractions().get(0).getRequest().getPath();
+                context.openTable(headers);
 
-                String tag = badgeInfoProvider.translateToBadgeTag(endpointPath);
+                for (Interaction interaction : endpoint.getInteractions()) {
 
-                if (imageUrl.endsWith("/")) {
+                    String imageUrl = renderingContext.getBadgesBaseUri();
 
-                    imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
+                    String endpointPath = interaction.getRequest().getPath();
+
+                    String tag = badgeInfoProvider.translateToBadgeTag(endpointPath);
+
+                    if (imageUrl.endsWith("/")) {
+
+                        imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
+                    }
+                    imageUrl += "/" + tag;
+
+                    context.openTableRow()
+                            .openCell().append(interaction.getProviderState()).closeCell()
+                            .openCell().badge(interaction.getRequest().getMethod()).closeCell()
+                            .openCell().image(imageUrl).closeCell()
+                            .closeTableRow();
                 }
-                imageUrl += "/" + tag;
 
-                context.openBold()
-                        .image(imageUrl)
-                        .closeBold();
+                context.closeTable();
+            }
+        }
+    }
+
+    public void renderPerEndpoint(
+            PageContext context,
+            WikiRenderingContext renderingContext,
+            EndPoint endpoint) {
+
+        if (renderingContext.isAddEndpointImplementationBadges()) {
+
+            if (!badgeInfoProvider.equals(BadgeInfoProvider.NULL)) {
+
+                if (!endpoint.getInteractions().isEmpty()) {
+
+                    Interaction interaction = endpoint.getInteractions().get(0);
+
+                    String imageUrl = renderingContext.getBadgesBaseUri();
+
+                    String endpointPath = interaction.getRequest().getPath();
+
+                    String tag = badgeInfoProvider.translateToBadgeTag(endpointPath);
+
+                    if (imageUrl.endsWith("/")) {
+
+                        imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
+                    }
+                    imageUrl += "/" + tag;
+
+                    context.image(imageUrl);
+
+                }
+
             }
         }
     }

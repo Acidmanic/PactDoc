@@ -63,7 +63,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
 
         BadgeRenderer badgeRenderer = new BadgeRenderer(this.getEndpointImplementationBadgeInfoProvider());
 
-        badgeRenderer.render(state);
+        badgeRenderer.renderPerInteraction(state);
 
         state.getPageContext().horizontalLine();
 
