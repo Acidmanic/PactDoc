@@ -17,6 +17,8 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.draw.LineSeparator;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
@@ -86,39 +88,6 @@ public class PdfPageContext implements PageContext<PdfPage> {
         Paragraph paragraph = new Paragraph(text, Palettes.NORMAL.getFont());
 
         addElement(paragraph);
-
-        return this;
-    }
-
-    @Override
-    public PageContext table(HashMap<String, String> data) {
-
-        PdfPTable pdfTable = new PdfPTable(2);
-
-        addRows(pdfTable, data);
-
-        this.addElement(pdfTable);
-
-        return this;
-    }
-
-    @Override
-    public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> data) {
-
-        PdfPTable pdfTable = new PdfPTable(2);
-
-        Stream.of(leftHeader, rightHeader)
-                .forEach(columnTitle -> {
-                    PdfPCell header = new PdfPCell();
-                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-                    header.setBorderWidth(1);
-                    header.setPhrase(new Phrase(columnTitle, Palettes.FONT_TABLE_HEADER));
-                    pdfTable.addCell(header);
-                });
-
-        addRows(pdfTable, data);
-
-        this.addElement(pdfTable);
 
         return this;
     }
@@ -290,7 +259,12 @@ public class PdfPageContext implements PageContext<PdfPage> {
                 }
             }
         }
-        this.page.add(e);
+        if (this.cellInProgress == null) {
+            this.page.add(e);
+        } else {
+            this.cellInProgress.addElement(e);
+        }
+
     }
 
     private void addRows(PdfPTable table, HashMap<String, String> data) {
@@ -311,12 +285,157 @@ public class PdfPageContext implements PageContext<PdfPage> {
 
             image.scalePercent(60f);
 
-            this.page.add(new Chunk(image, 2, -2));
+            this.addElement(new Chunk(image, 2, -2));
 
             return this;
         } catch (Exception e) {
         }
-        this.page.add(new Chunk("[ Image Ommited ]"));
+        this.addElement(new Chunk("[ Image Ommited ]"));
+
+        return this;
+    }
+
+    private PdfPTable tableInProgress = null;
+    private PdfPCell cellInProgress = null;
+    private int tableColumns = 0;
+    private int putColumnsInCurrentRow = 0;
+    private float[] columnsWidth;
+
+    @Override
+    public PageContext table(HashMap<String, String> data) {
+
+        PdfPTable pdfTable = new PdfPTable(2);
+
+        addRows(pdfTable, data);
+
+        this.addElement(pdfTable);
+
+        return this;
+    }
+
+    @Override
+    public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> data) {
+
+        PdfPTable pdfTable = new PdfPTable(2);
+
+        Stream.of(leftHeader, rightHeader)
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(1);
+                    header.setPhrase(new Phrase(columnTitle, Palettes.FONT_TABLE_HEADER));
+                    pdfTable.addCell(header);
+                });
+
+        addRows(pdfTable, data);
+
+        this.addElement(pdfTable);
+
+        return this;
+    }
+
+    @Override
+    public PageContext openTable(int columns) {
+
+        tableInProgress = new PdfPTable(columns);
+        this.tableColumns = 0;
+        this.putColumnsInCurrentRow = 0;
+        this.columnsWidth = new float[columns];
+        return this;
+    }
+
+   
+
+    @Override
+    public PageContext openTable(Collection<String> headers) {
+
+        this.tableColumns = 0;
+        this.putColumnsInCurrentRow = 0;
+        this.columnsWidth = new float[headers.size()];
+
+        this.tableInProgress = new PdfPTable(headers.size());
+
+        float totalChars = 0;
+        
+        
+        
+        headers.forEach(columnTitle -> {
+            PdfPCell header = new PdfPCell();
+            header.setPadding(10);
+            header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            header.setBorderWidth(1);
+            header.setPhrase(new Phrase(columnTitle, Palettes.FONT_TABLE_HEADER));
+            this.tableInProgress.addCell(header);
+            
+        });
+        
+        ArrayList<String> titlesAsList = new ArrayList<>();
+        titlesAsList.addAll(headers);
+        
+        for(String header:headers ){
+            totalChars += header.length();
+        }
+        
+        for(int i=0;i<headers.size();i++){
+            
+            String title = titlesAsList.get(i);
+            
+            this.columnsWidth[i]= (title.length())/totalChars;
+        }
+        
+        try {
+            this.tableInProgress.setWidths(this.columnsWidth);
+        } catch (Exception e) {
+        }
+
+        return this;
+    }
+
+    @Override
+    public PageContext openTableRow() {
+        this.tableColumns = 0;
+        this.putColumnsInCurrentRow = 0;
+        return this;
+    }
+
+    @Override
+    public PageContext closeTableRow() {
+
+        for (int i = this.putColumnsInCurrentRow; i < this.tableColumns; i++) {
+            this.tableInProgress.addCell("");
+        }
+        return this;
+    }
+
+    @Override
+    public PageContext closeTable() {
+
+        PdfPTable table = this.tableInProgress;
+
+        this.tableInProgress = null;
+
+        this.cellInProgress = null;
+       
+        this.addElement(table);
+
+        return this;
+    }
+
+    @Override
+    public PageContext openCell() {
+
+        this.cellInProgress = new PdfPCell();
+
+        this.cellInProgress.setPadding(10);
+
+        return this;
+    }
+
+    @Override
+    public PageContext closeCell() {
+
+        this.tableInProgress.addCell(this.cellInProgress);
+        
         return this;
     }
 

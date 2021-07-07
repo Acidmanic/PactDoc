@@ -27,6 +27,7 @@ import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import com.acidmanic.pactdoc.utility.TextReformater;
 import com.acidmanic.pactdoc.utility.jsonparsing.ClearerJsonParserMachine;
 import com.acidmanic.pactdoc.utility.jsonparsing.HtmlWrapperJsonParserMachine;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -91,30 +92,6 @@ public class HtmlContext implements PageContext<String> {
     @Override
     public PageContext paragraph(String text) {
         this.contentBuilder.append("<div>").append(text).append("</div>");
-        return this;
-    }
-
-    @Override
-    public PageContext table(HashMap<String, String> table) {
-        this.contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
-
-        for (String key : table.keySet()) {
-            appendRow(this.contentBuilder, key, table.get(key));
-        }
-        this.contentBuilder.append("</table></row>");
-        return this;
-    }
-
-    @Override
-    public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
-        contentBuilder.append("<thead class=\"thead-light\">");
-        appendTags(contentBuilder, "th", new String[]{leftHeader, rightHeader});
-        contentBuilder.append("</thead><tbody>");
-        for (String key : table.keySet()) {
-            appendRow(contentBuilder, key, table.get(key));
-        }
-        contentBuilder.append("</tbody></table>");
         return this;
     }
 
@@ -235,6 +212,13 @@ public class HtmlContext implements PageContext<String> {
         return sb;
     }
 
+    private StringBuilder appendTags(StringBuilder sb, String tag, Collection<String> values) {
+        for (String value : values) {
+            appendTag(sb, tag, value);
+        }
+        return sb;
+    }
+
     private StringBuilder appendTag(StringBuilder sb, String tag, String value) {
         return sb.append("<").append(tag).append(">")
                 .append(value).append("</").append(tag).append(">");
@@ -279,11 +263,94 @@ public class HtmlContext implements PageContext<String> {
 
     @Override
     public PageContext image(String url) {
-        
+
         this.contentBuilder.append("<img src=\"")
                 .append(url)
                 .append("\">");
-        
+
+        return this;
+    }
+
+    private int tableColumns = 0;
+    private int putColumnsInCurrentRow=0;
+    private String tableClosure = "";
+
+    @Override
+    public PageContext table(HashMap<String, String> table) {
+        this.contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
+        for (String key : table.keySet()) {
+            appendRow(this.contentBuilder, key, table.get(key));
+        }
+        this.contentBuilder.append("</table></row>");
+        return this;
+    }
+
+    @Override
+    public PageContext table(String leftHeader, String rightHeader, HashMap<String, String> table) {
+        contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
+        contentBuilder.append("<thead class=\"thead-light\">");
+        appendTags(contentBuilder, "th", new String[]{leftHeader, rightHeader});
+        contentBuilder.append("</thead><tbody>");
+        for (String key : table.keySet()) {
+            appendRow(contentBuilder, key, table.get(key));
+        }
+        contentBuilder.append("</tbody></table>");
+        return this;
+    }
+
+    @Override
+    public PageContext openTable(int columns) {
+        this.contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
+        this.tableClosure = "</table>";
+        this.tableColumns = columns;
+        this.putColumnsInCurrentRow=0;
+        return this;
+    }
+
+    @Override
+    public PageContext openTable(Collection<String> headers) {
+        contentBuilder.append("<table class=\"table table-bordered col-lg-4\">");
+        contentBuilder.append("<thead class=\"thead-light\">");
+        appendTags(contentBuilder, "th", headers);
+        contentBuilder.append("</thead><tbody>");
+        this.tableColumns = headers.size();
+        this.tableClosure = "</tbody></table>";
+        this.putColumnsInCurrentRow=0;
+        return this;
+    }
+
+    @Override
+    public PageContext openTableRow() {
+        this.contentBuilder.append("<tr>");
+        this.putColumnsInCurrentRow=0;
+        return this;
+    }
+
+    @Override
+    public PageContext closeTableRow() {
+        for(int i=this.putColumnsInCurrentRow;i<this.tableColumns;i++){
+            this.contentBuilder.append("<td></td>");
+        }
+        this.contentBuilder.append("</tr>");
+        return this;
+    }
+
+    @Override
+    public PageContext closeTable() {
+        this.contentBuilder.append(this.tableClosure);
+        return this;
+    }
+
+    @Override
+    public PageContext openCell() {
+        this.contentBuilder.append("<td>");
+        return this;
+    }
+
+    @Override
+    public PageContext closeCell() {
+        this.putColumnsInCurrentRow+=1;
+        this.contentBuilder.append("</td>");
         return this;
     }
 }

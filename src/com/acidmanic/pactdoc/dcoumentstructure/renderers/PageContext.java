@@ -23,7 +23,9 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -82,4 +84,19 @@ public interface PageContext<Toutput> {
     
     PageContext image(String url);
 
+    
+    PageContext openTable(int columns);
+    
+    PageContext openTable(Collection<String> headers);
+    
+    PageContext openTableRow();
+    
+    PageContext closeTableRow();
+    
+    PageContext closeTable();
+    
+    PageContext openCell();
+    
+    PageContext closeCell();
+    
 }

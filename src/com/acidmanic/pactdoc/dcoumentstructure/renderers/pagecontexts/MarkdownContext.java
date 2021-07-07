@@ -25,6 +25,7 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers.pagecontexts;
 
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import com.acidmanic.pactdoc.utility.MarkdownPageBuilder;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -230,6 +231,41 @@ public class MarkdownContext implements PageContext<String> {
         this.markdownPageBuilder.image(url);
 
         return this;
+    }
+
+    @Override
+    public PageContext openTable(int columns) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PageContext openTable(Collection<String> headers) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PageContext openTableRow() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PageContext closeTableRow() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PageContext closeTable() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PageContext openCell() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PageContext closeCell() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
