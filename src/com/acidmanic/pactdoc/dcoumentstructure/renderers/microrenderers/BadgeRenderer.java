@@ -43,7 +43,7 @@ public class BadgeRenderer {
             renderPerInteraction(state.getPageContext(), state.getContext(), endpoint);
         }
     }
-    
+
     public void renderPerEndpoint(PactRenderingState<EndPoint> state) {
 
         renderPerEndpoint(state.getPageContext(), state.getContext(), state.getNode());
@@ -68,7 +68,7 @@ public class BadgeRenderer {
 
         if (renderingContext.isAddEndpointImplementationBadges()) {
 
-            if (!badgeInfoProvider.equals(BadgeInfoProvider.NULL)) {
+            if (badgeInfoProvider.providesFor(Interaction.class)) {
 
                 ArrayList<String> headers = new ArrayList<>();
                 headers.add("Provider State        ");
@@ -81,9 +81,7 @@ public class BadgeRenderer {
 
                     String imageUrl = renderingContext.getBadgesBaseUri();
 
-                    String endpointPath = interaction.getRequest().getPath();
-
-                    String tag = badgeInfoProvider.translateToBadgeTag(endpointPath);
+                    String tag = badgeInfoProvider.translateToBadgeTag(interaction);
 
                     if (imageUrl.endsWith("/")) {
 
@@ -110,17 +108,13 @@ public class BadgeRenderer {
 
         if (renderingContext.isAddEndpointImplementationBadges()) {
 
-            if (!badgeInfoProvider.equals(BadgeInfoProvider.NULL)) {
+            if (badgeInfoProvider.providesFor(EndPoint.class)) {
 
                 if (!endpoint.getInteractions().isEmpty()) {
 
-                    Interaction interaction = endpoint.getInteractions().get(0);
-
                     String imageUrl = renderingContext.getBadgesBaseUri();
 
-                    String endpointPath = interaction.getRequest().getPath();
-
-                    String tag = badgeInfoProvider.translateToBadgeTag(endpointPath);
+                    String tag = badgeInfoProvider.translateToBadgeTag(endpoint);
 
                     if (imageUrl.endsWith("/")) {
 
