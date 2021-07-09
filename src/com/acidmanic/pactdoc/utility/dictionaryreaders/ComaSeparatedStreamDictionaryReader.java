@@ -38,7 +38,10 @@ public class ComaSeparatedStreamDictionaryReader implements DictionaryReader {
                 result.put(key, value);
             }
 
-            return new Result<>(true, result);
+            if (!result.isEmpty()) {
+                
+                return new Result<>(true, result);
+            }
 
         } catch (Exception e) {
         }
