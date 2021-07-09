@@ -29,6 +29,7 @@ import com.acidmanic.pactdoc.contractverification.ContractVerifier;
 import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import com.acidmanic.utilities.Result;
 import java.io.File;
+import java.util.HashMap;
 
 /**
  *
@@ -43,6 +44,7 @@ public class ParametersContext implements ExecutionContext {
     private ContractVerifier contractVerifier;
     private File pactsRoot;
     private Result<String> badgeProviderUrl = new Result<>(false, "");
+    private HashMap<String, String> wikiMetaData;
 
     public WebWikiFormatBuilder getWebWikiFormatBuilder() {
         return webWikiFormatBuilder;
@@ -100,4 +102,13 @@ public class ParametersContext implements ExecutionContext {
     public void setBadgeProviderUrl(Result<String> badgeProviderUrl) {
         this.badgeProviderUrl = badgeProviderUrl;
     }
+
+    public HashMap<String, String> getWikiMetaData() {
+        return wikiMetaData;
+    }
+
+    public void setWikiMetaData(HashMap<String, String> wikiMetaData) {
+        this.wikiMetaData = wikiMetaData;
+    }
+
 }

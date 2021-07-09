@@ -27,6 +27,7 @@ import com.acidmanic.document.extention.DocumentProcessingDefinition;
 import com.acidmanic.pactdoc.contractverification.ContractVerifier;
 import com.acidmanic.pactdoc.wiki.format.WikiFormat;
 import com.acidmanic.utilities.Result;
+import java.util.HashMap;
 
 /**
  *
@@ -38,6 +39,7 @@ public class WikiEngineOptions {
     private DocumentProcessingDefinition pluggedDocumentDefinition;
     private ContractVerifier pluggedContractVerifier;
     private Result<String> badgeProviderUrl = new Result<>(false, "");
+    private HashMap<String, String> wikiMetaData = new HashMap<>();
 
     public WikiFormat getFormat() {
         return format;
@@ -69,6 +71,14 @@ public class WikiEngineOptions {
 
     public void setBadgeProviderUrl(Result<String> badgeProviderUrl) {
         this.badgeProviderUrl = badgeProviderUrl;
+    }
+
+    public HashMap<String, String> getWikiMetaData() {
+        return wikiMetaData;
+    }
+
+    public void setWikiMetaData(HashMap<String, String> wikiMetaData) {
+        this.wikiMetaData = wikiMetaData;
     }
 
 }

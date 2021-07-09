@@ -36,6 +36,15 @@ public class PactPageRenderer extends MenuPageRendererBase<Pact> {
     }
 
     @Override
+    protected void renderContent(PactRenderingState<Pact> state) {
+        super.renderContent(state); 
+        
+        
+    }
+    
+    
+
+    @Override
     public Class renderingType() {
         return Pact.class;
     }

@@ -23,12 +23,8 @@
  */
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
-import com.acidmanic.document.structure.DocumentAdapter;
 import com.acidmanic.document.structure.Key;
-import com.acidmanic.pact.models.Pact;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.expressions.NavigationExpression;
-import com.acidmanic.pactdoc.wiki.WikiRenderingContext;
-import java.util.List;
 
 /**
  *

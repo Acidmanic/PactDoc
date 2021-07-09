@@ -5,6 +5,8 @@
  */
 package com.acidmanic.pactdoc.wiki;
 
+import java.util.HashMap;
+
 /**
  *
  * @author diego
@@ -13,6 +15,7 @@ public class WikiRenderingContext {
 
     private final boolean addEndpointImplementationBadges;
     private final String badgesBaseUri;
+    private HashMap<String, String> wikiMetadata;
 
     public WikiRenderingContext(boolean addEndpointImplementationBadges, String badgesBaseUri) {
         this.addEndpointImplementationBadges = addEndpointImplementationBadges;
@@ -35,6 +38,14 @@ public class WikiRenderingContext {
 
     public String getBadgesBaseUri() {
         return badgesBaseUri;
+    }
+
+    public HashMap<String, String> getWikiMetadata() {
+        return wikiMetadata;
+    }
+
+    public void setWikiMetadata(HashMap<String, String> wikiMetadata) {
+        this.wikiMetadata = wikiMetadata;
     }
 
 }

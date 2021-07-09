@@ -79,6 +79,8 @@ public class WikiEngine {
             renderingContext = new WikiRenderingContext();
         }
 
+        renderingContext.setWikiMetadata(options.getWikiMetaData());
+
         RenderEngine<WikiRenderingContext> renderEngine = new RenderEngine(renderingContext);
 
         renderEngine.render(definition, pact);
