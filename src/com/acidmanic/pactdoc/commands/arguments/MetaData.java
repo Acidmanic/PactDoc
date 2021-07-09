@@ -6,33 +6,24 @@
 package com.acidmanic.pactdoc.commands.arguments;
 
 import com.acidmanic.pactdoc.commands.ParametersContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.acidmanic.pactdoc.utility.InputDictionaryReader;
 import java.util.HashMap;
 
 /**
  *
  * @author diego
  */
-public class MetaData extends PactDocArgumentCommandBase{
+public class MetaData extends PactDocArgumentCommandBase {
 
     @Override
     protected void execute(ParametersContext context, String[] args) {
-        
-        if(args!=null && args[0]!=null&& args[0].length()>0){
+
+        if (args != null && args[0] != null && args[0].length() > 0) {
+
+            HashMap<String, String> metadata = new InputDictionaryReader().read(args[0]);
             
-            String json = args[0];
-            
-            ObjectMapper objectMapper = new ObjectMapper();
-            
-            HashMap<String,String> metadata = new HashMap<>();
-            
-            try {
-                metadata = objectMapper.readValue(json, metadata.getClass());
-                
-            } catch (Exception e) {
-            }
-            if(!metadata.isEmpty()){
-                
+            if (!metadata.isEmpty()) {
+
                 context.setWikiMetaData(metadata);
             }
         }
@@ -40,14 +31,19 @@ public class MetaData extends PactDocArgumentCommandBase{
 
     @Override
     protected String getUsageDescription() {
-        return "This argument will take a dictionary of key-values in "
-                + "json format. This information will be rendered on index"
-                + " page of the wiki. This argument is optional.";
+        return "This argument will take a dictionary of key-values. "
+                + "This argument can be followed with the file name of a json "
+                + "file, a .properties file or a csv file. it also can take "
+                + "an inline json string, coma separated 'key: value's, or just "
+                + "even number of coma separated strings."
+                + "This information will be rendered on index"
+                + " page of the wiki as a two columns table."
+                + " This argument is optional.";
     }
 
     @Override
     public boolean hasArguments() {
         return true;
     }
-    
+
 }

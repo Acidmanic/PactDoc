@@ -44,11 +44,12 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
 
         state.getPageContext().openTitle()
                 .append("Api Documentation")
-                .closeTitle()
-                .horizontalLine();
+                .closeTitle().horizontalLine();;
+
+        renderMetadata(state);
 
         Key key = state.getKey();
-        
+
         new NavigationExpression(key, k -> getPageStore().translate(key, k))
                 .render(state.getPageContext())
                 .horizontalLine()
@@ -58,7 +59,7 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 .closeSubtitle()
                 .newLine().newLine();
 
-        renderContent((PactRenderingState<T>)state);
+        renderContent((PactRenderingState<T>) state);
 
         state.getPageContext()
                 .newLine().newLine().newLine().newLine()
@@ -72,6 +73,9 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 .closeItalic()
                 .closeLink();
 
+    }
+
+    protected void renderMetadata(PactRenderingState state) {
     }
 
     protected abstract void renderContent(PactRenderingState<T> state);

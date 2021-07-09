@@ -24,6 +24,7 @@
 package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.pact.models.Pact;
+import java.util.HashMap;
 
 /**
  *
@@ -36,13 +37,19 @@ public class PactPageRenderer extends MenuPageRendererBase<Pact> {
     }
 
     @Override
-    protected void renderContent(PactRenderingState<Pact> state) {
-        super.renderContent(state); 
+    protected void renderMetadata(PactRenderingState state) {
+
+        super.renderMetadata(state);
         
-        
+        HashMap<String, String> metadata = state.getContext().getWikiMetadata();
+
+        if (metadata != null && !metadata.isEmpty()) {
+
+            state.getPageContext()
+                    .newLine()
+                    .table(metadata);
+        }
     }
-    
-    
 
     @Override
     public Class renderingType() {
