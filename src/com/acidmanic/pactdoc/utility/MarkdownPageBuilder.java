@@ -23,7 +23,6 @@
  */
 package com.acidmanic.pactdoc.utility;
 
-import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -200,6 +199,13 @@ public class MarkdownPageBuilder {
     }
 
     public MarkdownPageBuilder table(HashMap<String, String> table) {
+        
+        return table(" "," ",table);
+    }
+
+    public MarkdownPageBuilder table(String leftHeader, String rightHeader, HashMap<String, String> table) {
+        currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
+        currentContent.append("|:------|:------------|\n");
         for (String key : table.keySet()) {
             String value = table.get(key);
             currentContent.append("|")
@@ -209,12 +215,6 @@ public class MarkdownPageBuilder {
                     .append("|\n");
         }
         return this;
-    }
-
-    public MarkdownPageBuilder table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
-        currentContent.append("|:------|:------------|\n");
-        return this.table(table);
     }
 
     private int tableColumns = 0;
