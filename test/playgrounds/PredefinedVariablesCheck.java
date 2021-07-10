@@ -23,7 +23,6 @@
  */
 package playgrounds;
 
-import com.acidmanic.pactdoc.Application;
 import com.acidmanic.pactdoc.wiki.PredefinedVariables;
 import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import com.acidmanic.pactdoc.wiki.WikiEngineOptions;

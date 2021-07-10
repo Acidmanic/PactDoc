@@ -31,6 +31,7 @@ import com.acidmanic.pactdoc.contractverification.DefaultContractVerifier;
 import com.acidmanic.pactdoc.dcoumentstructure.DefaultDocumentDefinition;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
+import java.util.HashMap;
 
 /**
  *
@@ -79,7 +80,11 @@ public class WikiEngine {
             renderingContext = new WikiRenderingContext();
         }
 
-        renderingContext.setWikiMetadata(options.getWikiMetaData());
+        HashMap<String,String> metadata = options.getWikiMetaData();
+        
+        metadata = new PredefinedVariables(options).expand(metadata);
+        
+        renderingContext.setWikiMetadata(metadata);
 
         RenderEngine<WikiRenderingContext> renderEngine = new RenderEngine(renderingContext);
 
