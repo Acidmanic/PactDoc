@@ -24,7 +24,7 @@ public class PredefinedVariables {
     private static final String DOCUMENT_DEFINITION = "$DOCUMENT_DEFINITION";
     private static final String CONTRACT_VERIFIER = "$CONTRACT_VERIFIER";
     private static final String BADGE_BROKER_URL = "$BADGE_BROKER_URL";
-    
+
     private static final String MF_PROP_VERSION = "Implementation-Version";
 
     private final WikiEngineOptions options;
@@ -43,9 +43,24 @@ public class PredefinedVariables {
 
             String value = predefinedVariables.get(key);
 
-            expanded = expanded.replaceAll(key, value);
+            expanded = expanded.replaceAll("\\"+key, value);
         }
         return expanded;
+    }
+
+    public HashMap<String, String> expand(HashMap<String, String> metadata) {
+
+        HashMap<String, String> result = new HashMap<>();
+
+        for (String key : metadata.keySet()) {
+
+            String value = metadata.get(key);
+
+            value = expand(value);
+
+            result.put(key, value);
+        }
+        return result;
     }
 
     public HashMap<String, String> provideVariables() {
@@ -53,7 +68,7 @@ public class PredefinedVariables {
         HashMap<String, String> variables = new HashMap<>();
 
         variables.put(WIKI_GENERATING_DATE, new Date().toString());
-        
+
         variables.put(PACTDOC_VERSION, readVersion());
 
         variables.put(WIKI_FORMAT, options.getFormat().getName());
@@ -95,17 +110,17 @@ public class PredefinedVariables {
     }
 
     private String readVersion() {
-        
+
         String manifestProperties = new String(
                 new ResourceHelper()
-                .readResource("manifest.mf"));
-        
-        HashMap<String,String> properties = 
-                new PropertyFileDictionaryReader()
-                .parseProperties(manifestProperties);
-        
-        if(properties.containsKey(MF_PROP_VERSION)){
-            
+                        .readResource("manifest.mf"));
+
+        HashMap<String, String> properties
+                = new PropertyFileDictionaryReader()
+                        .parseProperties(manifestProperties);
+
+        if (properties.containsKey(MF_PROP_VERSION)) {
+
             return properties.get(MF_PROP_VERSION);
         }
         return "0.0.0";
