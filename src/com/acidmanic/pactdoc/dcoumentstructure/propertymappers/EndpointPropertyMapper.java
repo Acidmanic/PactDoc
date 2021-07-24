@@ -66,6 +66,8 @@ public class EndpointPropertyMapper implements PropertyMapper {
         }
         return segments;
     }
+    
+    
 
     @Override
     public String keySegmentName() {
