@@ -24,22 +24,7 @@ public class ServiceFromEndpointNameExtractor implements NameExtractor<EndPoint>
 
             Interaction interaction = sourceData.getInteractions().get(0);
 
-            if (interaction != null && interaction.getRequest() != null) {
-
-                Request request = interaction.getRequest();
-
-                String path = request.getPath();
-
-                if (path != null && path.length() > 0) {
-
-                    String[] uriSegments = path.split("/");
-
-                    if (uriSegments.length > 0) {
-                        
-                        return uriSegments[0];
-                    }
-                }
-            }
+            return new ServiceFromInteractionNameExtractor().extract(interaction);
         }
         return "";
     }

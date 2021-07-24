@@ -14,7 +14,7 @@ import com.acidmanic.pact.models.Service;
 public class ServicesPageRenderer extends MenuPageRendererBase<Service> {
 
     public ServicesPageRenderer() {
-        super("Services:");
+        super("Endpoints:");
     }
 
     @Override

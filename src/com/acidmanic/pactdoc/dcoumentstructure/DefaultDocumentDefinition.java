@@ -30,11 +30,14 @@ import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.AcidmanicPa
 import com.acidmanic.pactdoc.dcoumentstructure.models.ConventionEntry;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointFromContractPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ContractFromPactPropertyMapper;
+import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointFromServicePropertyMapper;
+import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ServiceFromContractPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.ContractPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.ConventionsPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.EndpointPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PactPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
+import com.acidmanic.pactdoc.dcoumentstructure.renderers.ServicesPageRenderer;
 import java.util.List;
 
 /**
@@ -68,7 +71,7 @@ public class DefaultDocumentDefinition extends WikiDefinitionBase {
 
     private void initialize() {
 
-        ContractFromPactPropertyMapper providerPropertyMapper = new ContractFromPactPropertyMapper();
+        ContractFromPactPropertyMapper contractFromPactPropertyMapper = new ContractFromPactPropertyMapper();
 
         if (this.verifier != null) {
 
@@ -76,21 +79,27 @@ public class DefaultDocumentDefinition extends WikiDefinitionBase {
 
             ConventionEntry conventionEntry = new ConventionEntry(conventionTitles);
 
-            providerPropertyMapper.setConventionEntry(conventionEntry);
+            contractFromPactPropertyMapper.setConventionEntry(conventionEntry);
 
         }
 
-        addLevel(providerPropertyMapper);
+        addLevel(contractFromPactPropertyMapper);
 
-        addLevel(new EndpointFromContractPropertyMapper());
+        addLevel(new ServiceFromContractPropertyMapper());
+
+        addLevel(new EndpointFromServicePropertyMapper());
 
         registerRenderer(new PactPageRenderer());
+        
+        registerRenderer(new ServicesPageRenderer());
 
         registerRenderer(new ContractPageRenderer());
 
         registerRenderer(new EndpointPageRenderer());
 
         registerRenderer(new ConventionsPageRenderer());
+
+        
     }
 
     @Override

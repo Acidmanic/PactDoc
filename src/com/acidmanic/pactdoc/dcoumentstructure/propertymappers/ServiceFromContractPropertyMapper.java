@@ -6,14 +6,16 @@
 package com.acidmanic.pactdoc.dcoumentstructure.propertymappers;
 
 import com.acidmanic.document.structure.propertymapped.PropertyMapper;
+import com.acidmanic.pact.helpers.NameExtractor;
 import com.acidmanic.pact.helpers.PactClassifier;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.Service;
 import com.acidmanic.pactdoc.dcoumentstructure.namextractors.EndpointFromInteractionNameExtractor;
 import com.acidmanic.pactdoc.dcoumentstructure.namextractors.ServiceFromEndpointNameExtractor;
+import com.acidmanic.pactdoc.dcoumentstructure.namextractors.ServiceFromInteractionNameExtractor;
+import com.acidmanic.pactdoc.dcoumentstructure.namextractors.ServiceNameExtractor;
 import com.acidmanic.pactmodels.Contract;
 import com.acidmanic.pactmodels.Interaction;
-import com.acidmanic.pactmodels.Request;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,9 @@ import java.util.List;
  * @author diego
  */
 public class ServiceFromContractPropertyMapper implements PropertyMapper {
+
+    private final NameExtractor<Interaction> serviceFromInteractionNameExtractor = new ServiceFromInteractionNameExtractor();
+    private final NameExtractor<Service> serviceNameExtractor = new ServiceNameExtractor();
 
     @Override
     public List<String> keySegmentValues(Object parent) {
@@ -34,7 +39,7 @@ public class ServiceFromContractPropertyMapper implements PropertyMapper {
 
             for (Interaction interaction : contract.getInteractions()) {
 
-                String serviceName = getServiceName(interaction);
+                String serviceName = serviceFromInteractionNameExtractor.extract(interaction);
 
                 if (serviceName != null) {
 
@@ -59,50 +64,6 @@ public class ServiceFromContractPropertyMapper implements PropertyMapper {
             }
         }
         return false;
-    }
-
-    /**
-     * This method defines service as first segment of the request path
-     *
-     * @param interaction
-     * @return
-     */
-    public static String getServiceName(Interaction interaction) {
-
-        if (interaction.getRequest() != null) {
-
-            Request request = interaction.getRequest();
-
-            String path = request.getPath();
-
-            if (path != null && path.length() > 0) {
-
-                String[] uriSegments = path.split("/");
-
-                if (uriSegments.length > 0) {
-                    return uriSegments[0];
-                }
-            }
-        }
-        return "";
-    }
-
-    public static String getServiceName(EndPoint endpoint) {
-
-        if (endpoint.getInteractions() != null && !endpoint.getInteractions().isEmpty()) {
-
-            return getServiceName(endpoint.getInteractions().get(0));
-        }
-        return "";
-    }
-
-    public static String getServiceName(Service service) {
-
-        if (service.getEndpoints() != null && !service.getEndpoints().isEmpty()) {
-
-            return getServiceName(service.getEndpoints().get(0));
-        }
-        return "";
     }
 
     @Override
@@ -133,7 +94,7 @@ public class ServiceFromContractPropertyMapper implements PropertyMapper {
 
                 for (Service service : services) {
 
-                    if (keySegmentValue.equalsIgnoreCase(getServiceName(service))) {
+                    if (keySegmentValue.equals(serviceNameExtractor.extract(service))) {
 
                         return service;
                     }

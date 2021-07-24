@@ -34,7 +34,7 @@ import com.acidmanic.pactmodels.Contract;
 public class ContractPageRenderer extends MenuPageRendererBase<Contract> {
 
     public ContractPageRenderer() {
-        super("End points");
+        super("Services:");
     }
 
     @Override
