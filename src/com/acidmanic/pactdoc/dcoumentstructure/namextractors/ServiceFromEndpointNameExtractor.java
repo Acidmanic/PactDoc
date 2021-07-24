@@ -15,7 +15,7 @@ import com.acidmanic.pactmodels.Request;
  *
  * @author diego
  */
-public class ServiceNameExtractor implements NameExtractor<EndPoint>, Normalizer<String> {
+public class ServiceFromEndpointNameExtractor implements NameExtractor<EndPoint>, Normalizer<String> {
 
     @Override
     public String extract(EndPoint sourceData) {

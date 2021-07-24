@@ -15,7 +15,7 @@ import com.acidmanic.pactmodels.Request;
  *
  * @author diego
  */
-public class EndpointNameExtractor implements NameExtractor<Interaction> ,Normalizer<String>{
+public class EndpointFromInteractionNameExtractor implements NameExtractor<Interaction> ,Normalizer<String>{
 
     @Override
     public String extract(Interaction sourceData) {

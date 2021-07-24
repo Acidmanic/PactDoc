@@ -9,8 +9,8 @@ import com.acidmanic.document.structure.propertymapped.PropertyMapper;
 import com.acidmanic.pact.helpers.PactClassifier;
 import com.acidmanic.pact.models.EndPoint;
 import com.acidmanic.pact.models.Service;
-import com.acidmanic.pactdoc.dcoumentstructure.namextractors.EndpointNameExtractor;
-import com.acidmanic.pactdoc.dcoumentstructure.namextractors.ServiceNameExtractor;
+import com.acidmanic.pactdoc.dcoumentstructure.namextractors.EndpointFromInteractionNameExtractor;
+import com.acidmanic.pactdoc.dcoumentstructure.namextractors.ServiceFromEndpointNameExtractor;
 import com.acidmanic.pactmodels.Contract;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
@@ -124,12 +124,10 @@ public class ServiceFromContractPropertyMapper implements PropertyMapper {
 
             PactClassifier classifier = new PactClassifier();
 
-            List<EndPoint> endPoints = classifier.splitByEndpoint(
-                    contract.getInteractions(),
-                    new EndpointNameExtractor());
+            List<EndPoint> endPoints = classifier.splitByEndpoint(contract.getInteractions(),
+                    new EndpointFromInteractionNameExtractor());
 
-            List<Service> services = classifier.splitByService(
-                    endPoints, new ServiceNameExtractor());
+            List<Service> services = classifier.splitByService(endPoints, new ServiceFromEndpointNameExtractor());
 
             if (keySegmentValue != null) {
 

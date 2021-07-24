@@ -6,37 +6,23 @@
 package com.acidmanic.pactdoc.dcoumentstructure.namextractors;
 
 import com.acidmanic.pact.helpers.NameExtractor;
-import com.acidmanic.pact.helpers.Normalizer;
-import com.acidmanic.pact.helpers.RequestPathBuilder;
-import com.acidmanic.pactmodels.Interaction;
-import com.acidmanic.pactmodels.Request;
+import com.acidmanic.pact.models.EndPoint;
 
 /**
  *
  * @author diego
  */
-public class EndpointNameExtractor implements NameExtractor<Interaction> ,Normalizer<String>{
+public class EndpointNameExtractor implements NameExtractor<EndPoint> {
 
     @Override
-    public String extract(Interaction sourceData) {
+    public String extract(EndPoint sourceData) {
 
-        Request request = sourceData.getRequest();
+        if (sourceData.getInteractions() != null && !sourceData.getInteractions().isEmpty()) {
 
-        if (request != null && request.getPath() != null) {
-
-            String pathString = request.getPath();
-
-            String endPointUri = new RequestPathBuilder().stripParameters(pathString);
-
-            return endPointUri;
+            return new EndpointFromInteractionNameExtractor()
+                    .extract(sourceData.getInteractions().get(0));
         }
         return "";
-    }
-
-    @Override
-    public String normalize(String value) {
-        
-        return value;
     }
 
 }
