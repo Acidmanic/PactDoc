@@ -6,6 +6,9 @@
 package com.acidmanic.pactdoc.dcoumentstructure.badges.implementation;
 
 import com.acidmanic.pact.models.EndPoint;
+import com.acidmanic.pact.models.Service;
+import com.acidmanic.pactdoc.dcoumentstructure.namextractors.ServiceNameExtractor;
+import com.acidmanic.pactdoc.utility.StringUtils;
 import com.acidmanic.pactmodels.Interaction;
 
 /**
@@ -45,6 +48,16 @@ public class AcidmanicPactNetCoreBadgeProvider implements BadgeInfoProvider {
             return tag;
         }
         
+        if(info instanceof Service){
+            
+            String serviceName = new ServiceNameExtractor().extract((Service) info);
+            
+            if(!StringUtils.isNullOrEmpty(serviceName)){
+                
+                return serviceName.toLowerCase();
+            }
+        }
+
         return "no-tag";
     }
 
@@ -86,7 +99,8 @@ public class AcidmanicPactNetCoreBadgeProvider implements BadgeInfoProvider {
     public boolean providesFor(Class type) {
 
         return type.getName().equals(EndPoint.class.getName())
-                || type.getName().equals(Interaction.class.getName());
+                || type.getName().equals(Interaction.class.getName())
+                || type.getName().equals(Service.class.getName());
 
     }
 

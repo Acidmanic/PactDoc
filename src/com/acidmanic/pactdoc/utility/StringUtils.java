@@ -44,4 +44,13 @@ public class StringUtils {
         }
         return splited;
     }
+
+    public static boolean isNullOrEmpty(String string) {
+
+        if (string == null) {
+            return true;
+        }
+
+        return string.length() == 0;
+    }
 }

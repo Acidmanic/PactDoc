@@ -7,6 +7,7 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers.microrenderers;
 
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pact.models.EndPoint;
+import com.acidmanic.pact.models.Service;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PactRenderingState;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContext;
@@ -29,7 +30,7 @@ public class BadgeRenderer {
 
     public void renderPerInteraction(PactRenderingState<EndPoint> state) {
 
-        renderPerInteraction(state.getPageContext(), state.getContext(), state.getNode());
+        renderInteractionBadgeTable(state.getPageContext(), state.getContext(), state.getNode());
     }
 
     public void renderPerInteraction(PactRenderingState<Contract> state, Key child) {
@@ -40,16 +41,28 @@ public class BadgeRenderer {
 
             EndPoint endpoint = (EndPoint) endpointObject;
 
-            renderPerInteraction(state.getPageContext(), state.getContext(), endpoint);
+            renderInteractionBadgeTable(state.getPageContext(), state.getContext(), endpoint);
         }
     }
 
     public void renderPerEndpoint(PactRenderingState<EndPoint> state) {
 
-        renderPerEndpoint(state.getPageContext(), state.getContext(), state.getNode());
+        renderBadgeImage(state.getPageContext(), state.getContext(), state.getNode());
     }
 
-    public void renderPerEndpoint(PactRenderingState<Contract> state, Key child) {
+    public void renderPerService(PactRenderingState<Contract> state, Key child) {
+
+        Object serviceObject = state.getAdapter().getContent(child);
+
+        if (serviceObject != null && serviceObject instanceof Service) {
+
+            Service service = (Service) serviceObject;
+
+            renderBadgeImage(state.getPageContext(), state.getContext(), service);
+        }
+    }
+
+    public void renderPerEndpoint(PactRenderingState<Service> state, Key child) {
 
         Object endpointObject = state.getAdapter().getContent(child);
 
@@ -57,11 +70,10 @@ public class BadgeRenderer {
 
             EndPoint endpoint = (EndPoint) endpointObject;
 
-            renderPerEndpoint(state.getPageContext(), state.getContext(), endpoint);
+            renderBadgeImage(state.getPageContext(), state.getContext(), endpoint);
         }
     }
-
-    public void renderPerInteraction(
+    public void renderInteractionBadgeTable(
             PageContext context,
             WikiRenderingContext renderingContext,
             EndPoint endpoint) {
@@ -101,30 +113,27 @@ public class BadgeRenderer {
         }
     }
 
-    public void renderPerEndpoint(
+
+    public void renderBadgeImage(
             PageContext context,
             WikiRenderingContext renderingContext,
-            EndPoint endpoint) {
+            Object object) {
 
         if (renderingContext.isAddEndpointImplementationBadges()) {
 
-            if (badgeInfoProvider.providesFor(EndPoint.class)) {
+            if (badgeInfoProvider.providesFor(object.getClass())) {
 
-                if (!endpoint.getInteractions().isEmpty()) {
+                String imageUrl = renderingContext.getBadgesBaseUri();
 
-                    String imageUrl = renderingContext.getBadgesBaseUri();
+                String tag = badgeInfoProvider.translateToBadgeTag(object);
 
-                    String tag = badgeInfoProvider.translateToBadgeTag(endpoint);
+                if (imageUrl.endsWith("/")) {
 
-                    if (imageUrl.endsWith("/")) {
-
-                        imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
-                    }
-                    imageUrl += "/" + tag;
-
-                    context.image(imageUrl);
-
+                    imageUrl = imageUrl.substring(0, imageUrl.length() - 1);
                 }
+                imageUrl += "/" + tag;
+
+                context.image(imageUrl);
 
             }
         }
