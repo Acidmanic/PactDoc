@@ -28,8 +28,8 @@ import com.acidmanic.pactdoc.contractverification.ConventionTitle;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.BadgeInfoProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.badges.implementation.AcidmanicPactNetCoreBadgeProvider;
 import com.acidmanic.pactdoc.dcoumentstructure.models.ConventionEntry;
-import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointPropertyMapper;
-import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ProviderPropertyMapper;
+import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.EndpointFromContractPropertyMapper;
+import com.acidmanic.pactdoc.dcoumentstructure.propertymappers.ContractFromPactPropertyMapper;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.ContractPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.ConventionsPageRenderer;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.EndpointPageRenderer;
@@ -68,7 +68,7 @@ public class DefaultDocumentDefinition extends WikiDefinitionBase {
 
     private void initialize() {
 
-        ProviderPropertyMapper providerPropertyMapper = new ProviderPropertyMapper();
+        ContractFromPactPropertyMapper providerPropertyMapper = new ContractFromPactPropertyMapper();
 
         if (this.verifier != null) {
 
@@ -82,7 +82,7 @@ public class DefaultDocumentDefinition extends WikiDefinitionBase {
 
         addLevel(providerPropertyMapper);
 
-        addLevel(new EndpointPropertyMapper());
+        addLevel(new EndpointFromContractPropertyMapper());
 
         registerRenderer(new PactPageRenderer());
 

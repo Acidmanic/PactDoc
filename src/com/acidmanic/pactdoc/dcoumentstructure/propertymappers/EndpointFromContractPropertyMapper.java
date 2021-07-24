@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author diego
  */
-public class EndpointPropertyMapper implements PropertyMapper {
+public class EndpointFromContractPropertyMapper implements PropertyMapper {
 
     @Override
     public List<String> keySegmentValues(Object parent) {

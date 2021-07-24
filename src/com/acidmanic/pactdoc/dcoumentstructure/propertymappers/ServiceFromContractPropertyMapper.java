@@ -15,14 +15,13 @@ import com.acidmanic.pactmodels.Contract;
 import com.acidmanic.pactmodels.Interaction;
 import com.acidmanic.pactmodels.Request;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  *
  * @author diego
  */
-public class ServicePropertyMapper implements PropertyMapper {
+public class ServiceFromContractPropertyMapper implements PropertyMapper {
 
     @Override
     public List<String> keySegmentValues(Object parent) {

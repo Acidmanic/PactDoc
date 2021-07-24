@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author diego
  */
-public class ProviderPropertyMapper implements PropertyMapper {
+public class ContractFromPactPropertyMapper implements PropertyMapper {
 
     private ConventionEntry conventionEntry = null;
 
