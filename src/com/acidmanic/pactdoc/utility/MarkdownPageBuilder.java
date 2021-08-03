@@ -204,7 +204,7 @@ public class MarkdownPageBuilder {
     }
 
     public MarkdownPageBuilder table(String leftHeader, String rightHeader, HashMap<String, String> table) {
-        currentContent.append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
+        currentContent.append("\n\n").append("|").append(leftHeader).append("|").append(rightHeader).append("|\n");
         currentContent.append("|:------|:------------|\n");
         for (String key : table.keySet()) {
             String value = table.get(key);
@@ -236,7 +236,7 @@ public class MarkdownPageBuilder {
 
         this.tableColumns = headers.size();
 
-        currentContent.append("\n|");
+        currentContent.append("\n\n|");
 
         headers.forEach(header -> currentContent.append(header).append("|"));
 
