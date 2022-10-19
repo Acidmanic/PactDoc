@@ -30,7 +30,7 @@ public class AcidmanicPactNetCoreBadgeProvider implements BadgeInfoProvider {
 
             if (!endPoint.getInteractions().isEmpty()) {
 
-                return translateUri(endPoint.getInteractions().get(0).getRequest().getPath());
+                return "endpoint:"+translateUri(endPoint.getInteractions().get(0).getRequest().getPath());
             }
 
         }
@@ -45,7 +45,7 @@ public class AcidmanicPactNetCoreBadgeProvider implements BadgeInfoProvider {
 
             tag += ":" + translateState(interaction.getProviderState());
 
-            return tag;
+            return "interaction:"+tag;
         }
         
         if(info instanceof Service){
@@ -54,7 +54,7 @@ public class AcidmanicPactNetCoreBadgeProvider implements BadgeInfoProvider {
             
             if(!StringUtils.isNullOrEmpty(serviceName)){
                 
-                return serviceName.toLowerCase();
+                return "service:"+serviceName.toLowerCase();
             }
         }
 
