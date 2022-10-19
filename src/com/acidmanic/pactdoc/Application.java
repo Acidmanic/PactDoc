@@ -33,7 +33,6 @@ import com.acidmanic.pactdoc.commands.ApplicationContext;
 import com.acidmanic.pactdoc.commands.GenerateWiki;
 import com.acidmanic.pactdoc.commands.UpdateWiki;
 import com.acidmanic.pactdoc.commands.VerifyContracts;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -42,7 +41,7 @@ import java.util.Map;
  */
 public class Application {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         TypeRegistery typeRegistery = new TypeRegistery();
 
