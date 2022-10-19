@@ -43,7 +43,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
     public PdfPageContext() {
 
         paletteStack.add(Palettes.NORMAL.clone());
-
+     
+        this.addElement(new Paragraph());
     }
 
     @Override
@@ -143,8 +144,8 @@ public class PdfPageContext implements PageContext<PdfPage> {
     @Override
     public PageContext newLine() {
 
-        this.append("\n");
-
+       this.append("\n");
+       
         return this;
     }
 

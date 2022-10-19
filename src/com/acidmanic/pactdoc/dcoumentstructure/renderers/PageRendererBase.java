@@ -52,6 +52,7 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 .append("Api Documentation")
                 .closeTitle().horizontalLine();
 
+        
         renderMetadata(state);
 
         Key key = state.getKey();
@@ -65,8 +66,12 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 .closeSubtitle()
                 .newLine().newLine();
 
+        renderMarksByPosition(state,MarkPosition.Leading);
+        
         renderContent((PactRenderingState<T>) state);
 
+        renderMarksByPosition(state,MarkPosition.Trailing);
+        
         state.getPageContext()
                 .newLine().newLine().newLine().newLine()
                 .horizontalLine()
@@ -93,6 +98,8 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
         
         List<Mark> marks = state.getContext().getMarks();
         
+        PageContext page = state.getPageContext();
+        
         if(marks!=null){
             
             for(Mark mark : marks){
@@ -100,16 +107,19 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 if(!mark.isNullMark()){
                     if(mark.getPosition()==position){
                         
-                        renderMark(state.getPageContext(),mark);
+                        renderMark(page,mark);
                     }
                 }
-            }   
-         
+            }
         }
+        
     }
 
     private void renderMark(PageContext page, Mark mark) {
         
+        if(mark.getPosition()==MarkPosition.Bottom || mark.getPosition()==MarkPosition.Trailing){
+            page.newLine();
+        }
         switch (mark.getType()) {
             
             case Bold:
@@ -125,12 +135,14 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 page.append(mark.getText());
                 break;
                 case Image:
-                page.image(mark.getUrl());
+                page.newLine().image(mark.getUrl()).newLine();
                 break;
                 case Link:
                 page.openLink(mark.getUrl()).append(mark.getText()).closeLink();
                 break;
         }
-        
+        if(mark.getPosition()==MarkPosition.Top){
+            page.newLine();
+        }
     }
 }

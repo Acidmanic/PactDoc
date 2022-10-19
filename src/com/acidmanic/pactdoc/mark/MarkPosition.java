@@ -14,7 +14,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum MarkPosition {
     
     Top("Top"),
-    Bottom("Bottom");
+    Bottom("Bottom"),
+    Trailing("Trailing"),
+    Leading("Leading");
     
     private String value;
     
