@@ -5,6 +5,8 @@
  */
 package com.acidmanic.pactdoc.wiki;
 
+import com.acidmanic.pactdoc.mark.Mark;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,6 +18,7 @@ public class WikiRenderingContext {
     private final boolean addEndpointImplementationBadges;
     private final String badgesBaseUri;
     private HashMap<String, String> wikiMetadata;
+    private ArrayList<Mark> marks = new ArrayList<>();
 
     public WikiRenderingContext(boolean addEndpointImplementationBadges, String badgesBaseUri) {
         this.addEndpointImplementationBadges = addEndpointImplementationBadges;
@@ -47,5 +50,15 @@ public class WikiRenderingContext {
     public void setWikiMetadata(HashMap<String, String> wikiMetadata) {
         this.wikiMetadata = wikiMetadata;
     }
+
+    public ArrayList<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(ArrayList<Mark> marks) {
+        this.marks = marks;
+    }
+    
+    
 
 }

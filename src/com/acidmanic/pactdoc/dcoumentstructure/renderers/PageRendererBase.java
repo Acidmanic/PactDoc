@@ -25,6 +25,9 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import com.acidmanic.document.structure.Key;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.expressions.NavigationExpression;
+import com.acidmanic.pactdoc.mark.Mark;
+import com.acidmanic.pactdoc.mark.MarkPosition;
+import java.util.List;
 
 /**
  *
@@ -42,9 +45,12 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
     @Override
     protected void performRender(PactRenderingState state) {
 
+        
+        renderMarksByPosition(state,MarkPosition.Top);
+        
         state.getPageContext().openTitle()
                 .append("Api Documentation")
-                .closeTitle().horizontalLine();;
+                .closeTitle().horizontalLine();
 
         renderMetadata(state);
 
@@ -73,10 +79,58 @@ public abstract class PageRendererBase<T> extends WikiRendererBase {
                 .closeItalic()
                 .closeLink();
 
+        renderMarksByPosition(state,MarkPosition.Bottom);
+        
     }
 
     protected void renderMetadata(PactRenderingState state) {
     }
 
     protected abstract void renderContent(PactRenderingState<T> state);
+    
+    
+    private void renderMarksByPosition(PactRenderingState state,MarkPosition position){
+        
+        List<Mark> marks = state.getContext().getMarks();
+        
+        if(marks!=null){
+            
+            for(Mark mark : marks){
+            
+                if(!mark.isNullMark()){
+                    if(mark.getPosition()==position){
+                        
+                        renderMark(state.getPageContext(),mark);
+                    }
+                }
+            }   
+         
+        }
+    }
+
+    private void renderMark(PageContext page, Mark mark) {
+        
+        switch (mark.getType()) {
+            
+            case Bold:
+                page.openBold().append(mark.getText()).closeBold();
+                break;
+            case Heading1:
+                page.openTitle().append(mark.getText()).closeTitle();
+                break;
+            case Heading2:
+                page.openSubtitle().append(mark.getText()).closeSubtitle();
+                break;
+            case Text:
+                page.append(mark.getText());
+                break;
+                case Image:
+                page.image(mark.getUrl());
+                break;
+                case Link:
+                page.openLink(mark.getUrl()).append(mark.getText()).closeLink();
+                break;
+        }
+        
+    }
 }

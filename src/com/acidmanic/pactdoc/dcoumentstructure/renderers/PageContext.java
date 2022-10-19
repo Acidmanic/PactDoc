@@ -25,7 +25,6 @@ package com.acidmanic.pactdoc.dcoumentstructure.renderers;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  *
