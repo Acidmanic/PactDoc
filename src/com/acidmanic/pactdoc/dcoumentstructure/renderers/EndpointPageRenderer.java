@@ -87,7 +87,7 @@ public class EndpointPageRenderer extends PageRendererBase<EndPoint> {
                     .append(" an http ").badge(method).append(" request to '")
                     .append(request.getPath()).append("' ");
 
-            if (!request.getHeaders().isEmpty()) {
+            if (request.getHeaders()!=null && !request.getHeaders().isEmpty()) {
 
                 state.getPageContext().append("with headers: ")
                         .newLine()

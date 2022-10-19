@@ -54,6 +54,11 @@ public class PactGather {
 
     private void loadAllContracts(File dir, List<Contract> result) {
 
+        
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        
         File[] files = dir.listFiles();
 
         for (File file : files) {
