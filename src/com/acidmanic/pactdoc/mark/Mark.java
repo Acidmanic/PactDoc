@@ -4,10 +4,13 @@
  */
 package com.acidmanic.pactdoc.mark;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  * @author diego
  */
+@JsonIgnoreProperties(value = { "nullMark" })
 public class Mark {
  
     private MarkType type;

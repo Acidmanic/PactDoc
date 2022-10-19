@@ -62,6 +62,8 @@ public class WikiGenerateTask extends PactDocCommandTaskBase {
         options.setPluggedContractVerifier(context.getContractVerifier());
         
         options.setWikiMetaData(context.getWikiMetaData());
+        
+        options.setMarks(context.getMarks());
 
         WikiEngine engine = new WikiEngine(options);
 

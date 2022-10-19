@@ -7,8 +7,11 @@ package com.acidmanic.pactdoc.wiki;
 
 import com.acidmanic.pactdoc.contractverification.DefaultContractVerifier;
 import com.acidmanic.pactdoc.dcoumentstructure.DefaultDocumentDefinition;
+import com.acidmanic.pactdoc.mark.Mark;
 import com.acidmanic.pactdoc.utility.ResourceHelper;
+import com.acidmanic.pactdoc.utility.StringUtils;
 import com.acidmanic.pactdoc.utility.dictionaryreaders.PropertyFileDictionaryReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -43,7 +46,7 @@ public class PredefinedVariables {
 
             String value = predefinedVariables.get(key);
 
-            expanded = expanded.replaceAll("\\"+key, value);
+            expanded = expanded.replaceAll("\\" + key, value);
         }
         return expanded;
     }
@@ -59,6 +62,28 @@ public class PredefinedVariables {
             value = expand(value);
 
             result.put(key, value);
+        }
+        return result;
+    }
+
+    public ArrayList<Mark> expand(ArrayList<Mark> marks) {
+
+        ArrayList<Mark> result = new ArrayList<>();
+
+        if (marks != null) {
+            for (Mark mark : marks) {
+
+                String text = mark.getText();
+
+                if (!StringUtils.isNullOrEmpty(text)) {
+
+                    text = expand(text);
+                }
+
+                mark.setText(text);
+
+                result.add(mark);
+            }
         }
         return result;
     }

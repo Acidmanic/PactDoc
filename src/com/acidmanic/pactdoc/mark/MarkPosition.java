@@ -4,12 +4,32 @@
  */
 package com.acidmanic.pactdoc.mark;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  *
  * @author diego
  */
+
 public enum MarkPosition {
     
-    Top,
-    Bottom
+    Top("Top"),
+    Bottom("Bottom");
+    
+    private String value;
+    
+    private MarkPosition(String value){
+        this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+    
+    
 }

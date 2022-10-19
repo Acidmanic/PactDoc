@@ -31,6 +31,8 @@ import com.acidmanic.pactdoc.contractverification.DefaultContractVerifier;
 import com.acidmanic.pactdoc.dcoumentstructure.DefaultDocumentDefinition;
 import com.acidmanic.pactdoc.dcoumentstructure.PageStore;
 import com.acidmanic.pactdoc.dcoumentstructure.renderers.PageContextProvider;
+import com.acidmanic.pactdoc.mark.Mark;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -40,9 +42,12 @@ import java.util.HashMap;
 public class WikiEngine {
 
     private final WikiEngineOptions options;
+    private final PredefinedVariables predefinedVariables;
+    
 
     public WikiEngine(WikiEngineOptions options) {
         this.options = options;
+        this.predefinedVariables = new PredefinedVariables(options);
     }
 
     public void generate(Pact pact) {
@@ -81,10 +86,16 @@ public class WikiEngine {
         }
 
         HashMap<String,String> metadata = options.getWikiMetaData();
-        
-        metadata = new PredefinedVariables(options).expand(metadata);
+                
+        metadata = this.predefinedVariables.expand(metadata);
         
         renderingContext.setWikiMetadata(metadata);
+        
+        ArrayList<Mark> marks =  options.getMarks();
+        
+        marks = this.predefinedVariables.expand(marks);
+        
+        renderingContext.setMarks(marks);
 
         RenderEngine<WikiRenderingContext> renderEngine = new RenderEngine(renderingContext);
 

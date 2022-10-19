@@ -25,8 +25,10 @@ package com.acidmanic.pactdoc.wiki;
 
 import com.acidmanic.document.extention.DocumentProcessingDefinition;
 import com.acidmanic.pactdoc.contractverification.ContractVerifier;
+import com.acidmanic.pactdoc.mark.Mark;
 import com.acidmanic.pactdoc.wiki.format.WikiFormat;
 import com.acidmanic.utilities.Result;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -40,7 +42,9 @@ public class WikiEngineOptions {
     private ContractVerifier pluggedContractVerifier;
     private Result<String> badgeProviderUrl = new Result<>(false, "");
     private HashMap<String, String> wikiMetaData = new HashMap<>();
-
+    private ArrayList<Mark> marks = new ArrayList<>();
+    
+    
     public WikiFormat getFormat() {
         return format;
     }
@@ -80,5 +84,15 @@ public class WikiEngineOptions {
     public void setWikiMetaData(HashMap<String, String> wikiMetaData) {
         this.wikiMetaData = wikiMetaData;
     }
+
+    public ArrayList<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(ArrayList<Mark> marks) {
+        this.marks = marks;
+    }
+    
+    
 
 }

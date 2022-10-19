@@ -35,6 +35,7 @@ import com.acidmanic.pactdoc.commands.arguments.LinksRelative;
 import com.acidmanic.pactdoc.commands.arguments.LinksWithExtensions;
 import com.acidmanic.pactdoc.commands.arguments.LinksWithoutExtensions;
 import com.acidmanic.pactdoc.commands.arguments.Markdown;
+import com.acidmanic.pactdoc.commands.arguments.Marks;
 import com.acidmanic.pactdoc.commands.arguments.Output;
 import com.acidmanic.pactdoc.commands.arguments.PactsRoot;
 import com.acidmanic.pactdoc.commands.arguments.Pdf;
@@ -76,6 +77,7 @@ public class GenerateWiki extends FractalCommandBase<ParametersContext> {
         registery.registerClass(Pdf.class);
         registery.registerClass(BadgeProvider.class);
         registery.registerClass(MetaData.class);
+        registery.registerClass(Marks.class);
 
     }
 

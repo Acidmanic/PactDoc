@@ -26,10 +26,13 @@ package com.acidmanic.pactdoc.commands;
 import com.acidmanic.commandline.commands.context.ExecutionContext;
 import com.acidmanic.pactdoc.businessmodels.Credential;
 import com.acidmanic.pactdoc.contractverification.ContractVerifier;
+import com.acidmanic.pactdoc.mark.Mark;
 import com.acidmanic.pactdoc.wiki.WebWikiFormatBuilder;
 import com.acidmanic.utilities.Result;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+
 
 /**
  *
@@ -45,6 +48,7 @@ public class ParametersContext implements ExecutionContext {
     private File pactsRoot;
     private Result<String> badgeProviderUrl = new Result<>(false, "");
     private HashMap<String, String> wikiMetaData;
+    private ArrayList<Mark> marks;
 
     public WebWikiFormatBuilder getWebWikiFormatBuilder() {
         return webWikiFormatBuilder;
@@ -111,4 +115,13 @@ public class ParametersContext implements ExecutionContext {
         this.wikiMetaData = wikiMetaData;
     }
 
+    public ArrayList<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(ArrayList<Mark> marks) {
+        this.marks = marks;
+    }
+
+    
 }
