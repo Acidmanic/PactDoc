@@ -39,7 +39,7 @@ import java.nio.file.Paths;
  *
  * @author diego
  */
-public class WebWikiFormatBuilder {
+public final class WebWikiFormatBuilder {
 
     public static final String FORMAT_HTML = "html";
     public static final String FORMAT_MARKDOWN = "markdown";
