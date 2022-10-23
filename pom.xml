@@ -4,7 +4,7 @@
     <groupId>com.acidmanic</groupId>
     <artifactId>pact-doc</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.2</version>
+    <version>1.4.1</version>
     
     <developers>
         <developer>
