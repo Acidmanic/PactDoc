@@ -55,13 +55,15 @@ public class PredefinedVariables {
 
         HashMap<String, String> result = new HashMap<>();
 
-        for (String key : metadata.keySet()) {
+        if(metadata != null){
+            for (String key : metadata.keySet()) {
 
-            String value = metadata.get(key);
+                String value = metadata.get(key);
 
-            value = expand(value);
+                value = expand(value);
 
-            result.put(key, value);
+                result.put(key, value);
+            }
         }
         return result;
     }
